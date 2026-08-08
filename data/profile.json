@@ -7,7 +7,7 @@
     "github": "https://github.com/moosarazauaf",
     "linkedin": "https://www.linkedin.com/in/moosarazauaf/"
   },
-  "photo": "assets/img/profile-placeholder.svg",
+  "photo": "assets/img/profile.jpg",
   "about": [
     "Early-career researcher in geospatial environmental science specializing in remote sensing–driven climate analysis, carbon dynamics, and large-scale Earth observation modeling.",
     "Experienced in multi-decadal satellite data processing, machine learning-based classification, and ecosystem carbon estimation, with a strong focus on building reproducible, scalable geospatial workflows using Google Earth Engine and Python.",

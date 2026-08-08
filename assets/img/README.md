@@ -2,7 +2,7 @@
 
 | File | Used for | Referenced from |
 |---|---|---|
-| `profile-placeholder.svg` | Headshot — **still a placeholder**, swap for a real photo | `data/profile.json` → `"photo"` |
+| `profile.jpg` | Headshot | `data/profile.json` → `"photo"` |
 | `projects/lulc-2023.png` | LULC project card image (2023 classification map) | `data/projects.json` → LULC project's `"image"` |
 | `projects/flood-placeholder.svg` | Flood Monitor project card — **still a placeholder** | `data/projects.json` → Flood Monitor project's `"image"` |
 
@@ -23,8 +23,8 @@ To swap the LULC card image to one of these instead, just change
 
 ## To swap the headshot or Flood Monitor image
 
-1. Drop the new file into this folder (e.g. `assets/img/profile.jpg`, or
-   `assets/img/projects/flood-monitor.png`).
+1. Drop the new file into this folder (e.g. `assets/img/profile.jpg`, replacing the
+   existing one, or `assets/img/projects/flood-monitor.png`).
 2. Update the matching `"photo"` (in `data/profile.json`) or `"image"` (in
    `data/projects.json`) path to point at the new filename.
 3. Commit and push — no HTML/CSS changes needed.
