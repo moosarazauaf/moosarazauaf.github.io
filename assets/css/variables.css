@@ -1,0 +1,33 @@
+/* Saraiki ajrak-inspired palette — edit here to re-theme the whole site */
+:root {
+  /* Ajrak blue/white core */
+  --ajrak-blue-dark: #0e2a52;
+  --ajrak-blue: #16407d;
+  --ajrak-blue-light: #3d6fb4;
+  --ajrak-blue-pale: #eaf0f9;
+  --white: #ffffff;
+
+  /* Neutral text/ink */
+  --ink: #16202c;
+  --ink-soft: #4a5568;
+  --border: #d9e2f1;
+
+  /* Feedback accents */
+  --accent-maroon: #7a2e2e;
+
+  /* Typography */
+  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-heading: "Georgia", "Times New Roman", serif;
+
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+
+  /* Layout */
+  --max-width: 1080px;
+  --radius: 10px;
+  --shadow: 0 4px 18px rgba(14, 42, 82, 0.08);
+}

@@ -1,0 +1,88 @@
+{
+  "name": "Muhammad Moosa Raza",
+  "tagline": "Geospatial Environmental Scientist — Remote Sensing, Carbon Dynamics & Earth Observation Modelling",
+  "location": "Moscow, Russia",
+  "email": "moosarazauaf@gmail.com",
+  "social": {
+    "github": "https://github.com/moosarazauaf",
+    "linkedin": "https://www.linkedin.com/in/moosarazauaf/"
+  },
+  "photo": "assets/img/profile-placeholder.svg",
+  "about": [
+    "Early-career researcher in geospatial environmental science specializing in remote sensing–driven climate analysis, carbon dynamics, and large-scale Earth observation modeling.",
+    "Experienced in multi-decadal satellite data processing, machine learning-based classification, and ecosystem carbon estimation, with a strong focus on building reproducible, scalable geospatial workflows using Google Earth Engine and Python.",
+    "Research goal: advancing data-driven environmental modelling integrated with physical climate processes."
+  ],
+  "coreCompetencies": [
+    "Multi-temporal remote sensing (Landsat, Sentinel-2)",
+    "Machine learning for EO (Random Forest, SVM, CART)",
+    "Carbon stock modelling & ecosystem services (InVEST)",
+    "Large-scale geospatial processing (Google Earth Engine)",
+    "Spatial analysis & land system dynamics",
+    "Environmental data pipelines & reproducible workflows"
+  ],
+  "education": [
+    {
+      "degree": "M.Sc. Ecology and Nature Management / Climate Project Management",
+      "institution": "Peoples’ Friendship University of Russia (RUDN University)",
+      "period": "Graduated: June 8, 2026",
+      "details": [
+        "Degree conferred with Honors-level performance — GPA: 84.68 / 100 (ECTS Grade B)",
+        "Thesis: “Improving Long-Term Land Use/Land Cover Change Detection and Carbon Stock Estimation in Lahore, Pakistan” (Grade: Excellent)"
+      ]
+    },
+    {
+      "degree": "B.Sc. Environmental Engineering",
+      "institution": "University of Agriculture Faisalabad",
+      "period": "",
+      "details": [
+        "Focus: Hydrology · GIS · Environmental systems · Water quality"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Master’s Thesis Researcher — Remote Sensing & Carbon Modelling",
+      "org": "RUDN University",
+      "period": "2024 – 2026",
+      "bullets": [
+        "Designed multi-decadal (1993–2023) LULC analysis pipeline using Landsat imagery in Google Earth Engine",
+        "Implemented machine learning classification (Random Forest) achieving Accuracy: 97.8%–99.2%, Kappa: 0.971–0.989",
+        "Quantified urban expansion (+117%) and vegetation loss (-27,639 ha)",
+        "Estimated ecosystem carbon dynamics: total loss of ~3.15 million metric tons",
+        "Integrated InVEST model for validation",
+        "Built automated, reproducible geospatial workflows using GEE",
+        "Key contribution: demonstrated how urban land transitions drive large-scale carbon loss in rapidly developing regions"
+      ]
+    }
+  ],
+  "skills": {
+    "Geospatial": ["Google Earth Engine", "QGIS"],
+    "Programming": ["Python (data analysis, raster processing)"],
+    "Visualization": ["Matplotlib", "Excel", "R"],
+    "Languages": ["English (Fluent)", "Russian (Basic)"]
+  },
+  "projectLevelSkills": [
+    "Spatio-temporal environmental modelling",
+    "Handling large EO datasets (cloud-based processing)",
+    "Accuracy assessment (confusion matrix, Kappa statistics)",
+    "Linking land-use change → carbon cycle impacts",
+    "Translating geospatial outputs into policy-relevant insights"
+  ],
+  "talks": [
+    {
+      "role": "Speaker — International Student Scientific Seminar",
+      "period": "2025",
+      "detail": "Topic: Urban Anthropogenic Impacts on Carbon Cycle"
+    },
+    {
+      "role": "Participant — WasteTech 2025 (Moscow)",
+      "period": "2025",
+      "detail": "Focus: sustainability & environmental technologies"
+    }
+  ],
+  "certifications": [
+    "Python Programming — University of Michigan",
+    "Environmental Management Systems (EMS)"
+  ]
+}

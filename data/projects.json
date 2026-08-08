@@ -1,0 +1,28 @@
+[
+  {
+    "title": "LULC Change Detection & Carbon Stock Estimation — Lahore District, Pakistan",
+    "description": "Google Earth Engine pipeline for multi-year (1993–2023) LULC classification using Random Forest and carbon stock estimation aligned with InVEST Carbon Model logic. Underlying data for the submitted manuscript on urban expansion and ecosystem carbon loss in Lahore.",
+    "highlights": [
+      "97.8%–99.2% classification accuracy, Kappa 0.971–0.989",
+      "+117% urban expansion, -27,639 ha vegetation loss (1993–2023)",
+      "~3.15 million metric tons of estimated carbon loss"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/gee-lulc-pakistan",
+    "liveUrl": "",
+    "image": "assets/img/projects/lulc-placeholder.svg",
+    "tags": ["Google Earth Engine", "Random Forest", "InVEST", "Landsat", "Carbon Modelling"]
+  },
+  {
+    "title": "Layyah District Flood Monitor",
+    "description": "Web-based flood monitoring tool combining a FastAPI backend and an Earth Engine pipeline: Sentinel-1 SAR flood-extent detection against a permanent water mask, restricted to the river floodplain buffer, with a Leaflet map front end.",
+    "highlights": [
+      "Dual-polarisation (VV + VH) SAR thresholding for flood detection",
+      "Floodplain-buffer restriction cut false positives from ~1,600 to ~116 patches",
+      "Live Leaflet map with district boundary, river, and on-demand flood layer"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-flood-monitor",
+    "liveUrl": "",
+    "image": "assets/img/projects/flood-placeholder.svg",
+    "tags": ["FastAPI", "Google Earth Engine", "Sentinel-1 SAR", "Leaflet", "Python"]
+  }
+]
