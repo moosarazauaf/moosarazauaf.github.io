@@ -13,16 +13,17 @@
     "tags": ["Google Earth Engine", "Random Forest", "InVEST", "Landsat", "Carbon Modelling"]
   },
   {
-    "title": "Layyah District Flood Monitor",
-    "description": "Web-based flood monitoring tool combining a FastAPI backend and an Earth Engine pipeline: Sentinel-1 SAR flood-extent detection against a permanent water mask, restricted to the river floodplain buffer, with a Leaflet map front end.",
+    "title": "SAR Flood Detection & ML Susceptibility Mapping — Layyah District, Pakistan",
+    "description": "An open, reproducible remote-sensing study coupling dual-polarisation Sentinel-1 SAR inundation detection, bi-temporal SAR change detection, and an event-based machine-learning flood susceptibility model across Layyah District, Punjab (6,354 km²). Built entirely on open data and released with full GIS exports, training data, and a documented model card.",
     "highlights": [
-      "Dual-polarisation (VV + VH) SAR thresholding for flood detection",
-      "Floodplain-buffer restriction cut false positives from ~1,600 to ~116 patches",
-      "Live Leaflet map with district boundary, river, and on-demand flood layer"
+      "Random Forest F1 = 0.962, IoU = 0.928, ROC-AUC = 0.996 on held-out flood events",
+      "Chronological event-based validation (train 2003–2014, test 2015–2018) to structurally prevent temporal leakage",
+      "19 documented flood events from the Global Flood Database; 547.8 km² (8.6% of district) mapped as high susceptibility",
+      "Documents a silent-failure mode in Google Earth Engine raster distance operators that depressed model IoU by 0.025"
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-flood-monitor",
     "liveUrl": "",
     "image": "assets/img/projects/flood-placeholder.svg",
-    "tags": ["FastAPI", "Google Earth Engine", "Sentinel-1 SAR", "Leaflet", "Python"]
+    "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Machine Learning", "Random Forest", "Python", "QGIS"]
   }
 ]
