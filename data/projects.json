@@ -25,5 +25,89 @@
     "liveUrl": "",
     "image": "assets/img/projects/flood-placeholder.svg",
     "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Machine Learning", "Random Forest", "Python", "QGIS"]
+  },
+  {
+    "title": "SAR Flood Detection — Layyah District, 2022 Pakistan Floods",
+    "description": "Scene-by-scene Sentinel-1 change detection across the 2022 monsoon, mapping the full inundation curve rather than a single composite. Separates riverine overflow from pluvial ponding, which the two spatial populations in the data support.",
+    "highlights": [
+      "Peak inundation 95.4 km² (1.50% of district) on 2022-07-20; two flood waves resolved",
+      "Compositing a multi-week 'after' window understated peak extent 3× (40 km² vs 95 km²)",
+      "Mixed relative orbits inflated detected area ~2× with no ground change; orbit 5 covers 99.9% of the district, orbit 107 only 20.9%",
+      "Dual-polarisation water test (VV ≤ −18 dB AND VH ≤ −25 dB) removes false detection over radar-dark Thal desert sand"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-flood-detection",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s1-flood.jpg",
+    "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Change Detection", "Flood Mapping", "Python"]
+  },
+  {
+    "title": "Multi-Temporal Speckle Filtering — Layyah District",
+    "description": "Quegan–Yu multi-temporal speckle filtering over a 62-scene single-orbit Sentinel-1 stack, benchmarked against a spatial filter tuned to identical smoothness so the comparison actually isolates the multi-temporal advantage.",
+    "highlights": [
+      "Equivalent Number of Looks improved ×3.47 (3.31 → 11.50) across the district",
+      "At matched ENL the filter strictly dominates a boxcar: smoother (11.50 vs 9.50) and 1.46× the edge retention",
+      "Filter implemented in linear power space — averaging in dB biases results low and understates the gain",
+      "ENL measured over a homogeneous desert patch as well as district-wide, since cropland variance is real signal"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-speckle-filtering",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s1-speckle.jpg",
+    "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Speckle Filtering", "Signal Processing", "Python"]
+  },
+  {
+    "title": "Surface Soil Moisture from SAR — Layyah District",
+    "description": "Relative surface soil moisture via TU Wien change detection, referenced to per-pixel dry/wet extremes from an 8-year Sentinel-1 stack and validated against ERA5-Land reanalysis and CHIRPS rainfall.",
+    "highlights": [
+      "District mean rose 39.7% → 76.0% between June and August 2022; 91.3% of the district retained after masking",
+      "Validated over 36 months: r = 0.489 vs ERA5-Land, r = 0.477 vs CHIRPS rainfall",
+      "Dry-season divergence from reanalysis is consistent with canal irrigation that ERA5-Land does not model — reported as an open question, not a resolved finding",
+      "References taken as P5/P95 of monthly medians, since min/max are single-observation statistics driven by speckle"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-soil-moisture",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s1-soilmoisture.jpg",
+    "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Soil Moisture", "ERA5-Land", "Validation", "Python"]
+  },
+  {
+    "title": "Multi-Temporal SAR Crop Mapping — Layyah District",
+    "description": "Crop mapping from 24 monthly Sentinel-1 composites across a full rabi–kharif crop year. Restructured into a validated stage and an unvalidated one, because no crop-type ground truth exists for Pakistan in the Earth Engine catalogue.",
+    "highlights": [
+      "Supervised cropland mask: overall accuracy 0.825, κ = 0.651 on a disjoint held-out split; 3,995 km² cropland",
+      "Crop classes reported as unsupervised phenological clusters, explicitly not verified crop types",
+      "Separability analysis shows k=5 is unsupported: only one class is robustly distinct, three sit within ~1 dB",
+      "Identified a district-wide March backscatter spike as a shared rainfall event (55.5 mm), not crop phenology"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-crop-type-sar",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s1-croptype.jpg",
+    "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Random Forest", "Crop Mapping", "Time Series", "Python"]
+  },
+  {
+    "title": "Urban Flood Detection from SAR and Rainfall — Layyah District",
+    "description": "Sentinel-1 standing-water detection paired with CHIRPS rainfall across the 2022 monsoon, reframed to measure the sensor's urban blind spot rather than mistake it for dry streets.",
+    "highlights": [
+      "Built-up land registers standing water at 1/61 the rate of a matched 500 m peri-urban ring under identical rainfall",
+      "Reported as an upper bound on the sensor effect — drainage and raised townsite ground contribute an unquantified share",
+      "Antecedent rainfall does not predict detected ponding (r = −0.43), consistent with flooding routed from upstream Indus discharge",
+      "Corrected an initial control area that covered 85% of the district and conflated the urban blind spot with floodplain behaviour"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-urban-flood-precip",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s1-urbanflood.jpg",
+    "tags": ["Sentinel-1 SAR", "Google Earth Engine", "CHIRPS", "Urban Flooding", "Python"]
+  },
+  {
+    "title": "Dark-Spot Anomaly Detection on the Indus — Layyah District",
+    "description": "The SAR oil-spill dark-target method applied to an inland river, with its transferability tested rather than assumed. A negative result, reported as one.",
+    "highlights": [
+      "Indus surface sits 0.38 dB above the Sentinel-1 noise floor — below it on 4 of 10 dates — where marine slick detection needs 6–10 dB of contrast",
+      "0.0% of flagged anomalies recur across acquisitions: the detector fires on transient noise, not a stable target",
+      "Demonstrates that ocean spill detection depends on a wind-roughened bright background an inland river does not provide",
+      "Detections explicitly not reported as pollution; documents what a valid approach would require instead"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-darkspot-anomaly",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s1-darkspot.jpg",
+    "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Anomaly Detection", "Method Validation", "Python"]
   }
 ]
