@@ -8,50 +8,49 @@
   <link rel="icon" href="assets/img/profile.jpg" type="image/jpeg" />
   <link rel="stylesheet" href="assets/css/variables.css" />
   <link rel="stylesheet" href="assets/css/style.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash of the wrong theme.
+    (function () {
+      var saved = localStorage.getItem("theme");
+      if (!saved) {
+        saved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", saved);
+    })();
+  </script>
 </head>
 <body>
 
   <header class="site-header">
-    <nav class="nav container">
+    <nav class="nav">
       <a class="nav-brand" href="#top">M. Moosa Raza</a>
       <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#experience">Research</a></li>
-        <li><a href="#publications">Publications</a></li>
+        <li><a href="#about">Bio</a></li>
+        <li><a href="#publications">Papers</a></li>
+        <li><a href="#talks">Talks</a></li>
+        <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#education">Education</a></li>
       </ul>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
     </nav>
   </header>
 
   <main id="top">
-    <section id="hero" class="section hero"></section>
+    <!-- Hero: gradient band with a floating profile card -->
+    <div class="hero-band">
+      <section id="hero" class="hero-card"></section>
+    </div>
 
-    <div class="ajrak-divider" aria-hidden="true"></div>
-
-    <section id="about" class="section"></section>
-
-    <div class="ajrak-divider" aria-hidden="true"></div>
-
-    <section id="education" class="section"></section>
-
-    <section id="experience" class="section alt-bg"></section>
-
-    <div class="ajrak-divider" aria-hidden="true"></div>
-
-    <section id="publications" class="section"></section>
-
-    <section id="projects" class="section alt-bg"></section>
-
-    <div class="ajrak-divider" aria-hidden="true"></div>
-
-    <section id="skills" class="section"></section>
-
-    <section id="talks" class="section alt-bg"></section>
-
-    <section id="certifications" class="section"></section>
+    <div class="container">
+      <section id="education" class="section"></section>
+      <section id="experience" class="section"></section>
+      <section id="publications" class="section"></section>
+      <section id="projects" class="section"></section>
+      <section id="skills" class="section"></section>
+      <section id="talks" class="section"></section>
+      <section id="certifications" class="section"></section>
+    </div>
   </main>
 
   <footer id="contact" class="site-footer"></footer>

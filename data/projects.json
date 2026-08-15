@@ -23,7 +23,7 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-flood-monitor",
     "liveUrl": "",
-    "image": "assets/img/projects/flood-placeholder.svg",
+    "image": "assets/img/projects/flood-susceptibility-roc.png",
     "tags": ["Sentinel-1 SAR", "Google Earth Engine", "Machine Learning", "Random Forest", "Python", "QGIS"]
   },
   {

@@ -1,11 +1,15 @@
 {
   "name": "Muhammad Moosa Raza",
+  "role": "Geospatial Environmental Scientist",
+  "affiliation": "M.Sc. Ecology & Nature Management — RUDN University",
   "tagline": "Geospatial Environmental Scientist — Remote Sensing, Carbon Dynamics & Earth Observation Modelling",
-  "location": "Moscow, Russia",
+  "location": "Layyah, Pakistan",
   "email": "moosarazauaf@gmail.com",
+  "cv": "assets/CV_Raza.pdf",
   "social": {
     "github": "https://github.com/moosarazauaf",
-    "linkedin": "https://www.linkedin.com/in/moosarazauaf/"
+    "linkedin": "https://www.linkedin.com/in/moosarazauaf/",
+    "orcid": "https://orcid.org/0009-0009-1215-2021"
   },
   "photo": "assets/img/profile.jpg",
   "about": [

@@ -4,7 +4,11 @@
 |---|---|---|
 | `profile.jpg` | Headshot | `data/profile.json` → `"photo"` |
 | `projects/lulc-2023.png` | LULC project card image (2023 classification map) | `data/projects.json` → LULC project's `"image"` |
-| `projects/flood-placeholder.svg` | Flood Monitor project card — **still a placeholder** | `data/projects.json` → Flood Monitor project's `"image"` |
+| `projects/flood-susceptibility-roc.png` | SAR flood susceptibility card (ROC/PR curves, Fig. 5 of the Layyah manuscript) | `data/projects.json` → susceptibility project's `"image"` |
+| `projects/layyah-s1-*.jpg` | The six Sentinel-1 Layyah project cards | `data/projects.json` → matching project's `"image"` |
+| `projects/flood-placeholder.svg` | Unused spare placeholder — kept for future project cards | *(not currently referenced)* |
+
+Note: the site's CV download is `assets/CV_Raza.pdf`, referenced from `data/profile.json` → `"cv"`.
 
 ## Extra LULC/carbon figures (from the thesis, not currently used on the page)
 

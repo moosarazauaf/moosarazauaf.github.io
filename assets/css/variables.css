@@ -1,33 +1,75 @@
-/* Saraiki ajrak-inspired palette — edit here to re-theme the whole site */
+/* ============================================================
+   Saraiki ajrak-inspired palette.
+   Ajrak's traditional dyes are indigo, crimson and undyed white —
+   those are the three anchors used throughout the site.
+   Edit here to re-theme everything.
+   ============================================================ */
 :root {
-  /* Ajrak blue/white core */
+  /* --- Brand: ajrak indigo / blue / crimson --- */
+  --ajrak-indigo: #10254f;
   --ajrak-blue-dark: #0e2a52;
   --ajrak-blue: #16407d;
   --ajrak-blue-light: #3d6fb4;
   --ajrak-blue-pale: #eaf0f9;
+  --ajrak-crimson: #a5243a;
+  --ajrak-crimson-light: #c8455c;
   --white: #ffffff;
 
-  /* Neutral text/ink */
+  /* --- Semantic surface tokens (swap in dark mode) --- */
+  --bg: #f6f8fc;
+  --surface: #ffffff;
+  --surface-alt: #eaf0f9;
   --ink: #16202c;
   --ink-soft: #4a5568;
-  --border: #d9e2f1;
+  --ink-faint: #6b7a90;
+  --border: #dbe3f0;
 
-  /* Feedback accents */
-  --accent-maroon: #7a2e2e;
+  --brand: var(--ajrak-blue);
+  --brand-strong: var(--ajrak-blue-dark);
+  --brand-pale: var(--ajrak-blue-pale);
+  --accent: var(--ajrak-crimson);
 
-  /* Typography */
+  /* Hero gradient — indigo → blue → crimson, straight from ajrak dyes */
+  --hero-gradient: linear-gradient(120deg, #10254f 0%, #16407d 42%, #7a2340 78%, #a5243a 100%);
+
+  /* --- Typography --- */
   --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-heading: "Georgia", "Times New Roman", serif;
+  --font-heading: Georgia, "Times New Roman", serif;
 
-  /* Spacing scale */
+  /* --- Spacing --- */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 3rem;
   --space-xl: 5rem;
 
-  /* Layout */
-  --max-width: 1080px;
-  --radius: 10px;
+  /* --- Layout --- */
+  --max-width: 1120px;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow-sm: 0 1px 3px rgba(14, 42, 82, 0.06);
   --shadow: 0 4px 18px rgba(14, 42, 82, 0.08);
+  --shadow-lg: 0 18px 50px rgba(14, 42, 82, 0.16);
+}
+
+/* ============================================================
+   Dark mode — only the semantic tokens change; brand hues stay.
+   ============================================================ */
+:root[data-theme="dark"] {
+  --bg: #0c1220;
+  --surface: #141d31;
+  --surface-alt: #1b2740;
+  --ink: #e8eefb;
+  --ink-soft: #a8b6cf;
+  --ink-faint: #8393b0;
+  --border: #26334f;
+
+  --brand: #7fa5e0;
+  --brand-strong: #a8c4ee;
+  --brand-pale: #1b2740;
+  --accent: #e0798e;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.6);
 }
