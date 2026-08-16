@@ -60,6 +60,20 @@
     ]
   },
   {
+    "title": "Post-Flood NDVI Change Detection — Layyah District, 2022",
+    "description": "Sentinel-2 NDVI change detection after the 2022 Pakistan floods, built on a control-year design that separates flood damage from the ordinary double-cropping cycle, and cross-checked against an independently derived Sentinel-1 radar flood extent.",
+    "highlights": [
+      "1,232 km² (19.4%) of material vegetation loss concentrated along the Indus belt, against 2,084 km² of gain where the same rainfall greened the semi-arid Thal",
+      "Raw June→October NDVI change was +0.071, but control years give +0.076 — almost the entire raw signal is crop phenology, not flood damage",
+      "Independent radar cross-check: mean NDVI anomaly −0.088 inside the SAR flood extent vs −0.021 outside, a 0.067 separation between two physically unrelated sensors",
+      "District mean anomaly of −0.005 would imply no impact; the result only survives as a map, and the write-up says so rather than quoting the reassuring number"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s2-ndvi-flood-impact",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s2-ndvi.jpg",
+    "tags": ["Sentinel-2", "NDVI", "Google Earth Engine", "Change Detection", "Flood Impact", "Python"]
+  },
+  {
     "title": "Multi-Temporal Speckle Filtering — Layyah District",
     "description": "Quegan–Yu multi-temporal speckle filtering over a 62-scene single-orbit Sentinel-1 stack, benchmarked against a spatial filter tuned to identical smoothness so the comparison actually isolates the multi-temporal advantage.",
     "highlights": [
