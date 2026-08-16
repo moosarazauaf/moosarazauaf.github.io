@@ -33,6 +33,10 @@ const ICONS = {
     '<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm0 1.5a.5.5 0 0 1 .5.5v1.5a.5.5 0 0 1-1 0V13a.5.5 0 0 1 .5-.5Zm0-11a.5.5 0 0 1 .5.5v1.5a.5.5 0 0 1-1 0V2a.5.5 0 0 1 .5-.5ZM2 8a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8Zm10 0a.5.5 0 0 1 .5-.5H14a.5.5 0 0 1 0 1h-1.5A.5.5 0 0 1 12 8ZM3.76 3.76a.5.5 0 0 1 .7 0l1.07 1.06a.5.5 0 0 1-.71.71L3.76 4.47a.5.5 0 0 1 0-.71Zm6.71 6.71a.5.5 0 0 1 .7 0l1.07 1.06a.5.5 0 0 1-.71.71l-1.06-1.07a.5.5 0 0 1 0-.7Zm1.77-6.71a.5.5 0 0 1 0 .71l-1.07 1.06a.5.5 0 1 1-.7-.71l1.06-1.06a.5.5 0 0 1 .71 0ZM5.53 10.47a.5.5 0 0 1 0 .7L4.47 12.24a.5.5 0 0 1-.71-.71l1.06-1.06a.5.5 0 0 1 .71 0Z"/></svg>',
   moon:
     '<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M6 0a6 6 0 0 0 10 7.5A7 7 0 1 1 6 0Z"/></svg>',
+  chevronLeft:
+    '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>',
+  chevronRight:
+    '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>',
 };
 
 /* ----------------------------- helpers ----------------------------- */
@@ -137,26 +141,151 @@ function renderPublications(publications) {
 }
 
 function renderProjects(projects) {
-  el("projects").innerHTML =
-    heading("code", "Projects") +
-    `<div class="card-grid">${projects
-      .map(
-        (p) => `
-      <div class="card project-card">
-        <img src="${p.image}" alt="${p.title} preview" loading="lazy" />
-        <div class="project-body">
-          <h3>${p.title}</h3>
-          <p>${p.description}</p>
-          <ul>${(p.highlights || []).map((h) => `<li>${h}</li>`).join("")}</ul>
-          <div class="tag-row">${(p.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
-          <div class="project-links">
-            <a class="btn-outline" href="${p.repoUrl}" target="_blank" rel="noopener">View on GitHub</a>
-            ${p.liveUrl ? `<a class="btn-outline" href="${p.liveUrl}" target="_blank" rel="noopener">Live Demo</a>` : ""}
+  const slides = projects
+    .map(
+      (p, i) => `
+      <article class="slide" role="group" aria-roledescription="slide"
+               aria-label="${i + 1} of ${projects.length}: ${p.title}">
+        <div class="showcase">
+          <div class="showcase-media">
+            <img src="${p.image}" alt="${p.title} preview" loading="${i === 0 ? "eager" : "lazy"}" />
+          </div>
+          <div class="showcase-body">
+            <div class="showcase-scroll">
+              <h3>${p.title}</h3>
+              <p>${p.description}</p>
+              ${
+                (p.highlights || []).length
+                  ? `<ul class="highlights">${p.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>`
+                  : ""
+              }
+              <div class="tag-row">${(p.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
+            </div>
+            <div class="showcase-links">
+              <a class="btn-outline" href="${p.repoUrl}" target="_blank" rel="noopener">View on GitHub</a>
+              ${p.liveUrl ? `<a class="btn-outline" href="${p.liveUrl}" target="_blank" rel="noopener">Live Demo</a>` : ""}
+            </div>
           </div>
         </div>
-      </div>`
-      )
-      .join("")}</div>`;
+      </article>`
+    )
+    .join("");
+
+  const dots = projects
+    .map(
+      (p, i) =>
+        `<button class="dot" type="button" data-go="${i}" aria-label="Go to project ${i + 1}: ${p.title}"></button>`
+    )
+    .join("");
+
+  el("projects").innerHTML = `
+    <div class="section-head">
+      ${heading("code", "Projects")}
+      <div class="carousel-nav">
+        <button class="cbtn" type="button" data-dir="-1" aria-label="Previous project">${ICONS.chevronLeft}</button>
+        <span class="counter"><span id="c-now">1</span> / ${projects.length}</span>
+        <button class="cbtn" type="button" data-dir="1" aria-label="Next project">${ICONS.chevronRight}</button>
+      </div>
+    </div>
+    <div class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
+      <div class="track">${slides}</div>
+    </div>
+    <div class="dots">${dots}</div>`;
+
+  initCarousel(projects.length);
+}
+
+/* Carousel: arrows, dots, keyboard, swipe. One slide visible at a time. */
+function initCarousel(count) {
+  const root = document.querySelector("#projects .carousel");
+  const track = root.querySelector(".track");
+  const dotEls = [...document.querySelectorAll("#projects .dot")];
+  const nowEl = el("c-now");
+  let index = 0;
+
+  // Slides sit inside a transformed, overflow-hidden track, so the browser never
+  // treats offscreen ones as visible and native lazy-loading never fires for them.
+  // Promote the current slide and its neighbours to eager so they actually load.
+  function ensureLoaded(i) {
+    [i - 1, i, i + 1].forEach((n) => {
+      const slide = track.children[(n + count) % count];
+      slide?.querySelectorAll("img[loading='lazy']").forEach((img) => {
+        img.loading = "eager";
+        if (!img.complete) img.src = img.src; // nudge the fetch in stubborn engines
+      });
+    });
+  }
+
+  function go(next) {
+    index = (next + count) % count;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    ensureLoaded(index);
+    dotEls.forEach((d, i) => d.classList.toggle("active", i === index));
+    [...track.children].forEach((s, i) => {
+      s.classList.toggle("is-active", i === index);
+      // Keep offscreen slides out of the tab order and the a11y tree.
+      s.setAttribute("aria-hidden", i === index ? "false" : "true");
+      s.querySelectorAll("a, button").forEach((f) => (f.tabIndex = i === index ? 0 : -1));
+    });
+    if (nowEl) nowEl.textContent = String(index + 1);
+  }
+
+  document.querySelectorAll("#projects .cbtn").forEach((b) =>
+    b.addEventListener("click", () => go(index + Number(b.dataset.dir)))
+  );
+  dotEls.forEach((d) => d.addEventListener("click", () => go(Number(d.dataset.go))));
+
+  root.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); }
+  });
+
+  // Touch swipe
+  let x0 = null;
+  root.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), { passive: true });
+  root.addEventListener("touchend", (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 45) go(index + (dx < 0 ? 1 : -1));
+    x0 = null;
+  }, { passive: true });
+
+  go(0);
+}
+
+/* Fade-up reveal as sections scroll into view.
+   Deliberately fail-safe: this is decoration, so every path that could leave a
+   section stuck at opacity 0 falls back to simply showing it. */
+function initReveal() {
+  const targets = [...document.querySelectorAll(".section, .hero-card")];
+  const showAll = () => targets.forEach((t) => t.classList.add("revealed"));
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || !("IntersectionObserver" in window)) {
+    showAll();
+    return;
+  }
+
+  targets.forEach((t) => t.classList.add("reveal"));
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) {
+          en.target.classList.add("revealed");
+          io.unobserve(en.target);
+        }
+      });
+    },
+    // Generous margin so a section reveals just before it reaches the viewport,
+    // and threshold 0 so fast scrolling can't skip past the trigger.
+    { rootMargin: "200px 0px 200px 0px", threshold: 0 }
+  );
+  targets.forEach((t) => io.observe(t));
+
+  // Backstop: if anything is still hidden a few seconds in (observer never
+  // fired, scroll restored mid-page, tab backgrounded), just reveal it.
+  setTimeout(showAll, 3000);
 }
 
 function renderSkills(profile) {
@@ -259,6 +388,8 @@ async function init() {
     renderTalks(profile);
     renderCertifications(profile);
     renderFooter(profile);
+
+    initReveal();
   } catch (err) {
     console.error(err);
     document.querySelector("main").innerHTML =
