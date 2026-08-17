@@ -258,21 +258,48 @@ img { max-width: 100%; }
 }
 .showcase-media {
   background: var(--surface-alt);
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
   padding: var(--space-md);
   border-right: 1px solid var(--border);
 }
-.showcase-media img {
+
+/* Optional per-project image gallery */
+.thumbs { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+.thumb {
+  width: 58px; height: 42px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: pointer;
+  opacity: 0.62;
+  transition: opacity 0.2s, border-color 0.2s, transform 0.2s;
+}
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb:hover { opacity: 1; transform: translateY(-2px); }
+.thumb.active { opacity: 1; border-color: var(--brand); }
+.media-caption {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink-faint);
+  text-align: center;
+  line-height: 1.4;
+}
+.showcase-media .media-main {
   width: 100%;
-  max-height: 360px;
+  max-height: 320px;
   object-fit: contain;
   border-radius: 10px;
   opacity: 0;
   transform: scale(0.98);
   transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
 }
-.slide.is-active .showcase-media img { opacity: 1; transform: scale(1); }
+.slide.is-active .showcase-media .media-main { opacity: 1; transform: scale(1); }
 
 .showcase-body {
   padding: clamp(1.2rem, 2.4vw, 2rem);
@@ -417,14 +444,14 @@ a:focus-visible, button:focus-visible {
     scroll-behavior: auto !important;
   }
   .reveal { opacity: 1; transform: none; }
-  .slide .showcase-body > *, .showcase-media img { opacity: 1; transform: none; }
+  .slide .showcase-body > *, .showcase-media .media-main { opacity: 1; transform: none; }
 }
 
 /* ============================= Responsive ============================= */
 @media (max-width: 900px) {
   .showcase { grid-template-columns: 1fr; min-height: 0; }
   .showcase-media { border-right: none; border-bottom: 1px solid var(--border); }
-  .showcase-media img { max-height: 240px; }
+  .showcase-media .media-main { max-height: 240px; }
   .showcase-scroll { max-height: none; overflow: visible; }
 }
 @media (max-width: 860px) {

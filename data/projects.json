@@ -29,7 +29,12 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-flood-monitor",
     "liveUrl": "",
-    "image": "assets/img/projects/flood-susceptibility-roc.png",
+    "image": "assets/img/projects/layyah-flood-susceptibility.jpg",
+    "gallery": [
+      { "src": "assets/img/projects/layyah-flood-susceptibility.jpg", "caption": "Modelled flood susceptibility, Layyah District" },
+      { "src": "assets/img/projects/layyah-study-area.jpg", "caption": "Study area: Layyah District, Punjab" },
+      { "src": "assets/img/projects/flood-susceptibility-roc.png", "caption": "ROC and precision-recall on held-out events" }
+    ],
     "tags": [
       "Sentinel-1 SAR",
       "Google Earth Engine",

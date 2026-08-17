@@ -148,7 +148,21 @@ function renderProjects(projects) {
                aria-label="${i + 1} of ${projects.length}: ${p.title}">
         <div class="showcase">
           <div class="showcase-media">
-            <img src="${p.image}" alt="${p.title} preview" loading="${i === 0 ? "eager" : "lazy"}" />
+            <img class="media-main" src="${p.image}" alt="${p.title} preview" loading="${i === 0 ? "eager" : "lazy"}" />
+            ${
+              (p.gallery || []).length > 1
+                ? `<div class="thumbs">${p.gallery
+                    .map(
+                      (g, gi) =>
+                        `<button class="thumb${gi === 0 ? " active" : ""}" type="button"
+                                 data-src="${g.src}" title="${g.caption}" aria-label="${g.caption}">
+                           <img src="${g.src}" alt="" loading="lazy" />
+                         </button>`
+                    )
+                    .join("")}</div>
+                   <p class="media-caption">${p.gallery[0].caption}</p>`
+                : ""
+            }
           </div>
           <div class="showcase-body">
             <div class="showcase-scroll">
@@ -233,6 +247,19 @@ function initCarousel(count) {
   document.querySelectorAll("#projects .cbtn").forEach((b) =>
     b.addEventListener("click", () => go(index + Number(b.dataset.dir)))
   );
+
+  // Gallery thumbnails swap the slide's main image.
+  track.querySelectorAll(".showcase-media").forEach((media) => {
+    const main = media.querySelector(".media-main");
+    const cap = media.querySelector(".media-caption");
+    media.querySelectorAll(".thumb").forEach((tb) => {
+      tb.addEventListener("click", () => {
+        main.src = tb.dataset.src;
+        if (cap) cap.textContent = tb.title;
+        media.querySelectorAll(".thumb").forEach((o) => o.classList.toggle("active", o === tb));
+      });
+    });
+  });
   dotEls.forEach((d) => d.addEventListener("click", () => go(Number(d.dataset.go))));
 
   root.addEventListener("keydown", (e) => {
