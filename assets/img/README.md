@@ -8,7 +8,9 @@
 | `projects/layyah-s1-*.jpg` | The six Sentinel-1 Layyah project cards | `data/projects.json` → matching project's `"image"` |
 | `projects/flood-placeholder.svg` | Unused spare placeholder — kept for future project cards | *(not currently referenced)* |
 
-Note: the site's CV download is `assets/CV_Raza.pdf`, referenced from `data/profile.json` → `"cv"`.
+Note: there is no CV download on the site. To add one back, drop the PDF in
+`assets/` and add a `"cv": "assets/<file>.pdf"` key to `data/profile.json` —
+the button renders only when that key is present.
 
 ## Extra LULC/carbon figures (from the thesis, not currently used on the page)
 
