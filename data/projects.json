@@ -120,6 +120,35 @@
     ]
   },
   {
+    "title": "Optical Soil Moisture with OPTRAM — Layyah District, Pakistan",
+    "description": "Sentinel-2 surface soil moisture over Layyah District using the OPTRAM trapezoid model, with the trapezoid edges fitted by quantile regression instead of drawn by eye, and the retrieval validated against antecedent rainfall and ERA5-Land. The straightforward version of the method returns a soil-moisture product that anti-correlates with rainfall; the study is built around finding out why.",
+    "highlights": [
+      "Bare-soil relative saturation nearly doubled after the 2022 flood, 0.219 → 0.413 (+89%)",
+      "The district-mean retrieval anti-correlates with rainfall (r = −0.372) because OPTRAM reads canopy water where the canopy is closed; masked to bare soil it tracks antecedent rainfall at r = +0.855",
+      "Cloud masking biases the wet windows: valid-pixel fraction correlates with reference soil moisture at r = −0.756, so the wettest periods are sampled from their driest, clearest fraction",
+      "Trapezoid edges fitted over 23,991 observations (2019–2024): dry edge R² = 0.947, wet edge R² = 0.990",
+      "Study area chosen by measurement, not convenience — 6 candidate districts scored on trapezoid quality; 3 fail outright, including an urban negative control"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s2-soil-moisture-optram",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-s2-optram-soilmoisture.jpg",
+    "gallery": [
+      { "src": "assets/img/projects/layyah-s2-optram-soilmoisture.jpg", "caption": "OPTRAM surface soil moisture before and after the 2022 flood, Layyah District" },
+      { "src": "assets/img/projects/layyah-s2-optram-validation.jpg", "caption": "Validation: bare soil tracks antecedent rainfall (r = +0.86), the district mean inverts it" },
+      { "src": "assets/img/projects/layyah-s2-optram-trapezoid.jpg", "caption": "Fitted NDVI–STR trapezoid, 23,991 observations, 2019–2024" },
+      { "src": "assets/img/projects/layyah-s2-optram-districts.jpg", "caption": "Study-area selection: trapezoid quality across six candidate districts" },
+      { "src": "assets/img/projects/layyah-s2-optram-histogram.jpg", "caption": "Bare-soil soil-moisture distribution shift, pre-monsoon vs post-flood" }
+    ],
+    "tags": [
+      "Sentinel-2",
+      "OPTRAM",
+      "Soil Moisture",
+      "Google Earth Engine",
+      "Python",
+      "Validation"
+    ]
+  },
+  {
     "title": "Multi-Temporal SAR Crop Mapping — Layyah District",
     "description": "Crop mapping from 24 monthly Sentinel-1 composites across a full rabi–kharif crop year, resolving five cropping systems over 3,995 km² of cropland. Split into a validated stage and an inferred one, since no crop-type ground truth exists for Pakistan in the Earth Engine catalogue.",
     "highlights": [
