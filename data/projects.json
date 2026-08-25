@@ -149,6 +149,38 @@
     ]
   },
   {
+    "title": "Drought Monitoring with SPI — Tharparkar District, Pakistan",
+    "description": "Standardized Precipitation Index over Pakistan's recurrent-famine district, built on 44 years of CHIRPS rainfall (1981–2024). SPI fits a gamma distribution, which has zero density at zero — but 53.7% of pixel-months in Tharparkar have exactly zero rainfall. The study quantifies what that breaks, and where the index should refuse to answer at all.",
+    "highlights": [
+      "Applied the textbook way, SPI produces a 95% false-alarm rate on its most severe category: 118 months flagged as extreme drought, 112 of them near-normal once zero-inflation is handled",
+      "Naive vs corrected differ by RMS 1.252 SPI units — wider than an entire McKee drought category",
+      "SPI-1 is undefined in 8 of 12 months here; the gamma fit is refused below 20 non-zero years rather than returning a number for a rainless month",
+      "Spatial averaging hides the whole problem: the district-mean series reports SPI-1 as fittable in all 12 months, the pixels report 8 of 12 as unfittable",
+      "CHIRPS DAILY gives 53.7% zero months over the same pixels where CHIRPS PENTAD gives 0.0% — the product choice decides whether the problem is even visible",
+      "Independent validation: ranking 44 years recovers 1987 and 2002 as driest (the documented 1999–2002 Sindh drought) and 2011 and 2022 as wettest, both flood years"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/tharparkar-spi-drought",
+    "liveUrl": "",
+    "image": "assets/img/projects/tharparkar-spi-drought.jpg",
+    "gallery": [
+      { "src": "assets/img/projects/tharparkar-spi-drought.jpg", "caption": "SPI-12 before and after: drought year 1987 vs flood year 2011, Tharparkar District" },
+      { "src": "assets/img/projects/tharparkar-spi-naive.jpg", "caption": "Cost of skipping zero-inflation: naive SPI pins ordinary dry months at extreme drought" },
+      { "src": "assets/img/projects/tharparkar-spi-fittability.jpg", "caption": "Where SPI may legitimately be computed — SPI-1 fails in 8 of 12 months" },
+      { "src": "assets/img/projects/tharparkar-spi-timeseries.jpg", "caption": "SPI-12 and SPI-3, 1981–2024, zero-inflated gamma" },
+      { "src": "assets/img/projects/tharparkar-spi-districts.jpg", "caption": "Study-area screening: monsoon vs winter-westerly regimes have complementary usable months" },
+      { "src": "assets/img/projects/tharparkar-spi-chirps.jpg", "caption": "CHIRPS DAILY vs PENTAD disagree completely on how often it rains" }
+    ],
+    "tags": [
+      "CHIRPS",
+      "Drought",
+      "SPI",
+      "Google Earth Engine",
+      "Climate",
+      "Python",
+      "Statistics"
+    ]
+  },
+  {
     "title": "Multi-Temporal SAR Crop Mapping — Layyah District",
     "description": "Crop mapping from 24 monthly Sentinel-1 composites across a full rabi–kharif crop year, resolving five cropping systems over 3,995 km² of cropland. Split into a validated stage and an inferred one, since no crop-type ground truth exists for Pakistan in the Earth Engine catalogue.",
     "highlights": [
