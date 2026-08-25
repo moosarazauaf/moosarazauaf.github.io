@@ -6,8 +6,10 @@
   <title>Muhammad Moosa Raza — Geospatial &amp; Environmental Research</title>
   <meta name="description" content="Portfolio of Muhammad Moosa Raza — remote sensing, carbon dynamics, and Earth observation research." />
   <link rel="icon" href="assets/img/profile.jpg" type="image/jpeg" />
-  <link rel="stylesheet" href="assets/css/variables.css" />
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
+       visitors get the new file instead of a stale cached one. -->
+  <link rel="stylesheet" href="assets/css/variables.css?v=3" />
+  <link rel="stylesheet" href="assets/css/style.css?v=3" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -25,12 +27,12 @@
     <nav class="nav">
       <a class="nav-brand" href="#top">M. Moosa Raza</a>
       <ul class="nav-links">
-        <li><a href="#about">Bio</a></li>
-        <li><a href="#publications">Papers</a></li>
-        <li><a href="#talks">Talks</a></li>
-        <li><a href="#experience">Experience</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
     </nav>
@@ -43,10 +45,12 @@
     </div>
 
     <div class="container">
-      <section id="education" class="section"></section>
-      <section id="experience" class="section"></section>
+      <section id="research" class="section"></section>
+      <section id="approach" class="section"></section>
       <section id="publications" class="section"></section>
       <section id="projects" class="section"></section>
+      <section id="experience" class="section"></section>
+      <section id="education" class="section"></section>
       <section id="skills" class="section"></section>
       <section id="talks" class="section"></section>
       <section id="certifications" class="section"></section>
@@ -55,6 +59,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=3"></script>
 </body>
 </html>

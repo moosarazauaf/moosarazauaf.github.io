@@ -77,18 +77,64 @@ function renderHero(profile) {
       ${profile.affiliation ? `<div class="hero-affil">${profile.affiliation}</div>` : ""}
       <div class="hero-location">${profile.location}</div>
       ${socialRow(profile)}
+      ${
+        profile.availability
+          ? `<div class="availability">
+               <span class="availability-status"><span class="pulse"></span>${profile.availability.status}</span>
+               <p>${profile.availability.detail}</p>
+             </div>`
+          : ""
+      }
     </div>
 
     <div class="hero-main">
-      ${heading("user", "Professional Summary")}
+      ${heading("user", "Research Statement")}
       ${profile.about.map((p) => `<p>${p}</p>`).join("")}
-      ${profile.cv ? `<a class="btn-primary" href="${profile.cv}" target="_blank" rel="noopener">${ICONS.download} Download CV</a>` : ""}
+      <div class="hero-cta">
+        <a class="btn-primary" href="mailto:${profile.email}">${ICONS.mail} Get in touch</a>
+        <a class="btn-outline" href="${profile.social.github}" target="_blank" rel="noopener">${ICONS.github} See the code</a>
+      </div>
 
       <div style="margin-top: var(--space-lg)">
         ${heading("cap", "Education")}
         <div class="card-grid">${eduCards}</div>
       </div>
     </div>`;
+}
+
+function renderResearch(profile) {
+  const items = (profile.researchInterests || [])
+    .map(
+      (r) => `
+      <div class="card interest-card">
+        <h3>${r.title}</h3>
+        <p>${r.description}</p>
+      </div>`
+    )
+    .join("");
+  el("research").innerHTML =
+    heading("flask", "Research Interests") +
+    `<p class="section-lede">The directions I want to take further in a PhD.</p>
+     <div class="card-grid">${items}</div>`;
+}
+
+function renderApproach(profile) {
+  const items = (profile.approach || [])
+    .map(
+      (a, i) => `
+      <div class="card approach-card">
+        <span class="approach-num">${String(i + 1).padStart(2, "0")}</span>
+        <div>
+          <h3>${a.title}</h3>
+          <p>${a.description}</p>
+        </div>
+      </div>`
+    )
+    .join("");
+  el("approach").innerHTML =
+    heading("spark", "How I Work") +
+    `<p class="section-lede">The standard that runs through every study below.</p>
+     <div class="card-grid">${items}</div>`;
 }
 
 function renderEducation(profile) {
@@ -364,10 +410,11 @@ function renderCertifications(profile) {
 
 function renderFooter(profile) {
   el("contact").innerHTML = `
-    <h2>Get in touch</h2>
-    <p>${profile.location} · <a href="mailto:${profile.email}" style="color:#fff">${profile.email}</a></p>
+    <h2>Looking for a PhD position</h2>
+    <p class="footer-lede">${profile.availability ? profile.availability.detail : ""}</p>
+    <p><a class="btn-contact" href="mailto:${profile.email}">${ICONS.mail} ${profile.email}</a></p>
     ${socialRow(profile)}
-    <p class="copyright">© ${new Date().getFullYear()} ${profile.name}. Built with plain HTML, CSS &amp; JS — hosted on GitHub Pages.</p>`;
+    <p class="copyright">© ${new Date().getFullYear()} ${profile.name} · ${profile.location} · Built with plain HTML, CSS &amp; JS, hosted on GitHub Pages.</p>`;
 }
 
 /* ----------------------------- theme toggle ----------------------------- */
@@ -407,6 +454,8 @@ async function init() {
     ]);
 
     renderHero(profile);
+    renderResearch(profile);
+    renderApproach(profile);
     renderEducation(profile);
     renderExperience(profile);
     renderPublications(publications);

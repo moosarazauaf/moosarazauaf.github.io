@@ -1,10 +1,14 @@
 {
   "name": "Muhammad Moosa Raza",
-  "role": "Geospatial Environmental Scientist",
-  "affiliation": "M.Sc. Ecology & Nature Management — RUDN University",
-  "tagline": "Geospatial Environmental Scientist — Remote Sensing, Carbon Dynamics & Earth Observation Modelling",
+  "role": "Earth Observation Researcher",
+  "affiliation": "M.Sc. Ecology & Nature Management, RUDN University",
+  "tagline": "Remote sensing for floods, drought and land-system change — with a working obsession for when these methods quietly fail",
   "location": "Layyah, Pakistan",
   "email": "moosarazauaf@gmail.com",
+  "availability": {
+    "status": "Seeking a PhD position for 2026/27",
+    "detail": "Open to positions in remote sensing, hydrology, land-system science and climate risk. Happy to discuss how my work could extend a group's existing research."
+  },
   "social": {
     "github": "https://github.com/moosarazauaf",
     "linkedin": "https://www.linkedin.com/in/moosarazauaf/",
@@ -12,17 +16,53 @@
   },
   "photo": "assets/img/profile.jpg",
   "about": [
-    "Early-career researcher in geospatial environmental science specializing in remote sensing–driven climate analysis, carbon dynamics, and large-scale Earth observation modeling.",
-    "Experienced in multi-decadal satellite data processing, machine learning-based classification, and ecosystem carbon estimation, with a strong focus on building reproducible, scalable geospatial workflows using Google Earth Engine and Python.",
-    "Research goal: advancing data-driven environmental modelling integrated with physical climate processes."
+    "I build satellite-based environmental measurements, and then I try to break them. Across nine open studies over Pakistan, the recurring result is that the standard way of applying a method returns a confident number that does not survive scrutiny: a drought index flagging 118 months of extreme drought when 112 were near-normal, a post-flood vegetation signal that turns out to be ordinary crop phenology, an Earth Engine distance operator failing silently and quietly costing model skill.",
+    "That thread now defines how I work. I validate chronologically rather than randomly so a model cannot memorise the events it is judged on, cross-check findings against a physically unrelated sensor, and publish the negative and the uncertain next to the headline result. Every study ships with its code, training data and a written account of what it cannot support.",
+    "I am looking for a PhD where this becomes the research question rather than a habit: how we establish that an Earth observation measurement is trustworthy before it informs a flood warning, a drought declaration or a carbon budget."
+  ],
+  "researchInterests": [
+    {
+      "title": "Measurement validity in Earth observation",
+      "description": "Silent failure modes in operational EO workflows — validation designs that leak, indices undefined over the regimes where they are most needed, and cloud or orbit sampling that biases a result without ever raising an error."
+    },
+    {
+      "title": "Floods and hydrological extremes",
+      "description": "SAR-based inundation mapping and event-based flood susceptibility, including how compositing windows and relative-orbit choices distort estimates of flood extent."
+    },
+    {
+      "title": "Drought and agricultural water in semi-arid systems",
+      "description": "Drought indices and soil moisture retrieval where irrigation, zero-inflated rainfall and closed canopies break the assumptions the standard methods are built on."
+    },
+    {
+      "title": "Land-system change and ecosystem carbon",
+      "description": "Multi-decadal land cover dynamics and the carbon consequences of rapid urban expansion, linking land transitions to measurable ecosystem service loss."
+    }
+  ],
+  "approach": [
+    {
+      "title": "Validate against time, not at random",
+      "description": "Chronological, event-based holdout so a model never sees the events it is scored on. Random splits let pixels from one flood land in both train and test, which inflates the scores everyone reports."
+    },
+    {
+      "title": "Cross-check with an unrelated sensor",
+      "description": "A radar result checked against an optical one, or a retrieval against reanalysis and rain gauges. Agreement between physically independent measurements is worth more than a high score from one."
+    },
+    {
+      "title": "Report the number that does not flatter",
+      "description": "District-mean NDVI anomaly of −0.005 would have implied no flood impact at all. The write-up leads with that, then shows why the map still holds, rather than quoting the reassuring figure."
+    },
+    {
+      "title": "Ship the code and the caveats",
+      "description": "Every study is public: code, training data, GIS exports and a model card stating the limits. If a result depends on a threshold or a product choice, that dependency is documented, not buried."
+    }
   ],
   "coreCompetencies": [
-    "Multi-temporal remote sensing (Landsat, Sentinel-2)",
-    "Machine learning for EO (Random Forest, SVM, CART)",
-    "Carbon stock modelling & ecosystem services (InVEST)",
-    "Large-scale geospatial processing (Google Earth Engine)",
-    "Spatial analysis & land system dynamics",
-    "Environmental data pipelines & reproducible workflows"
+    "Multi-temporal SAR and optical remote sensing (Sentinel-1, Sentinel-2, Landsat)",
+    "Machine learning for EO (Random Forest, SVM, CART) with leakage-aware validation",
+    "Flood mapping, susceptibility modelling and change detection",
+    "Drought indices, soil moisture retrieval and hydro-climatic validation",
+    "Carbon stock and ecosystem service modelling (InVEST)",
+    "Reproducible geospatial pipelines at scale (Google Earth Engine, Python)"
   ],
   "education": [
     {
@@ -45,43 +85,80 @@
   ],
   "experience": [
     {
+      "role": "Independent Research — Earth Observation Methods",
+      "org": "Self-directed, open-source",
+      "period": "2026 – present",
+      "bullets": [
+        "Designed and published nine end-to-end EO studies over Pakistan covering flood mapping, flood susceptibility, drought, soil moisture, speckle filtering and crop mapping",
+        "Established a consistent methodological standard across all of them: chronological validation, independent cross-sensor checks, and explicit reporting of negative and null results",
+        "Identified and documented several failure modes in widely used workflows, including a silent Google Earth Engine distance-operator fault and a 95% false-alarm rate in textbook SPI over zero-inflated rainfall",
+        "Released every study as open code with training data, GIS exports and written limitations, so results can be reproduced and contested"
+      ]
+    },
+    {
       "role": "Master’s Thesis Researcher — Remote Sensing & Carbon Modelling",
       "org": "RUDN University",
       "period": "2024 – 2026",
       "bullets": [
-        "Designed multi-decadal (1993–2023) LULC analysis pipeline using Landsat imagery in Google Earth Engine",
-        "Implemented machine learning classification (Random Forest) achieving Accuracy: 97.8%–99.2%, Kappa: 0.971–0.989",
-        "Quantified urban expansion (+117%) and vegetation loss (-27,639 ha)",
-        "Estimated ecosystem carbon dynamics: total loss of ~3.15 million metric tons",
-        "Integrated InVEST model for validation",
-        "Built automated, reproducible geospatial workflows using GEE",
-        "Key contribution: demonstrated how urban land transitions drive large-scale carbon loss in rapidly developing regions"
+        "Designed a multi-decadal (1993–2023) LULC analysis pipeline using Landsat imagery in Google Earth Engine",
+        "Implemented Random Forest classification reaching 97.8%–99.2% accuracy, Kappa 0.971–0.989",
+        "Quantified urban expansion (+117%) and vegetation loss (−27,639 ha) across Lahore District",
+        "Estimated ecosystem carbon dynamics: a total loss of roughly 3.15 million metric tons",
+        "Integrated the InVEST carbon model as an independent check on the class-based estimate",
+        "Key contribution: showed how urban land transitions drive large-scale carbon loss in rapidly developing regions"
       ]
     }
   ],
   "skills": {
-    "Geospatial": ["Google Earth Engine", "QGIS"],
-    "Programming": ["Python (data analysis, raster processing)"],
-    "Visualization": ["Matplotlib", "Excel", "R"],
-    "Languages": ["English (Fluent)", "Russian (Basic)"]
+    "Earth Observation": [
+      "Sentinel-1 SAR (GRD, multi-temporal)",
+      "Sentinel-2 optical",
+      "Landsat archive (1993–present)",
+      "SAR speckle filtering & change detection"
+    ],
+    "Modelling & Analysis": [
+      "Random Forest, SVM, CART",
+      "Accuracy assessment (confusion matrix, Kappa, IoU, ROC)",
+      "InVEST carbon modelling",
+      "Time-series & statistical validation"
+    ],
+    "Tools & Platforms": [
+      "Google Earth Engine",
+      "Python (raster processing, scikit-learn, geopandas)",
+      "QGIS",
+      "Git & reproducible workflows"
+    ],
+    "Reference Data": [
+      "ERA5-Land reanalysis",
+      "CHIRPS precipitation",
+      "JRC Global Surface Water",
+      "Global Flood Database"
+    ],
+    "Languages": ["English (Fluent)", "Urdu / Saraiki (Native)", "Russian (Basic)"]
   },
   "projectLevelSkills": [
-    "Spatio-temporal environmental modelling",
-    "Handling large EO datasets (cloud-based processing)",
-    "Accuracy assessment (confusion matrix, Kappa statistics)",
-    "Linking land-use change → carbon cycle impacts",
-    "Translating geospatial outputs into policy-relevant insights"
+    "Leakage-aware validation design",
+    "Cross-sensor verification of results",
+    "Handling large EO datasets on cloud infrastructure",
+    "Linking land-use change to carbon cycle impacts",
+    "Translating geospatial outputs into policy-relevant insight",
+    "Open, reproducible research practice"
   ],
   "talks": [
     {
       "role": "Speaker — International Student Scientific Seminar",
       "period": "2025",
-      "detail": "Topic: Urban Anthropogenic Impacts on Carbon Cycle"
+      "detail": "Presented “Urban Anthropogenic Impacts on the Carbon Cycle”, drawn from the Lahore land-cover and carbon work."
     },
     {
-      "role": "Participant — WasteTech 2025 (Moscow)",
+      "role": "Speaker — Greenhouse Gas Management Seminar, RUDN University",
+      "period": "March 2025",
+      "detail": "Presented “Global Anthropogenic Emissions in Urban Areas” at the Institute of Environmental Engineering."
+    },
+    {
+      "role": "Participant — WasteTech 2025, Moscow",
       "period": "2025",
-      "detail": "Focus: sustainability & environmental technologies"
+      "detail": "Focus on sustainability and environmental technologies."
     }
   ],
   "certifications": [
