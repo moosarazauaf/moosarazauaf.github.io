@@ -32,6 +32,20 @@
       "Random Forest",
       "Python",
       "QGIS"
+    ],
+    "metrics": [
+      {
+        "value": "0.962",
+        "label": "F1, held-out events"
+      },
+      {
+        "value": "0.996",
+        "label": "ROC-AUC"
+      },
+      {
+        "value": "547.8 km²",
+        "label": "high susceptibility"
+      }
     ]
   },
   {
@@ -51,6 +65,20 @@
       "InVEST",
       "Landsat",
       "Carbon Modelling"
+    ],
+    "metrics": [
+      {
+        "value": "+117%",
+        "label": "urban expansion"
+      },
+      {
+        "value": "3.15 Mt",
+        "label": "carbon lost"
+      },
+      {
+        "value": "0.97–0.99",
+        "label": "Kappa"
+      }
     ]
   },
   {
@@ -101,6 +129,20 @@
       "Climate",
       "Python",
       "Statistics"
+    ],
+    "metrics": [
+      {
+        "value": "95%",
+        "label": "false-alarm rate, textbook SPI"
+      },
+      {
+        "value": "44 yrs",
+        "label": "CHIRPS rainfall"
+      },
+      {
+        "value": "8 of 12",
+        "label": "months SPI-1 undefined"
+      }
     ]
   },
   {
@@ -122,6 +164,20 @@
       "Change Detection",
       "Flood Impact",
       "Python"
+    ],
+    "metrics": [
+      {
+        "value": "1,232 km²",
+        "label": "vegetation loss"
+      },
+      {
+        "value": "≈0",
+        "label": "signal left after controls"
+      },
+      {
+        "value": "0.067",
+        "label": "radar cross-check separation"
+      }
     ]
   },
   {
@@ -142,6 +198,20 @@
       "Change Detection",
       "Flood Mapping",
       "Python"
+    ],
+    "metrics": [
+      {
+        "value": "95.4 km²",
+        "label": "peak inundation"
+      },
+      {
+        "value": "3×",
+        "label": "understated by compositing"
+      },
+      {
+        "value": "2",
+        "label": "flood waves resolved"
+      }
     ]
   },
   {
@@ -186,6 +256,20 @@
       "Google Earth Engine",
       "Python",
       "Validation"
+    ],
+    "metrics": [
+      {
+        "value": "+89%",
+        "label": "bare-soil saturation after flood"
+      },
+      {
+        "value": "r = 0.855",
+        "label": "vs antecedent rainfall"
+      },
+      {
+        "value": "23,991",
+        "label": "observations fitted"
+      }
     ]
   },
   {
@@ -207,6 +291,20 @@
       "ERA5-Land",
       "Validation",
       "Python"
+    ],
+    "metrics": [
+      {
+        "value": "39.7→76.0%",
+        "label": "district mean, Jun→Aug 2022"
+      },
+      {
+        "value": "r = 0.489",
+        "label": "vs ERA5-Land"
+      },
+      {
+        "value": "36 mo",
+        "label": "validation window"
+      }
     ]
   },
   {
@@ -229,6 +327,20 @@
       "Crop Mapping",
       "Time Series",
       "Python"
+    ],
+    "metrics": [
+      {
+        "value": "3,995 km²",
+        "label": "cropland mapped"
+      },
+      {
+        "value": "0.825",
+        "label": "overall accuracy"
+      },
+      {
+        "value": "5",
+        "label": "cropping systems"
+      }
     ]
   },
   {
@@ -249,6 +361,20 @@
       "Speckle Filtering",
       "Signal Processing",
       "Python"
+    ],
+    "metrics": [
+      {
+        "value": "×3.47",
+        "label": "ENL improvement"
+      },
+      {
+        "value": "1.46×",
+        "label": "edge retention vs boxcar"
+      },
+      {
+        "value": "62",
+        "label": "scenes in stack"
+      }
     ]
   }
 ]

@@ -162,6 +162,109 @@ img { max-width: 100%; }
   font-size: 0.94rem;
 }
 
+/* ---- Methods audit figure ----
+   Emphasis pattern: the corrected value carries the accent, the as-applied value
+   sits in a muted serious tone. Both are always text-labelled, so identity never
+   depends on colour alone. */
+.audit-legend {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  margin: -0.35rem 0 var(--space-md);
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+}
+.audit-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.swatch.is-claimed { background: var(--audit-claimed); }
+.swatch.is-actual { background: var(--audit-actual); }
+
+/* Two columns rather than auto-fit: four cards land as a balanced 2×2 instead
+   of 3 + an orphan, and the extra width stops values wrapping mid-phrase. */
+.audit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+}
+@media (min-width: 760px) {
+  .audit-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.audit-card {
+  margin: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  box-shadow: var(--shadow-sm);
+}
+.audit-method {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 0.7rem;
+}
+.audit-pair { display: flex; align-items: center; gap: 0.7rem; }
+.audit-side { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.audit-value {
+  font-family: var(--font-heading);
+  font-size: 1.32rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+/* Only forbid wrapping where the two-column layout guarantees room — on narrow
+   screens nowrap clips the longer values, which is worse than letting them wrap. */
+@media (min-width: 760px) {
+  .audit-value { white-space: nowrap; }
+}
+.audit-label { font-size: 0.72rem; color: var(--ink-faint); line-height: 1.35; margin-top: 0.15rem; }
+.audit-side.is-claimed .audit-value { color: var(--audit-claimed); }
+.audit-side.is-actual .audit-value { color: var(--audit-actual); }
+.audit-arrow { color: var(--ink-faint); opacity: 0.5; flex-shrink: 0; }
+.audit-note {
+  margin: 0.85rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+/* ---- Stat tiles on project slides ---- */
+.stat-row {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: 0.75rem 0 0.9rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.stat { display: flex; flex-direction: column; min-width: 0; }
+.stat-value {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--brand-strong);
+  line-height: 1.1;
+}
+.stat-label { font-size: 0.7rem; color: var(--ink-faint); line-height: 1.3; margin-top: 0.15rem; }
+
+/* ---- Collapsible method notes ---- */
+.method-notes { margin: var(--space-xs) 0; }
+.method-notes summary {
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--brand);
+  padding: 0.3rem 0;
+  list-style: none;
+}
+.method-notes summary::-webkit-details-marker { display: none; }
+.method-notes summary::before { content: "▸ "; display: inline-block; transition: transform 0.2s; }
+.method-notes[open] summary::before { content: "▾ "; }
+.method-notes summary:hover { text-decoration: underline; }
+.method-notes .highlights { margin-top: 0.5rem; }
+
 /* Research interests */
 .interest-card h3 { font-size: 1.02rem; color: var(--brand-strong); margin-bottom: 0.4rem; }
 .interest-card p { margin: 0; font-size: 0.9rem; }

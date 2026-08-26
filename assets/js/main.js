@@ -37,6 +37,14 @@ const ICONS = {
     '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>',
   chevronRight:
     '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>',
+  arrowRight:
+    '<svg viewBox="0 0 24 16" width="26" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 8h20M16 3l5 5-5 5"/></svg>',
+  check:
+    '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8.5 6 12l8-9"/></svg>',
+  wave:
+    '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M1 5c1.6-1.6 3.2-1.6 4.8 0S9 6.6 10.6 5 13.8 3.4 15 5M1 11c1.6-1.6 3.2-1.6 4.8 0s3.2 1.6 4.8 0 3.2-1.6 4.4 0"/></svg>',
+  leaf:
+    '<svg viewBox="0 0 16 16" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M14 1S6.5 1 3.8 3.7C1.6 5.9 1.6 9.4 3.4 11.7L2 13.1a.7.7 0 0 0 1 1l1.4-1.4c2.3 1.8 5.8 1.8 8-.4C15 9.6 14 1 14 1Z"/></svg>',
 };
 
 /* ----------------------------- helpers ----------------------------- */
@@ -102,11 +110,50 @@ function renderHero(profile) {
     </div>`;
 }
 
+/* Methods audit: four before/after pairs.
+   The four measures have different units, so this is a comparison figure rather
+   than one chart on a shared axis. Uses the emphasis pattern (one accent plus
+   muted ink) and labels every value, so nothing is carried by colour alone. */
+function renderMethodsAudit(profile) {
+  const a = profile.methodsAudit;
+  if (!a) return;
+  const items = a.items
+    .map(
+      (m) => `
+      <figure class="audit-card">
+        <figcaption class="audit-method">${m.method}</figcaption>
+        <div class="audit-pair">
+          <div class="audit-side is-claimed">
+            <span class="audit-value">${m.claimed}</span>
+            <span class="audit-label">${m.claimedLabel}</span>
+          </div>
+          <span class="audit-arrow" aria-hidden="true">${ICONS.arrowRight}</span>
+          <div class="audit-side is-actual">
+            <span class="audit-value">${m.actual}</span>
+            <span class="audit-label">${m.actualLabel}</span>
+          </div>
+        </div>
+        <p class="audit-note">${m.note}</p>
+      </figure>`
+    )
+    .join("");
+
+  el("audit").innerHTML =
+    heading("check", "When the Standard Method Was Wrong") +
+    `<p class="section-lede">${a.lede}</p>
+     <div class="audit-legend">
+       <span><i class="swatch is-claimed"></i>As commonly applied</span>
+       <span><i class="swatch is-actual"></i>After correction</span>
+     </div>
+     <div class="audit-grid">${items}</div>`;
+}
+
 function renderResearch(profile) {
   const items = (profile.researchInterests || [])
     .map(
       (r) => `
       <div class="card interest-card">
+        <span class="icon-badge">${ICONS[r.icon] || ICONS.flask}</span>
         <h3>${r.title}</h3>
         <p>${r.description}</p>
       </div>`
@@ -213,10 +260,23 @@ function renderProjects(projects) {
           <div class="showcase-body">
             <div class="showcase-scroll">
               <h3>${p.title}</h3>
+              ${
+                (p.metrics || []).length
+                  ? `<div class="stat-row">${p.metrics
+                      .map(
+                        (m) =>
+                          `<div class="stat"><span class="stat-value">${m.value}</span><span class="stat-label">${m.label}</span></div>`
+                      )
+                      .join("")}</div>`
+                  : ""
+              }
               <p>${p.description}</p>
               ${
                 (p.highlights || []).length
-                  ? `<ul class="highlights">${p.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>`
+                  ? `<details class="method-notes">
+                       <summary>Method notes (${p.highlights.length})</summary>
+                       <ul class="highlights">${p.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>
+                     </details>`
                   : ""
               }
               <div class="tag-row">${(p.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
@@ -454,6 +514,7 @@ async function init() {
     ]);
 
     renderHero(profile);
+    renderMethodsAudit(profile);
     renderResearch(profile);
     renderApproach(profile);
     renderEducation(profile);

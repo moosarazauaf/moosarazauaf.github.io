@@ -29,6 +29,12 @@
   --brand-pale: var(--ajrak-blue-pale);
   --accent: var(--ajrak-crimson);
 
+  /* Methods-audit figure: emphasis pair (as-applied vs corrected).
+     Both pass contrast against the light surface; values are always
+     text-labelled so nothing rides on colour alone. */
+  --audit-claimed: #a5243a;
+  --audit-actual: #16407d;
+
   /* Hero gradient — indigo → blue → crimson, straight from ajrak dyes */
   --hero-gradient: linear-gradient(120deg, #10254f 0%, #16407d 42%, #7a2340 78%, #a5243a 100%);
 
@@ -68,6 +74,11 @@
   --brand-strong: #a8c4ee;
   --brand-pale: #1b2740;
   --accent: #e0798e;
+
+  /* Dark-mode audit pair, re-stepped against the dark surface rather than
+     flipped — both verified for contrast and CVD separation at #141d31. */
+  --audit-claimed: #e0798e;
+  --audit-actual: #7fa5e0;
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow: 0 4px 18px rgba(0, 0, 0, 0.45);

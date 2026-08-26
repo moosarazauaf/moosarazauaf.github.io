@@ -16,44 +16,84 @@
   },
   "photo": "assets/img/profile.jpg",
   "about": [
-    "I build satellite-based environmental measurements, and then I try to break them. Across nine open studies over Pakistan, the recurring result is that the standard way of applying a method returns a confident number that does not survive scrutiny: a drought index flagging 118 months of extreme drought when 112 were near-normal, a post-flood vegetation signal that turns out to be ordinary crop phenology, an Earth Engine distance operator failing silently and quietly costing model skill.",
-    "That thread now defines how I work. I validate chronologically rather than randomly so a model cannot memorise the events it is judged on, cross-check findings against a physically unrelated sensor, and publish the negative and the uncertain next to the headline result. Every study ships with its code, training data and a written account of what it cannot support.",
-    "I am looking for a PhD where this becomes the research question rather than a habit: how we establish that an Earth observation measurement is trustworthy before it informs a flood warning, a drought declaration or a carbon budget."
+    "I build satellite-based environmental measurements, then try to break them. Across nine open studies over Pakistan, the recurring result is that the textbook method returns a confident number that does not survive scrutiny.",
+    "I want a PhD where that becomes the research question: how we establish an Earth observation measurement is trustworthy before it drives a flood warning, a drought declaration or a carbon budget."
   ],
+  "methodsAudit": {
+    "lede": "Four times a standard method gave a confident answer that did not hold up. Each was caught by testing the method against itself.",
+    "items": [
+      {
+        "method": "SPI drought index",
+        "claimed": "118 months",
+        "claimedLabel": "flagged extreme drought",
+        "actual": "6 months",
+        "actualLabel": "survived zero-inflation correction",
+        "note": "Gamma has zero density at zero, but 53.7% of pixel-months here are rainless. A 95% false-alarm rate on the most severe category."
+      },
+      {
+        "method": "Flood peak extent",
+        "claimed": "40 km²",
+        "claimedLabel": "from a composited window",
+        "actual": "95 km²",
+        "actualLabel": "scene-by-scene peak",
+        "note": "Compositing a multi-week window understated the true peak threefold by averaging the flood away."
+      },
+      {
+        "method": "Post-flood NDVI",
+        "claimed": "+0.071",
+        "claimedLabel": "raw change, read as recovery",
+        "actual": "≈0",
+        "actualLabel": "once control years removed",
+        "note": "Control years give +0.076. Almost the entire raw signal was ordinary double-cropping, not flood response."
+      },
+      {
+        "method": "GEE distance operator",
+        "claimed": "no error",
+        "claimedLabel": "returned a near-constant value",
+        "actual": "−0.025 IoU",
+        "actualLabel": "cost to model skill",
+        "note": "A predictor silently doing nothing. Caught only because a feature-importance plot looked wrong."
+      }
+    ]
+  },
   "researchInterests": [
     {
-      "title": "Measurement validity in Earth observation",
-      "description": "Silent failure modes in operational EO workflows — validation designs that leak, indices undefined over the regimes where they are most needed, and cloud or orbit sampling that biases a result without ever raising an error."
+      "icon": "check",
+      "title": "Measurement validity in EO",
+      "description": "Why operational workflows fail without raising an error."
     },
     {
-      "title": "Floods and hydrological extremes",
-      "description": "SAR-based inundation mapping and event-based flood susceptibility, including how compositing windows and relative-orbit choices distort estimates of flood extent."
+      "icon": "wave",
+      "title": "Floods & hydrological extremes",
+      "description": "SAR inundation mapping and event-based susceptibility."
     },
     {
-      "title": "Drought and agricultural water in semi-arid systems",
-      "description": "Drought indices and soil moisture retrieval where irrigation, zero-inflated rainfall and closed canopies break the assumptions the standard methods are built on."
+      "icon": "sun",
+      "title": "Drought & agricultural water",
+      "description": "Indices and soil moisture where irrigation breaks the assumptions."
     },
     {
-      "title": "Land-system change and ecosystem carbon",
-      "description": "Multi-decadal land cover dynamics and the carbon consequences of rapid urban expansion, linking land transitions to measurable ecosystem service loss."
+      "icon": "leaf",
+      "title": "Land change & ecosystem carbon",
+      "description": "Multi-decadal land dynamics and the carbon cost of urban growth."
     }
   ],
   "approach": [
     {
-      "title": "Validate against time, not at random",
-      "description": "Chronological, event-based holdout so a model never sees the events it is scored on. Random splits let pixels from one flood land in both train and test, which inflates the scores everyone reports."
+      "title": "Validate against time",
+      "description": "Chronological holdout, so a model never sees the events it is scored on."
     },
     {
-      "title": "Cross-check with an unrelated sensor",
-      "description": "A radar result checked against an optical one, or a retrieval against reanalysis and rain gauges. Agreement between physically independent measurements is worth more than a high score from one."
+      "title": "Cross-check the sensor",
+      "description": "Radar against optical, retrieval against reanalysis. Independent agreement beats one high score."
     },
     {
-      "title": "Report the number that does not flatter",
-      "description": "District-mean NDVI anomaly of −0.005 would have implied no flood impact at all. The write-up leads with that, then shows why the map still holds, rather than quoting the reassuring figure."
+      "title": "Report what does not flatter",
+      "description": "Lead with the number that undercuts the result, then show what still holds."
     },
     {
-      "title": "Ship the code and the caveats",
-      "description": "Every study is public: code, training data, GIS exports and a model card stating the limits. If a result depends on a threshold or a product choice, that dependency is documented, not buried."
+      "title": "Ship code and caveats",
+      "description": "Every study public, with training data and a written account of its limits."
     }
   ],
   "coreCompetencies": [
