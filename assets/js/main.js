@@ -386,6 +386,69 @@ function initCarousel(count) {
   go(0);
 }
 
+/* Reading-progress bar. Purely decorative, so it degrades to nothing. */
+function initProgressBar() {
+  const bar = document.createElement("div");
+  bar.className = "progress-bar";
+  document.body.appendChild(bar);
+
+  let ticking = false;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    bar.style.transform = `scaleX(${pct})`;
+    ticking = false;
+  };
+  addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
+  update();
+}
+
+/* Scroll-spy: mark which part of the story the reader is in.
+   Uses scroll position rather than IntersectionObserver so that exactly one link
+   is current at a time, including between sections and at the page ends. */
+function initScrollSpy() {
+  const links = [...document.querySelectorAll(".nav-links a")];
+  const targets = links
+    .map((a) => ({ link: a, section: document.querySelector(a.getAttribute("href")) }))
+    .filter((t) => t.section);
+  if (!targets.length) return;
+
+  let ticking = false;
+  const update = () => {
+    const probe = window.scrollY + window.innerHeight * 0.3;
+    let current = null;
+    for (const t of targets) {
+      if (t.section.offsetTop <= probe) current = t;
+    }
+    // Past the bottom, the last section wins even if it is short.
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+      current = targets[targets.length - 1];
+    }
+    targets.forEach((t) => t.link.classList.toggle("is-current", t === current));
+    ticking = false;
+  };
+  addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
+  update();
+}
+
 /* Fade-up reveal as sections scroll into view.
    Deliberately fail-safe: this is decoration, so every path that could leave a
    section stuck at opacity 0 falls back to simply showing it. */
@@ -400,6 +463,13 @@ function initReveal() {
   }
 
   targets.forEach((t) => t.classList.add("reveal"));
+
+  // Mark the card grids so their children stagger in, and index each child so
+  // the CSS can derive its delay.
+  document.querySelectorAll(".card-grid, .audit-grid").forEach((grid) => {
+    grid.classList.add("stagger");
+    [...grid.children].forEach((child, i) => child.style.setProperty("--i", i));
+  });
 
   const io = new IntersectionObserver(
     (entries) => {
@@ -527,6 +597,8 @@ async function init() {
     renderFooter(profile);
 
     initReveal();
+    initProgressBar();
+    initScrollSpy();
   } catch (err) {
     console.error(err);
     document.querySelector("main").innerHTML =

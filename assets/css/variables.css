@@ -49,6 +49,18 @@
   --space-lg: 3rem;
   --space-xl: 5rem;
 
+  /* --- Motion ---
+     Tuned against how restrained professional personal sites actually move:
+     short durations, one shared easing curve, and travel measured in a few
+     pixels rather than tens. Long, far transitions read as sluggish. */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 0.15s;
+  --dur: 0.25s;
+  --dur-slow: 0.4s;
+  --reveal-shift: 10px;
+  --lift: -2px;
+
   /* --- Layout --- */
   --max-width: 1120px;
   --radius: 14px;

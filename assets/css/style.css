@@ -403,7 +403,7 @@ img { max-width: 100%; }
 .track {
   display: flex;
   will-change: transform;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform var(--dur-slow) var(--ease-entrance);
 }
 .slide { flex: 0 0 100%; min-width: 0; }
 
@@ -459,7 +459,7 @@ img { max-width: 100%; }
   border-radius: 10px;
   opacity: 0;
   transform: scale(0.98);
-  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+  transition: opacity var(--dur) var(--ease) 0.05s, transform var(--dur) var(--ease) 0.05s;
 }
 .slide.is-active .showcase-media .media-main { opacity: 1; transform: scale(1); }
 
@@ -492,10 +492,11 @@ img { max-width: 100%; }
 }
 
 /* Slide content eases in when it becomes active */
-.slide .showcase-body > * { opacity: 0; transform: translateY(10px); transition: opacity 0.45s ease, transform 0.45s ease; }
+.slide .showcase-body > * { opacity: 0; transform: translateY(10px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
 .slide.is-active .showcase-body > * { opacity: 1; transform: none; }
-.slide.is-active .showcase-body > *:nth-child(1) { transition-delay: 0.10s; }
-.slide.is-active .showcase-body > *:nth-child(2) { transition-delay: 0.17s; }
+.slide.is-active .showcase-body > *:nth-child(1) { transition-delay: 0.05s; }
+.slide.is-active .showcase-body > *:nth-child(2) { transition-delay: 0.1s; }
+.slide.is-active .showcase-body > *:nth-child(3) { transition-delay: 0.15s; }
 
 .dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: var(--space-md); }
 .dot {
@@ -595,17 +596,63 @@ img { max-width: 100%; }
 .btn-contact:hover { text-decoration: none; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); }
 
 /* ============================= Motion ============================= */
-/* Scroll reveal */
-.reveal { opacity: 0; transform: translateY(18px); }
+/* Scroll reveal — short travel, quick settle. */
+.reveal { opacity: 0; transform: translateY(var(--reveal-shift)); }
 .reveal.revealed {
   opacity: 1;
   transform: none;
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity var(--dur-slow) var(--ease-entrance), transform var(--dur-slow) var(--ease-entrance);
+}
+
+/* Children stagger in behind their section, ~50ms apart. The delay is set from
+   JS as --i so any number of children works without hardcoded nth-child rules. */
+.stagger > * {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.revealed .stagger > * {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur) var(--ease-entrance) calc(var(--i, 0) * 50ms),
+    transform var(--dur) var(--ease-entrance) calc(var(--i, 0) * 50ms);
 }
 
 /* Subtle lift on interactive cards */
-.card { transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease; }
-.card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--brand) 35%, var(--border)); }
+.card { transition: box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+.card:hover { transform: translateY(var(--lift)); border-color: color-mix(in srgb, var(--brand) 35%, var(--border)); }
+
+/* Reading-progress bar: how far through the story you are. */
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--ajrak-blue) 0%, var(--ajrak-crimson) 100%);
+  z-index: 60;
+  will-change: transform;
+}
+
+/* Scroll-spy: the nav marks where you are in the narrative. */
+.nav-links a {
+  position: relative;
+  transition: color var(--dur-fast) var(--ease);
+}
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 1.5px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform var(--dur) var(--ease);
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.is-current { color: var(--brand); font-weight: 600; }
+.nav-links a.is-current::after { transform: scaleX(1); }
 
 .btn-primary:active, .btn-outline:active { transform: scale(0.97); }
 
@@ -624,6 +671,10 @@ a:focus-visible, button:focus-visible {
   }
   .reveal { opacity: 1; transform: none; }
   .slide .showcase-body > *, .showcase-media .media-main { opacity: 1; transform: none; }
+  /* Never let the stagger leave content invisible when motion is suppressed. */
+  .stagger > *, .revealed .stagger > * { opacity: 1; transform: none; }
+  .progress-bar { display: none; }
+  .pulse { animation: none; }
 }
 
 /* ============================= Responsive ============================= */
