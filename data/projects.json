@@ -82,6 +82,37 @@
     ]
   },
   {
+    "title": "Thermal Soil Moisture with TOTRAM — Layyah District, Pakistan",
+    "description": "A Landsat 8/9 thermal-optical trapezoid (TOTRAM) soil moisture retrieval over Layyah District, built across 302 scenes (2019–2024) — and a negative result. The thermal trapezoid recovers no rainfall signal here under any of five ways of fitting it, while the optical retrieval (OPTRAM) reaches r = +0.86 on the same district, same bare-soil definition and same reference. Published as an evaluation rather than a product, because the maps look entirely convincing and only the validation says otherwise.",
+    "highlights": [
+      "Five trapezoid specifications tested rather than one — per-scene, gated, pooled, per-month, per-month gated — giving r = −0.012, −0.031, −0.415, −0.033, −0.110 against antecedent rainfall",
+      "Isolated where the signal is lost: raw bare-soil LST correlates at +0.414, but that is the seasonal cycle; deseasonalised it is +0.026, and NDVI over the same scenes and rainfall series responds at +0.453 as a positive control",
+      "Quantified a structural flaw of thermal trapezoids: the hot-edge intercept drifts 67.7 K across scenes while the trapezoid is only 6.1 K deep, an 11:1 drift-to-signal ratio",
+      "Only 198 of 302 scenes contain both a bare and a vegetated population, so per-scene fitting is under-constrained while pooling is invalid — the method is caught between two failure modes",
+      "Study area chosen by measuring the terrain confound within scenes: Swat and Chagai fail at measured lapse rates of −5.1 and −9.6 K/km, which pooled analysis hides entirely"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/pakistan-landsat-totram",
+    "liveUrl": "",
+    "image": "assets/img/projects/layyah-totram.jpg",
+    "gallery": [
+      { "src": "assets/img/projects/layyah-totram.jpg", "caption": "TOTRAM before and after, 2022 — legible, plausible, and not measuring soil moisture" },
+      { "src": "assets/img/projects/layyah-totram-lstsignal.jpg", "caption": "Where the signal is lost: deseasonalised LST carries none, while NDVI (control) responds" },
+      { "src": "assets/img/projects/layyah-totram-specs.jpg", "caption": "Five trapezoid specifications against the OPTRAM benchmark" },
+      { "src": "assets/img/projects/layyah-totram-drift.jpg", "caption": "The thermal trapezoid drifts 67.7 K across scenes but is only 6.1 K deep" },
+      { "src": "assets/img/projects/layyah-totram-vs-optram.jpg", "caption": "Thermal vs optical retrieval, 73 matched dates: uncorrelated" },
+      { "src": "assets/img/projects/layyah-totram-districts.jpg", "caption": "Study-area screening: terrain confound measured within scenes" }
+    ],
+    "tags": [
+      "Landsat 8/9",
+      "TOTRAM",
+      "Land Surface Temperature",
+      "Soil Moisture",
+      "Google Earth Engine",
+      "Validation",
+      "Python"
+    ]
+  },
+  {
     "title": "Drought Monitoring with SPI — Tharparkar District, Pakistan",
     "description": "Standardized Precipitation Index over Pakistan's recurrent-famine district, built on 44 years of CHIRPS rainfall (1981–2024). SPI fits a gamma distribution, which has zero density at zero — but 53.7% of pixel-months in Tharparkar have exactly zero rainfall. The study quantifies what that breaks, and where the index should refuse to answer at all.",
     "highlights": [
