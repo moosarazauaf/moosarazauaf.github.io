@@ -95,7 +95,7 @@
     "liveUrl": "",
     "image": "assets/img/projects/layyah-totram.jpg",
     "gallery": [
-      { "src": "assets/img/projects/layyah-totram.jpg", "caption": "TOTRAM before and after, 2022 — legible, plausible, and not measuring soil moisture" },
+      { "src": "assets/img/projects/layyah-totram.jpg", "caption": "TOTRAM before and after, 2022 — and it reads backwards: June wet, September dry, because W is normalised per month" },
       { "src": "assets/img/projects/layyah-totram-lstsignal.jpg", "caption": "Where the signal is lost: deseasonalised LST carries none, while NDVI (control) responds" },
       { "src": "assets/img/projects/layyah-totram-specs.jpg", "caption": "Five trapezoid specifications against the OPTRAM benchmark" },
       { "src": "assets/img/projects/layyah-totram-drift.jpg", "caption": "The thermal trapezoid drifts 67.7 K across scenes but is only 6.1 K deep" },
