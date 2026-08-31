@@ -73,12 +73,33 @@ img { max-width: 100%; }
 .theme-toggle:hover { background: var(--brand-pale); color: var(--brand); }
 
 /* ============================= Hero ============================= */
+/* A cropped QGIS export of the Layyah study area sits under the gradient at low
+   opacity, so the page reads as GIS/remote sensing before a word is read. It is
+   decoration: pointer-events off, and the card above it carries its own stacking
+   context so text contrast is unaffected. */
 .hero-band {
+  position: relative;
+  isolation: isolate;
   background: var(--hero-gradient);
-  padding: var(--space-lg) var(--space-md) var(--space-xl);
+  /* Generous side padding so the map reads as a frame around the card rather
+     than a sliver. The card stays opaque — blurring it behind glass destroys the
+     linework that carries the cartographic signal in the first place. */
+  padding: var(--space-lg) clamp(1rem, 4vw, 3rem) var(--space-xl);
 }
+.hero-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../img/map-texture.jpg") center / cover no-repeat;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-band > * { position: relative; z-index: 1; }
 .hero-card {
-  max-width: var(--max-width);
+  /* Narrower than the content container below, so the map frames it. */
+  max-width: 960px;
   margin: 0 auto;
   background: var(--surface);
   border-radius: var(--radius-lg);

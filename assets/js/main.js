@@ -300,13 +300,14 @@ function renderProjects(projects) {
 
   el("projects").innerHTML = `
     <div class="section-head">
-      ${heading("code", "Projects")}
+      ${heading("code", "Research Projects")}
       <div class="carousel-nav">
         <button class="cbtn" type="button" data-dir="-1" aria-label="Previous project">${ICONS.chevronLeft}</button>
         <span class="counter"><span id="c-now">1</span> / ${projects.length}</span>
         <button class="cbtn" type="button" data-dir="1" aria-label="Next project">${ICONS.chevronRight}</button>
       </div>
     </div>
+    <p class="section-lede">${projects.length} open, end-to-end Earth observation studies over Pakistan. Every one ships its code, data and stated limits.</p>
     <div class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
       <div class="track">${slides}</div>
     </div>
