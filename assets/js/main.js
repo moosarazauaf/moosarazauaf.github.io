@@ -603,7 +603,7 @@ async function init() {
   } catch (err) {
     console.error(err);
     document.querySelector("main").innerHTML =
-      '<p style="padding:3rem;text-align:center;color:#a5243a">Could not load site content. Check the browser console for details.</p>';
+      '<p style="padding:3rem;text-align:center;color:#8a7420">Could not load site content. Check the browser console for details.</p>';
   }
 }
 

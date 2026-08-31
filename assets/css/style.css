@@ -19,6 +19,23 @@ a:hover { text-decoration: underline; }
 ul { padding-left: 1.15rem; }
 img { max-width: 100%; }
 
+/* Page-wide cartographic wash. Fixed, so the map holds still while the content
+   scrolls over it and the whole page sits on one continuous sheet rather than a
+   repeating tile. Every card is opaque, so this only shows in the gutters and
+   the gaps between sections and never sits behind body text. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("../img/map-texture.jpg") center / cover no-repeat;
+  opacity: var(--page-map-opacity);
+  mix-blend-mode: var(--page-map-blend);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Content sits above the wash. */
+.site-header, main, .site-footer { position: relative; z-index: 1; }
+
 .container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-md); }
 
 /* ============================= Header / nav ============================= */
@@ -91,7 +108,10 @@ img { max-width: 100%; }
   position: absolute;
   inset: 0;
   background: url("../img/map-texture.jpg") center / cover no-repeat;
-  opacity: 0.5;
+  /* Overlay lightens the dark gradient, so this is deliberately lower than it
+     looks like it should be: past ~0.4 the green washes out to a pale haze and
+     the white card stops separating from it. */
+  opacity: 0.32;
   mix-blend-mode: overlay;
   pointer-events: none;
   z-index: 0;
@@ -165,13 +185,13 @@ img { max-width: 100%; }
   width: 8px; height: 8px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #1f9d55;
-  box-shadow: 0 0 0 0 rgba(31, 157, 85, 0.55);
+  background: var(--live);
+  box-shadow: 0 0 0 0 var(--live-glow);
   animation: pulse 2.2s infinite;
 }
 @keyframes pulse {
-  70% { box-shadow: 0 0 0 8px rgba(31, 157, 85, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(31, 157, 85, 0); }
+  70% { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
 }
 
 .hero-cta { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: var(--space-sm); }
@@ -596,7 +616,7 @@ img { max-width: 100%; }
   border-color: rgba(255, 255, 255, 0.3);
   color: var(--white);
 }
-.site-footer .social-btn:hover { background: var(--white); color: var(--ajrak-blue-dark); }
+.site-footer .social-btn:hover { background: var(--white); color: var(--forest); }
 .site-footer .copyright { font-size: 0.82rem; color: rgba(255, 255, 255, 0.65); margin-top: var(--space-sm); }
 .footer-lede {
   max-width: 620px;
@@ -608,7 +628,7 @@ img { max-width: 100%; }
   align-items: center;
   gap: 0.5rem;
   background: var(--white);
-  color: var(--ajrak-blue-dark) !important;
+  color: var(--forest) !important;
   font-weight: 700;
   padding: 0.7rem 1.5rem;
   border-radius: 10px;
@@ -651,7 +671,7 @@ img { max-width: 100%; }
   width: 100%;
   transform: scaleX(0);
   transform-origin: 0 50%;
-  background: linear-gradient(90deg, var(--ajrak-blue) 0%, var(--ajrak-crimson) 100%);
+  background: linear-gradient(90deg, var(--forest) 0%, var(--sage) 55%, var(--gold) 100%);
   z-index: 60;
   will-change: transform;
 }
