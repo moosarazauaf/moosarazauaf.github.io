@@ -1,73 +1,133 @@
 # moosarazauaf.github.io
 
-Personal portfolio site for **Muhammad Moosa Raza** — geospatial environmental
-research (remote sensing, carbon dynamics, Earth observation modelling).
+Personal research site for **Muhammad Moosa Raza** — Earth observation: floods,
+drought, land-system change, and the reliability of the methods behind them.
 
-Live at: **https://moosarazauaf.github.io** (once published — see [Deployment](#deployment)).
+Live at **https://moosarazauaf.github.io**
 
-## Why plain HTML/CSS/JS, not Python
+## Why plain HTML/CSS/JS
 
-GitHub Pages (the free hosting used here) only serves **static files** — it can't run a
-Python/Flask/Django server. A framework or build step would add dependencies for no
-real benefit on a content-driven personal site, so this repo is plain HTML, CSS and
-vanilla JS: zero build step, nothing to install, edit and push.
+GitHub Pages serves **static files only** — it cannot run Python, Flask or Django.
+A framework or build step would add dependencies for no real benefit on a
+content-driven personal site, so this is plain HTML, CSS and vanilla JS: nothing to
+install, no build, edit and push.
 
 ## Structure
 
 ```
-index.html                 Page shell — header/nav + empty <section> containers
+index.html                  Page shell: nav + empty <section> containers, in page order
 assets/
   css/
-    variables.css           Ajrak blue/white theme tokens (colors, spacing, fonts)
-    style.css                All layout & component styles
+    variables.css           Design tokens: brand palette, golden-ratio type & spacing,
+                            motion, and the light/dark theme maps
+    style.css               All layout and component styles
   js/
-    main.js                  Fetches data/*.json and renders every section into index.html
+    main.js                 Reads data/*.json and renders every section. Also runs the
+                            carousel, scroll-spy, progress bar, parallax and reveals
   img/
-    profile-placeholder.svg  Placeholder headshot — swap for a real photo
-    projects/                Placeholder project images
-    README.md                Exact steps to swap in real images
+    profile.jpg             Headshot
+    map-texture.jpg         Cropped QGIS export used as the hero plate and page wash
+    projects/               Project card images
+    README.md               Which image goes where, and how to swap one
 data/
-  profile.json              Bio, education, experience, skills, talks, certifications, social links
-  projects.json              Project cards (title, description, GitHub link, image, tags)
-  publications.json          Publications list (title, journal, status)
+  profile.json              Everything about you (see fields below)
+  projects.json             The project carousel
+  publications.json         Publications list
+.github/workflows/pages.yml Deploy workflow
 ```
 
-**All content lives in `data/*.json`.** `main.js` is the only file that reads it and
-builds the page — you never need to touch HTML or CSS to update text.
+**All content lives in `data/*.json`.** `main.js` is the only file that reads it, so
+updating text never means touching HTML or CSS.
 
 ## How to update content
 
-| I want to... | Edit this file |
+| I want to… | Edit |
 |---|---|
-| Change my bio, education, experience, skills, talks, certifications, or social links | `data/profile.json` |
-| Add/edit/remove a project card | `data/projects.json` |
-| Add/edit a publication | `data/publications.json` |
-| Swap my photo or a project image | see `assets/img/README.md` |
-| Change the color theme | `assets/css/variables.css` |
+| Bio, availability, research interests, education, experience, skills, talks, certifications, social links | `data/profile.json` |
+| Add / edit / remove a project | `data/projects.json` |
+| Add / edit a publication | `data/publications.json` |
+| Swap the headshot or a project image | see `assets/img/README.md` |
+| Colours, type scale, spacing, motion | `assets/css/variables.css` |
 
-**Adding a new project** — append an object to `data/projects.json`:
+### `data/profile.json` fields
+
+Beyond the obvious ones:
+
+| Field | Drives |
+|---|---|
+| `availability` | The "Seeking a PhD position" notice in the hero and the footer |
+| `about` | The Research Statement |
+| `methodsAudit` | The "When the Standard Method Was Wrong" figure — four before/after pairs |
+| `researchInterests` | The Research Interests cards (`icon` picks a built-in SVG) |
+| `approach` | The "How I Work" cards |
+| `role`, `tagline` | The hero display text |
+
+### Adding a project
+
+Append to `data/projects.json`. Only `title`, `description`, `repoUrl` and `image`
+are required:
+
 ```json
 {
-  "title": "New Project Name",
+  "title": "New Study — District, Pakistan",
   "description": "One or two sentences.",
-  "highlights": ["Key result 1", "Key result 2"],
+  "metrics": [
+    { "value": "0.94", "label": "F1 score" },
+    { "value": "120 km²", "label": "area mapped" }
+  ],
+  "highlights": ["Longer method notes, collapsed behind a disclosure"],
   "repoUrl": "https://github.com/moosarazauaf/new-repo",
   "liveUrl": "",
-  "image": "assets/img/projects/new-project.svg",
-  "tags": ["Python", "GEE"]
+  "image": "assets/img/projects/new-project.jpg",
+  "gallery": [
+    { "src": "assets/img/projects/new-project.jpg", "caption": "Main figure" },
+    { "src": "assets/img/projects/new-fig2.jpg", "caption": "Second figure" }
+  ],
+  "tags": ["Sentinel-1 SAR", "Python"]
 }
 ```
-Commit and push — no other changes needed.
+
+- `metrics` become the stat tiles at the top of the card. Two or three works best.
+- `highlights` collapse into a closed "Method notes" disclosure, so length is cheap.
+- `gallery` is optional. With more than one entry the card grows a thumbnail strip;
+  without it the card just shows `image`.
+
+## Two things that will bite you
+
+**1. Bump `?v=` when you edit CSS or JS.**
+`index.html` loads them as `style.css?v=16`, `main.js?v=16`. Browsers cache these
+aggressively, so if you change a stylesheet without bumping the number, returning
+visitors keep the old one. Increment all three references together. The JSON files
+are fetched with `cache: "no-cache"` and need no such step, which is why content
+edits appear immediately.
+
+**2. Two brand colours cannot be used for text.**
+Measured against the paper background, sage `#7CA982` is 2.45:1 and gold `#C2A83E`
+is 2.15:1 — both under the 3:1 minimum — and against each other they separate by
+only ΔE 11, below the 15 needed to tell apart with full colour vision. They are for
+fills, borders and decoration. Use `--gold-readable` (#8A7420, 4.57:1) or
+`--sage-bright` (#9DC4A3) when a colour has to be read. Every text pair currently in
+`variables.css` was checked to WCAG AA in both themes.
+
+## Design system
+
+- **Golden ratio.** `--phi: 1.618` drives spacing (`1/φ, 1, φ, φ², φ³`) and the type
+  scale. Display sizes climb by φ; text sizes use √φ (1.272), because a full φ step
+  between body and lead is too coarse to read as a scale. The hero rows and the
+  about split are both 1 : 1.618.
+  Note: `fr` cannot be multiplied inside `calc()`, so those grids use literal
+  `1.618fr` values — `calc(1fr * var(--phi))` parses as invalid and is dropped.
+- **Motion.** Short and small by default (`--dur` 0.25s, 2px hovers), with a longer
+  `--dur-cine` reserved for the hero entrance and section reveals. Everything is
+  disabled under `prefers-reduced-motion`, and any effect that starts an element at
+  `opacity: 0` has a fallback that turns it on regardless.
 
 ## Local preview
 
-Because `main.js` fetches the JSON files, opening `index.html` directly from disk
-(`file://`) will fail in most browsers (CORS blocks local `fetch`). Serve it over HTTP
-instead, from this folder, e.g.:
+`main.js` fetches the JSON, so opening `index.html` from disk (`file://`) fails on
+CORS. Serve over HTTP from this folder:
 
 ```bash
-npx serve .
-# or
 py -m http.server 8080
 ```
 
@@ -75,11 +135,15 @@ Then open the printed `localhost` URL.
 
 ## Deployment
 
-This repo uses GitHub's special **user site** name (`moosarazauaf.github.io`), so once
-it's public, GitHub Pages automatically serves `index.html` from the `main` branch at
-`https://moosarazauaf.github.io` — no extra workflow or config needed.
+Pushing to **`master`** triggers `.github/workflows/pages.yml`, which builds and
+deploys to GitHub Pages. Takes about a minute.
+
+(The legacy Jekyll-style Pages build never ran on this repo — it accepted the config
+and silently produced no builds — which is why deployment goes through an explicit
+Actions workflow.)
 
 ## Tech
 
-Plain HTML5, CSS3 (custom properties, CSS Grid/Flexbox), vanilla JavaScript (ES2017+,
-`fetch`/`async`). No frameworks, no build tools, no dependencies.
+HTML5, CSS3 (custom properties, Grid, Flexbox, `color-mix`), vanilla JavaScript
+(ES2017+, `fetch`, `IntersectionObserver`). No frameworks, no build tools, no
+dependencies.
