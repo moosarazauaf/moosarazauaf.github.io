@@ -21,6 +21,9 @@
   --forest: #243e36;
   --forest-deep: #16261f;
   --sage: #7ca982;
+  /* Sage is only 3.53:1 over the hero scrim — fine as large text, short of AA
+     for normal text. This lighter step reaches 4.88:1 and is used on imagery. */
+  --sage-bright: #9dc4a3;
   --meadow: #e0eec6;
   --gold: #c2a83e;
   --gold-readable: #8a7420;
@@ -63,12 +66,31 @@
   --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-heading: Georgia, "Times New Roman", serif;
 
-  /* --- Spacing --- */
-  --space-xs: 0.5rem;
+  /* --- Golden ratio ---
+     One constant drives the type scale, the spacing rhythm and the major layout
+     splits, so proportions repeat at every zoom level instead of being picked
+     per component. */
+  --phi: 1.618;
+
+  /* Type scale: successive powers of phi for display sizes, and its square root
+     (1.272) between the text sizes, since a full phi step between body and lead
+     is too coarse to read as a scale. */
+  --text-xs: 0.786rem;    /* 1/√φ  */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.272rem;    /* √φ    */
+  --text-xl: 1.618rem;    /* φ     */
+  --text-2xl: 2.058rem;   /* φ·√φ  */
+  --text-3xl: 2.618rem;   /* φ²    */
+  --text-display: clamp(2.618rem, 6vw, 4.236rem); /* φ² → φ³ */
+
+  /* --- Spacing: the same phi progression --- */
+  --space-xs: 0.618rem;   /* 1/φ   */
   --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 3rem;
-  --space-xl: 5rem;
+  --space-md: 1.618rem;   /* φ     */
+  --space-lg: 2.618rem;   /* φ²    */
+  --space-xl: 4.236rem;   /* φ³    */
+  --space-2xl: 6.854rem;  /* φ⁴    */
 
   /* --- Motion ---
      Tuned against how restrained professional personal sites actually move:
@@ -79,6 +101,10 @@
   --dur-fast: 0.15s;
   --dur: 0.25s;
   --dur-slow: 0.4s;
+  /* Cinematic entrances run longer than UI feedback — deliberate, not sluggish,
+     and reserved for first-paint and section reveals. */
+  --dur-cine: 0.9s;
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
   --reveal-shift: 10px;
   --lift: -2px;
 

@@ -10,9 +10,9 @@ body {
   transition: background 0.25s ease, color 0.25s ease;
 }
 h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--ink); margin: 0 0 var(--space-sm); line-height: 1.25; }
-h1 { font-size: clamp(2rem, 4vw, 2.9rem); }
-h2 { font-size: 1.6rem; }
-h3 { font-size: 1.12rem; }
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-2xl); letter-spacing: -0.01em; }
+h3 { font-size: var(--text-lg); }
 p { margin: 0 0 var(--space-sm); color: var(--ink-soft); }
 a { color: var(--brand); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -89,61 +89,173 @@ body::before {
 }
 .theme-toggle:hover { background: var(--brand-pale); color: var(--brand); }
 
-/* ============================= Hero ============================= */
-/* A cropped QGIS export of the Layyah study area sits under the gradient at low
-   opacity, so the page reads as GIS/remote sensing before a word is read. It is
-   decoration: pointer-events off, and the card above it carries its own stacking
-   context so text contrast is unaffected. */
-.hero-band {
+/* ============================= Cinematic hero =============================
+   Full-viewport establishing shot: the Layyah study-area map as the plate, a
+   scrim for legibility, and the title set over it. The scrim is what makes this
+   safe — text sits on a controlled dark wash, never directly on the imagery. */
+.hero {
   position: relative;
   isolation: isolate;
-  background: var(--hero-gradient);
-  /* Generous side padding so the map reads as a frame around the card rather
-     than a sliver. The card stays opaque — blurring it behind glass destroys the
-     linework that carries the cartographic signal in the first place. */
-  padding: var(--space-lg) clamp(1rem, 4vw, 3rem) var(--space-xl);
+  min-height: 100svh;
+  display: grid;
+  /* Golden section: the title block sits on the lower boundary of the φ split
+     rather than dead centre, which is the classic cinematic framing.
+     Written as literal fr values because `fr` cannot be multiplied inside
+     calc() — calc(1fr * var(--phi)) parses as invalid and the whole
+     declaration is dropped. 1 : 1.618 is the same ratio, and it works. */
+  grid-template-rows: 1fr 1.618fr;
+  align-content: end;
+  padding: var(--space-xl) clamp(1.25rem, 6vw, 5rem) var(--space-2xl);
+  overflow: hidden;
 }
-.hero-band::before {
-  content: "";
+.hero-bg {
   position: absolute;
-  inset: 0;
+  inset: -8% 0 0;              /* headroom so the parallax never exposes an edge */
   background: url("../img/map-texture.jpg") center / cover no-repeat;
-  /* Overlay lightens the dark gradient, so this is deliberately lower than it
-     looks like it should be: past ~0.4 the green washes out to a pale haze and
-     the white card stops separating from it. */
-  opacity: 0.32;
-  mix-blend-mode: overlay;
-  pointer-events: none;
+  will-change: transform;
   z-index: 0;
 }
-.hero-band > * { position: relative; z-index: 1; }
-.hero-card {
-  /* Narrower than the content container below, so the map frames it. */
-  max-width: 960px;
-  margin: 0 auto;
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  padding: clamp(1.5rem, 4vw, 3rem);
-  display: grid;
-  grid-template-columns: minmax(220px, 300px) 1fr;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
-  align-items: start;
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Two layers: a colour bed that keeps the brand green, and a vertical ramp
+     that deepens toward the type. */
+  /* Ramped, not flat: light at the top so the map reads, deepening toward the
+     lower third where the type sits. A uniform scrim heavy enough to protect
+     the text would erase the map entirely.
+     Every layer here must carry alpha — an opaque gradient in this stack hides
+     the plate underneath no matter what blend mode is set. */
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--forest-deep) 22%, transparent) 0%,
+      color-mix(in srgb, var(--forest-deep) 42%, transparent) 40%,
+      color-mix(in srgb, var(--forest-deep) 84%, transparent) 72%,
+      color-mix(in srgb, var(--forest-deep) 94%, transparent) 100%),
+    linear-gradient(120deg,
+      color-mix(in srgb, var(--forest) 55%, transparent) 0%,
+      color-mix(in srgb, var(--forest-deep) 35%, transparent) 60%,
+      color-mix(in srgb, var(--sage) 22%, transparent) 100%);
+}
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  grid-row: 2;
+  max-width: 62ch;
 }
 
-.hero-identity { text-align: center; }
 .hero-photo {
-  width: 168px; height: 168px;
+  width: 88px; height: 88px;
   border-radius: 50%;
   object-fit: cover;
-  border: 5px solid var(--surface);
-  box-shadow: 0 0 0 3px var(--brand), var(--shadow);
-  margin-bottom: var(--space-sm);
+  border: 2px solid color-mix(in srgb, var(--meadow) 55%, transparent);
+  margin-bottom: var(--space-md);
+  display: block;
 }
-.hero-identity h1 { margin-bottom: 0.25rem; }
-.hero-role { color: var(--brand); font-weight: 700; margin-bottom: 0.15rem; }
-.hero-affil { color: var(--ink-faint); font-size: 0.88rem; margin-bottom: 0.15rem; }
-.hero-location { color: var(--ink-faint); font-size: 0.88rem; margin-bottom: var(--space-sm); }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 0 var(--space-sm);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--meadow);
+}
+.hero-name {
+  font-size: var(--text-display);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin: 0 0 var(--space-xs);
+}
+.hero-role {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--sage-bright);
+  margin: 0 0 var(--space-sm);
+}
+.hero-tagline {
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: color-mix(in srgb, #fff 82%, transparent);
+  margin: 0 0 var(--space-lg);
+  max-width: 52ch;
+}
+.hero .social-row { justify-content: flex-start; margin-top: var(--space-md); }
+.hero .social-btn {
+  background: color-mix(in srgb, #fff 10%, transparent);
+  border-color: color-mix(in srgb, #fff 24%, transparent);
+  color: #fff;
+}
+.hero .social-btn:hover { background: #fff; color: var(--forest); }
+
+/* Ghost button reads on imagery without a filled block */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.4rem;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, #fff 52%, transparent);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.btn-ghost:hover { background: color-mix(in srgb, #fff 14%, transparent); text-decoration: none; }
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-lg);
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 24px; height: 42px;
+  display: grid;
+  place-items: start center;
+  padding-top: 8px;
+  border: 1px solid color-mix(in srgb, #fff 34%, transparent);
+  border-radius: 12px;
+}
+.scroll-line {
+  width: 2px; height: 8px;
+  border-radius: 2px;
+  background: color-mix(in srgb, #fff 75%, transparent);
+  animation: cue 1.9s var(--ease) infinite;
+}
+@keyframes cue {
+  0%   { transform: translateY(0);    opacity: 0; }
+  30%  { opacity: 1; }
+  100% { transform: translateY(16px); opacity: 0; }
+}
+
+/* Hero entrance: each element rises as the shot settles. */
+.hero .cine {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.hero.is-ready .cine {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-cine) var(--ease-cine) calc(120ms + var(--i, 0) * 90ms),
+    transform var(--dur-cine) var(--ease-cine) calc(120ms + var(--i, 0) * 90ms);
+}
+
+/* Split layout on the golden section */
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+@media (min-width: 900px) {
+  /* φ : 1 — literal fr values, for the same calc() reason as the hero rows. */
+  .split { grid-template-columns: 1.618fr 1fr; gap: var(--space-xl); }
+}
+.lede { font-size: var(--text-lg); line-height: 1.62; color: var(--ink-soft); }
+.meta-line { font-size: var(--text-sm); color: var(--ink-faint); margin-top: var(--space-md); }
 
 .social-row { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
 .social-btn {
@@ -716,6 +828,10 @@ a:focus-visible, button:focus-visible {
   .stagger > *, .revealed .stagger > * { opacity: 1; transform: none; }
   .progress-bar { display: none; }
   .pulse { animation: none; }
+  /* The hero must never depend on its entrance to become visible. */
+  .hero .cine, .hero.is-ready .cine { opacity: 1; transform: none; }
+  .hero-bg { transform: none !important; }
+  .scroll-line { animation: none; }
 }
 
 /* ============================= Responsive ============================= */
@@ -725,12 +841,18 @@ a:focus-visible, button:focus-visible {
   .showcase-media .media-main { max-height: 240px; }
   .showcase-scroll { max-height: none; overflow: visible; }
 }
-@media (max-width: 860px) {
-  .hero-card { grid-template-columns: 1fr; }
-  .hero-identity { text-align: center; }
-}
 @media (max-width: 640px) {
-  .hero-band { padding: var(--space-md) var(--space-sm) var(--space-lg); }
+  /* The φ row split leaves too little headroom on a phone; let the hero size to
+     its content instead of forcing the golden section. */
+  .hero {
+    grid-template-rows: auto;
+    min-height: 92svh;
+    padding-bottom: var(--space-xl);
+  }
+  .hero-inner { grid-row: auto; }
+  .hero-photo { width: 72px; height: 72px; }
+  .hero-cta { width: 100%; }
+  .hero-cta > a { flex: 1 1 auto; justify-content: center; }
   .nav { gap: var(--space-sm); }
   .nav-brand { margin-right: 0; }
   .nav-links { order: 3; width: 100%; justify-content: center; gap: 1rem; }

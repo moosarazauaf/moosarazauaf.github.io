@@ -78,32 +78,59 @@ function renderHero(profile) {
     .join("");
 
   el("hero").innerHTML = `
-    <div class="hero-identity">
-      <img class="hero-photo" src="${profile.photo}" alt="Photo of ${profile.name}" />
-      <h1>${profile.name}</h1>
-      ${profile.role ? `<div class="hero-role">${profile.role}</div>` : ""}
-      ${profile.affiliation ? `<div class="hero-affil">${profile.affiliation}</div>` : ""}
-      <div class="hero-location">${profile.location}</div>
-      ${socialRow(profile)}
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <img class="hero-photo cine" src="${profile.photo}" alt="Photo of ${profile.name}" />
       ${
         profile.availability
-          ? `<div class="availability">
-               <span class="availability-status"><span class="pulse"></span>${profile.availability.status}</span>
-               <p>${profile.availability.detail}</p>
-             </div>`
+          ? `<p class="hero-eyebrow cine"><span class="pulse"></span>${profile.availability.status}</p>`
           : ""
       }
-    </div>
-
-    <div class="hero-main">
-      ${heading("user", "Research Statement")}
-      ${profile.about.map((p) => `<p>${p}</p>`).join("")}
-      <div class="hero-cta">
-        <a class="btn-primary" href="mailto:${profile.email}">${ICONS.mail} Get in touch</a>
-        <a class="btn-outline" href="${profile.social.github}" target="_blank" rel="noopener">${ICONS.github} See the code</a>
+      <h1 class="hero-name cine">${profile.name}</h1>
+      <p class="hero-role cine">${profile.role || ""}</p>
+      <p class="hero-tagline cine">${profile.tagline || ""}</p>
+      <div class="hero-cta cine">
+        <a class="btn-primary" href="#projects">${ICONS.code} View the research</a>
+        <a class="btn-ghost" href="mailto:${profile.email}">${ICONS.mail} Get in touch</a>
       </div>
+      <div class="cine">${socialRow(profile)}</div>
+    </div>
+    <a class="scroll-cue" href="#about" aria-label="Scroll to content">
+      <span class="scroll-line" aria-hidden="true"></span>
+    </a>`;
 
-      <div style="margin-top: var(--space-lg)">
+  // Stagger the hero entrance on first paint.
+  [...document.querySelectorAll("#hero .cine")].forEach((n, i) =>
+    n.style.setProperty("--i", i)
+  );
+  // The entrance starts the hero at opacity 0, so guarantee it turns on: rAF for
+  // the normal case, and a timer in case that frame never lands.
+  requestAnimationFrame(() => el("hero").classList.add("is-ready"));
+  setTimeout(() => el("hero")?.classList.add("is-ready"), 1200);
+}
+
+function renderAbout(profile) {
+  const eduCards = (profile.education || [])
+    .map(
+      (e) => `
+      <div class="card edu-card">
+        <div class="edu-degree">${e.degree}</div>
+        <div class="edu-org">${e.institution}</div>
+        ${e.period ? `<div class="edu-period">${e.period}</div>` : ""}
+        ${(e.details || []).length ? `<ul>${e.details.map((d) => `<li>${d}</li>`).join("")}</ul>` : ""}
+      </div>`
+    )
+    .join("");
+
+  el("about").innerHTML = `
+    <div class="split">
+      <div>
+        ${heading("user", "Research Statement")}
+        ${profile.about.map((p) => `<p class="lede">${p}</p>`).join("")}
+        <p class="meta-line">${profile.affiliation} · ${profile.location}</p>
+      </div>
+      <div>
         ${heading("cap", "Education")}
         <div class="card-grid">${eduCards}</div>
       </div>
@@ -387,6 +414,36 @@ function initCarousel(count) {
   go(0);
 }
 
+/* Hero parallax: the map plate drifts slower than the page, which reads as
+   depth. Transform only, rAF-throttled, and skipped entirely under reduced
+   motion — the hero is still fully legible without it. */
+function initParallax() {
+  const bg = document.querySelector(".hero-bg");
+  if (!bg || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const hero = document.getElementById("hero");
+  let ticking = false;
+  const update = () => {
+    const y = window.scrollY;
+    // Stop computing once the hero has left the viewport.
+    if (y < hero.offsetHeight) {
+      bg.style.transform = `translate3d(0, ${y * 0.28}px, 0) scale(1.06)`;
+    }
+    ticking = false;
+  };
+  addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
+  update();
+}
+
 /* Reading-progress bar. Purely decorative, so it degrades to nothing. */
 function initProgressBar() {
   const bar = document.createElement("div");
@@ -454,7 +511,8 @@ function initScrollSpy() {
    Deliberately fail-safe: this is decoration, so every path that could leave a
    section stuck at opacity 0 falls back to simply showing it. */
 function initReveal() {
-  const targets = [...document.querySelectorAll(".section, .hero-card")];
+  // The hero runs its own entrance, so it is not a reveal target.
+  const targets = [...document.querySelectorAll(".section")];
   const showAll = () => targets.forEach((t) => t.classList.add("revealed"));
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -585,6 +643,7 @@ async function init() {
     ]);
 
     renderHero(profile);
+    renderAbout(profile);
     renderMethodsAudit(profile);
     renderResearch(profile);
     renderApproach(profile);
@@ -598,6 +657,7 @@ async function init() {
     renderFooter(profile);
 
     initReveal();
+    initParallax();
     initProgressBar();
     initScrollSpy();
   } catch (err) {
