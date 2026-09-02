@@ -82,6 +82,37 @@
     ]
   },
   {
+    "title": "Urban Flood Analysis — Islamabad & Rawalpindi, 2026",
+    "description": "Sentinel-1 SAR, GPM precipitation and terrain analysis for the twin cities, prompted by the 1 September 2026 flooding that raised Leh Nullah to 29 ft at Kattarian. The headline result is a sampling measurement rather than a flood map: Sentinel-1 structurally cannot observe flooding that drains in hours. Ends in a flood-proneness map that is published as explicitly unvalidated.",
+    "highlights": [
+      "0 of 86 heavy-rain half-hours in July–August 2026 were observable by Sentinel-1 — a 12-day revisit at a fixed 18:12 PKT overpass cannot catch flooding that lasts hours; the closest any pass came to heavy rain was 14.7 hours",
+      "The best available 'after' image (22 Aug, 13:12 UTC) precedes its own storm by four hours: the rain began ≈17:00 UTC and peaked at 23 mm/hr near 21:30 UTC",
+      "Backscatter rose almost everywhere (+1.07 dB open, +1.19 dB built-up) — the wet-soil dielectric response after 152 mm of antecedent rain, not standing water; 9 pixels in 4,008 were flagged as flooded",
+      "Urban double-bounce is stated as documented physics and explicitly not claimed as a finding: measured brightening is flat at 64–69% across every built-up class, where double-bounce would rise with density",
+      "Flood-proneness index over HAND, imperviousness, wetness index, slope and upstream area puts 137 km² of the 348 km² built-up area at high risk, concentrated along Leh Nullah where evacuations were ordered",
+      "Published as unvalidated: both available checks carry 9 and 11 positives, which is not bad luck but the direct consequence of the sampling result above"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/twin-cities-urban-flood",
+    "liveUrl": "",
+    "image": "assets/img/projects/twincities-flood-proneness.jpg",
+    "gallery": [
+      { "src": "assets/img/projects/twincities-flood-proneness.jpg", "caption": "Flood proneness across the twin cities, with the Leh Nullah drainage network" },
+      { "src": "assets/img/projects/twincities-flood-timing.jpg", "caption": "Every storm against every Sentinel-1 overpass: none coincide" },
+      { "src": "assets/img/projects/twincities-flood-rainfall.jpg", "caption": "July–August 2026 rainfall; the 1 September event post-dates all satellite products" },
+      { "src": "assets/img/projects/twincities-flood-sarlimits.jpg", "caption": "What the SAR pair can and cannot show" },
+      { "src": "assets/img/projects/twincities-flood-beforeafter.jpg", "caption": "Sentinel-1 VV before and after, ascending track 173" },
+      { "src": "assets/img/projects/twincities-flood-gauges.jpg", "caption": "PMD gauge totals for 1 September 2026, up to 201 mm in a morning" }
+    ],
+    "tags": [
+      "Sentinel-1 SAR",
+      "Urban Flooding",
+      "GPM IMERG",
+      "Google Earth Engine",
+      "Hydrology",
+      "Python"
+    ]
+  },
+  {
     "title": "Thermal Soil Moisture with TOTRAM — Layyah District, Pakistan",
     "description": "A Landsat 8/9 thermal-optical trapezoid (TOTRAM) soil moisture retrieval over Layyah District, built across 302 scenes (2019–2024) — and a negative result. The thermal trapezoid recovers no rainfall signal here under any of five ways of fitting it, while the optical retrieval (OPTRAM) reaches r = +0.86 on the same district, same bare-soil definition and same reference. Published as an evaluation rather than a product, because the maps look entirely convincing and only the validation says otherwise.",
     "highlights": [
