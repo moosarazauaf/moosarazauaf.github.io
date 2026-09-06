@@ -186,12 +186,36 @@ body::before {
   color: var(--sage-bright);
   margin: 0 0 var(--space-sm);
 }
+/* Cinematic subtitle: one wide tracked line under the title.
+   The line is 120 characters, so it only fits on one line above roughly 1030px
+   — below that it wraps, with the tracking eased off, because heavy letter
+   spacing across multiple lines hurts readability rather than helping it. */
 .hero-tagline {
   font-size: var(--text-base);
   line-height: 1.6;
+  letter-spacing: 0.04em;
   color: color-mix(in srgb, #fff 82%, transparent);
   margin: 0 auto var(--space-lg);
   max-width: 52ch;
+}
+@media (min-width: 1080px) {
+  /* The container has to widen too, or nowrap just spills out of a 62ch box
+     instead of laying the line out. The name keeps its own narrower measure so
+     it still breaks after "Muhammad" rather than running out to one long line. */
+  .hero-inner { max-width: min(1120px, 92vw); }
+  /* Forces the break after "Muhammad". Measured at the display size: the word
+     is 9ch and "Muhammad Moosa" is 14.2ch, so anything in between breaks in the
+     right place; 12ch sits in the middle of that window. ch is used rather than
+     px so the window scales with the clamped display size. */
+  .hero-name { max-width: 12ch; margin-inline: auto; }
+  .hero-tagline {
+    max-width: none;
+    white-space: nowrap;
+    /* Sized so the tracked line always clears the hero's side padding. */
+    font-size: clamp(0.82rem, 1.05vw, 0.95rem);
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+  }
 }
 .hero .social-row { justify-content: center; margin-top: var(--space-md); }
 .hero .social-btn {
