@@ -98,11 +98,6 @@ body::before {
   isolation: isolate;
   min-height: 100svh;
   display: grid;
-  /* Golden section: the title block sits on the lower boundary of the φ split
-     rather than dead centre, which is the classic cinematic framing.
-     Written as literal fr values because `fr` cannot be multiplied inside
-     calc() — calc(1fr * var(--phi)) parses as invalid and the whole
-     declaration is dropped. 1 : 1.618 is the same ratio, and it works. */
   /* Spacer absorbs leftover space only, so the hero fills exactly one screen
      and never more. Two fr tracks (1fr 1.618fr) split space derived from the
      content instead, which inflated the hero to ~1.6x its content height and
@@ -143,11 +138,15 @@ body::before {
       color-mix(in srgb, var(--forest-deep) 35%, transparent) 60%,
       color-mix(in srgb, var(--sage) 22%, transparent) 100%);
 }
+/* Centred: the title block sits on the vertical axis of the frame, which reads
+   as a title card rather than a caption in the corner. */
 .hero-inner {
   position: relative;
   z-index: 2;
   grid-row: 2;
   max-width: 62ch;
+  margin-inline: auto;
+  text-align: center;
 }
 
 .hero-photo {
@@ -160,7 +159,7 @@ body::before {
   object-fit: cover;
   border: 3px solid color-mix(in srgb, var(--meadow) 60%, transparent);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-  margin-bottom: var(--space-md);
+  margin: 0 auto var(--space-md);
   display: block;
 }
 .hero-eyebrow {
@@ -191,10 +190,10 @@ body::before {
   font-size: var(--text-base);
   line-height: 1.6;
   color: color-mix(in srgb, #fff 82%, transparent);
-  margin: 0 0 var(--space-lg);
+  margin: 0 auto var(--space-lg);
   max-width: 52ch;
 }
-.hero .social-row { justify-content: flex-start; margin-top: var(--space-md); }
+.hero .social-row { justify-content: center; margin-top: var(--space-md); }
 .hero .social-btn {
   background: color-mix(in srgb, #fff 10%, transparent);
   border-color: color-mix(in srgb, #fff 24%, transparent);
@@ -317,7 +316,7 @@ body::before {
   100% { box-shadow: 0 0 0 0 transparent; }
 }
 
-.hero-cta { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: var(--space-sm); }
+.hero-cta { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; margin-top: var(--space-sm); }
 .hero-cta .btn-outline { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.62rem 1.15rem; }
 
 .section-lede {
