@@ -447,6 +447,74 @@ body::before {
 .approach-card h3 { font-size: 1rem; margin-bottom: 0.3rem; }
 .approach-card p { margin: 0; font-size: 0.89rem; }
 
+/* ---- Section header, AstroWind pattern ----
+   Uppercase tagline, large centred heading, optional muted subtitle. Their
+   proportions: 16px/700 tagline at 0.4px tracking, 36px/700 heading on a tight
+   40px line, 16px subtitle. */
+.sec-head {
+  text-align: center;
+  max-width: 48rem;
+  margin: 0 auto var(--space-lg);
+}
+.sec-head.is-start { text-align: left; margin-left: 0; margin-right: 0; }
+.sec-tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 var(--space-xs);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+.sec-tagline svg { opacity: 0.85; }
+.sec-head h2 {
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  line-height: 1.14;
+  font-weight: 700;
+  margin: 0;
+}
+.sec-sub {
+  margin: var(--space-sm) 0 0;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--ink-faint);
+}
+.sec-head.is-start .sec-sub { margin-left: 0; }
+
+/* ---- Tinted full-bleed band ----
+   AstroWind alternates plain and tinted sections to separate them without
+   rules. Full-bleed, so it breaks out of the centred container. */
+.band-tint {
+  background: var(--surface-alt);
+  border-block: 1px solid var(--border);
+  padding: var(--space-lg) var(--space-md);
+  margin-block: var(--space-xl) 0;
+}
+.stat-band {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  text-align: center;
+}
+@media (min-width: 760px) {
+  .stat-band { grid-template-columns: repeat(4, 1fr); }
+}
+.stat-big { display: flex; flex-direction: column; gap: 0.25rem; }
+.stat-big-value {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3.4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--brand-strong);
+}
+.stat-big-label {
+  font-size: var(--text-sm);
+  color: var(--ink-faint);
+  line-height: 1.35;
+}
+
 /* Section heading with icon badge */
 .badge-heading {
   display: flex;
@@ -662,7 +730,16 @@ body::before {
 .slide.is-active .showcase-body > *:nth-child(2) { transition-delay: 0.1s; }
 .slide.is-active .showcase-body > *:nth-child(3) { transition-delay: 0.15s; }
 
-.dots { display: flex; justify-content: center; gap: 0.5rem; margin-top: var(--space-md); }
+/* Carousel controls sit under the track now that the header is centred. */
+.carousel-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-top: var(--space-md);
+}
+.dots { display: flex; justify-content: center; gap: 0.5rem; }
 .dot {
   width: 8px; height: 8px;
   padding: 0;
@@ -707,7 +784,12 @@ body::before {
 }
 .skills-group li:last-child { border-bottom: none; }
 
-.chip-list { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; margin: var(--space-sm) 0 0; }
+.sub-head {
+  text-align: center;
+  margin: var(--space-lg) 0 0;
+  font-size: var(--text-lg);
+}
+.chip-list { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; margin: var(--space-sm) 0 0; justify-content: center; }
 .chip {
   background: var(--surface);
   border: 1px solid var(--border);

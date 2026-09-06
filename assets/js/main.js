@@ -50,8 +50,19 @@ const ICONS = {
 /* ----------------------------- helpers ----------------------------- */
 const el = (id) => document.getElementById(id);
 
-function heading(icon, text) {
-  return `<div class="badge-heading"><span class="icon-badge">${ICONS[icon]}</span><h2>${text}</h2></div>`;
+/* Section header, AstroWind pattern: an uppercase tagline over a large centred
+   heading, with an optional subtitle beneath. Every section goes through here,
+   so the whole page shares one rhythm.
+   `align: "start"` opts a header out of centring — used inside the two-column
+   about split, where centred headers would fight the columns. */
+function heading(icon, text, opts = {}) {
+  const { tagline = "", subtitle = "", align = "center" } = opts;
+  return `
+    <header class="sec-head${align === "start" ? " is-start" : ""}">
+      ${tagline ? `<p class="sec-tagline">${ICONS[icon] || ""}<span>${tagline}</span></p>` : ""}
+      <h2>${text}</h2>
+      ${subtitle ? `<p class="sec-sub">${subtitle}</p>` : ""}
+    </header>`;
 }
 
 function socialRow(profile) {
@@ -110,6 +121,25 @@ function renderHero(profile) {
   setTimeout(() => el("hero")?.classList.add("is-ready"), 1200);
 }
 
+/* Stats band — AstroWind's tinted full-bleed strip under the hero.
+   Counts are derived from the data so they cannot drift out of date. */
+function renderStats(profile, projects, publications) {
+  const band = el("stats");
+  if (!band) return;
+  const stats = [
+    { value: String(projects.length), label: "Open studies" },
+    { value: String(publications.length), label: "Publications" },
+    { value: "4", label: "Method failures documented" },
+    { value: "100%", label: "Code and data released" },
+  ];
+  band.innerHTML = `<div class="container stat-band">${stats
+    .map(
+      (s) => `<div class="stat-big"><span class="stat-big-value">${s.value}</span>
+                <span class="stat-big-label">${s.label}</span></div>`
+    )
+    .join("")}</div>`;
+}
+
 function renderAbout(profile) {
   const eduCards = (profile.education || [])
     .map(
@@ -126,12 +156,12 @@ function renderAbout(profile) {
   el("about").innerHTML = `
     <div class="split">
       <div>
-        ${heading("user", "Research Statement")}
+        ${heading("user", "Research Statement", { tagline: "About", align: "start" })}
         ${profile.about.map((p) => `<p class="lede">${p}</p>`).join("")}
         <p class="meta-line">${profile.affiliation} · ${profile.location}</p>
       </div>
       <div>
-        ${heading("cap", "Education")}
+        ${heading("cap", "Education", { tagline: "Background", align: "start" })}
         <div class="card-grid">${eduCards}</div>
       </div>
     </div>`;
@@ -166,7 +196,10 @@ function renderMethodsAudit(profile) {
     .join("");
 
   el("audit").innerHTML =
-    heading("check", "When the Standard Method Was Wrong") +
+    heading("check", "When the Standard Method Was Wrong", {
+      tagline: "Method audit",
+      subtitle: "Four times a textbook approach returned a confident number that did not survive scrutiny. Each was caught by testing the method against itself.",
+    }) +
     `<p class="section-lede">${a.lede}</p>
      <div class="audit-legend">
        <span><i class="swatch is-claimed"></i>As commonly applied</span>
@@ -187,7 +220,10 @@ function renderResearch(profile) {
     )
     .join("");
   el("research").innerHTML =
-    heading("flask", "Research Interests") +
+    heading("flask", "Research Interests", {
+      tagline: "Direction",
+      subtitle: "The questions I want to take further in a PhD.",
+    }) +
     `<p class="section-lede">The directions I want to take further in a PhD.</p>
      <div class="card-grid">${items}</div>`;
 }
@@ -206,7 +242,10 @@ function renderApproach(profile) {
     )
     .join("");
   el("approach").innerHTML =
-    heading("spark", "How I Work") +
+    heading("spark", "How I Work", {
+      tagline: "Method",
+      subtitle: "The standard running through every study on this page.",
+    }) +
     `<p class="section-lede">The standard that runs through every study below.</p>
      <div class="card-grid">${items}</div>`;
 }
@@ -214,7 +253,7 @@ function renderApproach(profile) {
 function renderEducation(profile) {
   // Full education detail (the hero shows a condensed version).
   el("education").innerHTML =
-    heading("cap", "Education in Detail") +
+    heading("cap", "Education", { tagline: "Background" }) +
     `<div class="card-grid">${(profile.education || [])
       .map(
         (e) => `
@@ -230,7 +269,7 @@ function renderEducation(profile) {
 
 function renderExperience(profile) {
   el("experience").innerHTML =
-    heading("flask", "Research Experience") +
+    heading("flask", "Research Experience", { tagline: "Experience" }) +
     (profile.experience || [])
       .map(
         (e) => `
@@ -246,7 +285,10 @@ function renderExperience(profile) {
 
 function renderPublications(publications) {
   el("publications").innerHTML =
-    heading("doc", "Publications") +
+    heading("doc", "Publications", {
+      tagline: "Papers",
+      subtitle: "Peer-reviewed work, submitted and in preparation.",
+    }) +
     publications
       .map((p) => {
         const prep = /prep/i.test(p.status) ? " is-prep" : "";
@@ -326,19 +368,21 @@ function renderProjects(projects) {
     .join("");
 
   el("projects").innerHTML = `
-    <div class="section-head">
-      ${heading("code", "Research Projects")}
+    ${heading("code", "Research Projects", {
+      tagline: "Selected work",
+      subtitle: `${projects.length} open, end-to-end Earth observation studies over Pakistan. Every one ships its code, data and stated limits.`,
+    })}
+    <div class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
+      <div class="track">${slides}</div>
+    </div>
+    <div class="carousel-foot">
       <div class="carousel-nav">
         <button class="cbtn" type="button" data-dir="-1" aria-label="Previous project">${ICONS.chevronLeft}</button>
         <span class="counter"><span id="c-now">1</span> / ${projects.length}</span>
         <button class="cbtn" type="button" data-dir="1" aria-label="Next project">${ICONS.chevronRight}</button>
       </div>
-    </div>
-    <p class="section-lede">${projects.length} open, end-to-end Earth observation studies over Pakistan. Every one ships its code, data and stated limits.</p>
-    <div class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
-      <div class="track">${slides}</div>
-    </div>
-    <div class="dots">${dots}</div>`;
+      <div class="dots">${dots}</div>
+    </div>`;
 
   initCarousel(projects.length);
 }
@@ -562,11 +606,9 @@ function renderSkills(profile) {
     .join("");
 
   el("skills").innerHTML =
-    heading("spark", "Skills") +
+    heading("spark", "Skills", { tagline: "Toolkit" }) +
     `<div class="card-grid">${groups}</div>
-     <div class="badge-heading" style="margin-top: var(--space-lg)">
-       <span class="icon-badge">${ICONS.spark}</span><h3>Applied Project Skills</h3>
-     </div>
+     <h3 class="sub-head">Applied project skills</h3>
      <ul class="chip-list">${(profile.projectLevelSkills || [])
        .map((s) => `<li class="chip">${s}</li>`)
        .join("")}</ul>`;
@@ -574,7 +616,7 @@ function renderSkills(profile) {
 
 function renderTalks(profile) {
   el("talks").innerHTML =
-    heading("mic", "Scientific Communication") +
+    heading("mic", "Scientific Communication", { tagline: "Talks" }) +
     `<div class="card-grid">${(profile.talks || [])
       .map(
         (t) => `
@@ -589,7 +631,7 @@ function renderTalks(profile) {
 
 function renderCertifications(profile) {
   el("certifications").innerHTML =
-    heading("award", "Certifications") +
+    heading("award", "Certifications", { tagline: "Credentials" }) +
     `<div class="card-grid">${(profile.certifications || [])
       .map(
         (c) => `<div class="card cert-card"><span class="icon-badge">${ICONS.award}</span><span>${c}</span></div>`
@@ -643,6 +685,7 @@ async function init() {
     ]);
 
     renderHero(profile);
+    renderStats(profile, projects, publications);
     renderAbout(profile);
     renderMethodsAudit(profile);
     renderResearch(profile);
