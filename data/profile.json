@@ -2,7 +2,7 @@
   "name": "Muhammad Moosa Raza",
   "role": "Earth Observation Researcher",
   "affiliation": "M.Sc. Ecology & Nature Management, RUDN University",
-  "tagline": "Remote sensing for floods, drought and land-system change — with a working obsession for when these methods quietly fail",
+  "tagline": "Remote sensing for floods, drought and land-system change, and when these methods quietly fail",
   "location": "Layyah, Pakistan",
   "email": "moosarazauaf@gmail.com",
   "availability": {
@@ -174,7 +174,11 @@
       "JRC Global Surface Water",
       "Global Flood Database"
     ],
-    "Languages": ["English (Fluent)", "Urdu / Saraiki (Native)", "Russian (Basic)"]
+    "Languages": [
+      "English (Fluent)",
+      "Urdu / Saraiki (Native)",
+      "Russian (Basic)"
+    ]
   },
   "projectLevelSkills": [
     "Leakage-aware validation design",

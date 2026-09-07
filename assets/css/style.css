@@ -210,11 +210,17 @@ body::before {
   max-width: 52ch;
 }
 @media (min-width: 1080px) {
+  /* The subtitle is measured against the NAME, not the frame: a line running
+     wider than the title above it reads as a mistake rather than a subtitle.
+     The name is 12.9x its font size, which is min(5.6vw, 4rem), so its width is
+     min(72vw, 51.6rem) — that is the ceiling used here. At 94 characters the
+     tracked line is 60.6x its own font size, so dividing gives the size below.
+     The copy was shortened to reach this; at the old 120 characters no readable
+     size fit inside the title. */
   .hero-tagline {
-    max-width: none;
+    max-width: min(72vw, 51.6rem);
     white-space: nowrap;
-    /* Sized so the tracked line always clears the hero's side padding. */
-    font-size: clamp(0.82rem, 1.05vw, 0.95rem);
+    font-size: clamp(0.78rem, 1.19vw, 0.85rem);
     letter-spacing: 0.1em;
     line-height: 1.5;
   }
