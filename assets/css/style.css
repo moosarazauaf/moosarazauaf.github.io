@@ -144,7 +144,11 @@ body::before {
   position: relative;
   z-index: 2;
   grid-row: 2;
-  max-width: 62ch;
+  /* Wide enough for the name to sit on one line at every width. The reading
+     measures that still need one are set per element below, so widening the
+     frame does not stretch the prose. */
+  width: 100%;
+  max-width: min(1120px, 92vw);
   margin-inline: auto;
   text-align: center;
 }
@@ -173,10 +177,17 @@ body::before {
   text-transform: uppercase;
   color: var(--meadow);
 }
+/* One unbroken line, title-card style. The size is driven by the viewport
+   rather than the type scale because the constraint here is fit, not rhythm:
+   the name measures 12.9x its own font size, so 5.6vw holds it at about 72% of the
+   viewport and always clear of the hero's side padding. Tracking is opened from
+   -0.02em to 0.01em — at a smaller size the tight setting reads cramped, and a
+   little air across a single long line is what makes it feel cinematic. */
 .hero-name {
-  font-size: var(--text-display);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-size: clamp(1.25rem, 5.6vw, 4rem);
+  white-space: nowrap;
+  line-height: 1.06;
+  letter-spacing: 0.01em;
   color: #fff;
   margin: 0 0 var(--space-xs);
 }
@@ -199,15 +210,6 @@ body::before {
   max-width: 52ch;
 }
 @media (min-width: 1080px) {
-  /* The container has to widen too, or nowrap just spills out of a 62ch box
-     instead of laying the line out. The name keeps its own narrower measure so
-     it still breaks after "Muhammad" rather than running out to one long line. */
-  .hero-inner { max-width: min(1120px, 92vw); }
-  /* Forces the break after "Muhammad". Measured at the display size: the word
-     is 9ch and "Muhammad Moosa" is 14.2ch, so anything in between breaks in the
-     right place; 12ch sits in the middle of that window. ch is used rather than
-     px so the window scales with the clamped display size. */
-  .hero-name { max-width: 12ch; margin-inline: auto; }
   .hero-tagline {
     max-width: none;
     white-space: nowrap;
