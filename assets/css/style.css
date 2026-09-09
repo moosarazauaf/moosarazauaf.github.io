@@ -120,7 +120,7 @@ body::before {
      viewport rather than dead centre, and holds it there as the frame narrows. */
   /* Versioned like the stylesheets: the plate is re-rendered from the
      rasters, so a returning visitor must not keep an older banner. */
-  background: url("../img/hero-lahore.jpg?v=29") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore.jpg?v=30") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -1025,16 +1025,26 @@ a:focus-visible, button:focus-visible {
 }
 .lc-plate {
   position: relative;
-  aspect-ratio: 1.32 / 1;               /* the district's true shape once
-                                           latitude-corrected */
+  /* Close to the district's own latitude-corrected shape (1.18:1), with a
+     little extra height for the year badge. Matching it matters: because the
+     tile is fitted with object-fit: contain, whichever axis is proportionally
+     shorter decides the painted size, so a stage much wider than the district
+     just adds side gutters and shrinks the map. */
+  aspect-ratio: 1.16 / 1;
 }
 .lc-tile {
   position: absolute;
-  /* inset alone defines the box. Setting width/height as well overrode it and
-     pushed the tile past the stage, which cropped the district. */
-  inset: 5% 7%;
-  width: auto;
-  height: auto;
+  /* An absolutely positioned <img> with `inset` but `width/height: auto` falls
+     back to its INTRINSIC size, so object-fit had no box to fit into and the
+     district overflowed the stage by 85px. A definite 100% box plus padding
+     gives object-fit something to work against, and guarantees the whole
+     district is visible whatever the stage aspect turns out to be.
+     The deeper bottom padding keeps the map clear of the year badge. */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 5% 6% 13%;
+  box-sizing: border-box;
   object-fit: contain;
   opacity: 0;
   transform: scale(0.995);
