@@ -49,35 +49,66 @@
     ]
   },
   {
-    "title": "LULC Change Detection & Carbon Stock Estimation — Lahore District, Pakistan",
-    "description": "Google Earth Engine pipeline for multi-year (1993–2023) LULC classification using Random Forest and carbon stock estimation aligned with InVEST Carbon Model logic. Underlying data for the submitted manuscript on urban expansion and ecosystem carbon loss in Lahore.",
+    "title": "Land-Cover and Carbon Projection to 2043 — Lahore District, Pakistan",
+    "description": "Four classified Landsat epochs (1993, 2003, 2013, 2023) projected forward to 2033 and 2043 with a CA-Markov model: Markov transition matrices set how much of each conversion happens, a Random Forest transition potential sets where, and a competitive cellular-automata allocation places it. Back-validated against years that can actually be checked before any projection was produced.",
     "highlights": [
-      "97.8%–99.2% classification accuracy, Kappa 0.971–0.989",
-      "+117% urban expansion, -27,639 ha vegetation loss (1993–2023)",
-      "~3.15 million metric tons of estimated carbon loss"
+      "Not deep learning, deliberately. Four time points cannot train a temporal network; an LSTM over four epochs would be fitting noise and calling it sophistication. CA-Markov with a Random Forest transition potential is the defensible method at this data density.",
+      "Validation comes before projection. Calibrating on 1993–2003 and predicting 2013 gives a Figure of Merit of 0.215; calibrating on 2003–2013 and predicting 2023 gives 0.266. A null model that predicts no change scores 0.000. The pipeline refuses to project if the model cannot beat that null.",
+      "Overall accuracy is reported alongside, and it sits below the null model (0.638 against 0.778 in the 2023 test) because the model over-predicts change. Quoting the Figure of Merit alone would be selective, so both are published.",
+      "An earlier carbon parameterisation assigned the vegetation class 150 Mg C/ha, a closed-forest value, to a district of irrigated rice-wheat cropland. Measured on the maps it overstated the 1993–2023 carbon loss 5.9-fold. Corrected to IPCC Tier 1 cropland densities, with a low/best/high band on every figure.",
+      "The Earth Engine exports carried no nodata value, so masked pixels were written as 0 — the built-up class code — putting 1.80 million pixels, 44% of each raster, into the city. Statistics printed inside GEE were unaffected; anything computed from the files in QGIS or InVEST was not. The district was recovered to within 2% of its published extent.",
+      "Bare land changes class in 58–82% of its pixels per decade, which is Landsat confusing dry soil with concrete rather than land change. A three-class sensitivity run merging it into built-up improves every validation metric, and both runs are published so the choice can be argued rather than assumed."
     ],
-    "repoUrl": "https://github.com/moosarazauaf/gee-lulc-pakistan",
+    "repoUrl": "https://github.com/moosarazauaf/lahore-lulc-carbon",
     "liveUrl": "",
-    "image": "assets/img/projects/lulc-2023.png",
+    "image": "assets/img/projects/lahore-lulc-panel.jpg",
+    "gallery": [
+      {
+        "src": "assets/img/projects/lahore-lulc-panel.jpg",
+        "caption": "Observed 1993–2023 and projected 2033–2043. Built-up rises from 20% of the district to 45% over the observed period."
+      },
+      {
+        "src": "assets/img/projects/lahore-builtup-expansion.jpg",
+        "caption": "Built-up change 1993–2023: 49,760 ha new (28.7% of the district) against 7,874 ha apparently lost — that second figure is classification instability, not de-urbanisation."
+      },
+      {
+        "src": "assets/img/projects/lahore-area-trajectory.jpg",
+        "caption": "Class areas, observed solid and projected dashed. Growth decelerates because the Markov chain saturates, not because expansion is expected to slow."
+      },
+      {
+        "src": "assets/img/projects/lahore-carbon-trajectory.jpg",
+        "caption": "Carbon stock with its uncertainty band, plotted against the original forest-density parameterisation that overstated the loss 5.9-fold."
+      },
+      {
+        "src": "assets/img/projects/lahore-carbon-density.jpg",
+        "caption": "Carbon density, 2023. Legend is discrete because density is assigned per class rather than measured, so only four values occur."
+      },
+      {
+        "src": "assets/img/projects/lahore-lulc-2043.jpg",
+        "caption": "Projected 2043. Two Markov steps beyond the last observation, reported with its uncertainty rather than as a crisp forecast."
+      }
+    ],
     "tags": [
-      "Google Earth Engine",
+      "CA-Markov",
       "Random Forest",
-      "InVEST",
+      "Cellular Automata",
+      "Google Earth Engine",
       "Landsat",
-      "Carbon Modelling"
+      "Carbon Modelling",
+      "Python"
     ],
     "metrics": [
       {
-        "value": "+117%",
-        "label": "urban expansion"
+        "value": "+118%",
+        "label": "built-up, 1993–2023"
       },
       {
-        "value": "3.15 Mt",
-        "label": "carbon lost"
+        "value": "91,784 ha",
+        "label": "built-up projected, 2043"
       },
       {
-        "value": "0.97–0.99",
-        "label": "Kappa"
+        "value": "0.27",
+        "label": "Figure of Merit vs 0.00 null"
       }
     ]
   },
@@ -96,12 +127,30 @@
     "liveUrl": "",
     "image": "assets/img/projects/twincities-flood-proneness.jpg",
     "gallery": [
-      { "src": "assets/img/projects/twincities-flood-proneness.jpg", "caption": "Flood proneness across the twin cities, with the Leh Nullah drainage network" },
-      { "src": "assets/img/projects/twincities-flood-timing.jpg", "caption": "Every storm against every Sentinel-1 overpass: none coincide" },
-      { "src": "assets/img/projects/twincities-flood-rainfall.jpg", "caption": "July–August 2026 rainfall; the 1 September event post-dates all satellite products" },
-      { "src": "assets/img/projects/twincities-flood-sarlimits.jpg", "caption": "What the SAR pair can and cannot show" },
-      { "src": "assets/img/projects/twincities-flood-beforeafter.jpg", "caption": "Sentinel-1 VV before and after, ascending track 173" },
-      { "src": "assets/img/projects/twincities-flood-gauges.jpg", "caption": "PMD gauge totals for 1 September 2026, up to 201 mm in a morning" }
+      {
+        "src": "assets/img/projects/twincities-flood-proneness.jpg",
+        "caption": "Flood proneness across the twin cities, with the Leh Nullah drainage network"
+      },
+      {
+        "src": "assets/img/projects/twincities-flood-timing.jpg",
+        "caption": "Every storm against every Sentinel-1 overpass: none coincide"
+      },
+      {
+        "src": "assets/img/projects/twincities-flood-rainfall.jpg",
+        "caption": "July–August 2026 rainfall; the 1 September event post-dates all satellite products"
+      },
+      {
+        "src": "assets/img/projects/twincities-flood-sarlimits.jpg",
+        "caption": "What the SAR pair can and cannot show"
+      },
+      {
+        "src": "assets/img/projects/twincities-flood-beforeafter.jpg",
+        "caption": "Sentinel-1 VV before and after, ascending track 173"
+      },
+      {
+        "src": "assets/img/projects/twincities-flood-gauges.jpg",
+        "caption": "PMD gauge totals for 1 September 2026, up to 201 mm in a morning"
+      }
     ],
     "tags": [
       "Sentinel-1 SAR",
@@ -126,12 +175,30 @@
     "liveUrl": "",
     "image": "assets/img/projects/layyah-totram.jpg",
     "gallery": [
-      { "src": "assets/img/projects/layyah-totram.jpg", "caption": "TOTRAM before and after, 2022 — and it reads backwards: June wet, September dry, because W is normalised per month" },
-      { "src": "assets/img/projects/layyah-totram-lstsignal.jpg", "caption": "Where the signal is lost: deseasonalised LST carries none, while NDVI (control) responds" },
-      { "src": "assets/img/projects/layyah-totram-specs.jpg", "caption": "Five trapezoid specifications against the OPTRAM benchmark" },
-      { "src": "assets/img/projects/layyah-totram-drift.jpg", "caption": "The thermal trapezoid drifts 67.7 K across scenes but is only 6.1 K deep" },
-      { "src": "assets/img/projects/layyah-totram-vs-optram.jpg", "caption": "Thermal vs optical retrieval, 73 matched dates: uncorrelated" },
-      { "src": "assets/img/projects/layyah-totram-districts.jpg", "caption": "Study-area screening: terrain confound measured within scenes" }
+      {
+        "src": "assets/img/projects/layyah-totram.jpg",
+        "caption": "TOTRAM before and after, 2022 — and it reads backwards: June wet, September dry, because W is normalised per month"
+      },
+      {
+        "src": "assets/img/projects/layyah-totram-lstsignal.jpg",
+        "caption": "Where the signal is lost: deseasonalised LST carries none, while NDVI (control) responds"
+      },
+      {
+        "src": "assets/img/projects/layyah-totram-specs.jpg",
+        "caption": "Five trapezoid specifications against the OPTRAM benchmark"
+      },
+      {
+        "src": "assets/img/projects/layyah-totram-drift.jpg",
+        "caption": "The thermal trapezoid drifts 67.7 K across scenes but is only 6.1 K deep"
+      },
+      {
+        "src": "assets/img/projects/layyah-totram-vs-optram.jpg",
+        "caption": "Thermal vs optical retrieval, 73 matched dates: uncorrelated"
+      },
+      {
+        "src": "assets/img/projects/layyah-totram-districts.jpg",
+        "caption": "Study-area screening: terrain confound measured within scenes"
+      }
     ],
     "tags": [
       "Landsat 8/9",

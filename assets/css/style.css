@@ -112,7 +112,15 @@ body::before {
 .hero-bg {
   position: absolute;
   inset: -8% 0 0;              /* headroom so the parallax never exposes an edge */
-  background: url("../img/map-texture.jpg") center / cover no-repeat;
+  /* The Lahore land-change plate: six epochs across a 21:9 frame with the
+     measured present on the golden-section point. Rendered by
+     lahore-lulc-carbon/src/web_export.py from the same rasters as the thesis
+     figures, so the hero is the actual study rather than stock cartography.
+     `center right 38.2%` lands that focal point near the golden section of the
+     viewport rather than dead centre, and holds it there as the frame narrows. */
+  /* Versioned like the stylesheets: the plate is re-rendered from the
+     rasters, so a returning visitor must not keep an older banner. */
+  background: url("../img/hero-lahore.jpg?v=29") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -983,4 +991,206 @@ a:focus-visible, button:focus-visible {
   .theme-toggle { margin-left: auto; }
   .section-head { flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
   .carousel-nav { align-self: flex-end; }
+}
+
+
+/* ================== Lahore land-change scrubber ==================
+   Layout is the site's φ split: the map stage takes 1.618 to the readout's 1,
+   the same ratio as the hero rows and the about section, so this reads as part
+   of the page rather than a widget dropped into it.
+
+   The map plate has a fixed aspect ratio, which matters: the tiles are stacked
+   absolutely, so without one the container would collapse to zero height and
+   the section would appear empty. */
+.lc {
+  display: grid;
+  grid-template-columns: 1.618fr 1fr;   /* literal fr — calc() cannot scale fr */
+  grid-template-areas:
+    "stage panel"
+    "controls controls";
+  gap: var(--space-md);
+  align-items: start;
+}
+.lc-stage {
+  grid-area: stage;
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-lg, 14px);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 62% 45%,
+      color-mix(in srgb, var(--forest) 34%, transparent) 0%,
+      var(--forest-deep) 72%);
+  border: 1px solid color-mix(in srgb, var(--forest) 45%, transparent);
+}
+.lc-plate {
+  position: relative;
+  aspect-ratio: 1.32 / 1;               /* the district's true shape once
+                                           latitude-corrected */
+}
+.lc-tile {
+  position: absolute;
+  /* inset alone defines the box. Setting width/height as well overrode it and
+     pushed the tile past the stage, which cropped the district. */
+  inset: 5% 7%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0;
+  transform: scale(0.995);
+  transition: opacity var(--dur-cine, 0.6s) ease,
+              transform var(--dur-cine, 0.6s) ease;
+  image-rendering: -webkit-optimize-contrast;
+}
+.lc-tile.is-on { opacity: 1; transform: scale(1); }
+
+.lc-badge {
+  position: absolute;
+  left: var(--space-sm);
+  bottom: var(--space-sm);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.lc-year {
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--paper);
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+.lc-flag {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--forest-deep);
+  background: var(--gold);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+/* Projected epochs get a warm cast on the stage, so the difference between
+   measured and modelled is visible before the label is read. */
+.lc.is-projected .lc-stage {
+  background:
+    radial-gradient(120% 90% at 62% 45%,
+      color-mix(in srgb, var(--gold) 22%, transparent) 0%,
+      var(--forest-deep) 74%);
+  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+}
+
+.lc-panel { grid-area: panel; display: grid; gap: var(--space-sm); }
+.lc-readout { display: grid; gap: 0.55rem; }
+.lc-row {
+  display: grid;
+  grid-template-columns: 0.7rem 1fr auto auto;
+  grid-template-areas: "chip name val pct" "bar bar bar bar";
+  align-items: center;
+  gap: 0.35rem 0.55rem;
+}
+.lc-chip {
+  grid-area: chip;
+  width: 0.7rem; height: 0.7rem;
+  border-radius: 3px;
+  background: var(--c);
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+}
+.lc-name { grid-area: name; font-size: 0.92rem; color: var(--ink); }
+.lc-val  { grid-area: val;  font-size: 0.92rem; color: var(--ink-soft);
+           font-variant-numeric: tabular-nums; }
+.lc-val b { color: var(--ink); font-weight: 650; }
+.lc-pct  { grid-area: pct;  font-size: 0.82rem; color: var(--ink-faint);
+           font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: right; }
+.lc-bar  { grid-area: bar; height: 5px; border-radius: 3px;
+           background: color-mix(in srgb, var(--ink) 8%, transparent);
+           overflow: hidden; }
+.lc-bar i { display: block; height: 100%; width: 0;
+            background: var(--c); border-radius: 3px;
+            transition: width var(--dur-cine, 0.6s) cubic-bezier(.22,.61,.36,1); }
+
+.lc-carbon {
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-sm);
+}
+.lc-carbon-label {
+  margin: 0; font-size: 0.74rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.lc-carbon-value {
+  margin: 0.15rem 0 0; font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 700; color: var(--ink); line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.lc-carbon-value span { font-size: 0.9rem; font-weight: 500; color: var(--ink-faint); }
+.lc-carbon-band, .lc-carbon-note {
+  margin: 0.15rem 0 0; font-size: 0.8rem; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+.lc-carbon-note.is-loss { color: var(--accent); font-weight: 600; }
+.lc-foot { margin: 0; font-size: 0.78rem; color: var(--ink-faint); line-height: 1.55; }
+
+.lc-controls {
+  grid-area: controls;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "play range" "play ticks";
+  align-items: center;
+  gap: 0.4rem var(--space-sm);
+  margin-top: 0.25rem;
+}
+.lc-play {
+  grid-area: play;
+  min-width: 5.2rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: var(--paper);
+  font: inherit; font-size: 0.86rem; font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--dur, .25s) ease, background var(--dur, .25s) ease;
+}
+.lc-play:hover { transform: translateY(-2px); background: var(--brand-strong); }
+.lc-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.lc-range {
+  grid-area: range;
+  width: 100%;
+  accent-color: var(--brand);
+  cursor: pointer;
+}
+.lc-ticks {
+  grid-area: ticks;
+  display: flex; justify-content: space-between; gap: 0.25rem;
+}
+.lc-tick {
+  border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 0.78rem; font-variant-numeric: tabular-nums;
+  color: var(--ink-faint); padding: 0.15rem 0.3rem; border-radius: 6px;
+  transition: color var(--dur, .25s) ease, background var(--dur, .25s) ease;
+}
+.lc-tick:hover { color: var(--ink); background: var(--surface-alt); }
+.lc-tick.is-proj { font-style: italic; }
+.lc-tick.is-on { color: var(--ink); font-weight: 700;
+                 background: var(--surface-alt); }
+.lc-tick:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+@media (max-width: 860px) {
+  .lc {
+    grid-template-columns: 1fr;
+    grid-template-areas: "stage" "panel" "controls";
+  }
+  .lc-controls { grid-template-columns: 1fr;
+                 grid-template-areas: "range" "ticks" "play"; }
+  .lc-play { width: 100%; margin-top: 0.4rem; }
+  .lc-ticks { flex-wrap: wrap; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lc-tile { transition: none; }
+  .lc-bar i { transition: none; }
+  .lc-play:hover { transform: none; }
 }

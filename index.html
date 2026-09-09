@@ -8,8 +8,8 @@
   <link rel="icon" href="assets/img/profile.jpg" type="image/jpeg" />
   <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
        visitors get the new file instead of a stale cached one. -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=28" />
-  <link rel="stylesheet" href="assets/css/style.css?v=28" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=29" />
+  <link rel="stylesheet" href="assets/css/style.css?v=29" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -28,6 +28,7 @@
       <a class="nav-brand" href="#top">M. Moosa Raza</a>
       <ul class="nav-links">
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#landchange">Land change</a></li>
         <li><a href="#publications">Publications</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#experience">Experience</a></li>
@@ -48,6 +49,9 @@
       <section id="about" class="section"></section>
       <!-- Projects lead: the work is the argument. -->
       <section id="projects" class="section"></section>
+      <!-- Interactive read of the Lahore projection; rendered from
+           data/lahore-lulc.json, removed by main.js if that file is missing. -->
+      <section id="landchange" class="section"></section>
       <section id="publications" class="section"></section>
       <section id="audit" class="section"></section>
       <section id="research" class="section"></section>
@@ -62,6 +66,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=28"></script>
+  <script src="assets/js/main.js?v=29"></script>
 </body>
 </html>

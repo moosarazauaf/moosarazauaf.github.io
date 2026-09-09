@@ -594,6 +594,200 @@ function initReveal() {
   setTimeout(showAll, 3000);
 }
 
+/* ===================== Lahore land-change scrubber =====================
+   An interactive read of the CA-Markov projection: drag the year, the map
+   cross-fades and the numbers count to the new epoch. Projected years are
+   marked as projected everywhere they appear - on the badge, in the tick strip
+   and in the readout - because the whole point of the study is that 2033 and
+   2043 are modelled, not measured.
+
+   All six tiles sit in the DOM at once and cross-fade by opacity. Swapping a
+   single <img> src would flash on every step; stacking them does not, and six
+   paletted PNGs come to about 750 KB in total. */
+function renderLandChange(d) {
+  const host = el("landchange");
+  if (!host || !d || !d.years) return;
+
+  const years = Object.keys(d.years).map(Number).sort((a, b) => a - b);
+  const classIds = Object.keys(d.classes);
+  const COLOURS = { "0": "#e26d4b", "1": "#5e9a6e", "2": "#6fb6d6", "3": "#c2a83e" };
+  const START = Math.max(0, years.indexOf(2023));
+
+  const tiles = years
+    .map(
+      (y, i) =>
+        '<img class="lc-tile' + (i === START ? " is-on" : "") + '" data-year="' + y + '"' +
+        ' src="assets/img/projects/lahore/tile_' + y + '.png"' +
+        ' alt="Land cover of Lahore District in ' + y + '"' +
+        ' loading="' + (i < 4 ? "eager" : "lazy") + '" decoding="async" />'
+    )
+    .join("");
+
+  const ticks = years
+    .map((y) => {
+      const proj = d.years[String(y)].projected;
+      return (
+        '<button class="lc-tick' + (proj ? " is-proj" : "") + '" type="button"' +
+        ' data-year="' + y + '" aria-label="Show ' + y + (proj ? ", projected" : "") + '">' +
+        y + "</button>"
+      );
+    })
+    .join("");
+
+  const rows = classIds
+    .map(
+      (c) =>
+        '<div class="lc-row">' +
+        '<span class="lc-chip" style="--c:' + COLOURS[c] + '"></span>' +
+        '<span class="lc-name">' + d.classes[c] + "</span>" +
+        '<span class="lc-val"><b data-ha="' + c + '">0</b> ha</span>' +
+        '<span class="lc-pct" data-pct="' + c + '">0%</span>' +
+        '<span class="lc-bar"><i data-bar="' + c + '" style="--c:' + COLOURS[c] + '"></i></span>' +
+        "</div>"
+    )
+    .join("");
+
+  host.innerHTML =
+    heading("leaf", "Thirty years measured, twenty projected", {
+      tagline: "Land change, Lahore",
+      subtitle:
+        "Drag the year. Built-up land more than doubled between 1993 and 2023; 2033 and 2043 are a CA-Markov projection, back-validated against years that could be checked before it was produced.",
+    }) +
+    '<div class="lc">' +
+      '<figure class="lc-stage">' +
+        '<div class="lc-plate">' + tiles + "</div>" +
+        '<figcaption class="lc-badge"><span class="lc-year">2023</span>' +
+        '<span class="lc-flag" hidden>projected</span></figcaption>' +
+      "</figure>" +
+      '<aside class="lc-panel">' +
+        '<div class="lc-readout">' + rows + "</div>" +
+        '<div class="lc-carbon">' +
+          '<p class="lc-carbon-label">Carbon stock</p>' +
+          '<p class="lc-carbon-value"><b data-carbon>0</b> <span>Mt C</span></p>' +
+          '<p class="lc-carbon-band">range <span data-band>0</span> Mt C</p>' +
+          '<p class="lc-carbon-note" data-delta></p>' +
+        "</div>" +
+        '<p class="lc-foot">District area ' +
+          Number(d.districtAreaHa).toLocaleString() +
+          " ha. Carbon uses IPCC Tier 1 cropland densities rather than forest " +
+          "values; an earlier parameterisation overstated the loss 5.9-fold.</p>" +
+      "</aside>" +
+      '<div class="lc-controls">' +
+        '<button class="lc-play" type="button" aria-label="Play the sequence">Play</button>' +
+        '<input class="lc-range" type="range" min="0" max="' + (years.length - 1) +
+          '" step="1" value="' + START + '" aria-label="Year" />' +
+        '<div class="lc-ticks">' + ticks + "</div>" +
+      "</div>" +
+    "</div>";
+
+  const wrap = host.querySelector(".lc");
+  const plate = host.querySelector(".lc-plate");
+  const range = host.querySelector(".lc-range");
+  const play = host.querySelector(".lc-play");
+  const badgeYear = host.querySelector(".lc-year");
+  const badgeFlag = host.querySelector(".lc-flag");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Count a value up to its new target. Skipped entirely under reduced motion,
+  // where an animating number is just a number that reads wrong for 400 ms.
+  function countTo(node, target, fmt) {
+    const from = Number(node.dataset.v || 0);
+    node.dataset.v = target;
+    if (reduce) {
+      node.textContent = fmt(target);
+      return;
+    }
+    const t0 = performance.now();
+    const step = (now) => {
+      const k = Math.min((now - t0) / 420, 1);
+      const eased = 1 - Math.pow(1 - k, 3);
+      node.textContent = fmt(from + (target - from) * eased);
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const intFmt = (v) => Math.round(v).toLocaleString();
+  const base = d.years[String(years[0])];
+
+  function show(i) {
+    const year = years[i];
+    const rec = d.years[String(year)];
+
+    plate.querySelectorAll(".lc-tile").forEach((t) =>
+      t.classList.toggle("is-on", Number(t.dataset.year) === year)
+    );
+    host.querySelectorAll(".lc-tick").forEach((t) =>
+      t.classList.toggle("is-on", Number(t.dataset.year) === year)
+    );
+
+    badgeYear.textContent = year;
+    badgeFlag.hidden = !rec.projected;
+    wrap.classList.toggle("is-projected", !!rec.projected);
+
+    classIds.forEach((c) => {
+      countTo(host.querySelector('[data-ha="' + c + '"]'), rec.areaHa[c], intFmt);
+      const pct = rec.sharePct[c];
+      host.querySelector('[data-pct="' + c + '"]').textContent = pct.toFixed(1) + "%";
+      host.querySelector('[data-bar="' + c + '"]').style.width = pct + "%";
+    });
+
+    countTo(host.querySelector("[data-carbon]"), rec.carbonMgC.best_Mg_C / 1e6,
+            (v) => v.toFixed(2));
+    host.querySelector("[data-band]").textContent =
+      (rec.carbonMgC.low_Mg_C / 1e6).toFixed(2) + "-" +
+      (rec.carbonMgC.high_Mg_C / 1e6).toFixed(2);
+
+    const delta = rec.carbonMgC.best_Mg_C - base.carbonMgC.best_Mg_C;
+    const note = host.querySelector("[data-delta]");
+    note.textContent =
+      year === years[0]
+        ? "baseline year"
+        : (delta < 0 ? "\u2212" : "+") + Math.abs(delta).toLocaleString() +
+          " Mg C since " + years[0];
+    note.classList.toggle("is-loss", delta < 0);
+  }
+
+  let timer = null;
+  function stop() {
+    if (!timer) return;
+    clearInterval(timer);
+    timer = null;
+    play.textContent = "Play";
+    play.setAttribute("aria-label", "Play the sequence");
+  }
+
+  range.addEventListener("input", () => {
+    stop();
+    show(Number(range.value));
+  });
+
+  host.querySelectorAll(".lc-tick").forEach((t) =>
+    t.addEventListener("click", () => {
+      stop();
+      const i = years.indexOf(Number(t.dataset.year));
+      range.value = i;
+      show(i);
+    })
+  );
+
+  play.addEventListener("click", () => {
+    if (timer) {
+      stop();
+      return;
+    }
+    play.textContent = "Pause";
+    play.setAttribute("aria-label", "Pause the sequence");
+    timer = setInterval(() => {
+      const next = (Number(range.value) + 1) % years.length;
+      range.value = next;
+      show(next);
+    }, 1150);
+  });
+
+  show(Number(range.value));
+}
+
 function renderSkills(profile) {
   const groups = Object.entries(profile.skills || {})
     .map(
@@ -694,6 +888,17 @@ async function init() {
     renderExperience(profile);
     renderPublications(publications);
     renderProjects(projects);
+
+    // Loaded on its own and guarded: the scrubber is an enhancement, and a
+    // missing or malformed data file must not take the rest of the page down
+    // through the shared catch below.
+    loadJson("data/lahore-lulc.json")
+      .then(renderLandChange)
+      .catch((e) => {
+        console.warn("Land-change scrubber skipped:", e.message);
+        const n = el("landchange");
+        if (n) n.remove();
+      });
     renderSkills(profile);
     renderTalks(profile);
     renderCertifications(profile);

@@ -141,9 +141,10 @@
       "period": "2024 – 2026",
       "bullets": [
         "Designed a multi-decadal (1993–2023) LULC analysis pipeline using Landsat imagery in Google Earth Engine",
-        "Implemented Random Forest classification reaching 97.8%–99.2% accuracy, Kappa 0.971–0.989",
+        "Implemented Random Forest classification of four Landsat epochs (1993–2023); the reported accuracy is an upper bound, because the train/test split drew from the same digitised points and is spatially autocorrelated",
         "Quantified urban expansion (+117%) and vegetation loss (−27,639 ha) across Lahore District",
-        "Estimated ecosystem carbon dynamics: a total loss of roughly 3.15 million metric tons",
+        "Estimated ecosystem carbon dynamics: a loss of 534,110 Mg C over 1993–2023, after correcting a parameterisation that had given cropland a closed-forest carbon density and overstated the loss 5.9-fold",
+        "Extended the study into a CA-Markov projection to 2033 and 2043 (Markov quantities, Random Forest transition potential, cellular-automata allocation), back-validated to a Figure of Merit of 0.27 against 0.00 for a no-change null",
         "Integrated the InVEST carbon model as an independent check on the class-based estimate",
         "Key contribution: showed how urban land transitions drive large-scale carbon loss in rapidly developing regions"
       ]
