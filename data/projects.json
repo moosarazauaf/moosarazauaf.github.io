@@ -57,7 +57,8 @@
       "Overall accuracy is reported alongside, and it sits below the null model (0.638 against 0.778 in the 2023 test) because the model over-predicts change. Quoting the Figure of Merit alone would be selective, so both are published.",
       "An earlier carbon parameterisation assigned the vegetation class 150 Mg C/ha, a closed-forest value, to a district of irrigated rice-wheat cropland. Measured on the maps it overstated the 1993–2023 carbon loss 5.9-fold. Corrected to IPCC Tier 1 cropland densities, with a low/best/high band on every figure.",
       "The Earth Engine exports carried no nodata value, so masked pixels were written as 0 — the built-up class code — putting 1.80 million pixels, 44% of each raster, into the city. Statistics printed inside GEE were unaffected; anything computed from the files in QGIS or InVEST was not. The district was recovered to within 2% of its published extent.",
-      "Bare land changes class in 58–82% of its pixels per decade, which is Landsat confusing dry soil with concrete rather than land change. A three-class sensitivity run merging it into built-up improves every validation metric, and both runs are published so the choice can be argued rather than assumed."
+      "Bare land changes class in 58–82% of its pixels per decade, which is Landsat confusing dry soil with concrete rather than land change. A three-class sensitivity run merging it into built-up improves every validation metric, and both runs are published so the choice can be argued rather than assumed.",
+      "Taken to national scale as a live companion app — see \"Pakistan Land Cover and Carbon, 1993–2023\" below — cross-checking this district's findings against an independent land-cover product (GLC-FCS30D) across all of Pakistan."
     ],
     "repoUrl": "https://github.com/moosarazauaf/lahore-lulc-carbon",
     "liveUrl": "",
@@ -109,6 +110,46 @@
       {
         "value": "0.27",
         "label": "Figure of Merit vs 0.00 null"
+      }
+    ]
+  },
+  {
+    "title": "Pakistan Land Cover and Carbon, 1993–2023 — National Interactive App",
+    "description": "The Lahore-district study above, taken to national scale: a live Streamlit app accounting land-cover change and terrestrial carbon for all of Pakistan (864,256 km²) from GLC-FCS30D at 30 m, district by district, with every figure traceable to the pixels behind it. Built as a companion to the district-level CA-Markov work, using an independent land-cover product (GLC-FCS30D rather than classified Landsat) as a national-scale cross-check.",
+    "highlights": [
+      "58,554 km² of Pakistan (6.8%) changed land-cover class between 2000 and 2022; the other 93.2% persisted and is deliberately excluded from the change diagram, where it would otherwise be one band wide enough to hide every real transition",
+      "The net national carbon flux is reported as +52.52 Tg C, but its uncertainty band runs -470.8 to +580.3 Tg C — spans zero, so the app states plainly that the sign is not established rather than presenting the point estimate as a finding",
+      "Caught and quantified a seasonal-snow artefact: the permanent-ice class swings 14% in nine years nationally (16,105 → 19,875 → 16,912 km², 2000/2013/2022), which permanent ice cannot physically do. About 5% of gross carbon loss traces to this snow/no-snow classification noise, not land change, and the app reports the flux with and without it",
+      "Every number is reproducible from cached tables with no live Earth Engine session required, so the app functions even when Earth Engine access is unavailable — every figure is footnoted with the exact accounting scale and source"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/pakistan-lulc-carbon",
+    "liveUrl": "https://gee-lulc-pakistan.streamlit.app/",
+    "image": "assets/img/projects/pakistan-lulc-net-flux.jpg",
+    "gallery": [
+      {
+        "src": "assets/img/projects/pakistan-lulc-net-flux.jpg",
+        "caption": "National net carbon flux, 2000–2022: the uncertainty band spans zero, so the point estimate (+52.5 Tg C) is reported as a centre, not a finding."
+      }
+    ],
+    "tags": [
+      "GLC-FCS30D",
+      "Google Earth Engine",
+      "Streamlit",
+      "Python",
+      "District-level accounting"
+    ],
+    "metrics": [
+      {
+        "value": "864,256 km²",
+        "label": "national extent, 30 m"
+      },
+      {
+        "value": "58,554 km²",
+        "label": "changed class, 2000–2022"
+      },
+      {
+        "value": "± spans 0",
+        "label": "net flux uncertainty"
       }
     ]
   },
