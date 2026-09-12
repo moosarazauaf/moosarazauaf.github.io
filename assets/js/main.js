@@ -67,6 +67,107 @@ function heading(icon, text, opts = {}) {
     </header>`;
 }
 
+/* ------------------------------- tabs -------------------------------
+   The page had fifteen stacked sections and ran to twelve screens. Nobody
+   scrolls twelve screens, so the material a reader dips into rather than reads
+   straight through is grouped behind tabs: the two interactive maps, and the CV
+   detail. Only the open panel takes up height, which is where the saving comes
+   from. Everything stays in the DOM and stays linkable.
+
+   `items` is [{ id, label, body }], where `body` is the panel's HTML. */
+function tabGroup(name, items) {
+  const tabs = items
+    .map(
+      (t, i) =>
+        `<button class="tab${i === 0 ? " is-on" : ""}" type="button" role="tab"
+                 id="tab-${t.id}" aria-controls="panel-${t.id}"
+                 aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${t.label}</button>`
+    )
+    .join("");
+  const panels = items
+    .map(
+      (t, i) =>
+        `<div class="tabpanel" role="tabpanel" id="panel-${t.id}"
+              aria-labelledby="tab-${t.id}"${i === 0 ? "" : " hidden"}>${t.body}</div>`
+    )
+    .join("");
+  return `<div class="tabs">
+            <div class="tablist" role="tablist" aria-label="${name}">${tabs}</div>
+            ${panels}
+          </div>`;
+}
+
+/* Inside a tab panel the tab label already names the content, so a second
+   centred section header would say the same thing twice and give back most of
+   the height the grouping just saved. Renderers call this instead of heading(),
+   and the decision is made from where the node actually sits. */
+function panelHeading(id, icon, text, opts) {
+  const node = el(id);
+  return node && node.closest(".tabpanel") ? "" : heading(icon, text, opts);
+}
+
+function initTabs() {
+  document.querySelectorAll(".tabs").forEach((group) => {
+    const tabs = [...group.querySelectorAll(":scope > .tablist > .tab")];
+    const show = (tab) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle("is-on", on);
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        el(t.getAttribute("aria-controls")).hidden = !on;
+      });
+      // Leaflet measures a hidden container as zero and paints a sliver of map,
+      // so anything map-shaped needs to hear that it has just been revealed.
+      window.dispatchEvent(new Event("panelshown"));
+    };
+    tabs.forEach((tab) => tab.addEventListener("click", () => show(tab)));
+    group.querySelector(".tablist").addEventListener("keydown", (e) => {
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      const to =
+        e.key === "ArrowRight" ? (i + 1) % tabs.length
+        : e.key === "ArrowLeft" ? (i - 1 + tabs.length) % tabs.length
+        : e.key === "Home" ? 0
+        : e.key === "End" ? tabs.length - 1
+        : -1;
+      if (to < 0) return;
+      e.preventDefault();
+      tabs[to].focus();
+      show(tabs[to]);
+    });
+  });
+
+  // A link to anything inside a closed panel opens that panel first, so the nav,
+  // the footer and an external deep link all still land on their target.
+  const openFor = (hash) => {
+    const target = hash && hash.length > 1 && document.querySelector(hash);
+    const panel = target && target.closest(".tabpanel");
+    if (panel) el(panel.getAttribute("aria-labelledby")).click();
+  };
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (a) openFor(a.getAttribute("href"));
+  });
+  addEventListener("hashchange", () => openFor(location.hash));
+  openFor(location.hash);
+}
+
+/* A panel whose content failed to load takes its tab with it, rather than
+   leaving a tab that opens onto nothing. */
+function dropPanel(id) {
+  const node = el(id);
+  if (!node) return;
+  const panel = node.closest(".tabpanel");
+  if (!panel) return node.remove();
+  const tab = el(panel.getAttribute("aria-labelledby"));
+  const wasOpen = tab && tab.classList.contains("is-on");
+  panel.remove();
+  if (tab) tab.remove();
+  const first = document.querySelector(".tabs .tab");
+  if (wasOpen && first) first.click();
+}
+
 function socialRow(profile) {
   const s = profile.social || {};
   const links = [];
@@ -140,6 +241,42 @@ function renderStats(profile, projects, publications) {
                 <span class="stat-big-label">${s.label}</span></div>`
     )
     .join("")}</div>`;
+}
+
+/* Two interactive maps, one section. A reader opens one of them, not both. */
+function renderExplore() {
+  const host = el("explore");
+  if (!host) return;
+  host.innerHTML =
+    heading("globe", "Explore the Measurements", {
+      tagline: "Interactive",
+      subtitle:
+        "Two of the studies run live on this page. Drag the year, switch the measure, pan the map.",
+    }) +
+    tabGroup("Explore the measurements", [
+      { id: "lc", label: "Lahore District, 1993 to 2043", body: '<div id="landchange"></div>' },
+      { id: "pk", label: "All of Pakistan, district by district", body: '<div id="pakmap"></div>' },
+    ]);
+}
+
+/* The CV detail. A supervisor dips into one of these at a time, and stacked
+   they were three and a half screens between the research and the contact
+   details. */
+function renderBackground() {
+  const host = el("background");
+  if (!host) return;
+  host.innerHTML =
+    heading("cap", "Background", {
+      tagline: "Track record",
+      subtitle:
+        "Research posts, the toolkit behind the studies, and where the work has been presented.",
+    }) +
+    tabGroup("Background", [
+      { id: "exp", label: "Experience", body: '<div id="experience"></div>' },
+      { id: "skl", label: "Skills", body: '<div id="skills"></div>' },
+      { id: "tlk", label: "Talks", body: '<div id="talks"></div>' },
+      { id: "crt", label: "Certifications", body: '<div id="certifications"></div>' },
+    ]);
 }
 
 function renderAbout(profile) {
@@ -220,16 +357,10 @@ function renderResearch(profile) {
       </div>`
     )
     .join("");
-  el("research").innerHTML =
-    heading("flask", "Research Interests", {
-      tagline: "Direction",
-      subtitle: "Where I want to take this work in a PhD.",
-    }) +
-    `<div class="card-grid">${items}</div>`;
-}
-
-function renderApproach(profile) {
-  const items = (profile.approach || [])
+  // Two four-card grids that used to be two full-width sections in a row. Side
+  // by side they read as the pair they are, what I want to work on and how I
+  // work, and cost one row of height instead of four.
+  const method = (profile.approach || [])
     .map(
       (a, i) => `
       <div class="card approach-card">
@@ -241,35 +372,31 @@ function renderApproach(profile) {
       </div>`
     )
     .join("");
-  el("approach").innerHTML =
-    heading("spark", "How I Work", {
-      tagline: "Method",
-      subtitle: "The standard running through every study on this page.",
+
+  el("research").innerHTML =
+    heading("flask", "Research Direction", {
+      tagline: "Direction",
+      subtitle: "Where I want to take this work in a PhD, and the standard I hold it to.",
     }) +
-    `
-     <div class="card-grid">${items}</div>`;
+    `<div class="dual">
+       <div>
+         <h3 class="sub-head">Questions I want to take further</h3>
+         <div class="card-grid">${items}</div>
+       </div>
+       <div>
+         <h3 class="sub-head">How I work</h3>
+         <div class="card-grid">${method}</div>
+       </div>
+     </div>`;
 }
 
-function renderEducation(profile) {
-  // Full education detail (the hero shows a condensed version).
-  el("education").innerHTML =
-    heading("cap", "Education", { tagline: "Background" }) +
-    `<div class="card-grid">${(profile.education || [])
-      .map(
-        (e) => `
-      <div class="card edu-card">
-        <div class="edu-degree">${e.degree}</div>
-        <div class="edu-org">${e.institution}</div>
-        ${e.period ? `<div class="edu-period">${e.period}</div>` : ""}
-        <ul>${(e.details || []).map((d) => `<li>${d}</li>`).join("")}</ul>
-      </div>`
-      )
-      .join("")}</div>`;
-}
+/* Education is rendered inside the Research Statement split by renderAbout.
+   It used to be repeated as its own full section further down the page under
+   the same heading, which was half a screen spent saying it twice. */
 
 function renderExperience(profile) {
   el("experience").innerHTML =
-    heading("flask", "Research Experience", { tagline: "Experience" }) +
+    panelHeading("experience", "flask", "Research Experience", { tagline: "Experience" }) +
     (profile.experience || [])
       .map(
         (e) => `
@@ -1195,6 +1322,19 @@ function renderPakMap(fc) {
       map.fitBounds(layer.getBounds(), { padding: [8, 8] });
       wheelOnClick(map);
 
+      // This map is behind the second tab, so it is usually built while its
+      // panel is hidden and Leaflet has measured the container as zero. The
+      // first reveal needs a refit; later ones must only remeasure, or the
+      // reader's own zoom would be thrown away every time they switch tabs.
+      let fitted = !mapEl.closest(".tabpanel[hidden]");
+      window.addEventListener("panelshown", () => {
+        map.invalidateSize();
+        if (!fitted && mapEl.getBoundingClientRect().width > 0) {
+          map.fitBounds(layer.getBounds(), { padding: [8, 8] });
+          fitted = true;
+        }
+      });
+
       // Tooltips are bound once, so switching metric has to rewrite them.
       function retip() {
         layer.eachLayer((lyr) => {
@@ -1265,7 +1405,7 @@ function renderSkills(profile) {
     .join("");
 
   el("skills").innerHTML =
-    heading("spark", "Skills", { tagline: "Toolkit" }) +
+    panelHeading("skills", "spark", "Skills", { tagline: "Toolkit" }) +
     `<div class="card-grid">${groups}</div>
      <h3 class="sub-head">Applied project skills</h3>
      <ul class="chip-list">${(profile.projectLevelSkills || [])
@@ -1275,7 +1415,7 @@ function renderSkills(profile) {
 
 function renderTalks(profile) {
   el("talks").innerHTML =
-    heading("mic", "Scientific Communication", { tagline: "Talks" }) +
+    panelHeading("talks", "mic", "Scientific Communication", { tagline: "Talks" }) +
     `<div class="card-grid">${(profile.talks || [])
       .map(
         (t) => `
@@ -1290,7 +1430,7 @@ function renderTalks(profile) {
 
 function renderCertifications(profile) {
   el("certifications").innerHTML =
-    heading("award", "Certifications", { tagline: "Credentials" }) +
+    panelHeading("certifications", "award", "Certifications", { tagline: "Credentials" }) +
     `<div class="card-grid">${(profile.certifications || [])
       .map(
         (c) => `<div class="card cert-card"><span class="icon-badge">${ICONS.award}</span><span>${c}</span></div>`
@@ -1348,10 +1488,13 @@ async function init() {
     renderHero(profile);
     renderStats(profile, projects, publications);
     renderAbout(profile);
+    // The grouped sections build their panels first. Every renderer below finds
+    // its own node by id, and panelHeading() has to be able to see where that
+    // node ended up.
+    renderExplore();
+    renderBackground();
     renderMethodsAudit(profile);
     renderResearch(profile);
-    renderApproach(profile);
-    renderEducation(profile);
     renderExperience(profile);
     renderPublications(publications);
     renderProjects(projects);
@@ -1363,22 +1506,21 @@ async function init() {
       .then(renderPakMap)
       .catch((e) => {
         console.warn("District map skipped:", e.message);
-        const n = el("pakmap");
-        if (n) n.remove();
+        dropPanel("pakmap");
       });
 
     loadJson("data/lahore-lulc.json")
       .then(renderLandChange)
       .catch((e) => {
         console.warn("Land-change scrubber skipped:", e.message);
-        const n = el("landchange");
-        if (n) n.remove();
+        dropPanel("landchange");
       });
     renderSkills(profile);
     renderTalks(profile);
     renderCertifications(profile);
     renderFooter(profile);
 
+    initTabs();
     initReveal();
     initParallax();
     initProgressBar();

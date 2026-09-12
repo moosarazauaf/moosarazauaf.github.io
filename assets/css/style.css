@@ -120,7 +120,7 @@ body::before {
      viewport rather than dead centre, and holds it there as the frame narrows. */
   /* Versioned like the stylesheets: the plate is re-rendered from the
      rasters, so a returning visitor must not keep an older banner. */
-  background: url("../img/hero-lahore.jpg?v=35") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore.jpg?v=36") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -1390,4 +1390,67 @@ a:focus-visible, button:focus-visible {
 @media (max-width: 860px) {
   .pm { grid-template-columns: 1fr; }
   .pm-map { max-height: none; }
+}
+
+/* ============================ Tabs ============================
+   Used for the two interactive maps and for the CV detail. A closed panel is
+   `hidden`, so it contributes no height at all; that is the whole point, and it
+   is why the page went from twelve screens to seven. */
+.tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: var(--space-md);
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--border);
+}
+.tab {
+  border: 1px solid transparent;
+  background: none;
+  color: var(--ink-faint);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.tab:hover { color: var(--brand); background: var(--brand-pale); }
+.tab.is-on {
+  background: var(--brand-strong);
+  border-color: var(--brand-strong);
+  color: var(--paper);
+}
+[data-theme="dark"] .tab.is-on { color: var(--forest-deep); }
+.tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The reveal animation starts sections at opacity 0. A panel opened by a click
+   is already past that, so it must not inherit a half-finished entrance. */
+.tabpanel { animation: panel-in var(--dur-slow) var(--ease-entrance) both; }
+@keyframes panel-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tabpanel { animation: none; }
+}
+
+/* Two related card grids side by side, which is what Research Direction needs:
+   the questions and the method are a pair and were two stacked full-width
+   sections before. */
+.dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+}
+.dual .sub-head { margin-top: 0; }
+.dual .card-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 190px), 1fr)); }
+
+@media (max-width: 860px) {
+  .dual { grid-template-columns: 1fr; gap: var(--space-md); }
+  .tablist { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .tablist::-webkit-scrollbar { display: none; }
 }

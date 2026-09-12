@@ -8,8 +8,8 @@
   <link rel="icon" href="assets/img/profile.jpg" type="image/jpeg" />
   <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
        visitors get the new file instead of a stale cached one. -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=35" />
-  <link rel="stylesheet" href="assets/css/style.css?v=35" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=36" />
+  <link rel="stylesheet" href="assets/css/style.css?v=36" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -28,12 +28,11 @@
       <a class="nav-brand" href="#top">M. Moosa Raza</a>
       <ul class="nav-links">
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#landchange">Land change</a></li>
-        <li><a href="#pakmap">District map</a></li>
+        <li><a href="#explore">Explore</a></li>
         <li><a href="#publications">Publications</a></li>
+        <li><a href="#audit">Verification</a></li>
         <li><a href="#research">Research</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#education">Education</a></li>
+        <li><a href="#background">Background</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
@@ -50,27 +49,20 @@
       <section id="about" class="section"></section>
       <!-- Projects lead: the work is the argument. -->
       <section id="projects" class="section"></section>
-      <!-- Interactive read of the Lahore projection; rendered from
-           data/lahore-lulc.json, removed by main.js if that file is missing. -->
-      <section id="landchange" class="section"></section>
-      <!-- National district choropleth, rendered from
-           data/pakistan-districts.geojson; main.js removes it if that file or
-           Leaflet is unavailable. -->
-      <section id="pakmap" class="section"></section>
+      <!-- Both interactives live in one tabbed section. main.js builds the
+           panels and drops a tab whose data or library failed to load.
+           Panel 1: data/lahore-lulc.json. Panel 2: data/pakistan-districts.geojson. -->
+      <section id="explore" class="section"></section>
       <section id="publications" class="section"></section>
       <section id="audit" class="section"></section>
       <section id="research" class="section"></section>
-      <section id="approach" class="section"></section>
-      <section id="experience" class="section"></section>
-      <section id="education" class="section"></section>
-      <section id="skills" class="section"></section>
-      <section id="talks" class="section"></section>
-      <section id="certifications" class="section"></section>
+      <!-- Experience, skills, talks and certifications, tabbed. -->
+      <section id="background" class="section"></section>
     </div>
   </main>
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=35"></script>
+  <script src="assets/js/main.js?v=36"></script>
 </body>
 </html>
