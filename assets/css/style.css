@@ -120,7 +120,7 @@ body::before {
      viewport rather than dead centre, and holds it there as the frame narrows. */
   /* Versioned like the stylesheets: the plate is re-rendered from the
      rasters, so a returning visitor must not keep an older banner. */
-  background: url("../img/hero-lahore.jpg?v=34") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore.jpg?v=35") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -1017,11 +1017,12 @@ a:focus-visible, button:focus-visible {
   margin: 0;
   border-radius: var(--radius-lg, 14px);
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 62% 45%,
-      color-mix(in srgb, var(--forest) 34%, transparent) 0%,
-      var(--forest-deep) 72%);
-  border: 1px solid color-mix(in srgb, var(--forest) 45%, transparent);
+  /* The district used to float on a dark radial gradient, which read as a
+     product shot rather than as a map. It now sits on a real basemap, so the
+     stage only has to supply the surface colour underneath while tiles load. */
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: border-color var(--dur) var(--ease);
 }
 .lc-plate {
   position: relative;
@@ -1032,7 +1033,11 @@ a:focus-visible, button:focus-visible {
      just adds side gutters and shrinks the map. */
   aspect-ratio: 1.16 / 1;
 }
-.lc-tile {
+/* Plain <img> stack: what shows before Leaflet arrives, and what stays if it
+   never does. Scoped away from the Leaflet case, where Leaflet owns position,
+   size and transform on this same element and a stray transform here would
+   throw the overlay off its own bounds. */
+.lc-plate:not(.leaflet-container) .lc-tile {
   position: absolute;
   /* An absolutely positioned <img> with `inset` but `width/height: auto` falls
      back to its INTRINSIC size, so object-fit had no box to fit into and the
@@ -1052,23 +1057,39 @@ a:focus-visible, button:focus-visible {
               transform var(--dur-cine, 0.6s) ease;
   image-rendering: -webkit-optimize-contrast;
 }
-.lc-tile.is-on { opacity: 1; transform: scale(1); }
+.lc-plate:not(.leaflet-container) .lc-tile.is-on { opacity: 1; transform: scale(1); }
 
+/* Leaflet image overlay. Opacity is driven by setOpacity(), so all this adds is
+   the cross-fade between years. Nothing here may touch transform or position. */
+.leaflet-image-layer.lc-tile {
+  transition: opacity var(--dur-cine, 0.6s) ease;
+  image-rendering: -webkit-optimize-contrast;
+}
+.lc-plate.leaflet-container { background: var(--surface); }
+
+/* Over the map now rather than over a dark gradient, so the year needs its own
+   ground to sit on. z-index clears Leaflet's panes, which top out at 700. */
 .lc-badge {
   position: absolute;
   left: var(--space-sm);
   bottom: var(--space-sm);
+  z-index: 900;
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
+  padding: 0.25rem 0.7rem 0.35rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
 }
 .lc-year {
   font-size: clamp(2rem, 4.6vw, 3.4rem);
   font-weight: 700;
   line-height: 1;
-  color: var(--paper);
+  color: var(--ink);
   letter-spacing: 0.02em;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
   font-variant-numeric: tabular-nums;
 }
 .lc-flag {
@@ -1082,14 +1103,12 @@ a:focus-visible, button:focus-visible {
   font-weight: 700;
 }
 
-/* Projected epochs get a warm cast on the stage, so the difference between
-   measured and modelled is visible before the label is read. */
+/* Projected epochs ring the stage in gold, so the difference between measured
+   and modelled is visible before the label is read. It used to be a warm cast
+   over the whole plate, which is not available now that the plate is a map. */
 .lc.is-projected .lc-stage {
-  background:
-    radial-gradient(120% 90% at 62% 45%,
-      color-mix(in srgb, var(--gold) 22%, transparent) 0%,
-      var(--forest-deep) 74%);
-  border-color: color-mix(in srgb, var(--gold) 45%, transparent);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 35%, transparent);
 }
 
 .lc-panel { grid-area: panel; display: grid; gap: var(--space-sm); }

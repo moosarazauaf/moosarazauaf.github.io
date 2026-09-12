@@ -604,6 +604,72 @@ function initReveal() {
    All six tiles sit in the DOM at once and cross-fade by opacity. Swapping a
    single <img> src would flash on every step; stacking them does not, and six
    paletted PNGs come to about 750 KB in total. */
+/* ------------------------- shared map plumbing -------------------------
+   Both maps on this page are Leaflet, and both fetch it from a CDN on demand
+   rather than blocking the first paint on a library most visitors never reach.
+   One loader, one promise, so the second map costs nothing once the first has
+   paid for it. */
+
+/* Leaflet on demand. Resolves once window.L exists, rejects if either file
+   fails, so the caller can put a fallback in place instead of a dead box. */
+let leafletPromise = null;
+function loadLeaflet() {
+  if (leafletPromise) return leafletPromise;
+  leafletPromise = new Promise((resolve, reject) => {
+    if (window.L) return resolve(window.L);
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+    css.integrity = "sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb";
+    css.crossOrigin = "anonymous";
+    document.head.appendChild(css);
+
+    const js = document.createElement("script");
+    js.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js";
+    js.integrity = "sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH";
+    js.crossOrigin = "anonymous";
+    js.onload = () => (window.L ? resolve(window.L) : reject(new Error("Leaflet did not define L")));
+    js.onerror = () => reject(new Error("Leaflet failed to load"));
+    document.head.appendChild(js);
+  });
+  return leafletPromise;
+}
+
+/* CARTO's two neutral basemaps. They are the quietest tiles available, which is
+   what a data overlay needs: the map underneath has to give position and nothing
+   else. Attribution is required by the licence and is left switched on. */
+const BASEMAP = {
+  light: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+  dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+  attribution:
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
+    'contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+};
+
+function themeName() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+
+/* A basemap that redraws itself when the site theme flips. Returns the layer so
+   the caller can keep it; the listener is bound once per map. */
+function addBasemap(L, map) {
+  const opts = { attribution: BASEMAP.attribution, maxZoom: 18, detectRetina: true };
+  let tiles = L.tileLayer(BASEMAP[themeName()], opts).addTo(map);
+  window.addEventListener("themechange", () => {
+    map.removeLayer(tiles);
+    tiles = L.tileLayer(BASEMAP[themeName()], opts).addTo(map);
+    tiles.bringToBack();
+  });
+  return tiles;
+}
+
+/* The wheel belongs to the page on a document this tall, so a map only takes it
+   after a deliberate click and hands it straight back when the pointer leaves. */
+function wheelOnClick(map) {
+  map.on("click", () => map.scrollWheelZoom.enable());
+  map.on("mouseout", () => map.scrollWheelZoom.disable());
+}
+
 function renderLandChange(d) {
   const host = el("landchange");
   if (!host || !d || !d.years) return;
@@ -710,13 +776,63 @@ function renderLandChange(d) {
   const intFmt = (v) => Math.round(v).toLocaleString();
   const base = d.years[String(years[0])];
 
+  /* Which year is visible. Starts as a plain stack of <img> tiles, which is what
+     shows if Leaflet never arrives, and is swapped for Leaflet image overlays
+     once it does. Both paths cross-fade on the same CSS transition. */
+  let paintYear = (year) =>
+    plate.querySelectorAll(".lc-tile").forEach((t) =>
+      t.classList.toggle("is-on", Number(t.dataset.year) === year)
+    );
+
+  /* The classified rasters are EPSG:4326 and the exporter already undid the
+     geographic stretch by cos(latitude), so the PNGs carry the district at its
+     true shape and drop straight onto the basemap at the raster's own bounds.
+     Read from data/lulc/Lahore_2023_RF_LULC.tif; re-export and these move. */
+  const LAHORE_BOUNDS = [
+    [31.255982, 74.003483],
+    [31.718165, 74.641376],
+  ];
+
+  function upgradeToMap(L) {
+    const year = years[Number(range.value)];
+    plate.innerHTML = "";
+    const map = L.map(plate, {
+      zoomControl: true,
+      scrollWheelZoom: false,
+      zoomSnap: 0.25,
+      maxBounds: L.latLngBounds(LAHORE_BOUNDS).pad(1.2),
+    });
+    addBasemap(L, map);
+
+    const overlays = {};
+    years.forEach((y) => {
+      const o = L.imageOverlay("assets/img/projects/lahore/tile_" + y + ".png",
+                               LAHORE_BOUNDS,
+                               { className: "lc-tile", opacity: 0, interactive: false });
+      o.addTo(map);
+      overlays[y] = o;
+    });
+
+    map.fitBounds(LAHORE_BOUNDS, { padding: [6, 6] });
+    wheelOnClick(map);
+
+    paintYear = (y) => years.forEach((yy) => overlays[yy].setOpacity(yy === y ? 1 : 0));
+    paintYear(year);
+    // The section can be inside a hidden tab panel when this runs, where Leaflet
+    // measures the container as zero and paints a sliver of map.
+    window.addEventListener("panelshown", () => map.invalidateSize());
+    setTimeout(() => map.invalidateSize(), 50);
+  }
+
+  loadLeaflet()
+    .then(upgradeToMap)
+    .catch((e) => console.warn("Land-change basemap skipped:", e.message));
+
   function show(i) {
     const year = years[i];
     const rec = d.years[String(year)];
 
-    plate.querySelectorAll(".lc-tile").forEach((t) =>
-      t.classList.toggle("is-on", Number(t.dataset.year) === year)
-    );
+    paintYear(year);
     host.querySelectorAll(".lc-tick").forEach((t) =>
       t.classList.toggle("is-on", Number(t.dataset.year) === year)
     );
@@ -865,45 +981,16 @@ const PAK_METRICS = {
   },
 };
 
-function pakTheme() {
-  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-}
-
 function pakRamp(metric) {
-  return PAK_RAMPS[pakTheme()][metric.kind];
+  return PAK_RAMPS[themeName()][metric.kind];
 }
 
 function pakColour(metric, value) {
   const ramp = pakRamp(metric);
-  if (value === undefined || value === null) return PAK_RAMPS[pakTheme()].nodata;
+  if (value === undefined || value === null) return PAK_RAMPS[themeName()].nodata;
   let i = 0;
   while (i < metric.breaks.length && value >= metric.breaks[i]) i++;
   return ramp[i];
-}
-
-/* Leaflet on demand. Resolves once window.L exists, rejects if either file
-   fails, so the caller can put a fallback in place instead of a dead box. */
-let pakLeaflet = null;
-function loadLeaflet() {
-  if (pakLeaflet) return pakLeaflet;
-  pakLeaflet = new Promise((resolve, reject) => {
-    if (window.L) return resolve(window.L);
-    const css = document.createElement("link");
-    css.rel = "stylesheet";
-    css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
-    css.integrity = "sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb";
-    css.crossOrigin = "anonymous";
-    document.head.appendChild(css);
-
-    const js = document.createElement("script");
-    js.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js";
-    js.integrity = "sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH";
-    js.crossOrigin = "anonymous";
-    js.onload = () => (window.L ? resolve(window.L) : reject(new Error("Leaflet did not define L")));
-    js.onerror = () => reject(new Error("Leaflet failed to load"));
-    document.head.appendChild(js);
-  });
-  return pakLeaflet;
 }
 
 function renderPakMap(fc) {
@@ -996,7 +1083,7 @@ function renderPakMap(fc) {
       '<div class="pm-ends">' +
         metric.ends.map((t) => "<span>" + t + "</span>").join("") +
       "</div>" +
-      '<p class="pm-nodata"><i style="--c:' + PAK_RAMPS[pakTheme()].nodata + '"></i>no value in the source</p>';
+      '<p class="pm-nodata"><i style="--c:' + PAK_RAMPS[themeName()].nodata + '"></i>no value in the source</p>';
   }
 
   function drawRank() {
@@ -1023,7 +1110,7 @@ function renderPakMap(fc) {
   }
 
   function style(feature) {
-    const t = PAK_RAMPS[pakTheme()];
+    const t = PAK_RAMPS[themeName()];
     return {
       fillColor: pakColour(metric, feature.properties[metric.key]),
       fillOpacity: 0.92,
@@ -1071,9 +1158,12 @@ function renderPakMap(fc) {
       const map = L.map(mapEl, {
         zoomControl: true,
         scrollWheelZoom: false,
-        attributionControl: false,
         zoomSnap: 0.25,
       });
+      // The choropleth is opaque, so the basemap is not read through it. What it
+      // gives is the surround: which districts touch India, which touch the sea,
+      // where the mountains start. Without it the country floats on nothing.
+      addBasemap(L, map);
 
       layer = L.geoJSON(fc, {
         style,
@@ -1085,7 +1175,7 @@ function renderPakMap(fc) {
             { sticky: true, className: "pm-tip" }
           );
           lyr.on("mouseover", () => {
-            lyr.setStyle({ weight: 2, color: pakTheme() === "dark" ? "#e8f2e4" : "#243e36" });
+            lyr.setStyle({ weight: 2, color: themeName() === "dark" ? "#e8f2e4" : "#243e36" });
             lyr.bringToFront();
             showDistrict(p);
           });
@@ -1103,10 +1193,7 @@ function renderPakMap(fc) {
       }).addTo(map);
 
       map.fitBounds(layer.getBounds(), { padding: [8, 8] });
-      // The wheel is the page's scroll on a tall page, so the map only takes it
-      // after a deliberate click, and gives it back when focus leaves.
-      map.on("click", () => map.scrollWheelZoom.enable());
-      map.on("mouseout", () => map.scrollWheelZoom.disable());
+      wheelOnClick(map);
 
       // Tooltips are bound once, so switching metric has to rewrite them.
       function retip() {
