@@ -120,7 +120,7 @@ body::before {
      viewport rather than dead centre, and holds it there as the frame narrows. */
   /* Versioned like the stylesheets: the plate is re-rendered from the
      rasters, so a returning visitor must not keep an older banner. */
-  background: url("../img/hero-lahore.jpg?v=30") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore.jpg?v=34") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -221,10 +221,10 @@ body::before {
   /* The subtitle is measured against the NAME, not the frame: a line running
      wider than the title above it reads as a mistake rather than a subtitle.
      The name is 12.9x its font size, which is min(5.6vw, 4rem), so its width is
-     min(72vw, 51.6rem) — that is the ceiling used here. At 94 characters the
-     tracked line is 60.6x its own font size, so dividing gives the size below.
-     The copy was shortened to reach this; at the old 120 characters no readable
-     size fit inside the title. */
+     min(72vw, 51.6rem), which is the ceiling used here. At 87 characters the
+     tracked line runs 56x its own font size, so the clamp below leaves it
+     comfortably inside that ceiling. The copy was shortened to reach this; at
+     the original 120 characters no readable size fitted inside the title. */
   .hero-tagline {
     max-width: min(72vw, 51.6rem);
     white-space: nowrap;
@@ -1203,4 +1203,172 @@ a:focus-visible, button:focus-visible {
   .lc-tile { transition: none; }
   .lc-bar i { transition: none; }
   .lc-play:hover { transform: none; }
+}
+
+/* ==================== Pakistan district map ====================
+   Two columns on the golden split: the map carries the shape, the side panel
+   carries the numbers. The ranked list in the side panel is not decoration, it
+   is the keyboard and screen-reader route into the same data, so it stays
+   visible at every width rather than collapsing into a toggle. */
+.pm {
+  display: grid;
+  grid-template-columns: 1.618fr 1fr;
+  gap: var(--space-md);
+  align-items: start;
+}
+.pm-tabs {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.pm-tab {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 0.42rem 0.95rem;
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.pm-tab:hover { background: var(--brand-pale); color: var(--brand); }
+.pm-tab.is-on {
+  background: var(--brand-strong);
+  border-color: var(--brand-strong);
+  color: var(--paper);
+}
+[data-theme="dark"] .pm-tab.is-on { color: var(--forest-deep); }
+.pm-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.pm-stage { position: relative; }
+.pm-map {
+  /* Pakistan is close to square in this projection, so a square frame wastes
+     the least space. Capped so the map never outgrows one screen. */
+  aspect-ratio: 1 / 1;
+  max-height: 72svh;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow: hidden;
+}
+.pm-hint {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 500;
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  pointer-events: none;
+}
+.pm-fallback {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  color: var(--ink-soft);
+}
+
+.pm-side { display: grid; gap: var(--space-sm); }
+.pm-readout {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: var(--space-sm);
+}
+.pm-place { margin: 0; font-family: var(--font-heading); font-size: var(--text-lg); color: var(--ink); }
+.pm-prov { margin: 0.1rem 0 0.7rem; font-size: var(--text-xs); color: var(--ink-faint); }
+.pm-figs { margin: 0; display: grid; gap: 0.35rem; }
+.pm-figs div { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.pm-figs dt { font-size: var(--text-sm); color: var(--ink-soft); }
+.pm-figs dd { margin: 0; font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.pm-legend-title { margin: 0 0 0.4rem; font-size: var(--text-xs); color: var(--ink-soft); }
+.pm-strip { display: flex; gap: 2px; }
+.pm-strip i { flex: 1; height: 12px; background: var(--c); border-radius: 2px; }
+.pm-ends {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+}
+.pm-ends span:nth-child(2) { text-align: center; }
+.pm-ends span:last-child { text-align: right; }
+.pm-nodata {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.5rem 0 0;
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+}
+.pm-nodata i { width: 12px; height: 12px; border-radius: 2px; background: var(--c); }
+
+.pm-rank { display: grid; gap: var(--space-sm); }
+.pm-rank-title {
+  margin: 0 0 0.3rem;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+.pm-rank ol { margin: 0; padding: 0; list-style: none; }
+.pm-rank li + li { border-top: 1px solid var(--border); }
+.pm-rank button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.34rem 0.2rem;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+  text-align: left;
+  cursor: pointer;
+}
+.pm-rank button:hover { color: var(--brand); background: var(--brand-pale); }
+.pm-rank button b { color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pm-rank button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.pm-foot {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+}
+
+/* Leaflet ships its own light chrome; these pull it onto the site's surfaces.
+   The container rule needs both classes on one selector, not a descendant one:
+   .pm-map IS the Leaflet container, and Leaflet's stylesheet is injected after
+   this one, so at equal specificity its flat #ddd would win and the map would
+   sit on a grey slab in dark mode. */
+.pm-map.leaflet-container { background: var(--surface); font: inherit; }
+.pm-map .leaflet-bar a {
+  background: var(--surface);
+  color: var(--ink);
+  border-bottom-color: var(--border);
+}
+.pm-map .leaflet-bar a:hover { background: var(--brand-pale); }
+.leaflet-tooltip.pm-tip {
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  font-size: var(--text-xs);
+  padding: 0.3rem 0.5rem;
+}
+.leaflet-tooltip.pm-tip::before { display: none; }
+
+@media (max-width: 860px) {
+  .pm { grid-template-columns: 1fr; }
+  .pm-map { max-height: none; }
 }

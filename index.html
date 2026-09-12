@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muhammad Moosa Raza — Geospatial &amp; Environmental Research</title>
-  <meta name="description" content="Portfolio of Muhammad Moosa Raza — remote sensing, carbon dynamics, and Earth observation research." />
+  <title>Muhammad Moosa Raza · Earth Observation Research</title>
+  <meta name="description" content="Muhammad Moosa Raza: satellite measurement of floods, drought and land change across Pakistan." />
   <link rel="icon" href="assets/img/profile.jpg" type="image/jpeg" />
   <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
        visitors get the new file instead of a stale cached one. -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=30" />
-  <link rel="stylesheet" href="assets/css/style.css?v=30" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=34" />
+  <link rel="stylesheet" href="assets/css/style.css?v=34" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -29,6 +29,7 @@
       <ul class="nav-links">
         <li><a href="#projects">Projects</a></li>
         <li><a href="#landchange">Land change</a></li>
+        <li><a href="#pakmap">District map</a></li>
         <li><a href="#publications">Publications</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#experience">Experience</a></li>
@@ -52,6 +53,10 @@
       <!-- Interactive read of the Lahore projection; rendered from
            data/lahore-lulc.json, removed by main.js if that file is missing. -->
       <section id="landchange" class="section"></section>
+      <!-- National district choropleth, rendered from
+           data/pakistan-districts.geojson; main.js removes it if that file or
+           Leaflet is unavailable. -->
+      <section id="pakmap" class="section"></section>
       <section id="publications" class="section"></section>
       <section id="audit" class="section"></section>
       <section id="research" class="section"></section>
@@ -66,6 +71,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=30"></script>
+  <script src="assets/js/main.js?v=34"></script>
 </body>
 </html>

@@ -4,3 +4,6 @@ node_modules/
 
 # local tool config, not part of the site
 .claude/
+
+# Boundary download cached by scripts/build_pakistan_districts.py
+scripts/.cache-*.geojson

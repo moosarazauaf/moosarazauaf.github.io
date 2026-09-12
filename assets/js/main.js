@@ -1,5 +1,5 @@
 // Renders the whole site from data/*.json. Edit the JSON files to update
-// content — this file only reads them and builds DOM; no content lives here.
+// content. This file only reads them and builds DOM; no content lives here.
 
 /* ----------------------------- icons ----------------------------- */
 const ICONS = {
@@ -45,6 +45,8 @@ const ICONS = {
     '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M1 5c1.6-1.6 3.2-1.6 4.8 0S9 6.6 10.6 5 13.8 3.4 15 5M1 11c1.6-1.6 3.2-1.6 4.8 0s3.2 1.6 4.8 0 3.2-1.6 4.4 0"/></svg>',
   leaf:
     '<svg viewBox="0 0 16 16" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M14 1S6.5 1 3.8 3.7C1.6 5.9 1.6 9.4 3.4 11.7L2 13.1a.7.7 0 0 0 1 1l1.4-1.4c2.3 1.8 5.8 1.8 8-.4C15 9.6 14 1 14 1Z"/></svg>',
+  globe:
+    '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M1.5 8h13M8 1.5c1.9 2 2.9 4.2 2.9 6.5S9.9 12.5 8 14.5C6.1 12.5 5.1 10.3 5.1 8S6.1 3.5 8 1.5Z"/></svg>',
 };
 
 /* ----------------------------- helpers ----------------------------- */
@@ -53,7 +55,7 @@ const el = (id) => document.getElementById(id);
 /* Section header, AstroWind pattern: an uppercase tagline over a large centred
    heading, with an optional subtitle beneath. Every section goes through here,
    so the whole page shares one rhythm.
-   `align: "start"` opts a header out of centring — used inside the two-column
+   `align: "start"` opts a header out of centring, used inside the two-column
    about split, where centred headers would fight the columns. */
 function heading(icon, text, opts = {}) {
   const { tagline = "", subtitle = "", align = "center" } = opts;
@@ -121,7 +123,7 @@ function renderHero(profile) {
   setTimeout(() => el("hero")?.classList.add("is-ready"), 1200);
 }
 
-/* Stats band — AstroWind's tinted full-bleed strip under the hero.
+/* Stats band, AstroWind's tinted full-bleed strip under the hero.
    Counts are derived from the data so they cannot drift out of date. */
 function renderStats(profile, projects, publications) {
   const band = el("stats");
@@ -129,7 +131,7 @@ function renderStats(profile, projects, publications) {
   const stats = [
     { value: String(projects.length), label: "Open studies" },
     { value: String(publications.length), label: "Publications" },
-    { value: "4", label: "Method failures documented" },
+    { value: "133", label: "Districts accounted nationally" },
     { value: "100%", label: "Code and data released" },
   ];
   band.innerHTML = `<div class="container stat-band">${stats
@@ -196,14 +198,13 @@ function renderMethodsAudit(profile) {
     .join("");
 
   el("audit").innerHTML =
-    heading("check", "When the Standard Method Was Wrong", {
-      tagline: "Method audit",
-      subtitle: "Four times a textbook approach returned a confident number that did not survive scrutiny. Each was caught by testing the method against itself.",
+    heading("check", "Numbers That Hold Up", {
+      tagline: "Verification",
+      subtitle: "Four results that changed once the method was tested against itself. The figure on the right is the one that stands.",
     }) +
-    `<p class="section-lede">${a.lede}</p>
-     <div class="audit-legend">
-       <span><i class="swatch is-claimed"></i>As commonly applied</span>
-       <span><i class="swatch is-actual"></i>After correction</span>
+    `<div class="audit-legend">
+       <span><i class="swatch is-claimed"></i>First answer</span>
+       <span><i class="swatch is-actual"></i>What the checks left</span>
      </div>
      <div class="audit-grid">${items}</div>`;
 }
@@ -222,10 +223,9 @@ function renderResearch(profile) {
   el("research").innerHTML =
     heading("flask", "Research Interests", {
       tagline: "Direction",
-      subtitle: "The questions I want to take further in a PhD.",
+      subtitle: "Where I want to take this work in a PhD.",
     }) +
-    `<p class="section-lede">The directions I want to take further in a PhD.</p>
-     <div class="card-grid">${items}</div>`;
+    `<div class="card-grid">${items}</div>`;
 }
 
 function renderApproach(profile) {
@@ -246,7 +246,7 @@ function renderApproach(profile) {
       tagline: "Method",
       subtitle: "The standard running through every study on this page.",
     }) +
-    `<p class="section-lede">The standard that runs through every study below.</p>
+    `
      <div class="card-grid">${items}</div>`;
 }
 
@@ -295,7 +295,7 @@ function renderPublications(publications) {
         return `
       <div class="card pub-card">
         <h3>${p.title}</h3>
-        <div class="pub-meta">${p.authors} — ${p.journal} (${p.year})</div>
+        <div class="pub-meta">${p.authors} · ${p.journal} (${p.year})</div>
         <span class="status-badge${prep}">${p.status}</span>
       </div>`;
       })
@@ -343,7 +343,7 @@ function renderProjects(projects) {
               ${
                 (p.highlights || []).length
                   ? `<details class="method-notes">
-                       <summary>Method notes (${p.highlights.length})</summary>
+                       <summary>How it was built (${p.highlights.length})</summary>
                        <ul class="highlights">${p.highlights.map((h) => `<li>${h}</li>`).join("")}</ul>
                      </details>`
                   : ""
@@ -370,7 +370,7 @@ function renderProjects(projects) {
   el("projects").innerHTML = `
     ${heading("code", "Research Projects", {
       tagline: "Selected work",
-      subtitle: `${projects.length} open, end-to-end Earth observation studies over Pakistan. Every one ships its code, data and stated limits.`,
+      subtitle: `${projects.length} Earth observation studies over Pakistan, each designed and published end to end. Every one ships its code, its data and the range around its headline number.`,
     })}
     <div class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
       <div class="track">${slides}</div>
@@ -460,7 +460,7 @@ function initCarousel(count) {
 
 /* Hero parallax: the map plate drifts slower than the page, which reads as
    depth. Transform only, rAF-throttled, and skipped entirely under reduced
-   motion — the hero is still fully legible without it. */
+   motion, since the hero is still fully legible without it. */
 function initParallax() {
   const bg = document.querySelector(".hero-bg");
   if (!bg || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -788,6 +788,384 @@ function renderLandChange(d) {
   show(Number(range.value));
 }
 
+/* ---------------------- Pakistan district map ----------------------
+   A Leaflet choropleth over data/pakistan-districts.geojson, which
+   scripts/build_pakistan_districts.py builds by running the live app's own
+   analysis module against its cached GLC-FCS30D tables. The map and the app
+   therefore cannot disagree: they are the same numbers.
+
+   Leaflet is fetched from a CDN only once the section is actually approached.
+   The rest of the site carries no third-party dependency and should not gain a
+   blocking one for a section many visitors never scroll to. If the CDN is
+   unreachable the section degrades to a link to the live app.
+
+   Colour follows the job each metric does. Built-up share is a magnitude, so it
+   takes one hue running light to dark. Carbon flux and vegetation change have a
+   real zero, so they take two hues either side of a neutral midpoint. Dark mode
+   gets its own steps rather than an inverted copy: on a dark surface the
+   midpoint has to sit near the surface colour and the extremes have to be the
+   bright end, which is the opposite arrangement to light mode. */
+
+const PAK_RAMPS = {
+  light: {
+    diverging: ["#8f6a17", "#bd9430", "#dcbf6b", "#dfe3da", "#a9cfad", "#5d9a72", "#2c6045"],
+    sequential: ["#e6efe1", "#c3ddc4", "#9bc6a6", "#6fa886", "#47866a", "#2c6045"],
+    nodata: "#dce4d6",
+    stroke: "#ffffff",
+  },
+  dark: {
+    diverging: ["#eac96e", "#c29a3c", "#8a6f2a", "#3c4a42", "#3f7157", "#69ad83", "#a8dcb6"],
+    sequential: ["#22322a", "#2f4d3c", "#417053", "#5c9670", "#7fbb92", "#a8dcb6"],
+    nodata: "#2a3c33",
+    stroke: "#16261f",
+  },
+};
+
+const nf = (v, d = 0) =>
+  Number(v).toLocaleString(undefined, { minimumFractionDigits: d, maximumFractionDigits: d });
+
+/* Breaks are fixed rather than quantile-derived, so the colour of a district
+   means the same thing every time the page loads. They were chosen off the
+   observed spread: the carbon breaks sit either side of zero at the quartiles,
+   and the built-up breaks follow a roughly doubling progression because the
+   distribution is heavily skewed by the few urban districts. */
+const PAK_METRICS = {
+  carbon: {
+    key: "netMgCPerHa",
+    kind: "diverging",
+    button: "Carbon flux",
+    title: "Net carbon flux per hectare, 2000 to 2022",
+    breaks: [-2, -0.5, -0.1, 0.1, 0.5, 2],
+    ends: ["2+ Mg C/ha lost", "no change", "2+ Mg C/ha gained"],
+    fmt: (v) => (v > 0 ? "+" : "") + nf(v, 2) + " Mg C/ha",
+    rank: "both",
+    rankLabel: ["Largest net loss", "Largest net gain"],
+  },
+  builtup: {
+    key: "builtupPct",
+    kind: "sequential",
+    button: "Built-up share",
+    title: "Share of district classified built-up, 2022",
+    breaks: [0.5, 1.5, 3, 6, 12],
+    ends: ["under 0.5%", "", "over 12%"],
+    fmt: (v) => nf(v, 2) + "%",
+    rank: "high",
+    rankLabel: ["Most built-up", ""],
+  },
+  veg: {
+    key: "vegChangeHa",
+    kind: "diverging",
+    button: "Vegetation change",
+    title: "Change in vegetated area, 2000 to 2022",
+    breaks: [-20000, -5000, -1000, 1000, 5000, 20000],
+    ends: ["20,000+ ha lost", "no change", "20,000+ ha gained"],
+    fmt: (v) => (v > 0 ? "+" : "") + nf(v) + " ha",
+    rank: "both",
+    rankLabel: ["Largest vegetation loss", "Largest vegetation gain"],
+  },
+};
+
+function pakTheme() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+
+function pakRamp(metric) {
+  return PAK_RAMPS[pakTheme()][metric.kind];
+}
+
+function pakColour(metric, value) {
+  const ramp = pakRamp(metric);
+  if (value === undefined || value === null) return PAK_RAMPS[pakTheme()].nodata;
+  let i = 0;
+  while (i < metric.breaks.length && value >= metric.breaks[i]) i++;
+  return ramp[i];
+}
+
+/* Leaflet on demand. Resolves once window.L exists, rejects if either file
+   fails, so the caller can put a fallback in place instead of a dead box. */
+let pakLeaflet = null;
+function loadLeaflet() {
+  if (pakLeaflet) return pakLeaflet;
+  pakLeaflet = new Promise((resolve, reject) => {
+    if (window.L) return resolve(window.L);
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+    css.integrity = "sha384-c6Rcwz4e4CITMbu/NBmnNS8yN2sC3cUElMEMfP3vqqKFp7GOYaaBBCqmaWBjmkjb";
+    css.crossOrigin = "anonymous";
+    document.head.appendChild(css);
+
+    const js = document.createElement("script");
+    js.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js";
+    js.integrity = "sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH";
+    js.crossOrigin = "anonymous";
+    js.onload = () => (window.L ? resolve(window.L) : reject(new Error("Leaflet did not define L")));
+    js.onerror = () => reject(new Error("Leaflet failed to load"));
+    document.head.appendChild(js);
+  });
+  return pakLeaflet;
+}
+
+function renderPakMap(fc) {
+  const host = el("pakmap");
+  if (!host || !fc || !fc.features) return;
+
+  const withData = fc.features.filter((f) => f.properties.netMgC !== undefined);
+  const totalMgC = withData.reduce((s, f) => s + f.properties.netMgC, 0);
+  const m = fc.meta || {};
+
+  const buttons = Object.keys(PAK_METRICS)
+    .map(
+      (k, i) =>
+        '<button class="pm-tab' + (i === 0 ? " is-on" : "") + '" type="button" data-metric="' + k +
+        '" aria-pressed="' + (i === 0) + '">' + PAK_METRICS[k].button + "</button>"
+    )
+    .join("");
+
+  host.innerHTML =
+    heading("globe", "Every District in the Country", {
+      tagline: "National map",
+      subtitle:
+        "Land cover and terrestrial carbon for Pakistan, 30 m pixels aggregated to districts. " +
+        "The same tables drive the live app; this map is the quick read.",
+    }) +
+    '<div class="pm">' +
+      '<div class="pm-tabs" role="group" aria-label="Choose a measure">' + buttons + "</div>" +
+      '<div class="pm-stage">' +
+        '<div class="pm-map" role="img" aria-label="Choropleth map of Pakistan districts. The ranked list below carries the same values."></div>' +
+        '<div class="pm-hint">Click the map to zoom with the wheel</div>' +
+      "</div>" +
+      '<div class="pm-side">' +
+        '<div class="pm-readout">' +
+          '<p class="pm-place">Pakistan</p>' +
+          '<p class="pm-prov">' + withData.length + " districts mapped</p>" +
+          '<dl class="pm-figs"></dl>' +
+        "</div>" +
+        '<div class="pm-legend"></div>' +
+        '<div class="pm-rank"></div>' +
+      "</div>" +
+      '<p class="pm-foot">' +
+        "GLC-FCS30D at 30 m, " + m.yearFrom + " to " + m.yearTo + ", district tables from the " +
+        '<a href="https://gee-lulc-pakistan.streamlit.app/" target="_blank" rel="noopener">live app</a>. ' +
+        "Outlines from geoBoundaries. " + m.districtsWithData + " of " + m.districtsTotal +
+        " districts carry a value, covering " + m.areaCoveredPct + "% of the accounted area; " +
+        "Gilgit-Baltistan is held as one territory in the source, so its districts are drawn blank." +
+      "</p>" +
+    "</div>";
+
+  const mapEl = host.querySelector(".pm-map");
+  const legendEl = host.querySelector(".pm-legend");
+  const rankEl = host.querySelector(".pm-rank");
+  const figsEl = host.querySelector(".pm-figs");
+  const placeEl = host.querySelector(".pm-place");
+  const provEl = host.querySelector(".pm-prov");
+  let metric = PAK_METRICS.carbon;
+  let layer = null;
+  let locked = null;
+
+  const nationalFigs =
+    '<div><dt>Net carbon flux</dt><dd>' + (totalMgC > 0 ? "+" : "") + nf(totalMgC / 1e6, 2) + " Tg C</dd></div>" +
+    "<div><dt>Districts mapped</dt><dd>" + withData.length + "</dd></div>" +
+    "<div><dt>Years</dt><dd>" + m.yearFrom + " to " + m.yearTo + "</dd></div>";
+
+  function showNational() {
+    placeEl.textContent = "Pakistan";
+    provEl.textContent = withData.length + " districts mapped";
+    figsEl.innerHTML = nationalFigs;
+  }
+
+  function showDistrict(p) {
+    placeEl.textContent = p.name;
+    provEl.textContent = p.province || "no district-level value in the source tables";
+    figsEl.innerHTML =
+      p.netMgC === undefined
+        ? "<div><dt>Carbon flux</dt><dd>not resolved</dd></div>"
+        : '<div><dt>Carbon flux</dt><dd>' + (p.netMgC > 0 ? "+" : "") + nf(p.netMgC / 1e6, 3) + " Tg C</dd></div>" +
+          "<div><dt>Per hectare</dt><dd>" + PAK_METRICS.carbon.fmt(p.netMgCPerHa) + "</dd></div>" +
+          "<div><dt>Built-up</dt><dd>" + PAK_METRICS.builtup.fmt(p.builtupPct) + "</dd></div>" +
+          "<div><dt>Vegetation</dt><dd>" + PAK_METRICS.veg.fmt(p.vegChangeHa) + "</dd></div>";
+  }
+
+  function drawLegend() {
+    const ramp = pakRamp(metric);
+    legendEl.innerHTML =
+      '<p class="pm-legend-title">' + metric.title + "</p>" +
+      '<div class="pm-strip">' +
+        ramp.map((c) => '<i style="--c:' + c + '"></i>').join("") +
+      "</div>" +
+      '<div class="pm-ends">' +
+        metric.ends.map((t) => "<span>" + t + "</span>").join("") +
+      "</div>" +
+      '<p class="pm-nodata"><i style="--c:' + PAK_RAMPS[pakTheme()].nodata + '"></i>no value in the source</p>';
+  }
+
+  function drawRank() {
+    const rows = withData
+      .map((f) => f.properties)
+      .filter((p) => p[metric.key] !== undefined)
+      .sort((a, b) => b[metric.key] - a[metric.key]);
+    const block = (title, list) =>
+      title
+        ? '<div class="pm-rank-block"><p class="pm-rank-title">' + title + "</p><ol>" +
+          list
+            .map(
+              (p) =>
+                '<li><button type="button" data-name="' + p.name + '">' +
+                "<span>" + p.name + "</span><b>" + metric.fmt(p[metric.key]) + "</b></button></li>"
+            )
+            .join("") +
+          "</ol></div>"
+        : "";
+    rankEl.innerHTML =
+      metric.rank === "both"
+        ? block(metric.rankLabel[0], rows.slice(-5).reverse()) + block(metric.rankLabel[1], rows.slice(0, 5))
+        : block(metric.rankLabel[0], rows.slice(0, 8));
+  }
+
+  function style(feature) {
+    const t = PAK_RAMPS[pakTheme()];
+    return {
+      fillColor: pakColour(metric, feature.properties[metric.key]),
+      fillOpacity: 0.92,
+      color: t.stroke,
+      weight: 0.6,
+      opacity: 0.9,
+    };
+  }
+
+  function repaint() {
+    if (layer) layer.setStyle(style);
+    drawLegend();
+    drawRank();
+  }
+
+  // Leaflet is only fetched once the section is within a screen of the viewport.
+  // Most visitors never scroll this far, and the rest of the site has no
+  // third-party dependency worth blocking the first paint for.
+  function whenNear(fn) {
+    if (!("IntersectionObserver" in window)) return fn();
+    let done = false;
+    const go = () => {
+      if (done) return;
+      done = true;
+      io.disconnect();
+      clearTimeout(backstop);
+      fn();
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) go();
+      },
+      { rootMargin: "100% 0px" }
+    );
+    io.observe(host);
+    // A hidden tab produces no frames, so the observer never reports anything.
+    // Every deferred thing on this page carries a timed backstop for that
+    // reason; four seconds is long enough that a visible visitor has almost
+    // always tripped the observer first.
+    const backstop = setTimeout(go, 4000);
+  }
+
+  whenNear(() => loadLeaflet()
+    .then((L) => {
+      const map = L.map(mapEl, {
+        zoomControl: true,
+        scrollWheelZoom: false,
+        attributionControl: false,
+        zoomSnap: 0.25,
+      });
+
+      layer = L.geoJSON(fc, {
+        style,
+        onEachFeature: (feature, lyr) => {
+          const p = feature.properties;
+          lyr.bindTooltip(
+            "<b>" + p.name + "</b>" +
+              (p[metric.key] === undefined ? "" : "<br>" + metric.fmt(p[metric.key])),
+            { sticky: true, className: "pm-tip" }
+          );
+          lyr.on("mouseover", () => {
+            lyr.setStyle({ weight: 2, color: pakTheme() === "dark" ? "#e8f2e4" : "#243e36" });
+            lyr.bringToFront();
+            showDistrict(p);
+          });
+          lyr.on("mouseout", () => {
+            layer.resetStyle(lyr);
+            if (locked) showDistrict(locked);
+            else showNational();
+          });
+          lyr.on("click", () => {
+            locked = locked && locked.name === p.name ? null : p;
+            if (locked) showDistrict(locked);
+            else showNational();
+          });
+        },
+      }).addTo(map);
+
+      map.fitBounds(layer.getBounds(), { padding: [8, 8] });
+      // The wheel is the page's scroll on a tall page, so the map only takes it
+      // after a deliberate click, and gives it back when focus leaves.
+      map.on("click", () => map.scrollWheelZoom.enable());
+      map.on("mouseout", () => map.scrollWheelZoom.disable());
+
+      // Tooltips are bound once, so switching metric has to rewrite them.
+      function retip() {
+        layer.eachLayer((lyr) => {
+          const p = lyr.feature.properties;
+          lyr.setTooltipContent(
+            "<b>" + p.name + "</b>" +
+              (p[metric.key] === undefined ? "" : "<br>" + metric.fmt(p[metric.key]))
+          );
+        });
+      }
+
+      host.querySelectorAll(".pm-tab").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          metric = PAK_METRICS[btn.dataset.metric];
+          host.querySelectorAll(".pm-tab").forEach((b) => {
+            const on = b === btn;
+            b.classList.toggle("is-on", on);
+            b.setAttribute("aria-pressed", String(on));
+          });
+          repaint();
+          retip();
+        });
+      });
+
+      // The ranked list doubles as the keyboard and screen-reader route into the
+      // map: every entry focuses, and picking one flies to that district.
+      rankEl.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-name]");
+        if (!btn) return;
+        layer.eachLayer((lyr) => {
+          if (lyr.feature.properties.name !== btn.dataset.name) return;
+          locked = lyr.feature.properties;
+          showDistrict(locked);
+          map.fitBounds(lyr.getBounds(), { padding: [40, 40], maxZoom: 8 });
+        });
+      });
+
+      window.addEventListener("themechange", repaint);
+      showNational();
+      repaint();
+    })
+    .catch((err) => {
+      console.warn("District map skipped:", err.message);
+      host.querySelector(".pm-stage").innerHTML =
+        '<p class="pm-fallback">The interactive map could not load. ' +
+        'The same account runs at <a href="https://gee-lulc-pakistan.streamlit.app/" ' +
+        'target="_blank" rel="noopener">gee-lulc-pakistan.streamlit.app</a>.</p>';
+      showNational();
+      drawLegend();
+      drawRank();
+    }));
+
+  // Painted immediately so the panel is never an empty box while Leaflet loads.
+  showNational();
+  drawLegend();
+  drawRank();
+}
+
 function renderSkills(profile) {
   const groups = Object.entries(profile.skills || {})
     .map(
@@ -856,6 +1234,8 @@ function initThemeToggle() {
     document.documentElement.setAttribute("data-theme", next);
     localStorage.setItem("theme", next);
     paint();
+    // The district map keeps its own light and dark ramps and has to restyle.
+    window.dispatchEvent(new Event("themechange"));
   });
   paint();
 }
@@ -892,6 +1272,14 @@ async function init() {
     // Loaded on its own and guarded: the scrubber is an enhancement, and a
     // missing or malformed data file must not take the rest of the page down
     // through the shared catch below.
+    loadJson("data/pakistan-districts.geojson")
+      .then(renderPakMap)
+      .catch((e) => {
+        console.warn("District map skipped:", e.message);
+        const n = el("pakmap");
+        if (n) n.remove();
+      });
+
     loadJson("data/lahore-lulc.json")
       .then(renderLandChange)
       .catch((e) => {

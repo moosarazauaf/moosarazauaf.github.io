@@ -1,13 +1,13 @@
 # moosarazauaf.github.io
 
-Personal research site for **Muhammad Moosa Raza** — Earth observation: floods,
+Personal research site for **Muhammad Moosa Raza**. Earth observation: floods,
 drought, land-system change, and the reliability of the methods behind them.
 
 Live at **https://moosarazauaf.github.io**
 
 ## Why plain HTML/CSS/JS
 
-GitHub Pages serves **static files only** — it cannot run Python, Flask or Django.
+GitHub Pages serves **static files only**, so it cannot run Python, Flask or Django.
 A framework or build step would add dependencies for no real benefit on a
 content-driven personal site, so this is plain HTML, CSS and vanilla JS: nothing to
 install, no build, edit and push.
@@ -33,6 +33,10 @@ data/
   profile.json              Everything about you (see fields below)
   projects.json             The project carousel
   publications.json         Publications list
+  lahore-lulc.json          Year-by-year areas and carbon for the land-change scrubber
+  pakistan-districts.geojson  District outlines joined to the national carbon account
+scripts/
+  build_pakistan_districts.py  Rebuilds that geojson from the live app's own tables
 .github/workflows/pages.yml Deploy workflow
 ```
 
@@ -57,7 +61,7 @@ Beyond the obvious ones:
 |---|---|
 | `availability` | The "Seeking a PhD position" notice in the hero and the footer |
 | `about` | The Research Statement |
-| `methodsAudit` | The "When the Standard Method Was Wrong" figure — four before/after pairs |
+| `methodsAudit` | The "Numbers That Hold Up" figure: four before/after pairs |
 | `researchInterests` | The Research Interests cards (`icon` picks a built-in SVG) |
 | `approach` | The "How I Work" cards |
 | `role`, `tagline` | The hero display text |
@@ -69,7 +73,7 @@ are required:
 
 ```json
 {
-  "title": "New Study — District, Pakistan",
+  "title": "New Study, District, Pakistan",
   "description": "One or two sentences.",
   "metrics": [
     { "value": "0.94", "label": "F1 score" },
@@ -88,14 +92,14 @@ are required:
 ```
 
 - `metrics` become the stat tiles at the top of the card. Two or three works best.
-- `highlights` collapse into a closed "Method notes" disclosure, so length is cheap.
+- `highlights` collapse into a closed "How it was built" disclosure, so length is cheap.
 - `gallery` is optional. With more than one entry the card grows a thumbnail strip;
   without it the card just shows `image`.
 
 ## Two things that will bite you
 
 **1. Bump `?v=` when you edit CSS or JS.**
-`index.html` loads them as `style.css?v=16`, `main.js?v=16`. Browsers cache these
+`index.html` loads them as `style.css?v=34`, `main.js?v=34`. Browsers cache these
 aggressively, so if you change a stylesheet without bumping the number, returning
 visitors keep the old one. Increment all three references together. The JSON files
 are fetched with `cache: "no-cache"` and need no such step, which is why content
@@ -103,7 +107,7 @@ edits appear immediately.
 
 **2. Two brand colours cannot be used for text.**
 Measured against the paper background, sage `#7CA982` is 2.45:1 and gold `#C2A83E`
-is 2.15:1 — both under the 3:1 minimum — and against each other they separate by
+is 2.15:1, both under the 3:1 minimum, and against each other they separate by
 only ΔE 11, below the 15 needed to tell apart with full colour vision. They are for
 fills, borders and decoration. Use `--gold-readable` (#8A7420, 4.57:1) or
 `--sage-bright` (#9DC4A3) when a colour has to be read. Every text pair currently in
@@ -116,7 +120,7 @@ fills, borders and decoration. Use `--gold-readable` (#8A7420, 4.57:1) or
   between body and lead is too coarse to read as a scale. The hero rows and the
   about split are both 1 : 1.618.
   Note: `fr` cannot be multiplied inside `calc()`, so those grids use literal
-  `1.618fr` values — `calc(1fr * var(--phi))` parses as invalid and is dropped.
+  `1.618fr` values, because `calc(1fr * var(--phi))` parses as invalid and is dropped.
 - **Motion.** Short and small by default (`--dur` 0.25s, 2px hovers), with a longer
   `--dur-cine` reserved for the hero entrance and section reveals. Everything is
   disabled under `prefers-reduced-motion`, and any effect that starts an element at
@@ -138,12 +142,31 @@ Then open the printed `localhost` URL.
 Pushing to **`master`** triggers `.github/workflows/pages.yml`, which builds and
 deploys to GitHub Pages. Takes about a minute.
 
-(The legacy Jekyll-style Pages build never ran on this repo — it accepted the config
-and silently produced no builds — which is why deployment goes through an explicit
+(The legacy Jekyll-style Pages build never ran on this repo. It accepted the config
+and silently produced no builds, which is why deployment goes through an explicit
 Actions workflow.)
 
 ## Tech
 
 HTML5, CSS3 (custom properties, Grid, Flexbox, `color-mix`), vanilla JavaScript
-(ES2017+, `fetch`, `IntersectionObserver`). No frameworks, no build tools, no
-dependencies.
+(ES2017+, `fetch`, `IntersectionObserver`). No frameworks and no build tools.
+
+The one third-party dependency is Leaflet, and it is loaded from a CDN with an SRI
+hash only when the district map scrolls within a screen of the viewport. If it fails
+to load, that section falls back to a link to the live Streamlit app and the rest of
+the page is unaffected.
+
+## Rebuilding the district map
+
+`data/pakistan-districts.geojson` is generated, not hand-edited:
+
+```bash
+python scripts/build_pakistan_districts.py
+```
+
+It imports `analysis.py` from the sibling `pakistan-lulc-carbon` checkout and runs
+the same `district_table()` the live app uses, so the map cannot drift away from the
+app. District outlines come from geoBoundaries and are cached beside the script.
+The two sources name districts differently, so the script carries an alias table;
+anything still unmatched is written without a value and drawn as no data rather than
+guessed at.

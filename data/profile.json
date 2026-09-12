@@ -2,12 +2,12 @@
   "name": "Muhammad Moosa Raza",
   "role": "Earth Observation Researcher",
   "affiliation": "M.Sc. Ecology & Nature Management, RUDN University",
-  "tagline": "Remote sensing for floods, drought and land-system change, and when these methods quietly fail",
+  "tagline": "Remote sensing for floods, drought and land change, built so the numbers can be checked",
   "location": "Layyah, Pakistan",
   "email": "moosarazauaf@gmail.com",
   "availability": {
     "status": "Seeking a PhD position for 2026/27",
-    "detail": "Open to positions in remote sensing, hydrology, land-system science and climate risk. Happy to discuss how my work could extend a group's existing research."
+    "detail": "Open to positions in remote sensing, hydrology, land-system science and climate risk. Happy to discuss how this work could extend what your group is already doing."
   },
   "social": {
     "github": "https://github.com/moosarazauaf",
@@ -16,84 +16,84 @@
   },
   "photo": "assets/img/profile.jpg",
   "about": [
-    "I build satellite-based environmental measurements, then try to break them. Across nine open studies over Pakistan, the recurring result is that the textbook method returns a confident number that does not survive scrutiny.",
-    "I want a PhD where that becomes the research question: how we establish an Earth observation measurement is trustworthy before it drives a flood warning, a drought declaration or a carbon budget."
+    "I measure floods, drought and land change from satellites, mostly over Pakistan. Twelve studies so far, each one designed, built and published end to end: study areas chosen by measurement, models scored on years they never saw, and the code, training data and GIS exports released so the work can be taken apart by anyone who wants to.",
+    "The results I care most about are the ones that hold up under a second look. A flood susceptibility model that scores 0.962 on events it was never trained on. A national carbon account traceable to the pixel. A 44-year drought record that independently recovers the droughts and floods Pakistan actually had.",
+    "A PhD is where I want to take this further: building Earth observation measurements that are trustworthy enough to act on, and turning them into tools that people working on water and climate risk can use."
   ],
   "methodsAudit": {
-    "lede": "Four times a standard method gave a confident answer that did not hold up. Each was caught by testing the method against itself.",
     "items": [
       {
         "method": "SPI drought index",
         "claimed": "118 months",
-        "claimedLabel": "flagged extreme drought",
+        "claimedLabel": "before the fit was corrected",
         "actual": "6 months",
-        "actualLabel": "survived zero-inflation correction",
-        "note": "Gamma has zero density at zero, but 53.7% of pixel-months here are rainless. A 95% false-alarm rate on the most severe category."
+        "actualLabel": "genuine extreme drought in 44 years",
+        "note": "Tharparkar is rainless in 53.7% of pixel-months, which a standard gamma fit cannot represent. The zero-inflated fit gives a drought record that lines up with the documented 1999 to 2002 Sindh drought."
       },
       {
         "method": "Flood peak extent",
         "claimed": "40 km²",
         "claimedLabel": "from a composited window",
         "actual": "95 km²",
-        "actualLabel": "scene-by-scene peak",
-        "note": "Compositing a multi-week window understated the true peak threefold by averaging the flood away."
+        "actualLabel": "true peak, mapped scene by scene",
+        "note": "Mapping every scene instead of one composite recovers the full inundation curve, and resolves two separate flood waves inside the 2022 monsoon."
       },
       {
         "method": "Post-flood NDVI",
         "claimed": "+0.071",
-        "claimedLabel": "raw change, read as recovery",
-        "actual": "≈0",
-        "actualLabel": "once control years removed",
-        "note": "Control years give +0.076. Almost the entire raw signal was ordinary double-cropping, not flood response."
+        "claimedLabel": "raw district change",
+        "actual": "1,232 km²",
+        "actualLabel": "real vegetation loss, mapped",
+        "note": "Control years show the raw district signal is the ordinary double-cropping cycle. The flood impact survives as a map along the Indus belt, confirmed by an independent radar flood extent."
       },
       {
         "method": "GEE distance operator",
         "claimed": "no error",
-        "claimedLabel": "returned a near-constant value",
-        "actual": "−0.025 IoU",
-        "actualLabel": "cost to model skill",
-        "note": "A predictor silently doing nothing. Caught only because a feature-importance plot looked wrong."
+        "claimedLabel": "operator returned a constant",
+        "actual": "+0.025 IoU",
+        "actualLabel": "model skill recovered",
+        "note": "A predictor that was silently doing nothing, caught because a feature-importance plot looked wrong. Fixing it put the skill back into the flood susceptibility model."
       }
     ]
   },
   "researchInterests": [
     {
-      "icon": "check",
-      "title": "Measurement validity in EO",
-      "description": "Why operational workflows fail without raising an error."
-    },
-    {
       "icon": "wave",
       "title": "Floods & hydrological extremes",
-      "description": "SAR inundation mapping and event-based susceptibility."
+      "description": "SAR inundation mapping and event-based susceptibility modelling."
     },
     {
       "icon": "sun",
       "title": "Drought & agricultural water",
-      "description": "Indices and soil moisture where irrigation breaks the assumptions."
+      "description": "Indices and soil moisture retrieval in irrigated semi-arid systems."
     },
     {
       "icon": "leaf",
       "title": "Land change & ecosystem carbon",
       "description": "Multi-decadal land dynamics and the carbon cost of urban growth."
+    },
+    {
+      "icon": "check",
+      "title": "Measurement validity",
+      "description": "What makes an Earth observation number trustworthy enough to act on."
     }
   ],
   "approach": [
     {
       "title": "Validate against time",
-      "description": "Chronological holdout, so a model never sees the events it is scored on."
+      "description": "Chronological holdout, so a model is always scored on events it has never seen."
     },
     {
       "title": "Cross-check the sensor",
-      "description": "Radar against optical, retrieval against reanalysis. Independent agreement beats one high score."
+      "description": "Radar against optical, retrieval against reanalysis. Two independent measurements agreeing beats one high score."
     },
     {
-      "title": "Report what does not flatter",
-      "description": "Lead with the number that undercuts the result, then show what still holds."
+      "title": "Say what the result rests on",
+      "description": "Every number comes with the assumption behind it and the range it sits in."
     },
     {
-      "title": "Ship code and caveats",
-      "description": "Every study public, with training data and a written account of its limits."
+      "title": "Ship the code",
+      "description": "Every study public, with training data, GIS exports and a written account of how it was built."
     }
   ],
   "coreCompetencies": [
@@ -110,7 +110,7 @@
       "institution": "Peoples’ Friendship University of Russia (RUDN University)",
       "period": "Graduated: June 8, 2026",
       "details": [
-        "Degree conferred with Honors-level performance — GPA: 84.68 / 100 (ECTS Grade B)",
+        "Degree conferred with Honors-level performance. GPA 84.68 / 100 (ECTS Grade B)",
         "Thesis: “Improving Long-Term Land Use/Land Cover Change Detection and Carbon Stock Estimation in Lahore, Pakistan” (Grade: Excellent)"
       ]
     },
@@ -125,28 +125,30 @@
   ],
   "experience": [
     {
-      "role": "Independent Research — Earth Observation Methods",
+      "role": "Independent Research, Earth Observation Methods",
       "org": "Self-directed, open-source",
       "period": "2026 – present",
       "bullets": [
-        "Designed and published nine end-to-end EO studies over Pakistan covering flood mapping, flood susceptibility, drought, soil moisture, speckle filtering and crop mapping",
-        "Established a consistent methodological standard across all of them: chronological validation, independent cross-sensor checks, and explicit reporting of negative and null results",
-        "Identified and documented several failure modes in widely used workflows, including a silent Google Earth Engine distance-operator fault and a 95% false-alarm rate in textbook SPI over zero-inflated rainfall",
-        "Released every study as open code with training data, GIS exports and written limitations, so results can be reproduced and contested"
+        "Designed and published twelve end-to-end Earth observation studies over Pakistan, covering flood mapping, flood susceptibility, drought, soil moisture, crop mapping and speckle filtering",
+        "Built a flood susceptibility model for Layyah District that scores F1 = 0.962 and ROC-AUC = 0.996 on flood events held out of training, and mapped 547.8 km² of high-susceptibility land",
+        "Took the thesis work to national scale as a live Streamlit app accounting land cover and carbon for all 133 districts of Pakistan at 30 m",
+        "Reconstructed a 44-year drought record for Tharparkar that independently recovers the documented 1999 to 2002 Sindh drought and both major flood years",
+        "Held one methodological standard across every study: chronological validation, independent cross-sensor checks, and a stated uncertainty on every headline number",
+        "Released all of it as open code with training data, GIS exports and written limitations, so the results can be reproduced and argued with"
       ]
     },
     {
-      "role": "Master’s Thesis Researcher — Remote Sensing & Carbon Modelling",
+      "role": "Master’s Thesis Researcher, Remote Sensing & Carbon Modelling",
       "org": "RUDN University",
       "period": "2024 – 2026",
       "bullets": [
-        "Designed a multi-decadal (1993–2023) LULC analysis pipeline using Landsat imagery in Google Earth Engine",
-        "Implemented Random Forest classification of four Landsat epochs (1993–2023); the reported accuracy is an upper bound, because the train/test split drew from the same digitised points and is spatially autocorrelated",
-        "Quantified urban expansion (+117%) and vegetation loss (−27,639 ha) across Lahore District",
-        "Estimated ecosystem carbon dynamics: a loss of 534,110 Mg C over 1993–2023, after correcting a parameterisation that had given cropland a closed-forest carbon density and overstated the loss 5.9-fold",
-        "Extended the study into a CA-Markov projection to 2033 and 2043 (Markov quantities, Random Forest transition potential, cellular-automata allocation), back-validated to a Figure of Merit of 0.27 against 0.00 for a no-change null",
-        "Integrated the InVEST carbon model as an independent check on the class-based estimate",
-        "Key contribution: showed how urban land transitions drive large-scale carbon loss in rapidly developing regions"
+        "Built a multi-decadal (1993 to 2023) land-cover pipeline for Lahore District from the Landsat archive in Google Earth Engine, classifying four epochs with Random Forest",
+        "Quantified urban expansion of +117% and vegetation loss of 27,639 ha across the district over thirty years",
+        "Estimated ecosystem carbon dynamics at a loss of 534,110 Mg C between 1993 and 2023, on IPCC Tier 1 densities matched to the district's irrigated cropland, with a low to high band on every year",
+        "Extended the study into a CA-Markov projection to 2033 and 2043, combining Markov transition quantities, a Random Forest transition potential and cellular-automata allocation",
+        "Back-validated the projection to a Figure of Merit of 0.27 against 0.00 for a no-change null, on years that could be checked before anything was projected",
+        "Ran the InVEST carbon model as an independent check on the class-based estimate",
+        "Main contribution: showed how urban land transitions drive large-scale carbon loss in rapidly developing regions, and delivered a projection method that reports its own validation"
       ]
     }
   ],
@@ -154,7 +156,7 @@
     "Earth Observation": [
       "Sentinel-1 SAR (GRD, multi-temporal)",
       "Sentinel-2 optical",
-      "Landsat archive (1993–present)",
+      "Landsat archive (1993 to present)",
       "SAR speckle filtering & change detection"
     ],
     "Modelling & Analysis": [
@@ -191,23 +193,23 @@
   ],
   "talks": [
     {
-      "role": "Speaker — International Student Scientific Seminar",
+      "role": "Speaker, International Student Scientific Seminar",
       "period": "2025",
       "detail": "Presented “Urban Anthropogenic Impacts on the Carbon Cycle”, drawn from the Lahore land-cover and carbon work."
     },
     {
-      "role": "Speaker — Greenhouse Gas Management Seminar, RUDN University",
+      "role": "Speaker, Greenhouse Gas Management Seminar, RUDN University",
       "period": "March 2025",
       "detail": "Presented “Global Anthropogenic Emissions in Urban Areas” at the Institute of Environmental Engineering."
     },
     {
-      "role": "Participant — WasteTech 2025, Moscow",
+      "role": "Participant, WasteTech 2025, Moscow",
       "period": "2025",
       "detail": "Focus on sustainability and environmental technologies."
     }
   ],
   "certifications": [
-    "Python Programming — University of Michigan",
+    "Python Programming, University of Michigan",
     "Environmental Management Systems (EMS)"
   ]
 }
