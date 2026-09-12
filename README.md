@@ -43,6 +43,22 @@ scripts/
 **All content lives in `data/*.json`.** `main.js` is the only file that reads it, so
 updating text never means touching HTML or CSS.
 
+### Page order and the two tabbed sections
+
+`index.html` is ten sections: hero, stats, about, projects, **explore**,
+publications, audit, research, **background**, contact. The two bold ones are tab
+groups built by `renderExplore()` and `renderBackground()`; the renderers for the
+panels inside them still find their own node by id, exactly as before.
+
+A closed panel is `hidden`, so it takes up no height. That is what keeps the page
+at roughly eight screens instead of twelve. Two consequences worth remembering:
+
+- Renderers that can end up inside a panel call `panelHeading()` rather than
+  `heading()`. It returns nothing when its target node sits in a panel, because
+  the tab label already names the content.
+- Anything that measures itself needs the `panelshown` event. Leaflet sizes a
+  hidden container to zero, so both maps listen for it and remeasure.
+
 ## How to update content
 
 | I want to… | Edit |
@@ -99,7 +115,7 @@ are required:
 ## Two things that will bite you
 
 **1. Bump `?v=` when you edit CSS or JS.**
-`index.html` loads them as `style.css?v=34`, `main.js?v=34`. Browsers cache these
+`index.html` loads them as `style.css?v=36`, `main.js?v=36`. Browsers cache these
 aggressively, so if you change a stylesheet without bumping the number, returning
 visitors keep the old one. Increment all three references together. The JSON files
 are fetched with `cache: "no-cache"` and need no such step, which is why content
