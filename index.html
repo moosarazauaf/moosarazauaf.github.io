@@ -8,8 +8,8 @@
   <link rel="icon" href="assets/img/profile.jpg" type="image/jpeg" />
   <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
        visitors get the new file instead of a stale cached one. -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=36" />
-  <link rel="stylesheet" href="assets/css/style.css?v=36" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=38" />
+  <link rel="stylesheet" href="assets/css/style.css?v=38" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -27,11 +27,11 @@
     <nav class="nav">
       <a class="nav-brand" href="#top">M. Moosa Raza</a>
       <ul class="nav-links">
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#explore">Explore</a></li>
         <li><a href="#publications">Publications</a></li>
-        <li><a href="#audit">Verification</a></li>
+        <li><a href="#projects">Projects</a></li>
         <li><a href="#research">Research</a></li>
+        <li><a href="#audit">Verification</a></li>
+        <li><a href="#explore">Explore</a></li>
         <li><a href="#background">Background</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -46,16 +46,20 @@
     <section id="stats" class="band-tint"></section>
 
     <div class="container">
+      <!-- Section order follows the questions a supervisor asks, in the order
+           they ask them: what do you work on, have you published, show me the
+           work, would you fit my group, are you rigorous, impress me, CV. -->
       <section id="about" class="section"></section>
-      <!-- Projects lead: the work is the argument. -->
+      <section id="publications" class="section"></section>
+      <!-- The work is the argument, so it sits above everything that talks
+           about the work. -->
       <section id="projects" class="section"></section>
+      <section id="research" class="section"></section>
+      <section id="audit" class="section"></section>
       <!-- Both interactives live in one tabbed section. main.js builds the
            panels and drops a tab whose data or library failed to load.
            Panel 1: data/lahore-lulc.json. Panel 2: data/pakistan-districts.geojson. -->
       <section id="explore" class="section"></section>
-      <section id="publications" class="section"></section>
-      <section id="audit" class="section"></section>
-      <section id="research" class="section"></section>
       <!-- Experience, skills, talks and certifications, tabbed. -->
       <section id="background" class="section"></section>
     </div>
@@ -63,6 +67,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=36"></script>
+  <script src="assets/js/main.js?v=38"></script>
 </body>
 </html>

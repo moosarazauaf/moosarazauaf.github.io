@@ -101,9 +101,12 @@ function tabGroup(name, items) {
    centred section header would say the same thing twice and give back most of
    the height the grouping just saved. Renderers call this instead of heading(),
    and the decision is made from where the node actually sits. */
-function panelHeading(id, icon, text, opts) {
+function panelHeading(id, icon, text, opts = {}) {
   const node = el(id);
-  return node && node.closest(".tabpanel") ? "" : heading(icon, text, opts);
+  if (!node || !node.closest(".tabpanel")) return heading(icon, text, opts);
+  // The title goes, because the tab already said it. A subtitle usually carries
+  // something the tab label cannot, so it stays as a plain note.
+  return opts.subtitle ? `<p class="panel-note">${opts.subtitle}</p>` : "";
 }
 
 function initTabs() {
@@ -235,12 +238,22 @@ function renderStats(profile, projects, publications) {
     { value: "133", label: "Districts accounted nationally" },
     { value: "100%", label: "Code and data released" },
   ];
-  band.innerHTML = `<div class="container stat-band">${stats
-    .map(
-      (s) => `<div class="stat-big"><span class="stat-big-value">${s.value}</span>
-                <span class="stat-big-label">${s.label}</span></div>`
-    )
-    .join("")}</div>`;
+  // The one sentence a supervisor needs before deciding whether to keep reading
+  // is which fields this is aimed at. It used to sit in the footer, eight
+  // screens down, where it could only be read by someone already convinced.
+  const open = profile.availability && profile.availability.detail
+    ? `<p class="stat-open">${profile.availability.detail}</p>`
+    : "";
+
+  band.innerHTML = `<div class="container">
+      ${open}
+      <div class="stat-band">${stats
+        .map(
+          (s) => `<div class="stat-big"><span class="stat-big-value">${s.value}</span>
+                    <span class="stat-big-label">${s.label}</span></div>`
+        )
+        .join("")}</div>
+    </div>`;
 }
 
 /* Two interactive maps, one section. A reader opens one of them, not both. */
@@ -762,32 +775,68 @@ function loadLeaflet() {
   return leafletPromise;
 }
 
-/* CARTO's two neutral basemaps. They are the quietest tiles available, which is
-   what a data overlay needs: the map underneath has to give position and nothing
-   else. Attribution is required by the licence and is left switched on. */
+/* Esri's Canvas basemaps: a grey base with no labels, and a separate reference
+   layer that carries the place names. Quiet is the requirement here, because
+   everything above the basemap is the actual data.
+
+   These replaced CARTO, which began stamping "API KEY REQUIRED" diagonally
+   across every tile it served. That is worth remembering before reaching for a
+   free tile endpoint again: it can start asking for a key without notice, and
+   the first you hear of it is a watermark across your own work. Esri's Canvas
+   service is keyless and asks only for attribution, which is left switched on.
+   If it ever does the same, both maps still carry their data and only lose the
+   context underneath, and `dropTilesOnError` takes the broken tiles away. */
 const BASEMAP = {
-  light: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-  dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+  light: {
+    base: "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    labels: "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+  },
+  dark: {
+    base: "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+    labels: "https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+  },
   attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> ' +
-    'contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    'Tiles &copy; <a href="https://www.esri.com">Esri</a>, HERE, Garmin, ' +
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 };
 
 function themeName() {
   return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
 }
 
-/* A basemap that redraws itself when the site theme flips. Returns the layer so
-   the caller can keep it; the listener is bound once per map. */
-function addBasemap(L, map) {
-  const opts = { attribution: BASEMAP.attribution, maxZoom: 18, detectRetina: true };
-  let tiles = L.tileLayer(BASEMAP[themeName()], opts).addTo(map);
-  window.addEventListener("themechange", () => {
-    map.removeLayer(tiles);
-    tiles = L.tileLayer(BASEMAP[themeName()], opts).addTo(map);
-    tiles.bringToBack();
+/* Enough tiles failing means the provider is gone, not that one request was
+   unlucky. Pull the layer rather than leave a grid of broken tiles under the
+   data; the surface colour behind it is already the right one. */
+function dropTilesOnError(map, layer) {
+  let errors = 0;
+  layer.on("tileerror", () => {
+    if (++errors < 6) return;
+    layer.off("tileerror");
+    map.removeLayer(layer);
   });
-  return tiles;
+}
+
+/* A basemap that redraws itself when the site theme flips. Labels ride above
+   the base but below everything the caller adds afterwards, so they give
+   context around the data without being drawn over the top of it. */
+function addBasemap(L, map) {
+  const opts = { attribution: BASEMAP.attribution, maxZoom: 16 };
+  let base = null;
+  let labels = null;
+
+  const paint = () => {
+    if (base) map.removeLayer(base);
+    if (labels) map.removeLayer(labels);
+    const set = BASEMAP[themeName()];
+    base = L.tileLayer(set.base, opts).addTo(map);
+    labels = L.tileLayer(set.labels, { maxZoom: 16, pane: "tilePane" }).addTo(map);
+    dropTilesOnError(map, base);
+    dropTilesOnError(map, labels);
+  };
+
+  paint();
+  window.addEventListener("themechange", paint);
+  return () => base;
 }
 
 /* The wheel belongs to the page on a document this tall, so a map only takes it
@@ -841,10 +890,10 @@ function renderLandChange(d) {
     .join("");
 
   host.innerHTML =
-    heading("leaf", "Thirty years measured, twenty projected", {
+    panelHeading("landchange", "leaf", "Thirty years measured, twenty projected", {
       tagline: "Land change, Lahore",
       subtitle:
-        "Drag the year. Built-up land more than doubled between 1993 and 2023; 2033 and 2043 are a CA-Markov projection, back-validated against years that could be checked before it was produced.",
+        "Built-up land more than doubled between 1993 and 2023. The 2033 and 2043 steps are a CA-Markov projection, back-validated against years that could be checked before it was produced.",
     }) +
     '<div class="lc">' +
       '<figure class="lc-stage">' +
@@ -1137,7 +1186,7 @@ function renderPakMap(fc) {
     .join("");
 
   host.innerHTML =
-    heading("globe", "Every District in the Country", {
+    panelHeading("pakmap", "globe", "Every District in the Country", {
       tagline: "National map",
       subtitle:
         "Land cover and terrestrial carbon for Pakistan, 30 m pixels aggregated to districts. " +

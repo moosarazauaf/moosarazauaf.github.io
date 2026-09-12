@@ -120,7 +120,7 @@ body::before {
      viewport rather than dead centre, and holds it there as the frame narrows. */
   /* Versioned like the stylesheets: the plate is re-rendered from the
      rasters, so a returning visitor must not keep an older banner. */
-  background: url("../img/hero-lahore.jpg?v=36") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore.jpg?v=38") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -1453,4 +1453,27 @@ a:focus-visible, button:focus-visible {
   .dual { grid-template-columns: 1fr; gap: var(--space-md); }
   .tablist { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
   .tablist::-webkit-scrollbar { display: none; }
+}
+
+/* The availability line at the top of the stats band. It answers "is this
+   person aimed at my field" before a supervisor has to decide whether to
+   scroll, which is the only question that matters at that moment. */
+.stat-open {
+  max-width: 46rem;
+  margin: 0 auto var(--space-md);
+  text-align: center;
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: var(--ink);
+}
+@media (max-width: 700px) {
+  .stat-open { font-size: var(--text-base); }
+}
+
+/* What is left of a section header once its title has moved to the tab label. */
+.panel-note {
+  max-width: 62ch;
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--ink-faint);
 }
