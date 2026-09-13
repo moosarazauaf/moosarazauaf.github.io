@@ -2,9 +2,11 @@
   {
     "title": "Three Decades of Urban Expansion and Ecosystem Carbon Loss in Lahore District, Pakistan: A Random Forest and InVEST-Based Assessment (1993-2023)",
     "authors": "Raza, M. M. et al.",
-    "journal": "Pakistan Journal of Science",
-    "status": "Submitted, under review",
-    "year": "2026"
+    "journal": "Journal of Remote Sensing",
+    "status": "Submitted",
+    "year": "2026",
+    "manuscript": "JournalofRS-26-658",
+    "submitted": "12 September 2026"
   },
   {
     "title": "An open, reproducible framework coupling Sentinel-1 SAR change detection with event-based machine learning for flood susceptibility mapping and near-real-time monitoring: application to Layyah District, Pakistan",

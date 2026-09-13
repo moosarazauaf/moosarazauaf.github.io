@@ -120,7 +120,7 @@ body::before {
      viewport rather than dead centre, and holds it there as the frame narrows. */
   /* Versioned like the stylesheets: the plate is re-rendered from the
      rasters, so a returning visitor must not keep an older banner. */
-  background: url("../img/hero-lahore.jpg?v=38") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore.jpg?v=39") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -1476,4 +1476,14 @@ a:focus-visible, button:focus-visible {
   margin: 0 0 var(--space-md);
   font-size: var(--text-sm);
   color: var(--ink-faint);
+}
+
+/* Manuscript number beside the status badge. Kept small: it is there so an
+   editor or supervisor can check the submission is real, not to be read. */
+.pub-ms {
+  margin-left: 0.6rem;
+  font-size: var(--text-xs);
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }

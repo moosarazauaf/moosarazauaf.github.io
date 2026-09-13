@@ -435,8 +435,9 @@ function renderPublications(publications) {
         return `
       <div class="card pub-card">
         <h3>${p.title}</h3>
-        <div class="pub-meta">${p.authors} · ${p.journal} (${p.year})</div>
-        <span class="status-badge${prep}">${p.status}</span>
+        <div class="pub-meta">${p.authors} · <i>${p.journal}</i> (${p.year})</div>
+        <span class="status-badge${prep}">${p.status}${p.submitted ? " " + p.submitted : ""}</span>
+        ${p.manuscript ? `<span class="pub-ms">Manuscript ${p.manuscript}</span>` : ""}
       </div>`;
       })
       .join("");
