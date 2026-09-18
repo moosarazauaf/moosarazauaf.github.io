@@ -4,12 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Muhammad Moosa Raza · Earth Observation Research</title>
-  <meta name="description" content="Muhammad Moosa Raza: satellite measurement of floods, drought and land change across Pakistan." />
-  <link rel="icon" href="assets/img/profile.jpg" type="image/jpeg" />
+  <meta name="description" content="Muhammad Moosa Raza: satellite measurement of floods, drought and land change across Pakistan. Twelve open studies, code and data released. Seeking a PhD position for 2026/27." />
+  <link rel="canonical" href="https://moosarazauaf.github.io/" />
+  <meta name="author" content="Muhammad Moosa Raza" />
+  <meta name="theme-color" content="#243e36" />
+
+  <!-- A photograph is mud at 16px, so the tab icon is a monogram. The SVG scales
+       to any density; the PNG is for iOS home screens, which ignore SVG. -->
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png" />
+
+  <!-- Link previews. Email clients, LinkedIn, Slack and WhatsApp do not run
+       JavaScript, so everything they need has to be static markup: without it
+       a link emailed to a supervisor renders as a bare URL. The card itself is
+       built by scripts/build_share_assets.py from the Lahore land-change plate. -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Muhammad Moosa Raza" />
+  <meta property="og:title" content="Muhammad Moosa Raza · Earth Observation Researcher" />
+  <meta property="og:description" content="Remote sensing for floods, drought and land change, built so the numbers can be checked. Twelve open studies over Pakistan, all code and data released." />
+  <meta property="og:url" content="https://moosarazauaf.github.io/" />
+  <meta property="og:image" content="https://moosarazauaf.github.io/assets/img/share-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Muhammad Moosa Raza, Earth Observation Researcher, over a Lahore land-cover change map" />
+  <meta property="profile:first_name" content="Muhammad Moosa" />
+  <meta property="profile:last_name" content="Raza" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Muhammad Moosa Raza · Earth Observation Researcher" />
+  <meta name="twitter:description" content="Remote sensing for floods, drought and land change, built so the numbers can be checked." />
+  <meta name="twitter:image" content="https://moosarazauaf.github.io/assets/img/share-card.jpg" />
+
+  <!-- Structured data, so a search result shows a researcher rather than a page.
+       Kept deliberately small and stable: it duplicates data/profile.json, and
+       anything that changes often would drift. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Muhammad Moosa Raza",
+    "givenName": "Muhammad Moosa",
+    "familyName": "Raza",
+    "jobTitle": "Earth Observation Researcher",
+    "email": "mailto:moosarazauaf@gmail.com",
+    "url": "https://moosarazauaf.github.io/",
+    "image": "https://moosarazauaf.github.io/assets/img/profile.jpg",
+    "identifier": "https://orcid.org/0009-0009-1215-2021",
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "RUDN University" },
+      { "@type": "CollegeOrUniversity", "name": "University of Agriculture Faisalabad" }
+    ],
+    "homeLocation": { "@type": "Place", "name": "Layyah, Pakistan" },
+    "knowsAbout": [
+      "Remote sensing", "Synthetic aperture radar", "Flood mapping",
+      "Drought monitoring", "Land use and land cover change",
+      "Ecosystem carbon", "Google Earth Engine", "Geographic information systems"
+    ],
+    "sameAs": [
+      "https://github.com/moosarazauaf",
+      "https://www.linkedin.com/in/moosarazauaf/",
+      "https://orcid.org/0009-0009-1215-2021"
+    ]
+  }
+  </script>
   <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
        visitors get the new file instead of a stale cached one. -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=39" />
-  <link rel="stylesheet" href="assets/css/style.css?v=39" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=40" />
+  <link rel="stylesheet" href="assets/css/style.css?v=40" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -22,6 +82,8 @@
   </script>
 </head>
 <body>
+
+  <a class="skip-link" href="#top">Skip to content</a>
 
   <header class="site-header">
     <nav class="nav">
@@ -39,7 +101,7 @@
     </nav>
   </header>
 
-  <main id="top">
+  <main id="top" tabindex="-1">
     <!-- Cinematic hero: full viewport, map backdrop, type over a scrim -->
     <section id="hero" class="hero"></section>
 
@@ -67,6 +129,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=39"></script>
+  <script src="assets/js/main.js?v=40"></script>
 </body>
 </html>

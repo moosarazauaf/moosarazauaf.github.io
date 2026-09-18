@@ -120,7 +120,7 @@ body::before {
      viewport rather than dead centre, and holds it there as the frame narrows. */
   /* Versioned like the stylesheets: the plate is re-rendered from the
      rasters, so a returning visitor must not keep an older banner. */
-  background: url("../img/hero-lahore.jpg?v=39") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore.jpg?v=40") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -1487,3 +1487,28 @@ a:focus-visible, button:focus-visible {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+/* Seven nav links sit before the content, so keyboard and screen-reader users
+   get a way past them. Off-screen until focused, which is the only state a
+   sighted mouse user ever sees. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -110%);
+  z-index: 200;
+  padding: 0.7rem 1.3rem;
+  border-radius: 0 0 10px 10px;
+  background: var(--brand-strong);
+  color: var(--paper);
+  font-weight: 600;
+  transition: transform var(--dur) var(--ease);
+}
+.skip-link:focus {
+  transform: translate(-50%, 0);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  text-decoration: none;
+}
+[data-theme="dark"] .skip-link { color: var(--forest-deep); }
+main:focus { outline: none; }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found · Muhammad Moosa Raza</title>
+  <meta name="description" content="Muhammad Moosa Raza: satellite measurement of floods, drought and land change across Pakistan. Twelve open studies, code and data released. Seeking a PhD position for 2026/27." />
+  <link rel="canonical" href="https://moosarazauaf.github.io/" />
+  <meta name="author" content="Muhammad Moosa Raza" />
+  <meta name="theme-color" content="#243e36" />
+
+  <!-- A photograph is mud at 16px, so the tab icon is a monogram. The SVG scales
+       to any density; the PNG is for iOS home screens, which ignore SVG. -->
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png" />
+  <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
+       visitors get the new file instead of a stale cached one. -->
+  <link rel="stylesheet" href="assets/css/variables.css?v=40" />
+  <link rel="stylesheet" href="assets/css/style.css?v=40" />
+  <script>
+    // Apply saved theme before paint to avoid a flash of the wrong theme.
+    (function () {
+      var saved = localStorage.getItem("theme");
+      if (!saved) {
+        saved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.setAttribute("data-theme", saved);
+    })();
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="nav-brand" href="/">M. Moosa Raza</a>
+    </nav>
+  </header>
+  <main class="container" style="padding:6rem 1.6rem;text-align:center">
+    <p class="sec-tagline" style="justify-content:center">404</p>
+    <h1 style="margin-bottom:1rem">That page is not here</h1>
+    <p style="max-width:44ch;margin:0 auto 2rem">
+      The link may be old, or it may never have existed. Everything on this site
+      lives on one page.
+    </p>
+    <a class="btn-outline" href="/">Go to the research</a>
+  </main>
+</body>
+</html>
