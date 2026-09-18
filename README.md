@@ -115,7 +115,7 @@ are required:
 ## Two things that will bite you
 
 **1. Bump `?v=` when you edit CSS or JS.**
-`index.html` loads them as `style.css?v=36`, `main.js?v=36`. Browsers cache these
+`index.html` loads them as `style.css?v=44`, `main.js?v=44`. Browsers cache these
 aggressively, so if you change a stylesheet without bumping the number, returning
 visitors keep the old one. Increment all three references together. The JSON files
 are fetched with `cache: "no-cache"` and need no such step, which is why content
@@ -171,6 +171,51 @@ The one third-party dependency is Leaflet, and it is loaded from a CDN with an S
 hash only when the district map scrolls within a screen of the viewport. If it fails
 to load, that section falls back to a link to the live Streamlit app and the rest of
 the page is unaffected.
+
+## Sharing, indexing and printing
+
+Three things that only matter off the page itself, and are easy to break without
+noticing, because nothing on screen changes when they do.
+
+**The link preview.** Email clients, LinkedIn, Slack and WhatsApp do not run
+JavaScript, so the Open Graph and Twitter tags in `index.html` have to be static
+markup. The 1200x630 card is generated, not drawn by hand:
+
+```bash
+python scripts/build_share_assets.py
+```
+
+It rebuilds `assets/img/share-card.jpg` and `assets/img/icon-180.png` from the
+hero plate and the headshot. Re-run it if the name, role, tagline or headshot
+changes, and remember that the text on the card is in that script, not in
+`data/profile.json`. Changing the tagline in the JSON alone leaves the card
+saying the old one.
+
+**Structured data.** The JSON-LD block in `index.html` duplicates a few fields
+from `profile.json` on purpose, since crawlers need them without running JS. It
+is deliberately limited to things that rarely change (name, role, ORCID, social
+links). Do not grow it into a copy of the profile, or it will drift.
+
+**Printing.** `@media print` at the end of `style.css` turns the page into a
+dossier: all tab panels open, all twelve studies unrolled out of the carousel,
+hero reduced to a title block, maps dropped, link targets written out. Anything
+new that is hidden behind interaction needs a line there, or it will be missing
+from the printout and nobody will notice.
+
+## Project themes and direct links
+
+Each entry in `projects.json` carries a `theme`, which drives the filter chips
+above the carousel and their counts. Add a new theme simply by using it; the
+chip row is built from whatever values appear.
+
+Every study is addressable at `#project/<repo-name>`, derived from the last
+segment of `repoUrl`. Opening one widens the filter to All first so the target
+is always reachable.
+
+One thing to know before touching hash handling: `location.hash` is not always a
+selector. `#project/<slug>` is a route, and passing it to `querySelector` throws
+a SyntaxError that takes the whole render down. `initTabs` checks the shape of a
+hash before using it as an id.
 
 ## Rebuilding the district map
 

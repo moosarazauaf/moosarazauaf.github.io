@@ -18,6 +18,13 @@ These are available if you want to swap the LULC card image or extend the projec
 section with a small gallery later — none are wired into `data/projects.json` yet
 except `lulc-2023.png`:
 
+**Superseded, kept deliberately.** The five files below were the original thesis
+figures and are no longer referenced by `data/projects.json`, which now uses the
+re-rendered `lahore-*.jpg` set. They are kept because they are the published
+record of the thesis, and because nothing fetches them: an unreferenced image
+costs a visitor nothing.
+
+
 - `projects/lulc-1993.png`, `lulc-2003.png`, `lulc-2013.png` — the other three years of
   the LULC classification series
 - `projects/builtup-expansion.png` — built-up area expansion map (1993–2023)

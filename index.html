@@ -68,8 +68,16 @@
   </script>
   <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
        visitors get the new file instead of a stale cached one. -->
-  <link rel="stylesheet" href="assets/css/variables.css?v=43" />
-  <link rel="stylesheet" href="assets/css/style.css?v=43" />
+  <!-- The hero plate is a CSS background, so the browser cannot discover it
+       until the stylesheet has parsed. Preloading the variant each screen will
+       actually use starts that fetch immediately; it is the largest paint on
+       the page. The media queries mirror the ones in style.css. -->
+  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=44"
+        media="(max-width: 1599px)" />
+  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=44"
+        media="(min-width: 1600px)" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=44" />
+  <link rel="stylesheet" href="assets/css/style.css?v=44" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -129,6 +137,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=43"></script>
+  <script src="assets/js/main.js?v=44"></script>
 </body>
 </html>
