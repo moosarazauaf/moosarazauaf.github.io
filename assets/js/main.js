@@ -144,7 +144,11 @@ function initTabs() {
   // A link to anything inside a closed panel opens that panel first, so the nav,
   // the footer and an external deep link all still land on their target.
   const openFor = (hash) => {
-    const target = hash && hash.length > 1 && document.querySelector(hash);
+    // Not every hash is a selector. "#project/<slug>" is a route the carousel
+    // owns, and passing it to querySelector throws a SyntaxError that used to
+    // take the whole page render down with it.
+    if (!/^#[A-Za-z][\w-]*$/.test(hash || "")) return;
+    const target = document.getElementById(hash.slice(1));
     const panel = target && target.closest(".tabpanel");
     if (panel) el(panel.getAttribute("aria-labelledby")).click();
   };
@@ -443,11 +447,35 @@ function renderPublications(publications) {
       .join("");
 }
 
+/* The repo name is already a stable, meaningful identifier for each study, so
+   it doubles as the URL slug. Nothing extra to maintain in the data. */
+function projectSlug(p) {
+  return p.repoUrl.replace(/\/+$/, "").split("/").pop();
+}
+
 function renderProjects(projects) {
+  // Twelve studies is more than anyone scrolls through hoping to find the one
+  // that matches their group. The themes let a supervisor cut straight to the
+  // flood work, or the drought work, and the count tells them what is there.
+  const themes = ["All"];
+  projects.forEach((p) => {
+    if (p.theme && !themes.includes(p.theme)) themes.push(p.theme);
+  });
+  const counts = (t) =>
+    t === "All" ? projects.length : projects.filter((p) => p.theme === t).length;
+  const filters = themes
+    .map(
+      (t, i) =>
+        `<button class="pfilter${i === 0 ? " is-on" : ""}" type="button" data-theme="${t}"
+                 aria-pressed="${i === 0}">${t} <span>${counts(t)}</span></button>`
+    )
+    .join("");
+
   const slides = projects
     .map(
       (p, i) => `
       <article class="slide" role="group" aria-roledescription="slide"
+               id="project-${projectSlug(p)}" data-theme="${p.theme || ""}"
                aria-label="${i + 1} of ${projects.length}: ${p.title}">
         <div class="showcase">
           <div class="showcase-media">
@@ -494,6 +522,8 @@ function renderProjects(projects) {
             <div class="showcase-links">
               <a class="btn-outline" href="${p.repoUrl}" target="_blank" rel="noopener">View on GitHub</a>
               ${p.liveUrl ? `<a class="btn-outline" href="${p.liveUrl}" target="_blank" rel="noopener">Live Demo</a>` : ""}
+              <button class="btn-quiet" type="button" data-share="${projectSlug(p)}"
+                      title="Copy a link that opens this study directly">Copy link to this study</button>
             </div>
           </div>
         </div>
@@ -513,28 +543,37 @@ function renderProjects(projects) {
       tagline: "Selected work",
       subtitle: `${projects.length} Earth observation studies over Pakistan, each designed and published end to end. Every one ships its code, its data and the range around its headline number.`,
     })}
+    <div class="pfilters" role="group" aria-label="Filter studies by theme">${filters}</div>
     <div class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
       <div class="track">${slides}</div>
     </div>
     <div class="carousel-foot">
       <div class="carousel-nav">
         <button class="cbtn" type="button" data-dir="-1" aria-label="Previous project">${ICONS.chevronLeft}</button>
-        <span class="counter"><span id="c-now">1</span> / ${projects.length}</span>
+        <span class="counter"><span id="c-now">1</span> / <span id="c-total">${projects.length}</span></span>
         <button class="cbtn" type="button" data-dir="1" aria-label="Next project">${ICONS.chevronRight}</button>
       </div>
       <div class="dots">${dots}</div>
     </div>`;
 
-  initCarousel(projects.length);
+  initCarousel(projects);
 }
 
 /* Carousel: arrows, dots, keyboard, swipe. One slide visible at a time. */
-function initCarousel(count) {
+function initCarousel(projects) {
+  const count = projects.length;
   const root = document.querySelector("#projects .carousel");
   const track = root.querySelector(".track");
   const dotEls = [...document.querySelectorAll("#projects .dot")];
   const nowEl = el("c-now");
+  const totalEl = el("c-total");
   let index = 0;
+
+  // Filtering never removes a slide. The track is one long strip positioned by
+  // percentage, so pulling slides out of the DOM would move every other slide
+  // under the reader. `order` is the list of slide numbers currently reachable;
+  // the rest stay where they are and are simply never navigated to.
+  let order = projects.map((_, i) => i);
 
   // Slides sit inside a transformed, overflow-hidden track, so the browser never
   // treats offscreen ones as visible and native lazy-loading never fires for them.
@@ -549,22 +588,91 @@ function initCarousel(count) {
     });
   }
 
-  function go(next) {
-    index = (next + count) % count;
+  // `pos` is a position within the filtered list, not a slide number.
+  function go(pos) {
+    const n = order.length;
+    if (!n) return;
+    const at = ((pos % n) + n) % n;
+    index = order[at];
     track.style.transform = `translateX(-${index * 100}%)`;
     ensureLoaded(index);
-    dotEls.forEach((d, i) => d.classList.toggle("active", i === index));
+    dotEls.forEach((d, i) => {
+      d.classList.toggle("active", i === index);
+      d.hidden = !order.includes(i);
+    });
     [...track.children].forEach((s, i) => {
       s.classList.toggle("is-active", i === index);
       // Keep offscreen slides out of the tab order and the a11y tree.
       s.setAttribute("aria-hidden", i === index ? "false" : "true");
       s.querySelectorAll("a, button").forEach((f) => (f.tabIndex = i === index ? 0 : -1));
     });
-    if (nowEl) nowEl.textContent = String(index + 1);
+    if (nowEl) nowEl.textContent = String(at + 1);
+    if (totalEl) totalEl.textContent = String(n);
   }
 
+  const posOf = (slide) => Math.max(0, order.indexOf(slide));
+
+  function filterTo(theme) {
+    order = projects
+      .map((p, i) => (theme === "All" || p.theme === theme ? i : -1))
+      .filter((i) => i >= 0);
+    document.querySelectorAll("#projects .pfilter").forEach((b) => {
+      const on = b.dataset.theme === theme;
+      b.classList.toggle("is-on", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    go(0);
+  }
+
+  // A study can be linked to directly, which is the point: a supervisor can be
+  // sent to the one piece of work that matches their group rather than to the
+  // top of a page with twelve. The filter widens to All first, so the target is
+  // always reachable whatever was selected.
+  function openProject(slug, scroll) {
+    const i = projects.findIndex((p) => projectSlug(p) === slug);
+    if (i < 0) return false;
+    if (!order.includes(i)) filterTo("All");
+    go(posOf(i));
+    if (scroll) el("projects").scrollIntoView({ behavior: "smooth", block: "start" });
+    return true;
+  }
+
+  document.querySelectorAll("#projects .pfilter").forEach((b) =>
+    b.addEventListener("click", () => filterTo(b.dataset.theme))
+  );
+
+  track.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-share]");
+    if (!btn) return;
+    const url = location.origin + location.pathname + "#project/" + btn.dataset.share;
+    history.replaceState(null, "", "#project/" + btn.dataset.share);
+    // The address bar carries the link either way. Clipboard access can be
+    // refused outright, so the button reports what actually happened rather
+    // than claiming a copy that may not have occurred.
+    const say = (msg) => {
+      const was = "Copy link to this study";
+      btn.textContent = msg;
+      setTimeout(() => (btn.textContent = was), 2200);
+    };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(
+        () => say("Link copied"),
+        () => say("Link is in the address bar")
+      );
+    } else {
+      say("Link is in the address bar");
+    }
+  });
+
+  const fromHash = () => {
+    const m = /^#project\/(.+)$/.exec(location.hash);
+    if (m) openProject(decodeURIComponent(m[1]), true);
+  };
+  addEventListener("hashchange", fromHash);
+  fromHash();
+
   document.querySelectorAll("#projects .cbtn").forEach((b) =>
-    b.addEventListener("click", () => go(index + Number(b.dataset.dir)))
+    b.addEventListener("click", () => go(posOf(index) + Number(b.dataset.dir)))
   );
 
   // Gallery thumbnails swap the slide's main image.
@@ -579,11 +687,11 @@ function initCarousel(count) {
       });
     });
   });
-  dotEls.forEach((d) => d.addEventListener("click", () => go(Number(d.dataset.go))));
+  dotEls.forEach((d) => d.addEventListener("click", () => go(posOf(Number(d.dataset.go)))));
 
   root.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); }
-    if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(posOf(index) - 1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); go(posOf(index) + 1); }
   });
 
   // Touch swipe
@@ -592,11 +700,11 @@ function initCarousel(count) {
   root.addEventListener("touchend", (e) => {
     if (x0 === null) return;
     const dx = e.changedTouches[0].clientX - x0;
-    if (Math.abs(dx) > 45) go(index + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 45) go(posOf(index) + (dx < 0 ? 1 : -1));
     x0 = null;
   }, { passive: true });
 
-  go(0);
+  if (!location.hash.startsWith("#project/")) go(0);
 }
 
 /* Hero parallax: the map plate drifts slower than the page, which reads as
