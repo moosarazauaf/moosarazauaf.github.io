@@ -72,12 +72,12 @@
        until the stylesheet has parsed. Preloading the variant each screen will
        actually use starts that fetch immediately; it is the largest paint on
        the page. The media queries mirror the ones in style.css. -->
-  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=44"
+  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=45"
         media="(max-width: 1599px)" />
-  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=44"
+  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=45"
         media="(min-width: 1600px)" />
-  <link rel="stylesheet" href="assets/css/variables.css?v=44" />
-  <link rel="stylesheet" href="assets/css/style.css?v=44" />
+  <link rel="stylesheet" href="assets/css/variables.css?v=45" />
+  <link rel="stylesheet" href="assets/css/style.css?v=45" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -97,8 +97,8 @@
     <nav class="nav">
       <a class="nav-brand" href="#top">M. Moosa Raza</a>
       <ul class="nav-links">
-        <li><a href="#publications">Publications</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#publications">Publications</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#audit">Verification</a></li>
         <li><a href="#explore">Explore</a></li>
@@ -120,10 +120,12 @@
            they ask them: what do you work on, have you published, show me the
            work, would you fit my group, are you rigorous, impress me, CV. -->
       <section id="about" class="section"></section>
-      <section id="publications" class="section"></section>
-      <!-- The work is the argument, so it sits above everything that talks
-           about the work. -->
+      <!-- The work is the argument, and the twelve studies are the strongest
+           thing here, so they come before anything that talks about the work.
+           Publications follow rather than lead: two papers under review is the
+           weaker claim, and burying them entirely would look evasive. -->
       <section id="projects" class="section"></section>
+      <section id="publications" class="section"></section>
       <section id="research" class="section"></section>
       <section id="audit" class="section"></section>
       <!-- Both interactives live in one tabbed section. main.js builds the
@@ -137,6 +139,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=44"></script>
+  <script src="assets/js/main.js?v=45"></script>
 </body>
 </html>

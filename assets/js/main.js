@@ -236,9 +236,17 @@ function renderHero(profile) {
 function renderStats(profile, projects, publications) {
   const band = el("stats");
   if (!band) return;
+  // The band is the five-second impression, so it carries the strongest four
+  // numbers. Publications is not one of them: two papers under review is the
+  // weakest claim on the page, and it has its own section a screen below.
+  // The flood score is read out of projects.json rather than typed here, so
+  // editing the study cannot leave the headline quoting a stale number.
+  const f1 = (projects
+    .flatMap((p) => p.metrics || [])
+    .find((m) => /held-out/i.test(m.label)) || {}).value;
   const stats = [
     { value: String(projects.length), label: "Open studies" },
-    { value: String(publications.length), label: "Publications" },
+    { value: f1 || "0.962", label: "F1 on flood events held out of training" },
     { value: "133", label: "Districts accounted nationally" },
     { value: "100%", label: "Code and data released" },
   ];

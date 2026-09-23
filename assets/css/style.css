@@ -123,7 +123,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=44") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=45") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -132,7 +132,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=44"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=45"); }
 }
 .hero-scrim {
   position: absolute;
