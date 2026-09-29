@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=51") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=53") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=51"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=53"); }
 }
 .hero-scrim {
   position: absolute;
@@ -1824,3 +1824,181 @@ main:focus { outline: none; }
     animation-timing-function: var(--ease-entrance);
   }
 }
+
+/* ==================== Reskin: hero ====================
+   The reference puts its type hard to one edge, lets one enormous claim carry
+   the screen, and keeps everything else small. That is the layout here: a
+   left-aligned column with the orbit mark sitting off to the right, rather
+   than the centred title card this used to be. */
+.hero {
+  padding: clamp(5rem, 11vh, 8rem) clamp(1.25rem, 6vw, 5rem) clamp(3rem, 7vh, 5rem);
+  align-content: center;
+  grid-template-rows: auto;
+}
+.hero-inner {
+  max-width: min(1240px, 94vw);
+  text-align: left;
+  display: grid;
+  gap: clamp(1.4rem, 3.2vh, 2.6rem);
+  grid-row: auto;
+}
+
+/* The mark sits behind the type on the right, bleeding off the edge, which is
+   what stops it reading as an illustration dropped into a box. */
+.hero-mark {
+  position: absolute;
+  z-index: 1;
+  right: clamp(-12rem, -6vw, -4rem);
+  top: 50%;
+  translate: 0 -50%;
+  width: clamp(28rem, 52vw, 46rem);
+  max-width: none;
+  pointer-events: none;
+  opacity: 0.85;
+}
+.orbit { width: 100%; height: auto; display: block; overflow: visible; }
+.orbit-grid { fill: none; stroke: var(--sage); stroke-width: 1; opacity: 0.32; }
+.orbit-limb { fill: none; stroke: var(--sage); stroke-width: 1.5; opacity: 0.5; }
+.orbit-ring { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.orbit-ring.is-outer { opacity: 0.75; }
+.orbit-ring.is-inner { opacity: 0.22; stroke: var(--sage); stroke-dasharray: 3 9; }
+.orbit-sat-dot { fill: var(--accent); }
+.orbit-sat-halo { fill: var(--accent); opacity: 0.18; }
+
+/* One pass of the satellite takes 26 seconds. Slow enough to register as
+   orbital rather than as a spinner, and the swath drifts on its own longer
+   cycle so the two never lock into a visible beat. */
+.orbit-sat { transform-origin: 260px 260px; animation: orbit-run 26s linear infinite; }
+.orbit-swath { transform-origin: 260px 260px; animation: swath-drift 19s ease-in-out infinite; }
+.orbit-ring.is-inner { transform-origin: 260px 260px; animation: orbit-spin 60s linear infinite; }
+@keyframes orbit-run {
+  from { transform: rotate(-24deg); }
+  to { transform: rotate(336deg); }
+}
+@keyframes swath-drift {
+  0%, 100% { transform: rotate(34deg) translateY(-26px); opacity: 0.85; }
+  50% { transform: rotate(34deg) translateY(34px); opacity: 1; }
+}
+@keyframes orbit-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Type. The name stays on one line, as asked, but is now set in the display
+   width so it can be far larger at the same measure. */
+.hero-lede { display: grid; gap: 0.5rem; }
+.hero-eyebrow {
+  margin: 0;
+  font-size: var(--text-micro);
+  letter-spacing: 0.22em;
+  color: var(--accent);
+}
+.hero-name {
+  font-size: clamp(1.9rem, 5.2vw, 3.6rem);
+  font-weight: 700;
+  font-stretch: 88%;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  color: var(--ink);
+  margin: 0;
+  white-space: nowrap;
+}
+.hero-role {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+/* The claim. Each line is its own block so they stack tight, and the leading
+   is set below 1 because at this size the gap between lines is what makes the
+   stack read as a single shape. */
+.hero-claim {
+  margin: 0;
+  display: grid;
+  font-size: var(--text-mega);
+  font-weight: 800;
+  font-stretch: 84%;
+  line-height: 0.92;
+  letter-spacing: -0.022em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.hero-claim .is-accent { color: var(--accent); }
+
+.hero-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.6rem);
+  max-width: 62rem;
+}
+.hero-foot .hero-photo {
+  width: clamp(56px, 6vw, 76px);
+  margin: 0;
+  border-width: 2px;
+  flex: none;
+}
+.hero-foot .hero-tagline {
+  flex: 1 1 22rem;
+  margin: 0;
+  max-width: 42ch;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  letter-spacing: 0;
+  white-space: normal;
+  color: var(--ink-soft);
+}
+.hero-foot .hero-cta { margin: 0; }
+.hero-foot .social-row { justify-content: flex-start; margin: 0; }
+
+@media (max-width: 900px) {
+  .hero-mark { right: -30%; width: 34rem; opacity: 0.45; }
+  .hero-name { white-space: normal; }
+  .hero-foot { gap: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-sat, .orbit-swath, .orbit-ring.is-inner { animation: none; }
+}
+
+/* The hero used to be a photograph with type over it. The reskin inverts that:
+   a flat near-black ground carries the type, and the Lahore plate drops to a
+   trace that reads as texture rather than as a picture. The orbit mark is the
+   image now, and two images fighting for the same screen is why the plate had
+   to go quiet. */
+.hero-bg { opacity: 0.16; filter: saturate(0.5) contrast(1.05); }
+.hero-scrim {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--bg) 72%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 82%, transparent) 55%,
+      var(--bg) 100%),
+    linear-gradient(100deg,
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 88%, transparent) 42%,
+      color-mix(in srgb, var(--bg) 55%, transparent) 100%);
+}
+/* A hairline of accent along the bottom edge, so the hero ends on a drawn line
+   rather than fading out. */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent) 0%, transparent 42%);
+  opacity: 0.55;
+  z-index: 3;
+}
+.hero-inner { z-index: 2; }
+
+/* Light theme keeps the same structure but needs the plate lighter still, and
+   the scrim inverted, or the type loses its ground. */
+[data-theme="light"] .hero-bg { opacity: 0.1; }
+[data-theme="light"] .hero-name,
+[data-theme="light"] .hero-claim { color: var(--forest); }
+[data-theme="light"] .hero-eyebrow,
+[data-theme="light"] .hero-claim .is-accent { color: var(--gold-readable); }
+[data-theme="light"] .hero-role,
+[data-theme="light"] .hero-foot .hero-tagline { color: var(--ink-soft); }

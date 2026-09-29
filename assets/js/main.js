@@ -213,38 +213,97 @@ function socialRow(profile) {
 }
 
 /* ----------------------------- sections ----------------------------- */
-function renderHero(profile) {
-  const eduCards = (profile.education || [])
-    .map(
-      (e) => `
-      <div class="card edu-card">
-        <div class="edu-degree">${e.degree}</div>
-        <div class="edu-org">${e.institution}</div>
-        ${e.period ? `<div class="edu-period">${e.period}</div>` : ""}
-      </div>`
-    )
-    .join("");
+/* The reference builds its identity on overlapping circles, because its name is
+   gravity. The same idea belongs here for a literal reason rather than a
+   metaphorical one: this work is made of satellites going round the Earth and
+   the strips of ground they see on the way past.
 
+   So the mark is an orbit. Two inclined rings, a satellite on the outer one,
+   and the swath it images sweeping the globe beneath. Drawn rather than
+   photographed, because it has to hold up at any size and recolour with the
+   theme, and because a stock photograph of a satellite would say less about
+   the work than the geometry does. */
+const ORBIT_MARK = `
+  <svg class="orbit" viewBox="0 0 520 520" aria-hidden="true" focusable="false">
+    <defs>
+      <radialGradient id="orbGlobe" cx="38%" cy="32%" r="78%">
+        <stop offset="0%" stop-color="var(--sage)" stop-opacity="0.42" />
+        <stop offset="62%" stop-color="var(--forest)" stop-opacity="0.30" />
+        <stop offset="100%" stop-color="var(--forest-deep)" stop-opacity="0.12" />
+      </radialGradient>
+      <linearGradient id="orbSwath" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0" />
+        <stop offset="45%" stop-color="var(--accent)" stop-opacity="0.55" />
+        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+      </linearGradient>
+      <clipPath id="orbClip"><circle cx="260" cy="260" r="150" /></clipPath>
+    </defs>
+
+    <!-- the globe, with a graticule rather than a coastline: this is a grid the
+         measurements live on, not a picture of a place -->
+    <circle cx="260" cy="260" r="150" fill="url(#orbGlobe)" />
+    <g clip-path="url(#orbClip)" class="orbit-grid">
+      <ellipse cx="260" cy="260" rx="150" ry="48" />
+      <ellipse cx="260" cy="260" rx="150" ry="98" />
+      <ellipse cx="260" cy="260" rx="52" ry="150" />
+      <ellipse cx="260" cy="260" rx="104" ry="150" />
+      <line x1="110" y1="260" x2="410" y2="260" />
+      <line x1="260" y1="110" x2="260" y2="410" />
+    </g>
+    <circle cx="260" cy="260" r="150" class="orbit-limb" />
+
+    <!-- the imaged swath, a band crossing the disc off-nadir -->
+    <g clip-path="url(#orbClip)">
+      <rect class="orbit-swath" x="60" y="150" width="400" height="66"
+            fill="url(#orbSwath)" transform="rotate(34 260 260)" />
+    </g>
+
+    <!-- two inclined orbits; the satellite rides the outer one -->
+    <ellipse class="orbit-ring is-outer" cx="260" cy="260" rx="228" ry="112"
+             transform="rotate(-24 260 260)" />
+    <ellipse class="orbit-ring is-inner" cx="260" cy="260" rx="188" ry="188" />
+    <g class="orbit-sat" transform="rotate(-24 260 260)">
+      <circle cx="488" cy="260" r="13" class="orbit-sat-dot" />
+      <circle cx="488" cy="260" r="26" class="orbit-sat-halo" />
+    </g>
+  </svg>`;
+
+function renderHero(profile) {
   el("hero").innerHTML = `
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="hero-mark cine" aria-hidden="true">${ORBIT_MARK}</div>
     <div class="hero-inner">
-      <img class="hero-photo cine" src="${profile.photo}" alt="Photo of ${profile.name}" />
-      ${
-        profile.availability
-          ? `<p class="hero-eyebrow cine"><span class="pulse"></span>${profile.availability.status}</p>`
-          : ""
-      }
-      <h1 class="hero-name cine">${profile.name}</h1>
-      <p class="hero-role cine">${profile.role || ""}</p>
-      <p class="hero-tagline cine">${profile.tagline || ""}</p>
-      <div class="hero-cta cine">
-        <a class="btn-primary" href="#projects">${ICONS.code} View the research</a>
-        <a class="btn-ghost" href="mailto:${profile.email}">${ICONS.mail} Get in touch</a>
+      <div class="hero-lede">
+        ${
+          profile.availability
+            ? `<p class="hero-eyebrow cine"><span class="pulse"></span>${profile.availability.status}</p>`
+            : ""
+        }
+        <h1 class="hero-name cine">${profile.name}</h1>
+        <p class="hero-role cine">${profile.role || ""}</p>
       </div>
-      <div class="cine">${socialRow(profile)}</div>
+
+      <!-- The claim, stacked. Three short lines at display size read as one
+           block rather than as a sentence, which is the whole device: the last
+           line lands in the accent and carries the argument. -->
+      <p class="hero-claim cine">
+        <span>Floods, drought</span>
+        <span>and land change,</span>
+        <span class="is-accent">measured properly.</span>
+      </p>
+
+      <div class="hero-foot cine">
+        <img class="hero-photo" src="${profile.photo}" alt="Photo of ${profile.name}" />
+        <p class="hero-tagline">${profile.tagline || ""}</p>
+        <div class="hero-cta">
+          <a class="btn-primary" href="#projects">${ICONS.code} View the research</a>
+          <a class="btn-ghost" href="mailto:${profile.email}">${ICONS.mail} Get in touch</a>
+        </div>
+        ${socialRow(profile)}
+      </div>
     </div>
-    <a class="scroll-cue" href="#about" aria-label="Scroll to content">
+    <a class="scroll-cue" href="#projects" aria-label="Scroll to the research">
       <span class="scroll-line" aria-hidden="true"></span>
     </a>`;
 
