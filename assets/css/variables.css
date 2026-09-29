@@ -42,6 +42,9 @@
   --brand-strong: #243e36;
   --brand-pale: #e0eec6;
   --accent: #8a7420;
+  --accent-ink: #f1f7ed;
+  --surface-raised: #ffffff;
+  --border-strong: #b9d2a6;
 
   /* Methods-audit figure: emphasis pair (as-applied vs corrected).
      Forest vs darkened gold — ΔE 24.7 normal, 22.1 under protanopia, both
@@ -62,9 +65,24 @@
   /* Hero gradient — forest floor darkness up into sage */
   --hero-gradient: linear-gradient(120deg, #16261f 0%, #243e36 42%, #35564a 74%, #4e6b45 100%);
 
-  /* --- Typography --- */
-  --font-body: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-heading: Georgia, "Times New Roman", serif;
+  /* --- Typography ---
+     One family for the whole site. A serif display over a sans body reads as
+     two voices; a single grotesk carrying everything from a 12px tracked label
+     to a 96px headline reads as one, which is the discipline this design takes
+     from the reference. Archivo is variable on both weight and width, so the
+     condensed mega-headline and the wide micro-label come out of the same file.
+     Self-hosted and subset to 76 KB rather than pulled from a font CDN: it is
+     on the critical path for first paint, and the site has no other
+     third-party request before content. */
+  --font-body: "Archivo", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-heading: var(--font-body);
+
+  /* Width and weight settings used by the display sizes. Condensing the big
+     type lets a headline hold more words per line at the same size, which is
+     what makes a stacked headline land as a block rather than a list. */
+  --wdth-display: 88;
+  --wdth-normal: 100;
+  --wdth-wide: 112;
 
   /* --- Golden ratio ---
      One constant drives the type scale, the spacing rhythm and the major layout
@@ -83,6 +101,13 @@
   --text-2xl: 2.058rem;   /* φ·√φ  */
   --text-3xl: 2.618rem;   /* φ²    */
   --text-display: clamp(2.618rem, 6vw, 4.236rem); /* φ² → φ³ */
+
+  /* Display sizes for the stacked headlines. These break the phi scale on
+     purpose: phi tops out around 68px, and the whole point of this layout is
+     type large enough that a three-word line becomes the picture. */
+  --text-mega: clamp(2.75rem, 8.4vw, 7rem);
+  --text-huge: clamp(2.1rem, 5.6vw, 4.6rem);
+  --text-micro: 0.75rem;      /* tracked uppercase labels */
 
   /* --- Spacing: the same phi progression --- */
   --space-xs: 0.618rem;   /* 1/φ   */
@@ -120,19 +145,28 @@
 /* ============================================================
    Dark mode — its own steps against the dark surface, not a flip.
    ============================================================ */
+/* The ground drops to near-black so the gold can behave like a signal rather
+   than a warm tint, which is the single biggest move in this palette. Gold on
+   #0b1410 measures 7.4:1, so for the first time it can carry text. The greens
+   step up from it as surfaces rather than as the page itself. */
 :root[data-theme="dark"] {
-  --bg: #101c17;
-  --surface: #1e332b;
-  --surface-alt: #26402f;
-  --ink: #e8f2e4;
-  --ink-soft: #b4c8b8;
-  --ink-faint: #8fa795;
-  --border: #33503f;
+  --bg: #0b1410;
+  --surface: #13211b;
+  --surface-alt: #1a2c24;
+  --surface-raised: #223a2f;
+  --ink: #f1f7ed;
+  --ink-soft: #b9cbbd;
+  --ink-faint: #859c8e;
+  --border: #24392f;
+  --border-strong: #3a5849;
 
-  --brand: #9dc4a3;
-  --brand-strong: #c0dcc2;
-  --brand-pale: #26402f;
-  --accent: #d9bc55;
+  /* Gold is the accent now, not a decorative third colour. Sage stays for
+     secondary marks where a second hue helps. */
+  --brand: #d4b948;
+  --brand-strong: #e3cb62;
+  --brand-pale: #1a2c24;
+  --accent: #d4b948;
+  --accent-ink: #0b1410;      /* what sits ON the accent */
 
   /* Sage against gold fails the normal-vision floor at every lightness
      (ΔE ~11), so dark mode pairs meadow against gold instead: ΔE 21.0

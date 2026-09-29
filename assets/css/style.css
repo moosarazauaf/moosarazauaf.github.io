@@ -1,3 +1,17 @@
+/* ============================= Typeface =============================
+   One variable file carries every size and weight on the site. `swap` so text
+   is readable in a fallback face while it arrives rather than invisible, and
+   the fallback stack is metric-similar enough that the swap does not relayout
+   the page noticeably. */
+@font-face {
+  font-family: "Archivo";
+  src: url("../fonts/archivo-var.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  font-style: normal;
+}
+
 /* ============================= Base ============================= */
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
@@ -123,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=50") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=51") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -132,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=50"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=51"); }
 }
 .hero-scrim {
   position: absolute;
