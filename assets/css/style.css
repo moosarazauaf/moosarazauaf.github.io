@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=60") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=62") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=60"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=62"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2256,3 +2256,52 @@ html, body { overflow-x: clip; }
   .hero-claim .is-accent { color: #111 !important; }
   .card::before { display: none !important; }
 }
+
+/* ==================== Motion support ====================
+   The word masks the hero and section titles rise out of. Only the mask needs
+   to hide anything; the inner span is what moves. Both must sit inline-block
+   or the transform has nothing to act on. */
+.w-mask { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.w-in { display: inline-block; will-change: transform; }
+
+/* The stats band's scan line, driven by a custom property so ScrollTrigger can
+   scrub it. Registered below so it can be interpolated rather than snapping. */
+@property --scan {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+.band-tint { position: relative; overflow: hidden; }
+.band-tint::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg,
+    transparent calc(var(--scan) - 18%),
+    color-mix(in srgb, var(--accent-ink) 12%, transparent) var(--scan),
+    transparent calc(var(--scan) + 18%));
+}
+
+/* The orbit accepts a drag, so it has to say so and has to have depth for the
+   tilt to mean anything. */
+.hero-mark.is-draggable { pointer-events: auto; cursor: grab; touch-action: pan-y; }
+.hero-mark.is-dragging { cursor: grabbing; }
+.hero-mark .orbit { transform-style: preserve-3d; perspective: 900px; }
+
+/* Until the choreography is running, nothing may be left hidden by it. These
+   only apply once motion.js has said it is in control. */
+.motion-on .hero-mark::after {
+  content: "drag to tilt";
+  position: absolute;
+  left: 50%;
+  bottom: 12%;
+  translate: -50% 0;
+  font-size: var(--text-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  opacity: 0.55;
+  pointer-events: none;
+}
+@media (hover: none) { .motion-on .hero-mark::after { content: "drag the orbit"; } }
