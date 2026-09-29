@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=66") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=68") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=66"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=68"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2370,3 +2370,43 @@ html, body { overflow-x: clip; }
   pointer-events: none;
 }
 .hero-bg { z-index: 0; }
+
+/* ==================== Reskin fixes ====================
+
+   1. A full-bleed block pulls itself out to the viewport edges with negative
+      margins. #stats is a direct child of <main> and its renderer wraps the
+      content in .container, so it re-centres itself. #audit is not: it lives
+      inside the page container and its renderer emits bare content, so the
+      negative margin dragged every word out to the left edge of the screen.
+      Padding puts the content back on the same measure as .container, without
+      depending on the renderer emitting a wrapper. */
+/* The +space-md matters: .container is --max-width wide AND carries that much
+   padding of its own, so text in a normal section starts one space-md inside
+   the container edge. Without it these blocks sat 26px left of every other
+   section on the page, which is exactly the kind of misalignment that reads as
+   sloppy without being obvious enough to name. */
+.band-tint, .band-invert, .band-rule {
+  padding-inline: max(var(--space-md), calc(50vw - var(--max-width) / 2 + var(--space-md)));
+}
+.band-tint > .container, .band-invert > .container {
+  padding-inline: 0;
+  max-width: none;
+}
+
+/* 2. `ch` resolves against the element's own font size. On .sec-head that is
+      16px, so 34ch was about 310px, and every display heading was being forced
+      to wrap inside a column a fifth of the page wide: "Numbers / That / Hold
+      Up". The measure belongs on the heading itself, where one ch is the width
+      of a 74px digit and 18ch is an actual display line. */
+.sec-head { max-width: none; }
+.sec-head h2 { max-width: 18ch; }
+.sec-sub, .sec-head .sec-tagline { max-width: 46ch; }
+
+/* 3. The photograph had shrunk to 56px, which is a favicon, not a portrait.
+      A supervisor should be able to see who they are reading. */
+.hero-foot .hero-photo {
+  width: clamp(104px, 9.5vw, 148px);
+  border-radius: 2px;
+  border: 1px solid var(--accent);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+}
