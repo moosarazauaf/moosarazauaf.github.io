@@ -1613,6 +1613,64 @@ function renderFooter(profile) {
     <p class="copyright">© ${new Date().getFullYear()} ${profile.name} · ${profile.location} · Built with plain HTML, CSS &amp; JS, hosted on GitHub Pages.</p>`;
 }
 
+/* Counts the headline numbers up when the band arrives.
+
+   The final value is written into the DOM by renderStats and is only ever read
+   back out of it, never computed here. If this never runs, or the observer
+   never fires, the band already shows the right numbers: the animation is an
+   embellishment on correct content rather than the thing that produces it. */
+function initCounters() {
+  const band = el("stats");
+  if (!band) return;
+  const nodes = [...band.querySelectorAll(".stat-big-value")];
+  if (!nodes.length) return;
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !("IntersectionObserver" in window)) return;
+
+  // "0.962" and "100%" and "12" all have to survive the round trip, so the
+  // number, its decimal places and any trailing unit are kept separately.
+  const parsed = nodes.map((n) => {
+    const text = n.textContent.trim();
+    const m = /^(-?[\d,]*\.?\d+)(.*)$/.exec(text);
+    if (!m) return null;
+    const value = Number(m[1].replace(/,/g, ""));
+    if (!isFinite(value)) return null;
+    const dp = (m[1].split(".")[1] || "").length;
+    return { node: n, text, value, dp, suffix: m[2], grouped: m[1].includes(",") };
+  });
+
+  const render = (p, v) => {
+    const fixed = v.toFixed(p.dp);
+    p.node.textContent =
+      (p.grouped ? Number(fixed).toLocaleString(undefined,
+        { minimumFractionDigits: p.dp, maximumFractionDigits: p.dp }) : fixed) + p.suffix;
+  };
+
+  let ran = false;
+  const run = () => {
+    if (ran) return;
+    ran = true;
+    const t0 = performance.now();
+    const step = (now) => {
+      const k = Math.min((now - t0) / 900, 1);
+      const eased = 1 - Math.pow(1 - k, 3);
+      parsed.forEach((p) => p && render(p, p.value * eased));
+      if (k < 1) requestAnimationFrame(step);
+      else parsed.forEach((p) => p && (p.node.textContent = p.text));
+    };
+    requestAnimationFrame(step);
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) { io.disconnect(); run(); }
+  }, { threshold: 0.4 });
+  io.observe(band);
+  // The band sits under the hero, so a reader who lands mid-page or in a
+  // background tab must still end up with the real numbers.
+  setTimeout(() => { io.disconnect(); run(); }, 4000);
+}
+
 /* ----------------------------- theme toggle ----------------------------- */
 function initThemeToggle() {
   const btn = el("theme-toggle");
@@ -1687,6 +1745,7 @@ async function init() {
     renderFooter(profile);
 
     initTabs();
+    initCounters();
     initReveal();
     initParallax();
     initProgressBar();
