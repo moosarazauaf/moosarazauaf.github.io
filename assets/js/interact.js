@@ -48,6 +48,10 @@
       .map((el) => ({ el, a: bySlug[el.dataset.a], b: bySlug[el.dataset.b] }))
       .filter((l) => l.a && l.b);
 
+    const spokes = Object.fromEntries(
+      [...svg.querySelectorAll(".cons-spoke")].map((el) => [el.dataset.slug, el]));
+    const self = svg.querySelector(".cons-self");
+
     const neighbours = Object.fromEntries(nodes.map((n) => [n.slug, new Set()]));
     links.forEach((l) => { neighbours[l.a.slug].add(l.b); neighbours[l.b.slug].add(l.a); });
 
@@ -136,6 +140,7 @@
       const near = neighbours[n.slug];
       nodes.forEach((m) => m.el.classList.toggle("is-lit", m === n || near.has(m)));
       links.forEach((l) => l.el.classList.toggle("is-lit", l.a === n || l.b === n));
+      Object.entries(spokes).forEach(([slug, el]) => el.classList.toggle("is-lit", slug === n.slug));
       const count = near.size;
       tip.innerHTML =
         `<span class="cons-tip-group">${n.el.dataset.group}</span>` +
@@ -147,7 +152,31 @@
       svg.classList.remove("is-focusing");
       nodes.forEach((m) => m.el.classList.remove("is-lit"));
       links.forEach((l) => l.el.classList.remove("is-lit"));
+      Object.values(spokes).forEach((el) => el.classList.remove("is-lit"));
+      svg.classList.remove("is-self");
       tip.classList.remove("is-on");
+    }
+
+    /* The portrait is the centre of gravity. Hovering it lights every study
+       and every spoke at once: one person, all of the work. */
+    let onSelf = false;
+    function focusSelf() {
+      onSelf = true;
+      svg.classList.add("is-focusing", "is-self");
+      nodes.forEach((m) => m.el.classList.add("is-lit"));
+      Object.values(spokes).forEach((el) => el.classList.add("is-lit"));
+      const themes = new Set(nodes.map((m) => m.el.dataset.group)).size;
+      tip.innerHTML =
+        `<span class="cons-tip-group">The centre of gravity</span>` +
+        `<span class="cons-tip-title">Every study here was designed, built and published by one person</span>` +
+        `<span class="cons-tip-meta">${nodes.length} studies · ${themes} themes · click for the research statement</span>`;
+      tip.classList.add("is-on");
+    }
+    if (self) {
+      self.addEventListener("pointerenter", focusSelf);
+      self.addEventListener("pointerleave", () => { onSelf = false; if (!hovered && !dragging) unfocus(); });
+      self.addEventListener("focus", focusSelf);
+      self.addEventListener("blur", () => { onSelf = false; unfocus(); });
     }
 
     nodes.forEach((n) => {
@@ -159,6 +188,18 @@
     });
 
     const placeTip = () => {
+      if (onSelf && !dragging && !hovered && tip.classList.contains("is-on")) {
+        // Centred under the portrait, clear of the halo. Placed beside it, the
+        // label flipped left to stay on screen and landed on the face it was
+        // describing.
+        const s = toScreen(C, C + 136);
+        const box = mark.getBoundingClientRect();
+        if (!s) return;
+        const w = tip.offsetWidth || 260;
+        const x = Math.max(12, Math.min(window.innerWidth - 12 - w, s.x - w / 2));
+        tip.style.transform = `translate(${Math.round(x - box.left)}px, ${Math.round(s.y - box.top)}px)`;
+        return;
+      }
       const n = dragging || hovered;
       if (!n || !tip.classList.contains("is-on")) return;
       const s = toScreen(n.x, n.y);
@@ -250,6 +291,10 @@
       for (const n of nodes) {
         n.el.setAttribute("transform", `translate(${n.x.toFixed(1)} ${n.y.toFixed(1)})`);
       }
+      for (const n of nodes) {
+        const sp = spokes[n.slug];
+        if (sp) { sp.setAttribute("x2", n.x.toFixed(1)); sp.setAttribute("y2", n.y.toFixed(1)); }
+      }
       for (const l of links) {
         l.el.setAttribute("x1", l.a.x.toFixed(1));
         l.el.setAttribute("y1", l.a.y.toFixed(1));
@@ -308,10 +353,10 @@
       // Swell over anything that does something when clicked.
       const t = e.target;
       const hot = t.closest && t.closest(
-        "a, button, [role='link'], [role='button'], .cons-node, .cons-label, summary, input, .leaflet-interactive"
+        "a, button, [role='link'], [role='button'], .cons-node, .cons-label, .cons-self, summary, input, .leaflet-interactive"
       );
       ring.classList.toggle("is-hot", !!hot);
-      ring.classList.toggle("is-node", !!(t.closest && t.closest(".cons-node")));
+      ring.classList.toggle("is-node", !!(t.closest && t.closest(".cons-node, .cons-self")));
     }, { passive: true });
 
     document.addEventListener("pointerleave", () => {

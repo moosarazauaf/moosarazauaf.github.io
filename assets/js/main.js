@@ -237,7 +237,49 @@ function socialRow(profile) {
    opens that study in the carousel through the same #project/<slug> route the
    copy-link button writes. A decorative hero that happens to be the table of
    contents is worth more than either on its own. */
-function constellation(projects) {
+/* The relationships between studies, computed once and used everywhere a
+   study is mentioned: the hero graph, the "linked studies" on each project, the
+   hover previews. Keeping it in one place is what stops the hero saying two
+   studies are connected while the project page says they are not.
+
+   Edges, the way Obsidian draws them: a line means a real relationship. Two
+   studies are linked when they share a method or sensor, or sit in the same
+   theme. Method alone left Tharparkar and the national account as orphans,
+   although the national account is literally the Lahore study scaled up; theme
+   alone ignores that six studies share Sentinel-1. Tags carried by nearly every
+   study (Earth Engine, Python) say nothing about how two relate and are ignored. */
+function studyGraph(projects) {
+  if (studyGraph.cache && studyGraph.cache.src === projects) return studyGraph.cache;
+  const tagCount = {};
+  projects.forEach((p) => (p.tags || []).forEach((t) => (tagCount[t] = (tagCount[t] || 0) + 1)));
+  const generic = new Set(Object.keys(tagCount).filter((t) => tagCount[t] >= projects.length * 0.6));
+
+  const edges = [];
+  const links = {};
+  projects.forEach((p) => (links[projectSlug(p)] = []));
+  for (let i = 0; i < projects.length; i++) {
+    for (let j = i + 1; j < projects.length; j++) {
+      const a = projects[i], b = projects[j];
+      const shared = (a.tags || []).filter((t) => !generic.has(t) && (b.tags || []).includes(t));
+      const sameTheme = a.theme && a.theme === b.theme;
+      if (!shared.length && !sameTheme) continue;
+      const e = { a: projectSlug(a), b: projectSlug(b),
+                  kind: shared.length ? "method" : "theme",
+                  why: shared.length ? shared.join(", ") : a.theme };
+      edges.push(e);
+      links[e.a].push({ slug: e.b, kind: e.kind, why: e.why });
+      links[e.b].push({ slug: e.a, kind: e.kind, why: e.why });
+    }
+  }
+  const degree = {};
+  Object.keys(links).forEach((k) => (degree[k] = links[k].length));
+  // Shared methods first: they are the stronger bond.
+  Object.values(links).forEach((l) => l.sort((x, y) => (x.kind === y.kind ? 0 : x.kind === "method" ? -1 : 1)));
+  studyGraph.cache = { src: projects, edges, degree, links };
+  return studyGraph.cache;
+}
+
+function constellation(projects, profile) {
   const C = 500;                    // viewBox is 1000x1000, centre at 500
   const slugOf = projectSlug;
 
@@ -253,31 +295,7 @@ function constellation(projects) {
   // most circumference to spread across.
   themes.sort((a, b) => a.items.length - b.items.length);
 
-  /* Edges, the way Obsidian draws them: a line means a real relationship, not
-     decoration. Two studies are linked when they share a method or sensor, or
-     sit in the same theme. Method alone left Tharparkar and the national
-     account as orphans, although the national account is literally the Lahore
-     study scaled up; theme alone ignores that six studies share Sentinel-1.
-     Tags carried by (nearly) every study say nothing about how two of them
-     relate, so they are ignored. */
-  const tagCount = {};
-  projects.forEach((p) => (p.tags || []).forEach((t) => (tagCount[t] = (tagCount[t] || 0) + 1)));
-  const generic = new Set(Object.keys(tagCount).filter((t) => tagCount[t] >= projects.length * 0.6));
-
-  const edges = [];
-  for (let i = 0; i < projects.length; i++) {
-    for (let j = i + 1; j < projects.length; j++) {
-      const a = projects[i], b = projects[j];
-      const shared = (a.tags || []).filter((t) => !generic.has(t) && (b.tags || []).includes(t));
-      const sameTheme = a.theme && a.theme === b.theme;
-      if (shared.length || sameTheme) {
-        edges.push({ a: slugOf(a), b: slugOf(b), kind: shared.length ? "method" : "theme",
-                     why: shared.length ? shared.join(", ") : a.theme });
-      }
-    }
-  }
-  const degree = {};
-  edges.forEach((e) => { degree[e.a] = (degree[e.a] || 0) + 1; degree[e.b] = (degree[e.b] || 0) + 1; });
+  const { edges, degree } = studyGraph(projects);
 
   const R0 = 168, STEP = 96;
   const rings = themes.map((t, i) => ({ ...t, r: R0 + i * STEP, i }));
@@ -340,6 +358,13 @@ function constellation(projects) {
     });
   });
 
+  // One spoke from the centre to every study: the person at the middle made
+  // each of them. They sit under the portrait so they appear to leave it.
+  const spokes = Object.entries(pos)
+    .map(([slug, [x, y]]) =>
+      `<line class="cons-spoke" data-slug="${slug}" x1="${C}" y1="${C}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" />`)
+    .join("");
+
   const links = edges
     .map((e) => {
       const [x1, y1] = pos[e.a], [x2, y2] = pos[e.b];
@@ -350,11 +375,39 @@ function constellation(projects) {
 
   return `
     <svg class="cons" viewBox="0 0 1000 1000" role="group"
-         aria-label="Graph of ${projects.length} studies on orbital shells by research theme, linked where they share a method or theme. Each node opens a study; each shell label shows that theme.">
-      <g class="cons-spin">${shells}</g>
-      <g class="cons-links">${links}</g>
-      <circle class="cons-core" cx="${C}" cy="${C}" r="7" />
-      <g class="cons-nodes">${nodes}</g>
+         aria-label="Graph of ${projects.length} studies on orbital shells by research theme, linked where they share a method or theme, around a portrait of the researcher who did them. Each node opens a study; each shell label shows that theme.">
+      <defs>
+        <!-- The fade that keeps the diagram off the headline. It is an SVG mask
+             on the diagram rather than a CSS mask on the whole drawing, so the
+             portrait can sit outside it at full strength. The rectangle runs
+             well past the viewBox because a dragged study can leave it, and
+             anything outside a mask's rectangle vanishes. -->
+        <linearGradient id="consFadeGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0.222" stop-color="#fff" stop-opacity="0" />
+          <stop offset="0.322" stop-color="#fff" stop-opacity="0.1" />
+          <stop offset="0.422" stop-color="#fff" stop-opacity="0.55" />
+          <stop offset="0.522" stop-color="#fff" stop-opacity="1" />
+        </linearGradient>
+        <mask id="consFade" maskUnits="userSpaceOnUse" x="-400" y="-400" width="1800" height="1800">
+          <rect x="-400" y="-400" width="1800" height="1800" fill="url(#consFadeGrad)" />
+        </mask>
+        <clipPath id="consSelfClip"><circle cx="${C}" cy="${C}" r="84" /></clipPath>
+      </defs>
+      <g mask="url(#consFade)">
+        <g class="cons-spin">${shells}</g>
+        <g class="cons-spokes">${spokes}</g>
+        <g class="cons-links">${links}</g>
+        <g class="cons-nodes">${nodes}</g>
+      </g>
+      ${profile && profile.photo ? `
+      <g class="cons-self" tabindex="0" role="link"
+         aria-label="${profile.name}, who designed, built and published every study here. Opens the research statement.">
+        <circle class="cons-self-halo" cx="${C}" cy="${C}" r="112" />
+        <circle class="cons-self-ring" cx="${C}" cy="${C}" r="96" />
+        <image href="${profile.photo}" x="${C - 84}" y="${C - 84}" width="168" height="168"
+               clip-path="url(#consSelfClip)" preserveAspectRatio="xMidYMid slice" />
+        <circle class="cons-self-edge" cx="${C}" cy="${C}" r="84" />
+      </g>` : `<circle class="cons-core" cx="${C}" cy="${C}" r="7" />`}
     </svg>`;
 }
 
@@ -362,7 +415,7 @@ function renderHero(profile) {
   el("hero").innerHTML = `
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-scrim" aria-hidden="true"></div>
-    <div class="hero-mark cine">${constellation(window.__projects || [])}</div>
+    <div class="hero-mark cine">${constellation(window.__projects || [], profile)}</div>
     <div class="hero-inner">
       <div class="hero-lede">
         ${
@@ -407,6 +460,10 @@ function renderHero(profile) {
       const node = target.closest(".cons-node");
       if (node && node.dataset.slug) {
         location.hash = "#project/" + node.dataset.slug;
+        return true;
+      }
+      if (target.closest(".cons-self")) {
+        el("about").scrollIntoView({ behavior: "smooth", block: "start" });
         return true;
       }
       const label = target.closest(".cons-label");

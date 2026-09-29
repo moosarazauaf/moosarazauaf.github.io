@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=81") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=84") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=81"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=84"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2706,4 +2706,49 @@ html, body { overflow-x: clip; }
 }
 @media print {
   .cur-dot, .cur-ring, .cons-tip { display: none !important; }
+}
+
+/* ==================== Centre of gravity ====================
+   The fade moved into the SVG as a mask on the diagram only, so the portrait
+   at the centre is not faded with it. The old CSS mask on the whole drawing is
+   switched off here, or the two would stack. */
+.cons { -webkit-mask-image: none; mask-image: none; }
+
+.cons-spoke { stroke: var(--accent); stroke-width: 0.8; opacity: 0.1; transition: opacity 0.2s; }
+.cons.is-focusing .cons-spoke { opacity: 0.03; }
+.cons.is-focusing .cons-spoke.is-lit { opacity: 0.55; }
+.cons.is-self .cons-spoke.is-lit { opacity: 0.5; }
+/* With the person in focus the web between studies steps back, so what reads
+   is the spokes: everything leads back to the centre. */
+.cons.is-self .cons-link { opacity: 0.06; }
+
+.cons-self { cursor: pointer; outline: none; }
+.cons-self-halo { fill: var(--accent); opacity: 0.08; transition: opacity 0.25s; }
+.cons-self-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 7;
+  opacity: 0.7;
+  transform-origin: 500px 500px;
+  animation: self-ring 40s linear infinite;
+}
+.cons-self-edge { fill: none; stroke: var(--accent); stroke-width: 3; }
+.cons-self:hover .cons-self-halo,
+.cons-self:focus-visible .cons-self-halo { opacity: 0.22; }
+.cons-self:focus-visible .cons-self-edge { stroke: var(--ink); }
+@keyframes self-ring { to { transform: rotate(-360deg); } }
+
+/* The portrait appears once. At full width it is the centre of the diagram,
+   so the small one in the footer row goes. Below 1280 the diagram becomes a
+   faded backdrop and a portrait inside it would look like a ghost, so the
+   footer photo comes back instead. */
+@media (min-width: 1280px) {
+  .hero-foot .hero-photo { display: none; }
+}
+@media (max-width: 1279px) {
+  .cons-self { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cons-self-ring { animation: none; }
 }
