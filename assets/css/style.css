@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=59") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=60") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=59"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=60"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2235,3 +2235,24 @@ html, body { overflow-x: clip; }
 [data-theme="light"] .band-tint .stat-open,
 [data-theme="light"] .band-tint .stat-big-value { color: var(--forest); }
 [data-theme="light"] .band-tint .stat-big-label { color: var(--forest-deep); }
+
+@media print {
+  /* The two full-bleed blocks are the design's colour, not the document's
+     content. On paper they would be a solid gold rectangle and a solid dark
+     one, both wasting toner and neither adding a word. */
+  .band-tint, .band-invert {
+    background: #fff !important;
+    color: #111 !important;
+    width: auto !important;
+    margin-inline: 0 !important;
+    padding-block: 4mm !important;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+  }
+  .band-tint *, .band-invert * { color: #111 !important; }
+  .band-invert .audit-card { background: #fff !important; border-color: #ccc !important; }
+  .hero-mark, .orbit { display: none !important; }
+  .hero-claim { font-size: 16pt !important; color: #111 !important; }
+  .hero-claim .is-accent { color: #111 !important; }
+  .card::before { display: none !important; }
+}
