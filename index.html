@@ -72,16 +72,16 @@
        until the stylesheet has parsed. Preloading the variant each screen will
        actually use starts that fetch immediately; it is the largest paint on
        the page. The media queries mirror the ones in style.css. -->
-  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=53"
+  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=55"
         media="(max-width: 1599px)" />
-  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=53"
+  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=55"
         media="(min-width: 1600px)" />
   <!-- The typeface is on the critical path: it carries every word on the page,
        so it is fetched in parallel with the stylesheet rather than after it. -->
   <link rel="preload" as="font" type="font/woff2"
-        href="assets/fonts/archivo-var.woff2?v=53" crossorigin />
-  <link rel="stylesheet" href="assets/css/variables.css?v=53" />
-  <link rel="stylesheet" href="assets/css/style.css?v=53" />
+        href="assets/fonts/archivo-var.woff2?v=55" crossorigin />
+  <link rel="stylesheet" href="assets/css/variables.css?v=55" />
+  <link rel="stylesheet" href="assets/css/style.css?v=55" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -134,7 +134,7 @@
       <section id="projects" class="section"></section>
       <section id="publications" class="section"></section>
       <section id="research" class="section"></section>
-      <section id="audit" class="section"></section>
+      <section id="audit" class="section band-invert"></section>
       <!-- Both interactives live in one tabbed section. main.js builds the
            panels and drops a tab whose data or library failed to load.
            Panel 1: data/lahore-lulc.json. Panel 2: data/pakistan-districts.geojson. -->
@@ -146,6 +146,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=53"></script>
+  <script src="assets/js/main.js?v=55"></script>
 </body>
 </html>

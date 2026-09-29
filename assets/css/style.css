@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=53") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=55") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=53"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=55"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2002,3 +2002,102 @@ main:focus { outline: none; }
 [data-theme="light"] .hero-claim .is-accent { color: var(--gold-readable); }
 [data-theme="light"] .hero-role,
 [data-theme="light"] .hero-foot .hero-tagline { color: var(--ink-soft); }
+
+/* ==================== Reskin: section headings ====================
+   Centred headings read as a brochure. These are set hard left, the title is
+   large enough to be the section's picture, and the label above it is tiny,
+   tracked and in the accent, which is the pairing the reference repeats
+   throughout: one very small thing over one very large thing, nothing in
+   between. */
+.sec-head {
+  text-align: left;
+  max-width: 34ch;
+  margin: 0 0 var(--space-lg);
+}
+.sec-head.is-start { max-width: 34ch; }
+.sec-tagline {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+}
+.sec-head h2 {
+  font-size: var(--text-huge);
+  font-weight: 800;
+  font-stretch: 86%;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.sec-sub {
+  max-width: 52ch;
+  margin-top: var(--space-sm);
+  font-size: var(--text-base);
+  color: var(--ink-soft);
+}
+
+/* Radii come down across the board. The reference works at 2 to 6px, and the
+   14 to 22px this site used reads soft next to type this size. */
+:root { --radius: 4px; --radius-lg: 6px; }
+.card, .pub-card, .exp-card, .pm-readout, .pm-map, .lc-stage,
+.tabpanel, .btn-primary, .btn-outline, .btn-ghost, .btn-quiet { border-radius: var(--radius); }
+
+/* ==================== Reskin: full-bleed blocks ====================
+   The reference alternates whole screens of flat colour. Two here: the stats
+   band in the accent, and the verification figure on paper, so the page turns
+   inside out once in the middle. Both break the container deliberately. */
+.band-tint, .band-invert {
+  position: relative;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}
+
+/* The accent block. Dark ink on gold, which measured 9.7:1 the other way round
+   and holds here too. */
+.band-tint {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.band-tint .stat-open { color: var(--accent-ink); font-weight: 500; }
+.band-tint .stat-big-value {
+  color: var(--accent-ink);
+  font-weight: 800;
+  font-stretch: 86%;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.band-tint .stat-big-label {
+  color: color-mix(in srgb, var(--accent-ink) 78%, transparent);
+  font-size: var(--text-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* The paper block: the page inverts for one section. */
+.band-invert {
+  background: var(--paper);
+  color: var(--forest);
+}
+.band-invert h2, .band-invert h3, .band-invert .audit-value { color: var(--forest); }
+.band-invert .sec-sub, .band-invert .audit-note, .band-invert p { color: #41594e; }
+.band-invert .sec-tagline { color: var(--gold-readable); }
+.band-invert .audit-card {
+  background: #fff;
+  border-color: #d7e6c8;
+}
+.band-invert .audit-label { color: #5f7a6c; }
+.band-invert .swatch.is-claimed { background: var(--gold-readable); }
+.band-invert .swatch.is-actual { background: var(--forest); }
+.band-invert .audit-legend { color: #41594e; }
+.band-invert .audit-arrow { color: #7f9a88; }
+.band-invert > .container { color: inherit; }
+
+/* 100vw counts the scrollbar, so a full-bleed block is wider than the space it
+   can occupy and the page gains a horizontal scroll of exactly the scrollbar's
+   width. `clip` rather than `hidden`: hidden makes the body a scroll container,
+   which silently breaks position: sticky on the header. */
+html, body { overflow-x: clip; }
