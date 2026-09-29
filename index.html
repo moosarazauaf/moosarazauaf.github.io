@@ -72,16 +72,16 @@
        until the stylesheet has parsed. Preloading the variant each screen will
        actually use starts that fetch immediately; it is the largest paint on
        the page. The media queries mirror the ones in style.css. -->
-  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=55"
+  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=58"
         media="(max-width: 1599px)" />
-  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=55"
+  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=58"
         media="(min-width: 1600px)" />
   <!-- The typeface is on the critical path: it carries every word on the page,
        so it is fetched in parallel with the stylesheet rather than after it. -->
   <link rel="preload" as="font" type="font/woff2"
-        href="assets/fonts/archivo-var.woff2?v=55" crossorigin />
-  <link rel="stylesheet" href="assets/css/variables.css?v=55" />
-  <link rel="stylesheet" href="assets/css/style.css?v=55" />
+        href="assets/fonts/archivo-var.woff2?v=58" crossorigin />
+  <link rel="stylesheet" href="assets/css/variables.css?v=58" />
+  <link rel="stylesheet" href="assets/css/style.css?v=58" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -146,6 +146,6 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=55"></script>
+  <script src="assets/js/main.js?v=58"></script>
 </body>
 </html>

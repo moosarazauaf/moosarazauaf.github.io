@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=55") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=58") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=55"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=58"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2101,3 +2101,137 @@ main:focus { outline: none; }
    width. `clip` rather than `hidden`: hidden makes the body a scroll container,
    which silently breaks position: sticky on the header. */
 html, body { overflow-x: clip; }
+
+/* ==================== Reskin: nav ====================
+   The reference sets its wordmark tiny, lowercase and in the accent, and keeps
+   everything else in the bar smaller still. The links stay, because they were
+   built for a supervisor skimming, but they drop to tracked micro type so the
+   bar reads as a rule across the top rather than as a menu. */
+.site-header {
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  border-bottom: 1px solid var(--border);
+}
+.nav { padding-inline: clamp(1.25rem, 6vw, 5rem); max-width: none; }
+.nav-brand {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: lowercase;
+  color: var(--accent);
+}
+.nav-brand:hover { color: var(--brand-strong); }
+.nav-links { gap: clamp(0.9rem, 1.8vw, 1.6rem); }
+.nav-links a {
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.nav-links a:hover, .nav-links a.is-current { color: var(--ink); }
+.nav-links a::after { background: var(--accent); bottom: -6px; }
+.theme-toggle { border-radius: 4px; border-color: var(--border); background: transparent; }
+
+/* ==================== Reskin: buttons ====================
+   Square, hairline, tracked. The filled one is the accent carrying dark ink,
+   which is the only place on the page where gold becomes a surface. */
+.btn-primary, .btn-outline, .btn-ghost, .btn-quiet, .btn-contact {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+}
+.btn-primary:hover { background: var(--brand-strong); border-color: var(--brand-strong); }
+.btn-ghost, .btn-outline {
+  border: 1px solid var(--border-strong);
+  color: var(--ink);
+  background: transparent;
+}
+.btn-ghost:hover, .btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: transparent;
+}
+
+/* ==================== Reskin: cards ====================
+   Flat panels with a hairline, not floating objects with a shadow. The accent
+   appears on hover as a left edge, which is cheaper than a glow and reads as a
+   marker rather than as decoration. */
+.card, .pub-card, .exp-card, .slide .showcase {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+.card { position: relative; transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease); }
+.card::before {
+  content: "";
+  position: absolute;
+  left: -1px; top: -1px; bottom: -1px;
+  width: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+}
+.card:hover { transform: none; background: var(--surface-alt); border-color: var(--border-strong); }
+.card:hover::before { opacity: 1; }
+
+/* Metrics read as instrument values, so they get the display width and tabular
+   figures rather than the body setting. */
+.stat-value, .audit-value, .pm-figs dd, .lc-carbon-value b {
+  font-stretch: 86%;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label, .audit-label, .audit-method, .pm-rank-title, .lc-carbon-label {
+  font-size: var(--text-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.tag, .chip {
+  border-radius: 3px;
+  font-size: var(--text-micro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.pfilter, .tab { border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; font-size: var(--text-micro); }
+.status-badge { border-radius: 3px; letter-spacing: 0.12em; text-transform: uppercase; font-size: var(--text-micro); }
+
+/* The point of this block is that the page turns inside out for one section.
+   On the dark page it is paper; on the light page paper is the page, so it has
+   to invert the other way or the block simply disappears. */
+[data-theme="light"] .band-invert {
+  background: var(--forest-deep);
+  color: var(--paper);
+}
+[data-theme="light"] .band-invert h2,
+[data-theme="light"] .band-invert h3,
+[data-theme="light"] .band-invert .audit-value { color: var(--paper); }
+[data-theme="light"] .band-invert .sec-sub,
+[data-theme="light"] .band-invert .audit-note,
+[data-theme="light"] .band-invert p { color: #b9cbbd; }
+[data-theme="light"] .band-invert .sec-tagline { color: var(--gold); }
+[data-theme="light"] .band-invert .audit-card {
+  background: #16261f;
+  border-color: #2a4036;
+}
+[data-theme="light"] .band-invert .audit-label { color: #859c8e; }
+[data-theme="light"] .band-invert .swatch.is-claimed { background: var(--gold); }
+[data-theme="light"] .band-invert .swatch.is-actual { background: var(--meadow); }
+[data-theme="light"] .band-invert .audit-legend { color: #b9cbbd; }
+
+/* In light mode the accent token is the darkened gold, which is right for text
+   on paper but makes a poor surface: paper on it reaches only 3.35:1, and the
+   band's labels are 12px, where the large-text allowance does not apply. The
+   band therefore uses the bright gold as a surface and carries forest ink,
+   which is the same arrangement dark mode uses and measures 5.05:1. */
+[data-theme="light"] .band-tint { background: var(--gold); color: var(--forest); }
+[data-theme="light"] .band-tint .stat-open,
+[data-theme="light"] .band-tint .stat-big-value { color: var(--forest); }
+[data-theme="light"] .band-tint .stat-big-label { color: var(--forest-deep); }
