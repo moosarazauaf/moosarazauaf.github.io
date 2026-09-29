@@ -123,7 +123,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=45") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=46") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -132,7 +132,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=45"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=46"); }
 }
 .hero-scrim {
   position: absolute;
@@ -1664,4 +1664,96 @@ main:focus { outline: none; }
 
   * { animation: none !important; transition: none !important; }
   .reveal, .cine { opacity: 1 !important; transform: none !important; }
+}
+
+/* ==================== Scroll-driven motion ====================
+   Everything here rides a scroll timeline rather than a scroll event, so the
+   browser runs it off the main thread and it stays smooth while the maps and
+   the carousel are doing their own work.
+
+   Every rule sits behind @supports. Where scroll timelines are missing, the
+   JavaScript that already drives the progress bar keeps running and the rest
+   simply does not animate: nothing here is the only thing making content
+   visible, which is the rule this site learned the hard way. */
+@supports (animation-timeline: scroll()) {
+  /* The bar is the document's own scroll position, so let the browser say so
+     rather than recomputing it on every scroll event. */
+  .progress-bar {
+    animation: progress-grow linear both;
+    animation-timeline: scroll(root block);
+    transform: scaleX(0);
+  }
+  @keyframes progress-grow {
+    to { transform: scaleX(1); }
+  }
+
+  /* The title block sinks and softens as the hero leaves, which reads as depth
+     against the parallax plate behind it. It begins at rest, so a reader who
+     never scrolls sees exactly what they see today. */
+  .hero-inner {
+    animation: hero-depart linear both;
+    animation-timeline: view(block);
+    animation-range: exit 0% exit 90%;
+  }
+  @keyframes hero-depart {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0.25; transform: translateY(-28px) scale(0.985); }
+  }
+}
+
+/* ==================== Section heading reveal ====================
+   The tagline, rule and title arrive as one gesture: the title wipes up from
+   under its own baseline. Driven by the same .revealed class as everything
+   else, so it inherits the three-second backstop and can never strand a
+   heading half-drawn. */
+.reveal .sec-head h2 {
+  clip-path: inset(0 0 110% 0);
+  transform: translateY(0.18em);
+}
+.reveal.revealed .sec-head h2 {
+  clip-path: inset(-0.25em 0 -0.25em 0);
+  transform: none;
+  transition:
+    clip-path var(--dur-cine) var(--ease-cine) 60ms,
+    transform var(--dur-cine) var(--ease-cine) 60ms;
+}
+/* The rule under a tagline draws itself out from the left. */
+.reveal .sec-tagline::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -0.35rem;
+  height: 1.5px;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.35;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+.reveal.revealed .sec-tagline::after {
+  transform: scaleX(1);
+  transition: transform var(--dur-cine) var(--ease-cine) 120ms;
+}
+.sec-tagline { position: relative; }
+
+/* ==================== Hover refinements ====================
+   Cards lift; their imagery grows a little inside a fixed frame, which reads
+   as the card coming forward rather than the picture getting bigger. */
+.card:hover { box-shadow: var(--shadow); }
+.showcase-media { overflow: hidden; }
+.showcase-media .media-main { transition: transform var(--dur-slow) var(--ease); }
+.showcase:hover .media-main { transform: scale(1.03); }
+.thumb img { transition: transform var(--dur) var(--ease); }
+.thumb:hover img { transform: scale(1.08); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* A clipped heading with the animation suppressed would never be readable. */
+  .reveal .sec-head h2,
+  .reveal.revealed .sec-head h2 { clip-path: none; transform: none; }
+  .reveal .sec-tagline::after,
+  .reveal.revealed .sec-tagline::after { transform: scaleX(1); }
+  .showcase:hover .media-main, .thumb:hover img { transform: none; }
+  .hero-inner { animation: none; }
+  .progress-bar { animation: none; }
 }
