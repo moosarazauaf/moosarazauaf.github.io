@@ -140,10 +140,12 @@
         scrub: 0.6,
       },
     })
-      // 0.4 rather than near-zero at the start: a reader who stops mid-scrub
-      // should still be able to read every number, not watch two of them sit
-      // greyed out. The movement carries the sequence, not the fade.
-      .from(items, { opacity: 0.4, yPercent: 20, stagger: 0.4, ease: "none" })
+      // No fade on the numbers at all. Anything under full opacity costs
+      // contrast against the gold, and these four were measured at 9.66:1 on
+      // the assumption they are opaque. A reader who stops mid-scrub must not
+      // be the one who gets the unreadable version, so the sequence is carried
+      // entirely by the movement and the scan line.
+      .from(items, { yPercent: 22, stagger: 0.4, ease: "none" })
       .fromTo(band, { "--scan": "0%" }, { "--scan": "100%", ease: "none" }, 0);
   }
 
