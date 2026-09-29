@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=70") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=74") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=70"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=74"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2440,3 +2440,80 @@ html, body { overflow-x: clip; }
    this site means a long dataset name, never ordinary prose. */
 .sec-head h2 { overflow-wrap: break-word; }
 .w-mask { max-width: 100%; }
+
+/* ==================== Orbit mark, second pass ====================
+   The first version was a planet illustration: big enough to crowd the claim,
+   with a heavy graticule, a flat gold stripe and a satellite the size of a
+   button. The reference keeps its circles small and precise, and a mark should
+   sit beside the type rather than compete with it. */
+.hero-mark {
+  right: clamp(-2rem, 2vw, 4rem);
+  top: 46%;
+  width: clamp(15rem, 27vw, 25rem);
+  opacity: 1;
+}
+.orbit-grid { stroke: var(--sage); stroke-width: 0.7; opacity: 0.22; }
+.orbit-limb { fill: none; stroke: var(--sage); stroke-width: 1; opacity: 0.35; }
+.orbit-ring { fill: none; stroke: var(--accent); stroke-width: 1; opacity: 0.6; }
+.orbit-swath { opacity: 0.5; }
+.orbit-sat-dot { fill: var(--accent); }
+.orbit-sat-halo { fill: var(--accent); opacity: 0.22; }
+
+/* The swath no longer drifts up and down the face; it rolls around the sphere,
+   which is the only motion a swath can make that is not a lie. */
+.orbit-swath {
+  transform-origin: 200px 200px;
+  animation: swath-roll 24s linear infinite;
+}
+@keyframes swath-roll {
+  from { transform: rotate(-32deg); }
+  to { transform: rotate(328deg); }
+}
+.orbit-sat { transform-origin: 200px 200px; animation: orbit-run 24s linear infinite; }
+@keyframes orbit-run {
+  from { transform: rotate(-32deg); }
+  to { transform: rotate(328deg); }
+}
+
+/* The hint belongs under the mark, small, not floating across the middle of
+   the hero where it collided with the buttons. */
+.motion-on .hero-mark::after {
+  left: auto;
+  right: 6%;
+  bottom: -1.6rem;
+  translate: 0 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.26em;
+  opacity: 0.4;
+}
+
+@media (max-width: 900px) {
+  .hero-mark { right: -14%; width: 20rem; opacity: 0.4; top: 42%; }
+  .motion-on .hero-mark::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-swath, .orbit-sat { animation: none; }
+}
+
+/* Placed against the measured text, not by eye. At 1425px the claim's longest
+   line ends at x=976 and the footer row starts at y=692, which leaves a clear
+   column on the right roughly 430px wide and 600px tall. The mark sits in it:
+   pinned to the right edge, centred at 42% so it clears the footer below, and
+   capped at 27vw so its left edge never reaches the text. */
+.hero-mark {
+  right: 1rem;
+  /* 42% put the mark's centre at y=642 and its lower edge at 834, which crossed
+     the "Get in touch" button by 7px. Small, but the outer orbit ring would
+     have run straight through the button's edge. 27% lifts the whole thing
+     into the clear column above the footer row. */
+  top: 27%;
+  width: clamp(15rem, 27vw, 24rem);
+}
+@media (max-width: 1279px) {
+  /* The claim scales with the viewport but the mark is pinned right, so between
+     roughly 1100 and 1280 the two want the same pixels and "measured properly."
+     ran under the globe. Rather than squeezing either, the mark stops being a
+     neighbour in that range and becomes a backdrop, which is a treatment it
+     already has for phones. Measured at 1165, where the collision was. */
+  .hero-mark { right: -8%; width: 24rem; opacity: 0.32; }
+}

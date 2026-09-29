@@ -224,47 +224,53 @@ function socialRow(profile) {
    theme, and because a stock photograph of a satellite would say less about
    the work than the geometry does. */
 const ORBIT_MARK = `
-  <svg class="orbit" viewBox="0 0 520 520" aria-hidden="true" focusable="false">
+  <svg class="orbit" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
     <defs>
-      <radialGradient id="orbGlobe" cx="38%" cy="32%" r="78%">
-        <stop offset="0%" stop-color="var(--sage)" stop-opacity="0.42" />
-        <stop offset="62%" stop-color="var(--forest)" stop-opacity="0.30" />
-        <stop offset="100%" stop-color="var(--forest-deep)" stop-opacity="0.12" />
+      <radialGradient id="orbGlobe" cx="36%" cy="30%" r="80%">
+        <stop offset="0%" stop-color="var(--sage)" stop-opacity="0.26" />
+        <stop offset="70%" stop-color="var(--forest)" stop-opacity="0.20" />
+        <stop offset="100%" stop-color="var(--forest-deep)" stop-opacity="0.05" />
       </radialGradient>
-      <linearGradient id="orbSwath" x1="0" y1="0" x2="1" y2="1">
+      <linearGradient id="orbSwath" x1="0" y1="1" x2="1" y2="0">
         <stop offset="0%" stop-color="var(--accent)" stop-opacity="0" />
-        <stop offset="45%" stop-color="var(--accent)" stop-opacity="0.55" />
+        <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.85" />
         <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
       </linearGradient>
-      <clipPath id="orbClip"><circle cx="260" cy="260" r="150" /></clipPath>
+      <clipPath id="orbClip"><circle cx="200" cy="200" r="116" /></clipPath>
     </defs>
 
-    <!-- the globe, with a graticule rather than a coastline: this is a grid the
-         measurements live on, not a picture of a place -->
-    <circle cx="260" cy="260" r="150" fill="url(#orbGlobe)" />
+    <circle cx="200" cy="200" r="116" fill="url(#orbGlobe)" />
+
+    <!-- Graticule. Parallels compress toward the poles and meridians toward the
+         limb, which is what makes a set of ellipses read as a sphere rather
+         than as a target. -->
     <g clip-path="url(#orbClip)" class="orbit-grid">
-      <ellipse cx="260" cy="260" rx="150" ry="48" />
-      <ellipse cx="260" cy="260" rx="150" ry="98" />
-      <ellipse cx="260" cy="260" rx="52" ry="150" />
-      <ellipse cx="260" cy="260" rx="104" ry="150" />
-      <line x1="110" y1="260" x2="410" y2="260" />
-      <line x1="260" y1="110" x2="260" y2="410" />
+      <ellipse cx="200" cy="200" rx="116" ry="30" />
+      <ellipse cx="200" cy="200" rx="116" ry="66" />
+      <ellipse cx="200" cy="200" rx="116" ry="97" />
+      <ellipse cx="200" cy="200" rx="30" ry="116" />
+      <ellipse cx="200" cy="200" rx="66" ry="116" />
+      <ellipse cx="200" cy="200" rx="97" ry="116" />
+      <line x1="84" y1="200" x2="316" y2="200" />
     </g>
-    <circle cx="260" cy="260" r="150" class="orbit-limb" />
+    <circle cx="200" cy="200" r="116" class="orbit-limb" />
 
-    <!-- the imaged swath, a band crossing the disc off-nadir -->
+    <!-- The swath is a stroked great circle, not a straight band laid over the
+         top. A flat rectangle reads as a stripe on a picture of a planet; a
+         thick stroke along an ellipse curves with the surface, which is what
+         an imaged swath actually does. -->
     <g clip-path="url(#orbClip)">
-      <rect class="orbit-swath" x="60" y="150" width="400" height="66"
-            fill="url(#orbSwath)" transform="rotate(34 260 260)" />
+      <ellipse class="orbit-swath" cx="200" cy="200" rx="150" ry="58"
+               transform="rotate(-32 200 200)"
+               fill="none" stroke="url(#orbSwath)" stroke-width="30" />
     </g>
 
-    <!-- two inclined orbits; the satellite rides the outer one -->
-    <ellipse class="orbit-ring is-outer" cx="260" cy="260" rx="228" ry="112"
-             transform="rotate(-24 260 260)" />
-    <ellipse class="orbit-ring is-inner" cx="260" cy="260" rx="188" ry="188" />
-    <g class="orbit-sat" transform="rotate(-24 260 260)">
-      <circle cx="488" cy="260" r="13" class="orbit-sat-dot" />
-      <circle cx="488" cy="260" r="26" class="orbit-sat-halo" />
+    <!-- One orbit, drawn once. The second dashed ring was noise. -->
+    <ellipse class="orbit-ring" cx="200" cy="200" rx="176" ry="72"
+             transform="rotate(-32 200 200)" />
+    <g class="orbit-sat" transform="rotate(-32 200 200)">
+      <circle cx="376" cy="200" r="4.5" class="orbit-sat-dot" />
+      <circle cx="376" cy="200" r="11" class="orbit-sat-halo" />
     </g>
   </svg>`;
 
