@@ -223,62 +223,99 @@ function socialRow(profile) {
    photographed, because it has to hold up at any size and recolour with the
    theme, and because a stock photograph of a satellite would say less about
    the work than the geometry does. */
-const ORBIT_MARK = `
-  <svg class="orbit" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
-    <defs>
-      <radialGradient id="orbGlobe" cx="36%" cy="30%" r="80%">
-        <stop offset="0%" stop-color="var(--sage)" stop-opacity="0.26" />
-        <stop offset="70%" stop-color="var(--forest)" stop-opacity="0.20" />
-        <stop offset="100%" stop-color="var(--forest-deep)" stop-opacity="0.05" />
-      </radialGradient>
-      <linearGradient id="orbSwath" x1="0" y1="1" x2="1" y2="0">
-        <stop offset="0%" stop-color="var(--accent)" stop-opacity="0" />
-        <stop offset="50%" stop-color="var(--accent)" stop-opacity="0.85" />
-        <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
-      </linearGradient>
-      <clipPath id="orbClip"><circle cx="200" cy="200" r="116" /></clipPath>
-    </defs>
+/* The hero mark: an orbital constellation of the studies themselves.
 
-    <circle cx="200" cy="200" r="116" fill="url(#orbGlobe)" />
+   The reference builds its hero from concentric rings with its service names
+   set along the paths and nodes riding the orbits. The translation here is
+   direct and, for once, literal: the rings are orbital shells, one per research
+   theme, the curved labels are the themes, and every node is a real study
+   sitting on the shell it belongs to.
 
-    <!-- Graticule. Parallels compress toward the poles and meridians toward the
-         limb, which is what makes a set of ellipses read as a sphere rather
-         than as a target. -->
-    <g clip-path="url(#orbClip)" class="orbit-grid">
-      <ellipse cx="200" cy="200" rx="116" ry="30" />
-      <ellipse cx="200" cy="200" rx="116" ry="66" />
-      <ellipse cx="200" cy="200" rx="116" ry="97" />
-      <ellipse cx="200" cy="200" rx="30" ry="116" />
-      <ellipse cx="200" cy="200" rx="66" ry="116" />
-      <ellipse cx="200" cy="200" rx="97" ry="116" />
-      <line x1="84" y1="200" x2="316" y2="200" />
-    </g>
-    <circle cx="200" cy="200" r="116" class="orbit-limb" />
+   It is also navigation. Each node carries its study's slug, so clicking one
+   opens that study in the carousel through the same #project/<slug> route the
+   copy-link button writes. A decorative hero that happens to be the table of
+   contents is worth more than either on its own. */
+function constellation(projects) {
+  const C = 500;                    // viewBox is 1000x1000, centre at 500
+  const themes = [];
+  projects.forEach((p) => {
+    if (!p.theme) return;
+    let t = themes.find((x) => x.name === p.theme);
+    if (!t) themes.push((t = { name: p.theme, items: [] }));
+    t.items.push(p);
+  });
+  if (!themes.length) return "";
 
-    <!-- The swath is a stroked great circle, not a straight band laid over the
-         top. A flat rectangle reads as a stripe on a picture of a planet; a
-         thick stroke along an ellipse curves with the surface, which is what
-         an imaged swath actually does. -->
-    <g clip-path="url(#orbClip)">
-      <ellipse class="orbit-swath" cx="200" cy="200" rx="150" ry="58"
-               transform="rotate(-32 200 200)"
-               fill="none" stroke="url(#orbSwath)" stroke-width="30" />
-    </g>
+  // Innermost ring carries the fewest studies, so the busiest shells get the
+  // most circumference to spread across.
+  themes.sort((a, b) => a.items.length - b.items.length);
 
-    <!-- One orbit, drawn once. The second dashed ring was noise. -->
-    <ellipse class="orbit-ring" cx="200" cy="200" rx="176" ry="72"
-             transform="rotate(-32 200 200)" />
-    <g class="orbit-sat" transform="rotate(-32 200 200)">
-      <circle cx="376" cy="200" r="4.5" class="orbit-sat-dot" />
-      <circle cx="376" cy="200" r="11" class="orbit-sat-halo" />
-    </g>
-  </svg>`;
+  const R0 = 168, STEP = 96;
+  const rings = themes.map((t, i) => ({ ...t, r: R0 + i * STEP, i }));
+
+  const pol = (r, deg) => {
+    const a = ((deg - 90) * Math.PI) / 180;
+    return [C + r * Math.cos(a), C + r * Math.sin(a)];
+  };
+
+  // An arc path for the label to sit on. Starting at the left and sweeping over
+  // the top keeps the text upright and reading forwards.
+  const arc = (r) =>
+    `M ${C - r} ${C} A ${r} ${r} 0 1 1 ${C + r} ${C}`;
+
+  let out = "";
+
+  // rings, their labels, and the faint dots that mark the shells
+  rings.forEach((ring) => {
+    out += `<circle class="cons-ring" cx="${C}" cy="${C}" r="${ring.r}" />`;
+    out += `<path id="cons-arc-${ring.i}" class="cons-arc" d="${arc(ring.r)}" />`;
+    out += `<text class="cons-label"><textPath href="#cons-arc-${ring.i}" startOffset="26%">${ring.name}</textPath></text>`;
+    for (let d = 0; d < 360; d += 30) {
+      const [x, y] = pol(ring.r, d + ring.i * 11);
+      out += `<circle class="cons-tick" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.6" />`;
+    }
+  });
+
+  // the nodes, and a thread from the centre out to each one
+  let nodes = "";
+  let threads = "";
+  rings.forEach((ring) => {
+    const n = ring.items.length;
+    ring.items.forEach((p, k) => {
+      // Spread across the shell, offset per ring so nodes do not line up into
+      // spokes, and biased to the right so the type column stays clear.
+      const deg = 40 + ring.i * 23 + (k * 360) / Math.max(n, 3);
+      const [x, y] = pol(ring.r, deg);
+      const slug = projectSlug(p);
+      const size = p.liveUrl ? 13 : 10;
+      threads += `<line class="cons-thread" x1="${C}" y1="${C}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" />`;
+      nodes +=
+        `<g class="cons-node" data-slug="${slug}" tabindex="0" role="link"
+            aria-label="Open study: ${p.title.replace(/"/g, "&quot;")}">
+           <circle class="cons-halo" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size + 11}" />
+           <circle class="cons-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size}" />
+           <title>${p.title}</title>
+         </g>`;
+    });
+  });
+
+  return `
+    <svg class="cons" viewBox="0 0 1000 1000" role="img"
+         aria-label="Orbital diagram of ${projects.length} studies, grouped by research theme. Each node opens a study.">
+      <g class="cons-spin">
+        ${out}
+        ${threads}
+        ${nodes}
+      </g>
+      <circle class="cons-core" cx="${C}" cy="${C}" r="7" />
+    </svg>`;
+}
 
 function renderHero(profile) {
   el("hero").innerHTML = `
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-scrim" aria-hidden="true"></div>
-    <div class="hero-mark cine" aria-hidden="true">${ORBIT_MARK}</div>
+    <div class="hero-mark cine">${constellation(window.__projects || [])}</div>
     <div class="hero-inner">
       <div class="hero-lede">
         ${
@@ -312,6 +349,29 @@ function renderHero(profile) {
     <a class="scroll-cue" href="#projects" aria-label="Scroll to the research">
       <span class="scroll-line" aria-hidden="true"></span>
     </a>`;
+
+  // Each node is a link into the carousel. Pointer and keyboard both go through
+  // the hash, so the behaviour is identical to following a copied study link
+  // and there is only one code path to keep working.
+  const mark = document.querySelector(".hero-mark");
+  if (mark) {
+    const open = (node) => {
+      const slug = node.dataset.slug;
+      if (!slug) return;
+      location.hash = "#project/" + slug;
+    };
+    mark.addEventListener("click", (e) => {
+      const n = e.target.closest(".cons-node");
+      if (n) open(n);
+    });
+    mark.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const n = e.target.closest(".cons-node");
+      if (!n) return;
+      e.preventDefault();
+      open(n);
+    });
+  }
 
   // Stagger the hero entrance on first paint.
   [...document.querySelectorAll("#hero .cine")].forEach((n, i) =>
@@ -1834,6 +1894,9 @@ async function init() {
       loadJson("data/publications.json"),
     ]);
 
+    // The hero's constellation is drawn from the studies, so they have to be
+    // available before it renders.
+    window.__projects = projects;
     renderHero(profile);
     renderStats(profile, projects, publications);
     renderAbout(profile);

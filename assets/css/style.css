@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=74") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=77") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=74"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=77"); }
 }
 .hero-scrim {
   position: absolute;
@@ -1843,19 +1843,6 @@ main:focus { outline: none; }
   grid-row: auto;
 }
 
-/* The mark sits behind the type on the right, bleeding off the edge, which is
-   what stops it reading as an illustration dropped into a box. */
-.hero-mark {
-  position: absolute;
-  z-index: 1;
-  right: clamp(-12rem, -6vw, -4rem);
-  top: 50%;
-  translate: 0 -50%;
-  width: clamp(28rem, 52vw, 46rem);
-  max-width: none;
-  pointer-events: none;
-  opacity: 0.85;
-}
 .orbit { width: 100%; height: auto; display: block; overflow: visible; }
 .orbit-grid { fill: none; stroke: var(--sage); stroke-width: 1; opacity: 0.32; }
 .orbit-limb { fill: none; stroke: var(--sage); stroke-width: 1.5; opacity: 0.5; }
@@ -1954,7 +1941,6 @@ main:focus { outline: none; }
 .hero-foot .social-row { justify-content: flex-start; margin: 0; }
 
 @media (max-width: 900px) {
-  .hero-mark { right: -30%; width: 34rem; opacity: 0.45; }
   .hero-name { white-space: normal; }
   .hero-foot { gap: 1rem; }
 }
@@ -2441,23 +2427,6 @@ html, body { overflow-x: clip; }
 .sec-head h2 { overflow-wrap: break-word; }
 .w-mask { max-width: 100%; }
 
-/* ==================== Orbit mark, second pass ====================
-   The first version was a planet illustration: big enough to crowd the claim,
-   with a heavy graticule, a flat gold stripe and a satellite the size of a
-   button. The reference keeps its circles small and precise, and a mark should
-   sit beside the type rather than compete with it. */
-.hero-mark {
-  right: clamp(-2rem, 2vw, 4rem);
-  top: 46%;
-  width: clamp(15rem, 27vw, 25rem);
-  opacity: 1;
-}
-.orbit-grid { stroke: var(--sage); stroke-width: 0.7; opacity: 0.22; }
-.orbit-limb { fill: none; stroke: var(--sage); stroke-width: 1; opacity: 0.35; }
-.orbit-ring { fill: none; stroke: var(--accent); stroke-width: 1; opacity: 0.6; }
-.orbit-swath { opacity: 0.5; }
-.orbit-sat-dot { fill: var(--accent); }
-.orbit-sat-halo { fill: var(--accent); opacity: 0.22; }
 
 /* The swath no longer drifts up and down the face; it rolls around the sphere,
    which is the only motion a swath can make that is not a lie. */
@@ -2488,32 +2457,123 @@ html, body { overflow-x: clip; }
 }
 
 @media (max-width: 900px) {
-  .hero-mark { right: -14%; width: 20rem; opacity: 0.4; top: 42%; }
   .motion-on .hero-mark::after { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .orbit-swath, .orbit-sat { animation: none; }
 }
 
-/* Placed against the measured text, not by eye. At 1425px the claim's longest
-   line ends at x=976 and the footer row starts at y=692, which leaves a clear
-   column on the right roughly 430px wide and 600px tall. The mark sits in it:
-   pinned to the right edge, centred at 42% so it clears the footer below, and
-   capped at 27vw so its left edge never reaches the text. */
+
+/* ==================== Hero constellation ====================
+   Concentric shells, one per research theme, with the theme name set along its
+   own orbit and every study riding the shell it belongs to. It replaces the
+   single globe: the globe was a picture of the subject, this is the work
+   itself, and it doubles as the way into the carousel.
+
+   Rings are deliberately faint. The type column overlaps the outer shells at
+   most widths, and thin low-contrast arcs read as structure behind the words
+   rather than as something colliding with them. */
+/* One rule, after five passes left five stacked ones fighting each other.
+   The size is a custom property because the SVG is square, so the same value
+   has to drive the width and the vertical centring.
+
+   Centred with a negative margin rather than a translate. GSAP writes
+   `transform` onto this element for the hero entrance, and the moment it does,
+   any transform-based centring is silently cancelled: that is what left the
+   constellation hanging 300px below the fold. A margin cannot be clobbered
+   that way. */
 .hero-mark {
-  right: 1rem;
-  /* 42% put the mark's centre at y=642 and its lower edge at 834, which crossed
-     the "Get in touch" button by 7px. Small, but the outer orbit ring would
-     have run straight through the button's edge. 27% lifts the whole thing
-     into the clear column above the footer row. */
-  top: 27%;
-  width: clamp(15rem, 27vw, 24rem);
+  --mark: clamp(26rem, 46vw, 46rem);
+  position: absolute;
+  z-index: 1;
+  right: clamp(-6rem, -2vw, 0rem);
+  top: 50%;
+  width: var(--mark);
+  max-width: none;
+  margin-block-start: calc(var(--mark) / -2);
+  pointer-events: auto;
+  opacity: 1;
+}
+.cons { width: 100%; height: auto; display: block; overflow: visible; }
+
+.cons-ring {
+  fill: none;
+  stroke: var(--sage);
+  stroke-width: 1;
+  opacity: 0.16;
+}
+.cons-arc { fill: none; stroke: none; }
+.cons-label {
+  fill: var(--ink-faint);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.cons-tick { fill: var(--sage); opacity: 0.3; }
+.cons-thread { stroke: var(--sage); stroke-width: 0.6; opacity: 0.14; }
+.cons-core { fill: var(--accent); }
+
+.cons-node { cursor: pointer; }
+.cons-dot {
+  fill: var(--accent);
+  opacity: 0.85;
+  transition: opacity var(--dur) var(--ease), r var(--dur) var(--ease);
+}
+.cons-halo { fill: var(--accent); opacity: 0.12; transition: opacity var(--dur) var(--ease); }
+.cons-node:hover .cons-dot, .cons-node:focus-visible .cons-dot { opacity: 1; }
+.cons-node:hover .cons-halo, .cons-node:focus-visible .cons-halo { opacity: 0.3; }
+.cons-node:focus-visible { outline: none; }
+.cons-node:focus-visible .cons-halo { opacity: 0.45; }
+
+/* One slow turn. The labels ride the rings, which is the point: the text is
+   part of the orbit rather than a caption sitting beside it. */
+.cons-spin {
+  transform-origin: 500px 500px;
+  animation: cons-turn 120s linear infinite;
+}
+@keyframes cons-turn { to { transform: rotate(360deg); } }
+.hero-mark:hover .cons-spin { animation-play-state: paused; }
+
+@media (max-width: 1279px) {
+  .hero-mark { --mark: 44rem; right: -18%; opacity: 0.5; }
+  .cons-label { opacity: 0.4; }
+}
+@media (max-width: 760px) {
+  .hero-mark { --mark: 38rem; right: -34%; opacity: 0.32; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cons-spin { animation: none; }
+}
+@media print { .hero-mark { display: none !important; } }
+
+/* The type column overlaps the outer shells, which is wanted: faint arcs behind
+   a headline read as structure, and the reference sets its own headline
+   straight over its rings. What is not wanted is a solid gold node or a curved
+   label landing on a word.
+
+   So the whole diagram fades out toward the left rather than being moved or
+   shrunk. Everything behind the text drops to a trace, everything in the clear
+   column keeps full strength, and no element has to be positioned around the
+   words individually. */
+.cons {
+  -webkit-mask-image: linear-gradient(to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.10) 18%,
+    rgba(0, 0, 0, 0.55) 36%,
+    #000 54%);
+  mask-image: linear-gradient(to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.10) 18%,
+    rgba(0, 0, 0, 0.55) 36%,
+    #000 54%);
 }
 @media (max-width: 1279px) {
-  /* The claim scales with the viewport but the mark is pinned right, so between
-     roughly 1100 and 1280 the two want the same pixels and "measured properly."
-     ran under the globe. Rather than squeezing either, the mark stops being a
-     neighbour in that range and becomes a backdrop, which is a treatment it
-     already has for phones. Measured at 1165, where the collision was. */
-  .hero-mark { right: -8%; width: 24rem; opacity: 0.32; }
+  /* As a backdrop the mask would double up with the reduced opacity and leave
+     almost nothing, so it softens. */
+  .cons {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, #000 60%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, #000 60%);
+  }
 }
