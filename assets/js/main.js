@@ -248,6 +248,17 @@ function socialRow(profile) {
    although the national account is literally the Lahore study scaled up; theme
    alone ignores that six studies share Sentinel-1. Tags carried by nearly every
    study (Earth Engine, Python) say nothing about how two relate and are ignored. */
+/* A link to a study, used everywhere a study is mentioned. It is a real link
+   to the #project/<slug> route, so it works with no script beyond the
+   carousel; interact.js adds the hover preview on top. `why` is the reason two
+   studies are linked, carried for the preview to show. */
+function studyLink(slug, why = "") {
+  const p = (window.__projects || []).find((x) => projectSlug(x) === slug);
+  if (!p) return "";
+  return `<a class="study-chip" href="#project/${slug}" data-study="${slug}"${
+    why ? ` data-why="${why.replace(/"/g, "&quot;")}"` : ""}>${p.short || p.title}</a>`;
+}
+
 function studyGraph(projects) {
   if (studyGraph.cache && studyGraph.cache.src === projects) return studyGraph.cache;
   const tagCount = {};
@@ -459,7 +470,8 @@ function renderHero(profile) {
     const act = (target) => {
       const node = target.closest(".cons-node");
       if (node && node.dataset.slug) {
-        location.hash = "#project/" + node.dataset.slug;
+        if (window.__openStudy) window.__openStudy(node.dataset.slug);
+        else location.hash = "#project/" + node.dataset.slug;
         return true;
       }
       if (target.closest(".cons-self")) {
@@ -468,10 +480,7 @@ function renderHero(profile) {
       }
       const label = target.closest(".cons-label");
       if (label && label.dataset.group) {
-        const chip = [...document.querySelectorAll("#projects .pfilter")]
-          .find((b) => b.dataset.theme === label.dataset.group);
-        if (chip) chip.click();
-        el("projects").scrollIntoView({ behavior: "smooth", block: "start" });
+        if (window.__filterStudies) window.__filterStudies(label.dataset.group, true);
         return true;
       }
       return false;
@@ -545,9 +554,13 @@ function renderTicker(projects) {
   // The track is duplicated so the loop can translate a full copy-width and
   // land exactly where it started. Half the content is aria-hidden, or a
   // screen reader would read the whole list twice.
+  // Every instrument is a filter: click one and the carousel shows the studies
+  // that used it. The duplicate run is aria-hidden, so its buttons are taken
+  // out of the tab order too, or a keyboard user would meet every one twice.
   const run = (hidden) =>
     `<span class="tick-run"${hidden ? ' aria-hidden="true"' : ""}>${items
-      .map((t) => `<span class="tick-item">${t}</span>`)
+      .map((t) => `<button type="button" class="tick-item" data-tag="${t}"${hidden ? ' tabindex="-1"' : ""}
+                     title="Show the studies that use ${t}">${t}</button>`)
       .join("")}</span>`;
   host.innerHTML =
     `<div class="tick" role="marquee" aria-label="Instruments and methods used across the studies">
@@ -642,6 +655,7 @@ function renderMethodsAudit(profile) {
           </div>
         </div>
         <p class="audit-note">${m.note}</p>
+        ${m.study ? `<p class="source-line"><span>From the study</span>${studyLink(m.study)}</p>` : ""}
       </figure>`
     )
     .join("");
@@ -659,15 +673,25 @@ function renderMethodsAudit(profile) {
 }
 
 function renderResearch(profile) {
+  // Each interest opens the work behind it: a theme filters the studies, and
+  // measurement validity, which is not one theme but a thread through all of
+  // them, goes to the verification section. The count says what is there
+  // before the click.
+  const all = window.__projects || [];
   const items = (profile.researchInterests || [])
-    .map(
-      (r) => `
-      <div class="card interest-card">
+    .map((r) => {
+      const n = r.theme ? all.filter((p) => p.theme === r.theme).length : 0;
+      const checks = (profile.methodsAudit && profile.methodsAudit.items.length) || 0;
+      const href = r.theme ? "#projects" : "#" + (r.section || "audit");
+      const cue = r.theme ? `${n} ${n === 1 ? "study" : "studies"}` : `${checks} checks`;
+      return `
+      <a class="card interest-card" href="${href}"${r.theme ? ` data-filter="${r.theme}"` : ""}>
         <span class="icon-badge">${ICONS[r.icon] || ICONS.flask}</span>
         <h3>${r.title}</h3>
         <p>${r.description}</p>
-      </div>`
-    )
+        <span class="card-cue">${cue} ${ICONS.arrowRight}</span>
+      </a>`;
+    })
     .join("");
   // Two four-card grids that used to be two full-width sections in a row. Side
   // by side they read as the pair they are, what I want to work on and how I
@@ -737,6 +761,9 @@ function renderPublications(publications) {
         <div class="pub-meta">${p.authors} · <i>${p.journal}</i> (${p.year})</div>
         <span class="status-badge${prep}">${p.status}${p.submitted ? " " + p.submitted : ""}</span>
         ${p.manuscript ? `<span class="pub-ms">Manuscript ${p.manuscript}</span>` : ""}
+        ${(p.studies || []).length
+          ? `<p class="source-line"><span>Built on</span>${p.studies.map((sl) => studyLink(sl)).join("")}</p>`
+          : ""}
       </div>`;
       })
       .join("");
@@ -812,6 +839,17 @@ function renderProjects(projects) {
                      </details>`
                   : ""
               }
+              ${(() => {
+                // Obsidian's backlinks: the studies this one is connected to, and
+                // why. Shared methods come first because they are the stronger
+                // bond. Capped at six so a hub does not become a wall of chips.
+                const linked = studyGraph(projects).links[projectSlug(p)] || [];
+                if (!linked.length) return "";
+                const shown = linked.slice(0, 6).map((l) => studyLink(l.slug, l.why)).join("");
+                const more = linked.length > 6 ? `<span class="linked-more">+${linked.length - 6} more</span>` : "";
+                return `<div class="linked"><p class="linked-label">Linked studies <b>${linked.length}</b></p>
+                          <div class="linked-row">${shown}${more}</div></div>`;
+              })()}
               <div class="tag-row">${(p.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
             </div>
             <div class="showcase-links">
@@ -838,7 +876,9 @@ function renderProjects(projects) {
       tagline: "Selected work",
       subtitle: `${projects.length} Earth observation studies over Pakistan, each designed and published end to end. Every one ships its code, its data and the range around its headline number.`,
     })}
-    <div class="pfilters" role="group" aria-label="Filter studies by theme">${filters}</div>
+    <div class="pfilters" role="group" aria-label="Filter studies by theme">${filters}<button
+      class="pfilter is-tag" type="button" data-theme="All" hidden
+      aria-label="Clear the instrument filter"></button></div>
     <div class="carousel" tabindex="0" aria-roledescription="carousel" aria-label="Projects">
       <div class="track">${slides}</div>
     </div>
@@ -911,15 +951,31 @@ function initCarousel(projects) {
     withTransition(() => applyFilter(theme));
   }
 
-  function applyFilter(theme) {
+  // A filter is a theme name, "All", or "tag:<instrument>" from the ticker. A
+  // tag filter has no chip of its own among the themes, so a temporary chip
+  // appears saying what is being shown, and clicking it goes back to All.
+  function applyFilter(spec) {
+    const tag = typeof spec === "string" && spec.startsWith("tag:") ? spec.slice(4) : null;
     order = projects
-      .map((p, i) => (theme === "All" || p.theme === theme ? i : -1))
+      .map((p, i) => {
+        const keep = tag ? (p.tags || []).includes(tag) : spec === "All" || p.theme === spec;
+        return keep ? i : -1;
+      })
       .filter((i) => i >= 0);
-    document.querySelectorAll("#projects .pfilter").forEach((b) => {
-      const on = b.dataset.theme === theme;
+    if (!order.length) {             // an instrument no study uses: show everything
+      order = projects.map((_, i) => i);
+    }
+    document.querySelectorAll("#projects .pfilter:not(.is-tag)").forEach((b) => {
+      const on = !tag && b.dataset.theme === spec;
       b.classList.toggle("is-on", on);
       b.setAttribute("aria-pressed", String(on));
     });
+    const chip = document.querySelector("#projects .pfilter.is-tag");
+    if (chip) {
+      chip.hidden = !tag;
+      chip.classList.toggle("is-on", !!tag);
+      if (tag) chip.innerHTML = `${tag} <span>${order.length}</span> <i aria-hidden="true">✕</i>`;
+    }
     go(0);
   }
 
@@ -943,6 +999,38 @@ function initCarousel(projects) {
   document.querySelectorAll("#projects .pfilter").forEach((b) =>
     b.addEventListener("click", () => filterTo(b.dataset.theme))
   );
+
+  // The rest of the page reaches into the carousel through these two, so a
+  // study link in the verification section, a research interest or a ticker
+  // tag all land in the same place the hero graph does.
+  window.__openStudy = (slug) => {
+    history.replaceState(null, "", "#project/" + slug);
+    openProject(slug, true);
+  };
+  window.__filterStudies = (spec, scroll) => {
+    filterTo(spec);
+    if (scroll) el("projects").scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  // Delegated, so study links rendered anywhere, now or later, all work. It
+  // intercepts the plain hash navigation because following a link to the
+  // study already open would not fire hashchange, and nothing would happen.
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest("a[data-study]");
+    if (link) {
+      e.preventDefault();
+      window.__openStudy(link.dataset.study);
+      return;
+    }
+    const interest = e.target.closest("a[data-filter]");
+    if (interest) {
+      e.preventDefault();
+      window.__filterStudies(interest.dataset.filter, true);
+      return;
+    }
+    const tick = e.target.closest(".tick-item[data-tag]");
+    if (tick) window.__filterStudies("tag:" + tick.dataset.tag, true);
+  });
 
   track.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-share]");
@@ -2007,6 +2095,7 @@ async function init() {
     // The hero's constellation is drawn from the studies, so they have to be
     // available before it renders.
     window.__projects = projects;
+    window.__studyGraph = studyGraph;
     renderHero(profile);
     renderStats(profile, projects, publications);
     renderAbout(profile);

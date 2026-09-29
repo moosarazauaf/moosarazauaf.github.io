@@ -353,7 +353,7 @@
       // Swell over anything that does something when clicked.
       const t = e.target;
       const hot = t.closest && t.closest(
-        "a, button, [role='link'], [role='button'], .cons-node, .cons-label, .cons-self, summary, input, .leaflet-interactive"
+        "a, button, [role='link'], [role='button'], .cons-node, .cons-label, .cons-self, .tick-item, summary, input, .leaflet-interactive"
       );
       ring.classList.toggle("is-hot", !!hot);
       ring.classList.toggle("is-node", !!(t.closest && t.closest(".cons-node, .cons-self")));
@@ -378,13 +378,126 @@
     requestAnimationFrame(tick);
   }
 
+  /* ============================================================= previews */
+
+  /* Obsidian's page preview. Hover any mention of a study anywhere on the page
+     and a card shows what it is before you commit to the click: the figure,
+     the theme, the headline numbers, and why it is linked to the study you are
+     reading, where that applies.
+
+     This is information, not decoration, so it runs under reduced motion too;
+     only its fade is dropped. Keyboard focus shows it as well. On touch it
+     stays out of the way, because a tap is already the click. */
+  function previews() {
+    const card = document.createElement("div");
+    card.className = "peek";
+    card.setAttribute("aria-hidden", "true");
+    document.body.appendChild(card);
+
+    const slugOf = (p) => p.repoUrl.replace(/\/+$/, "").split("/").pop();
+    let timer = 0, current = null;
+
+    function fill(a) {
+      const all = window.__projects || [];
+      const p = all.find((x) => slugOf(x) === a.dataset.study);
+      if (!p) return false;
+      const g = window.__studyGraph ? window.__studyGraph(all) : null;
+      const n = g ? (g.links[a.dataset.study] || []).length : 0;
+      const metrics = (p.metrics || []).slice(0, 3)
+        .map((m) => `<span class="peek-m"><b>${m.value}</b>${m.label}</span>`).join("");
+      card.innerHTML =
+        (p.image ? `<img class="peek-img" src="${p.image}" alt="" loading="eager" decoding="async" />` : "") +
+        `<span class="peek-group">${p.theme || "Study"}</span>` +
+        `<span class="peek-title">${p.title}</span>` +
+        (metrics ? `<span class="peek-metrics">${metrics}</span>` : "") +
+        (a.dataset.why ? `<span class="peek-why">Linked by ${a.dataset.why}</span>` : "") +
+        `<span class="peek-foot">${n} linked ${n === 1 ? "study" : "studies"} · click to open</span>`;
+      return true;
+    }
+
+    function place(a) {
+      const r = a.getBoundingClientRect();
+      const w = card.offsetWidth || 300, h = card.offsetHeight || 260;
+      let x = r.left + r.width / 2 - w / 2;
+      x = Math.max(12, Math.min(window.innerWidth - 12 - w, x));
+      // Below the link if it fits, above it if not.
+      let y = r.bottom + 10;
+      if (y + h > window.innerHeight - 12) y = Math.max(12, r.top - 10 - h);
+      card.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    }
+
+    function show(a) {
+      if (!fill(a)) return;
+      card.classList.add("is-on");
+      place(a);
+      // The figure changes the card's height once it has loaded.
+      const img = card.querySelector("img");
+      if (img && !img.complete) img.addEventListener("load", () => current === a && place(a), { once: true });
+    }
+    function hide() {
+      clearTimeout(timer);
+      current = null;
+      card.classList.remove("is-on");
+    }
+
+    document.addEventListener("pointerover", (e) => {
+      if (e.pointerType !== "mouse") return;
+      const a = e.target.closest && e.target.closest("a[data-study]");
+      if (!a || a === current) return;
+      current = a;
+      clearTimeout(timer);
+      timer = setTimeout(() => current === a && show(a), 220);   // not on a pass-over
+    });
+    document.addEventListener("pointerout", (e) => {
+      const a = e.target.closest && e.target.closest("a[data-study]");
+      if (!a || (e.relatedTarget && a.contains(e.relatedTarget))) return;
+      hide();
+    });
+    document.addEventListener("focusin", (e) => {
+      const a = e.target.closest && e.target.closest("a[data-study]");
+      if (a) { current = a; show(a); }
+    });
+    document.addEventListener("focusout", (e) => {
+      if (e.target.closest && e.target.closest("a[data-study]")) hide();
+    });
+    addEventListener("scroll", hide, { passive: true });
+    document.addEventListener("click", hide);
+  }
+
+  /* ============================================================ spotlight */
+
+  /* Every panel carries a soft light that follows the pointer across it, so
+     the cursor has something to answer it in every section rather than only
+     in the hero. It is one gradient positioned by two custom properties, and
+     only the panel under the pointer is ever touched. */
+  function spotlight() {
+    const SEL = ".card, .slide .showcase, .audit-card, .pub-card, .exp-card, .pm-readout, .lc-panel";
+    let last = null;
+    addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      const c = e.target.closest && e.target.closest(SEL);
+      if (last && last !== c) last.classList.remove("has-spot");
+      last = c;
+      if (!c) return;
+      const r = c.getBoundingClientRect();
+      c.style.setProperty("--mx", `${Math.round(e.clientX - r.left)}px`);
+      c.style.setProperty("--my", `${Math.round(e.clientY - r.top)}px`);
+      c.classList.add("has-spot");
+    }, { passive: true });
+  }
+
   /* ================================================================= boot */
 
   function start() {
     if (reduced) return;
     graph();
-    if (finePointer) cursor();
+    if (finePointer) { cursor(); spotlight(); }
   }
+
+  // Previews are information, not motion, so they do not wait for the hero
+  // graph and do not stop for reduced motion.
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", previews);
+  else previews();
 
   // The hero is rendered from JSON by main.js, so wait until it exists.
   const ready = () => {

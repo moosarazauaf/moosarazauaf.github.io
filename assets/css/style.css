@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=84") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=85") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=84"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=85"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2751,4 +2751,170 @@ html, body { overflow-x: clip; }
 }
 @media (prefers-reduced-motion: reduce) {
   .cons-self-ring { animation: none; }
+}
+
+/* ==================== Study links, everywhere ====================
+   Any mention of a study is the same object: a small chip that opens it and,
+   on hover, previews it. One look for all of them, so a reader learns it once. */
+.study-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.65rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 3px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--surface-alt) 70%, transparent);
+  text-decoration: none;
+  transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.study-chip::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: none;
+}
+.study-chip:hover, .study-chip:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* "From the study" on a verification card, "Built on" under a paper. */
+.source-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: var(--space-sm) 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border);
+}
+.source-line > span {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+/* On the paper-coloured verification block the chips need the light palette. */
+.band-invert .study-chip { color: var(--forest); background: #f4f8f0; border-color: #c9dcb8; }
+.band-invert .study-chip:hover { color: var(--gold-readable); border-color: var(--gold-readable); }
+.band-invert .study-chip::before { background: var(--gold-readable); }
+.band-invert .source-line { border-top-color: #d7e6c8; }
+.band-invert .source-line > span { color: #5f7a6c; }
+
+/* Backlinks on each project. */
+.linked { margin: var(--space-sm) 0; }
+.linked-label {
+  margin: 0 0 0.45rem;
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.linked-label b { color: var(--accent); }
+.linked-row { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.linked-more { align-self: center; font-size: var(--text-xs); color: var(--ink-faint); }
+
+/* Research interests are links now: whole card, with a cue saying where. */
+.interest-card { display: block; color: inherit; text-decoration: none; cursor: pointer; }
+.interest-card:hover { text-decoration: none; }
+.interest-card p { color: var(--ink-soft); }
+.card-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.4rem;
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.card-cue svg { width: 18px; height: 12px; transition: transform var(--dur) var(--ease); }
+.interest-card:hover .card-cue svg { transform: translateX(4px); }
+
+/* Ticker entries are buttons now. They must still look like the ticker. */
+button.tick-item {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color var(--dur) var(--ease);
+}
+button.tick-item:hover, button.tick-item:focus-visible { color: var(--accent); outline: none; }
+
+/* The temporary chip for an instrument filter. */
+.pfilter.is-tag i { font-style: normal; opacity: 0.7; margin-left: 0.1rem; }
+
+/* ==================== Preview card ==================== */
+.peek {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 9000;
+  display: grid;
+  gap: 0.35rem;
+  width: 300px;
+  padding: 0.7rem;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-top: 2px solid var(--accent);
+  border-radius: 4px;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.16s;
+}
+.peek.is-on { opacity: 1; }
+.peek-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 2px;
+  background: var(--surface-alt);
+  margin-bottom: 0.2rem;
+}
+.peek-group {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.peek-title { font-size: var(--text-sm); font-weight: 700; line-height: 1.3; color: var(--ink); }
+.peek-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin-top: 0.2rem; }
+.peek-m { display: grid; font-size: 0.66rem; line-height: 1.25; color: var(--ink-faint); }
+.peek-m b {
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-stretch: 86%;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.peek-why { font-size: 0.72rem; color: var(--ink-soft); }
+.peek-foot { font-size: 0.7rem; color: var(--ink-faint); border-top: 1px solid var(--border); padding-top: 0.4rem; }
+@media (prefers-reduced-motion: reduce) { .peek { transition: none; } }
+@media print { .peek { display: none !important; } }
+
+/* ==================== Spotlight ==================== */
+.card, .slide .showcase, .audit-card, .pub-card, .exp-card, .pm-readout, .lc-panel {
+  --mx: -999px;
+  --my: -999px;
+}
+.has-spot {
+  background-image: radial-gradient(
+    420px circle at var(--mx) var(--my),
+    color-mix(in srgb, var(--accent) 9%, transparent),
+    transparent 62%) !important;
 }

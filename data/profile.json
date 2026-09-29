@@ -28,7 +28,8 @@
         "claimedLabel": "before the fit was corrected",
         "actual": "6 months",
         "actualLabel": "genuine extreme drought in 44 years",
-        "note": "Tharparkar is rainless in 53.7% of pixel-months, which a standard gamma fit cannot represent. The zero-inflated fit gives a drought record that lines up with the documented 1999 to 2002 Sindh drought."
+        "note": "Tharparkar is rainless in 53.7% of pixel-months, which a standard gamma fit cannot represent. The zero-inflated fit gives a drought record that lines up with the documented 1999 to 2002 Sindh drought.",
+        "study": "tharparkar-spi-drought"
       },
       {
         "method": "Flood peak extent",
@@ -36,7 +37,8 @@
         "claimedLabel": "from a composited window",
         "actual": "95 km²",
         "actualLabel": "true peak, mapped scene by scene",
-        "note": "Mapping every scene instead of one composite recovers the full inundation curve, and resolves two separate flood waves inside the 2022 monsoon."
+        "note": "Mapping every scene instead of one composite recovers the full inundation curve, and resolves two separate flood waves inside the 2022 monsoon.",
+        "study": "layyah-s1-flood-detection"
       },
       {
         "method": "Post-flood NDVI",
@@ -44,7 +46,8 @@
         "claimedLabel": "raw district change",
         "actual": "1,232 km²",
         "actualLabel": "real vegetation loss, mapped",
-        "note": "Control years show the raw district signal is the ordinary double-cropping cycle. The flood impact survives as a map along the Indus belt, confirmed by an independent radar flood extent."
+        "note": "Control years show the raw district signal is the ordinary double-cropping cycle. The flood impact survives as a map along the Indus belt, confirmed by an independent radar flood extent.",
+        "study": "layyah-s2-ndvi-flood-impact"
       },
       {
         "method": "GEE distance operator",
@@ -52,7 +55,8 @@
         "claimedLabel": "operator returned a constant",
         "actual": "+0.025 IoU",
         "actualLabel": "model skill recovered",
-        "note": "A predictor that was silently doing nothing, caught because a feature-importance plot looked wrong. Fixing it put the skill back into the flood susceptibility model."
+        "note": "A predictor that was silently doing nothing, caught because a feature-importance plot looked wrong. Fixing it put the skill back into the flood susceptibility model.",
+        "study": "layyah-flood-monitor"
       }
     ]
   },
@@ -60,22 +64,26 @@
     {
       "icon": "wave",
       "title": "Floods & hydrological extremes",
-      "description": "SAR inundation mapping and event-based susceptibility modelling."
+      "description": "SAR inundation mapping and event-based susceptibility modelling.",
+      "theme": "Floods"
     },
     {
       "icon": "sun",
       "title": "Drought & agricultural water",
-      "description": "Indices and soil moisture retrieval in irrigated semi-arid systems."
+      "description": "Indices and soil moisture retrieval in irrigated semi-arid systems.",
+      "theme": "Drought & soil moisture"
     },
     {
       "icon": "leaf",
       "title": "Land change & ecosystem carbon",
-      "description": "Multi-decadal land dynamics and the carbon cost of urban growth."
+      "description": "Multi-decadal land dynamics and the carbon cost of urban growth.",
+      "theme": "Land change & carbon"
     },
     {
       "icon": "check",
       "title": "Measurement validity",
-      "description": "What makes an Earth observation number trustworthy enough to act on."
+      "description": "What makes an Earth observation number trustworthy enough to act on.",
+      "section": "audit"
     }
   ],
   "approach": [

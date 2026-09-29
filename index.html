@@ -72,16 +72,16 @@
        until the stylesheet has parsed. Preloading the variant each screen will
        actually use starts that fetch immediately; it is the largest paint on
        the page. The media queries mirror the ones in style.css. -->
-  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=84"
+  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=85"
         media="(max-width: 1599px)" />
-  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=84"
+  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=85"
         media="(min-width: 1600px)" />
   <!-- The typeface is on the critical path: it carries every word on the page,
        so it is fetched in parallel with the stylesheet rather than after it. -->
   <link rel="preload" as="font" type="font/woff2"
-        href="assets/fonts/archivo-var.woff2?v=84" crossorigin />
-  <link rel="stylesheet" href="assets/css/variables.css?v=84" />
-  <link rel="stylesheet" href="assets/css/style.css?v=84" />
+        href="assets/fonts/archivo-var.woff2?v=85" crossorigin />
+  <link rel="stylesheet" href="assets/css/variables.css?v=85" />
+  <link rel="stylesheet" href="assets/css/style.css?v=85" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -149,12 +149,12 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=84"></script>
+  <script src="assets/js/main.js?v=85"></script>
   <!-- Choreography, loaded after the renderer and never waited on. If it fails
        the page keeps the CSS-only motion it shipped with. -->
-  <script src="assets/js/motion.js?v=84" defer></script>
+  <script src="assets/js/motion.js?v=85" defer></script>
   <!-- The hero graph's physics and the cursor follower. No library; the graph
        is complete and clickable without it. -->
-  <script src="assets/js/interact.js?v=84" defer></script>
+  <script src="assets/js/interact.js?v=85" defer></script>
 </body>
 </html>

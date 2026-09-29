@@ -48,7 +48,8 @@
         "label": "high susceptibility"
       }
     ],
-    "theme": "Floods"
+    "theme": "Floods",
+    "short": "Flood susceptibility, Layyah"
   },
   {
     "title": "Land-Cover and Carbon Projection to 2043, Lahore District",
@@ -115,7 +116,8 @@
         "label": "Figure of Merit vs 0.00 null"
       }
     ],
-    "theme": "Land change & carbon"
+    "theme": "Land change & carbon",
+    "short": "Lahore land cover to 2043"
   },
   {
     "title": "Pakistan Land Cover and Carbon, 1993 to 2023, National Interactive App",
@@ -157,7 +159,8 @@
         "label": "districts accounted"
       }
     ],
-    "theme": "Land change & carbon"
+    "theme": "Land change & carbon",
+    "short": "Pakistan carbon account"
   },
   {
     "title": "Urban Flood Analysis, Islamabad and Rawalpindi, 2026",
@@ -220,7 +223,8 @@
         "label": "Leh Nullah peak stage"
       }
     ],
-    "theme": "Floods"
+    "theme": "Floods",
+    "short": "Twin cities urban flooding"
   },
   {
     "title": "Thermal and Optical Soil Moisture Compared, Layyah District",
@@ -284,7 +288,8 @@
         "label": "optical retrieval, same district"
       }
     ],
-    "theme": "Drought & soil moisture"
+    "theme": "Drought & soil moisture",
+    "short": "Thermal vs optical soil moisture"
   },
   {
     "title": "Drought Monitoring with SPI, Tharparkar District",
@@ -349,7 +354,8 @@
         "label": "months SPI-1 undefined"
       }
     ],
-    "theme": "Drought & soil moisture"
+    "theme": "Drought & soil moisture",
+    "short": "Tharparkar drought record"
   },
   {
     "title": "Post-Flood NDVI Change Detection, Layyah District, 2022",
@@ -385,7 +391,8 @@
         "label": "radar cross-check separation"
       }
     ],
-    "theme": "Floods"
+    "theme": "Floods",
+    "short": "Post-flood vegetation loss"
   },
   {
     "title": "SAR Flood Detection, Layyah District, 2022 Pakistan Floods",
@@ -420,7 +427,8 @@
         "label": "district covered, orbit 5"
       }
     ],
-    "theme": "Floods"
+    "theme": "Floods",
+    "short": "SAR flood mapping, 2022"
   },
   {
     "title": "Optical Soil Moisture with OPTRAM, Layyah District",
@@ -480,7 +488,8 @@
         "label": "observations fitted"
       }
     ],
-    "theme": "Drought & soil moisture"
+    "theme": "Drought & soil moisture",
+    "short": "Optical soil moisture"
   },
   {
     "title": "Surface Soil Moisture from SAR, Layyah District",
@@ -516,7 +525,8 @@
         "label": "validation window"
       }
     ],
-    "theme": "Drought & soil moisture"
+    "theme": "Drought & soil moisture",
+    "short": "SAR soil moisture"
   },
   {
     "title": "Multi-Temporal SAR Crop Mapping, Layyah District",
@@ -553,7 +563,8 @@
         "label": "cropping systems"
       }
     ],
-    "theme": "SAR methods"
+    "theme": "SAR methods",
+    "short": "SAR crop mapping"
   },
   {
     "title": "Multi-Temporal Speckle Filtering, Layyah District",
@@ -588,6 +599,7 @@
         "label": "scenes in stack"
       }
     ],
-    "theme": "SAR methods"
+    "theme": "SAR methods",
+    "short": "Speckle filtering"
   }
 ]
