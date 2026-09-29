@@ -67,6 +67,32 @@ function heading(icon, text, opts = {}) {
     </header>`;
 }
 
+/* Runs a DOM change inside a View Transition where the browser has one, so
+   swapping a tab panel or refiltering the studies cross-fades instead of
+   snapping. The browser snapshots the viewport, not the document, so this stays
+   cheap on a page this long.
+
+   Falls straight through to calling the function where the API is missing or
+   the reader has asked for less motion. The change still happens either way;
+   only the crossfade is conditional. */
+function withTransition(fn) {
+  if (!document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    fn();
+    return;
+  }
+  const t = document.startViewTransition(fn);
+  // Starting a second transition before the first has finished rejects the
+  // first with AbortError. That is expected here, since a reader can click two
+  // tabs quickly, but left unhandled it surfaces as an uncaught rejection in
+  // the console. The DOM change itself has already happened either way.
+  // All three promises reject on a skipped transition, and `ready` is the one
+  // that rejects first, so every one of them needs a handler.
+  ["ready", "finished", "updateCallbackDone"].forEach((k) => {
+    if (t[k] && typeof t[k].catch === "function") t[k].catch(() => {});
+  });
+}
+
 /* ------------------------------- tabs -------------------------------
    The page had fifteen stacked sections and ran to twelve screens. Nobody
    scrolls twelve screens, so the material a reader dips into rather than reads
@@ -112,7 +138,7 @@ function panelHeading(id, icon, text, opts = {}) {
 function initTabs() {
   document.querySelectorAll(".tabs").forEach((group) => {
     const tabs = [...group.querySelectorAll(":scope > .tablist > .tab")];
-    const show = (tab) => {
+    const swap = (tab) => {
       tabs.forEach((t) => {
         const on = t === tab;
         t.classList.toggle("is-on", on);
@@ -124,6 +150,7 @@ function initTabs() {
       // so anything map-shaped needs to hear that it has just been revealed.
       window.dispatchEvent(new Event("panelshown"));
     };
+    const show = (tab) => withTransition(() => swap(tab));
     tabs.forEach((tab) => tab.addEventListener("click", () => show(tab)));
     group.querySelector(".tablist").addEventListener("keydown", (e) => {
       const i = tabs.indexOf(document.activeElement);
@@ -621,6 +648,10 @@ function initCarousel(projects) {
   const posOf = (slide) => Math.max(0, order.indexOf(slide));
 
   function filterTo(theme) {
+    withTransition(() => applyFilter(theme));
+  }
+
+  function applyFilter(theme) {
     order = projects
       .map((p, i) => (theme === "All" || p.theme === theme ? i : -1))
       .filter((i) => i >= 0);
@@ -639,7 +670,11 @@ function initCarousel(projects) {
   function openProject(slug, scroll) {
     const i = projects.findIndex((p) => projectSlug(p) === slug);
     if (i < 0) return false;
-    if (!order.includes(i)) filterTo("All");
+    // applyFilter, not filterTo: a View Transition defers its callback, so
+    // going through the animated path here would leave `order` stale and send
+    // go() to the wrong slide. A deep link has nothing to cross-fade from
+    // anyway, since the page is still arriving.
+    if (!order.includes(i)) applyFilter("All");
     go(posOf(i));
     if (scroll) el("projects").scrollIntoView({ behavior: "smooth", block: "start" });
     return true;
