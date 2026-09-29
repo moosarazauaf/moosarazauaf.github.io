@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=77") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=81") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=77"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=81"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2576,4 +2576,134 @@ html, body { overflow-x: clip; }
     -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, #000 60%);
     mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, #000 60%);
   }
+}
+
+/* ==================== Hero hit-testing ====================
+   Ten of the twelve study nodes could not be clicked. The text column sits
+   above the diagram, and a block box takes the pointer across its whole
+   rectangle, glyphs or not: claim lines stretched to the full width, the lede,
+   the footer row and the grid container itself all covered nodes with empty
+   space. An earlier check dispatched clicks straight at the nodes, which skips
+   hit-testing, so it reported the diagram as working when a real mouse could
+   reach two nodes out of twelve.
+
+   Now the column is transparent to the pointer, blocks shrink to their text,
+   and only things a reader would actually point at take the pointer back. */
+.hero-inner { pointer-events: none; justify-items: start; }
+.hero-lede, .hero-claim { justify-items: start; }
+.hero-inner a, .hero-inner button, .hero-photo,
+.hero-eyebrow, .hero-name, .hero-role, .hero-claim > span, .hero-tagline {
+  pointer-events: auto;
+}
+
+/* ==================== Hero graph ==================== */
+
+/* JavaScript drives the rotation once it is running, so the shells and the
+   studies share one clock. Without it the CSS spin still runs. */
+.cons.is-live .cons-spin { animation: none; }
+
+.cons-link { stroke: var(--sage); stroke-width: 1; opacity: 0.22; transition: opacity 0.2s, stroke 0.2s; }
+.cons-link.is-method { opacity: 0.3; }
+/* A shared theme is a weaker bond than a shared method, and it says so. */
+.cons-link.is-theme { stroke-dasharray: 2 6; opacity: 0.18; }
+
+.cons-node { transition: opacity 0.2s; outline: none; }
+.cons-node .cons-dot { fill: var(--accent); opacity: 0.78; transition: opacity 0.2s; }
+.cons-node .cons-halo { fill: var(--accent); opacity: 0.1; transition: opacity 0.2s; }
+.cons-node.is-lead .cons-dot { opacity: 1; }
+.cons-icon { color: var(--accent-ink); pointer-events: none; }
+.cons-node:hover .cons-halo,
+.cons-node:focus-visible .cons-halo { opacity: 0.32; }
+.cons-node:focus-visible .cons-dot { stroke: var(--ink); stroke-width: 2; }
+
+/* Obsidian's hover: the study and its neighbours stay lit, everything else
+   recedes, and the edges between them turn to the accent. */
+.cons.is-focusing .cons-node { opacity: 0.22; }
+.cons.is-focusing .cons-node.is-lit { opacity: 1; }
+.cons.is-focusing .cons-link { opacity: 0.05; }
+.cons.is-focusing .cons-link.is-lit { opacity: 0.95; stroke: var(--accent); stroke-width: 1.5; }
+
+/* The theme names are buttons: they filter the carousel to that theme. */
+.cons-label { pointer-events: auto; cursor: pointer; transition: fill 0.2s, opacity 0.2s; outline: none; }
+.cons-label:hover, .cons-label:focus-visible { fill: var(--accent); opacity: 1; }
+
+.hero-mark.is-dragging, .hero-mark.is-dragging * { cursor: grabbing; }
+.cons-node { cursor: pointer; }
+
+/* The label that follows a hovered study. */
+.cons-tip {
+  position: absolute;
+  left: 0; top: 0;
+  z-index: 3;
+  display: grid;
+  gap: 0.25rem;
+  max-width: 17rem;
+  padding: 0.65rem 0.8rem;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--border-strong);
+  border-left: 2px solid var(--accent);
+  border-radius: 3px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s;
+  backdrop-filter: blur(6px);
+}
+.cons-tip.is-on { opacity: 1; }
+.cons-tip-group {
+  font-size: var(--text-micro);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cons-tip-title { font-size: var(--text-sm); font-weight: 600; line-height: 1.35; color: var(--ink); }
+.cons-tip-meta { font-size: 0.72rem; color: var(--ink-faint); }
+
+/* The hint now describes what the diagram actually does. */
+.motion-on .hero-mark::after { content: "hover · drag · click a study"; }
+@media (hover: none) { .motion-on .hero-mark::after { content: "tap a study to open it"; } }
+
+/* ==================== Cursor follower ====================
+   The native cursor stays. A follower is an accent; hiding the real pointer
+   would cost precision everywhere, on the maps above all. */
+.cur-dot, .cur-ring {
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.cur-on .cur-dot, .cur-on .cur-ring { opacity: 1; }
+.cur-dot {
+  width: 6px; height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--accent);
+}
+.cur-ring {
+  width: 34px; height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid color-mix(in srgb, var(--accent) 70%, transparent);
+  transition: opacity 0.25s, width 0.25s, height 0.25s, margin 0.25s,
+              background 0.25s, border-color 0.25s;
+}
+.cur-ring.is-hot {
+  width: 56px; height: 56px;
+  margin: -28px 0 0 -28px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.cur-ring.is-node {
+  width: 74px; height: 74px;
+  margin: -37px 0 0 -37px;
+  border-color: var(--accent);
+}
+.cur-ring.is-down { width: 22px; height: 22px; margin: -11px 0 0 -11px; }
+
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .cur-dot, .cur-ring { display: none; }
+}
+@media print {
+  .cur-dot, .cur-ring, .cons-tip { display: none !important; }
 }

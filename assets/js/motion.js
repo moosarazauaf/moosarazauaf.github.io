@@ -199,56 +199,8 @@
     });
   }
 
-  /* ------------------------------------------------ 7. drag the orbit mark */
-
-  /* The reference invites you to drag its circles. Here the same gesture tilts
-     the orbit, which is the one interaction on this page that is also true:
-     changing your viewing geometry is what you do with an orbit. It spins on
-     its own until touched, and eases back to drifting when released. */
-  function dragOrbit(gsap) {
-    const mark = document.querySelector(".hero-mark");
-    const svg = mark && mark.querySelector(".orbit");
-    if (!svg) return;
-
-    let tilt = 0, spin = 0, vx = 0, dragging = false, last = 0;
-    mark.classList.add("is-draggable");
-
-    const apply = () => {
-      svg.style.transform = `rotateX(${tilt}deg) rotateZ(${spin}deg)`;
-    };
-
-    mark.addEventListener("pointerdown", (e) => {
-      dragging = true;
-      last = e.clientX;
-      mark.setPointerCapture(e.pointerId);
-      mark.classList.add("is-dragging");
-    });
-    mark.addEventListener("pointermove", (e) => {
-      if (!dragging) return;
-      const dx = e.clientX - last;
-      last = e.clientX;
-      vx = dx * 0.35;
-      spin += vx;
-      tilt = Math.max(-26, Math.min(26, tilt + e.movementY * -0.12));
-      apply();
-    });
-    const release = () => {
-      if (!dragging) return;
-      dragging = false;
-      mark.classList.remove("is-dragging");
-      // Let the throw decay instead of stopping dead, then return to level.
-      gsap.to({ v: vx }, {
-        v: 0, duration: 1.6, ease: "power2.out",
-        onUpdate() { spin += this.targets()[0].v; apply(); },
-      });
-      gsap.to({ t: tilt }, {
-        t: 0, duration: 1.8, ease: "power2.inOut",
-        onUpdate() { tilt = this.targets()[0].t; apply(); },
-      });
-    };
-    mark.addEventListener("pointerup", release);
-    mark.addEventListener("pointercancel", release);
-  }
+  /* The orbit drag that lived here is gone with the globe. The hero graph's
+     own dragging, hover and physics are in interact.js. */
 
   /* --------------------------------------------- 9. the depth field */
 
@@ -413,7 +365,6 @@
         projectEntrance(gsap);
         blockParallax(gsap);
         magnetic(gsap);
-        dragOrbit(gsap);
         depthField();
         document.documentElement.classList.add("motion-on");
         // Sections render from JSON after this file runs, and tab panels change

@@ -45,6 +45,8 @@ const ICONS = {
     '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M1 5c1.6-1.6 3.2-1.6 4.8 0S9 6.6 10.6 5 13.8 3.4 15 5M1 11c1.6-1.6 3.2-1.6 4.8 0s3.2 1.6 4.8 0 3.2-1.6 4.4 0"/></svg>',
   leaf:
     '<svg viewBox="0 0 16 16" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M14 1S6.5 1 3.8 3.7C1.6 5.9 1.6 9.4 3.4 11.7L2 13.1a.7.7 0 0 0 1 1l1.4-1.4c2.3 1.8 5.8 1.8 8-.4C15 9.6 14 1 14 1Z"/></svg>',
+  radar:
+    '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M8 8 13.5 2.5"/><path d="M3.2 12.8a6.8 6.8 0 1 1 9.6 0"/><path d="M5.2 10.8a4 4 0 1 1 5.6 0"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/></svg>',
   globe:
     '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><path d="M1.5 8h13M8 1.5c1.9 2 2.9 4.2 2.9 6.5S9.9 12.5 8 14.5C6.1 12.5 5.1 10.3 5.1 8S6.1 3.5 8 1.5Z"/></svg>',
 };
@@ -237,6 +239,8 @@ function socialRow(profile) {
    contents is worth more than either on its own. */
 function constellation(projects) {
   const C = 500;                    // viewBox is 1000x1000, centre at 500
+  const slugOf = projectSlug;
+
   const themes = [];
   projects.forEach((p) => {
     if (!p.theme) return;
@@ -245,69 +249,112 @@ function constellation(projects) {
     t.items.push(p);
   });
   if (!themes.length) return "";
-
-  // Innermost ring carries the fewest studies, so the busiest shells get the
+  // Innermost shell carries the fewest studies, so the busiest shells get the
   // most circumference to spread across.
   themes.sort((a, b) => a.items.length - b.items.length);
 
+  /* Edges, the way Obsidian draws them: a line means a real relationship, not
+     decoration. Two studies are linked when they share a method or sensor, or
+     sit in the same theme. Method alone left Tharparkar and the national
+     account as orphans, although the national account is literally the Lahore
+     study scaled up; theme alone ignores that six studies share Sentinel-1.
+     Tags carried by (nearly) every study say nothing about how two of them
+     relate, so they are ignored. */
+  const tagCount = {};
+  projects.forEach((p) => (p.tags || []).forEach((t) => (tagCount[t] = (tagCount[t] || 0) + 1)));
+  const generic = new Set(Object.keys(tagCount).filter((t) => tagCount[t] >= projects.length * 0.6));
+
+  const edges = [];
+  for (let i = 0; i < projects.length; i++) {
+    for (let j = i + 1; j < projects.length; j++) {
+      const a = projects[i], b = projects[j];
+      const shared = (a.tags || []).filter((t) => !generic.has(t) && (b.tags || []).includes(t));
+      const sameTheme = a.theme && a.theme === b.theme;
+      if (shared.length || sameTheme) {
+        edges.push({ a: slugOf(a), b: slugOf(b), kind: shared.length ? "method" : "theme",
+                     why: shared.length ? shared.join(", ") : a.theme });
+      }
+    }
+  }
+  const degree = {};
+  edges.forEach((e) => { degree[e.a] = (degree[e.a] || 0) + 1; degree[e.b] = (degree[e.b] || 0) + 1; });
+
   const R0 = 168, STEP = 96;
   const rings = themes.map((t, i) => ({ ...t, r: R0 + i * STEP, i }));
+  const ICON_FOR = { "Floods": "wave", "Drought & soil moisture": "sun",
+                     "Land change & carbon": "leaf", "SAR methods": "radar" };
 
   const pol = (r, deg) => {
     const a = ((deg - 90) * Math.PI) / 180;
     return [C + r * Math.cos(a), C + r * Math.sin(a)];
   };
+  const arc = (r) => `M ${C - r} ${C} A ${r} ${r} 0 1 1 ${C + r} ${C}`;
 
-  // An arc path for the label to sit on. Starting at the left and sweeping over
-  // the top keeps the text upright and reading forwards.
-  const arc = (r) =>
-    `M ${C - r} ${C} A ${r} ${r} 0 1 1 ${C + r} ${C}`;
-
-  let out = "";
-
-  // rings, their labels, and the faint dots that mark the shells
+  // Shells, their labels and ticks: these rotate as one rigid body.
+  let shells = "";
   rings.forEach((ring) => {
-    out += `<circle class="cons-ring" cx="${C}" cy="${C}" r="${ring.r}" />`;
-    out += `<path id="cons-arc-${ring.i}" class="cons-arc" d="${arc(ring.r)}" />`;
-    out += `<text class="cons-label"><textPath href="#cons-arc-${ring.i}" startOffset="26%">${ring.name}</textPath></text>`;
+    shells += `<circle class="cons-ring" cx="${C}" cy="${C}" r="${ring.r}" />`;
+    shells += `<path id="cons-arc-${ring.i}" class="cons-arc" d="${arc(ring.r)}" />`;
+    shells +=
+      `<text class="cons-label" data-group="${ring.name}" tabindex="0" role="button"
+             aria-label="Show the ${ring.name} studies"><textPath href="#cons-arc-${ring.i}"
+             startOffset="26%">${ring.name}</textPath></text>`;
     for (let d = 0; d < 360; d += 30) {
       const [x, y] = pol(ring.r, d + ring.i * 11);
-      out += `<circle class="cons-tick" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.6" />`;
+      shells += `<circle class="cons-tick" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.6" />`;
     }
   });
 
-  // the nodes, and a thread from the centre out to each one
+  /* Nodes. Size follows how connected a study is, which is how Obsidian sizes
+     its graph, so the hubs of the body of work are visibly the hubs. The most
+     connected study in each theme carries that theme's icon. Every node is
+     drawn at its home position so the diagram is complete and clickable even
+     if the script that animates it never loads. */
+  const pos = {};
   let nodes = "";
-  let threads = "";
   rings.forEach((ring) => {
     const n = ring.items.length;
+    const lead = ring.items.slice().sort((a, b) => (degree[slugOf(b)] || 0) - (degree[slugOf(a)] || 0))[0];
     ring.items.forEach((p, k) => {
-      // Spread across the shell, offset per ring so nodes do not line up into
-      // spokes, and biased to the right so the type column stays clear.
       const deg = 40 + ring.i * 23 + (k * 360) / Math.max(n, 3);
       const [x, y] = pol(ring.r, deg);
-      const slug = projectSlug(p);
-      const size = p.liveUrl ? 13 : 10;
-      threads += `<line class="cons-thread" x1="${C}" y1="${C}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" />`;
+      const slug = slugOf(p);
+      pos[slug] = [x, y];
+      const size = Math.min(26, 9 + 2.2 * (degree[slug] || 0));
+      const isLead = p === lead;
+      const icon = isLead && ICONS[ICON_FOR[ring.name]]
+        ? ICONS[ICON_FOR[ring.name]]
+            .replace("<svg ", '<svg x="-9" y="-9" class="cons-icon" ')
+            .replace(/width="\d+"/, 'width="18"').replace(/height="\d+"/, 'height="18"')
+        : "";
       nodes +=
-        `<g class="cons-node" data-slug="${slug}" tabindex="0" role="link"
-            aria-label="Open study: ${p.title.replace(/"/g, "&quot;")}">
-           <circle class="cons-halo" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size + 11}" />
-           <circle class="cons-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${size}" />
-           <title>${p.title}</title>
+        `<g class="cons-node${isLead ? " is-lead" : ""}" data-slug="${slug}"
+            data-r="${ring.r}" data-a="${deg.toFixed(2)}" data-group="${ring.name}"
+            data-title="${p.title.replace(/"/g, "&quot;")}" data-links="${degree[slug] || 0}"
+            transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"
+            tabindex="0" role="link" aria-label="Open study: ${p.title.replace(/"/g, "&quot;")}">
+           <circle class="cons-halo" r="${(size + 12).toFixed(1)}" />
+           <circle class="cons-dot" r="${size.toFixed(1)}" />
+           ${icon}
          </g>`;
     });
   });
 
+  const links = edges
+    .map((e) => {
+      const [x1, y1] = pos[e.a], [x2, y2] = pos[e.b];
+      return `<line class="cons-link is-${e.kind}" data-a="${e.a}" data-b="${e.b}"
+                    x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" />`;
+    })
+    .join("");
+
   return `
-    <svg class="cons" viewBox="0 0 1000 1000" role="img"
-         aria-label="Orbital diagram of ${projects.length} studies, grouped by research theme. Each node opens a study.">
-      <g class="cons-spin">
-        ${out}
-        ${threads}
-        ${nodes}
-      </g>
+    <svg class="cons" viewBox="0 0 1000 1000" role="group"
+         aria-label="Graph of ${projects.length} studies on orbital shells by research theme, linked where they share a method or theme. Each node opens a study; each shell label shows that theme.">
+      <g class="cons-spin">${shells}</g>
+      <g class="cons-links">${links}</g>
       <circle class="cons-core" cx="${C}" cy="${C}" r="7" />
+      <g class="cons-nodes">${nodes}</g>
     </svg>`;
 }
 
@@ -350,26 +397,32 @@ function renderHero(profile) {
       <span class="scroll-line" aria-hidden="true"></span>
     </a>`;
 
-  // Each node is a link into the carousel. Pointer and keyboard both go through
-  // the hash, so the behaviour is identical to following a copied study link
-  // and there is only one code path to keep working.
+  // Each node is a link into the carousel and each shell label filters it.
+  // Pointer and keyboard both land here; the physics in interact.js only
+  // suppresses the click that ends a drag, so this stays the one code path and
+  // still works if that script never loads.
   const mark = document.querySelector(".hero-mark");
   if (mark) {
-    const open = (node) => {
-      const slug = node.dataset.slug;
-      if (!slug) return;
-      location.hash = "#project/" + slug;
+    const act = (target) => {
+      const node = target.closest(".cons-node");
+      if (node && node.dataset.slug) {
+        location.hash = "#project/" + node.dataset.slug;
+        return true;
+      }
+      const label = target.closest(".cons-label");
+      if (label && label.dataset.group) {
+        const chip = [...document.querySelectorAll("#projects .pfilter")]
+          .find((b) => b.dataset.theme === label.dataset.group);
+        if (chip) chip.click();
+        el("projects").scrollIntoView({ behavior: "smooth", block: "start" });
+        return true;
+      }
+      return false;
     };
-    mark.addEventListener("click", (e) => {
-      const n = e.target.closest(".cons-node");
-      if (n) open(n);
-    });
+    mark.addEventListener("click", (e) => act(e.target));
     mark.addEventListener("keydown", (e) => {
       if (e.key !== "Enter" && e.key !== " ") return;
-      const n = e.target.closest(".cons-node");
-      if (!n) return;
-      e.preventDefault();
-      open(n);
+      if (act(e.target)) e.preventDefault();
     });
   }
 
