@@ -354,6 +354,31 @@ function renderStats(profile, projects, publications) {
     </div>`;
 }
 
+/* The reference runs a marquee of the services it sells. The equivalent here is
+   the instruments and methods the work is actually built on, which is more
+   useful than a list of adjectives and cannot drift, because it is derived from
+   the tags on the studies rather than typed out again. */
+function renderTicker(projects) {
+  const host = el("ticker");
+  if (!host) return;
+  const seen = new Set();
+  projects.forEach((p) => (p.tags || []).forEach((t) => seen.add(t)));
+  const items = [...seen];
+  if (items.length < 4) return host.remove();
+
+  // The track is duplicated so the loop can translate a full copy-width and
+  // land exactly where it started. Half the content is aria-hidden, or a
+  // screen reader would read the whole list twice.
+  const run = (hidden) =>
+    `<span class="tick-run"${hidden ? ' aria-hidden="true"' : ""}>${items
+      .map((t) => `<span class="tick-item">${t}</span>`)
+      .join("")}</span>`;
+  host.innerHTML =
+    `<div class="tick" role="marquee" aria-label="Instruments and methods used across the studies">
+       <div class="tick-track">${run(false)}${run(true)}</div>
+     </div>`;
+}
+
 /* Two interactive maps, one section. A reader opens one of them, not both. */
 function renderExplore() {
   const host = el("explore");
@@ -1809,6 +1834,7 @@ async function init() {
     // The grouped sections build their panels first. Every renderer below finds
     // its own node by id, and panelHeading() has to be able to see where that
     // node ended up.
+    renderTicker(projects);
     renderExplore();
     renderBackground();
     renderMethodsAudit(profile);

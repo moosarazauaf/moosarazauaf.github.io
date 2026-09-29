@@ -135,12 +135,15 @@
     gsap.timeline({
       scrollTrigger: {
         trigger: band,
-        start: "top 72%",
-        end: "bottom 60%",
+        start: "top 88%",
+        end: "bottom 78%",
         scrub: 0.6,
       },
     })
-      .from(items, { opacity: 0.15, yPercent: 26, stagger: 0.5, ease: "none" })
+      // 0.4 rather than near-zero at the start: a reader who stops mid-scrub
+      // should still be able to read every number, not watch two of them sit
+      // greyed out. The movement carries the sequence, not the fade.
+      .from(items, { opacity: 0.4, yPercent: 20, stagger: 0.4, ease: "none" })
       .fromTo(band, { "--scan": "0%" }, { "--scan": "100%", ease: "none" }, 0);
   }
 
@@ -245,6 +248,124 @@
     mark.addEventListener("pointercancel", release);
   }
 
+  /* --------------------------------------------- 9. the depth field */
+
+  /* The reference runs a canvas behind everything it calls "Tiefe", depth.
+     Here that field is the view from orbit: stars at three distances drifting
+     at three speeds, crossed occasionally by a satellite track.
+
+     Deliberately cheap. Around 120 points, no per-frame allocation, a device
+     pixel ratio capped at 2, and the loop stops entirely when the tab is
+     hidden or the hero has scrolled away, because a background animation that
+     keeps running off-screen is just a battery drain. */
+  function depthField() {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+
+    const canvas = document.createElement("canvas");
+    canvas.className = "depth-field";
+    canvas.setAttribute("aria-hidden", "true");
+    hero.insertBefore(canvas, hero.firstChild);
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    const css = getComputedStyle(document.documentElement);
+    const accent = css.getPropertyValue("--accent").trim() || "#d4b948";
+    const sage = css.getPropertyValue("--sage").trim() || "#7ca982";
+
+    let w = 0, h = 0, dpr = 1, stars = [], track = null, running = false, raf = 0;
+
+    function size() {
+      const r = hero.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = Math.max(1, Math.round(r.width));
+      h = Math.max(1, Math.round(r.height));
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seed();
+    }
+
+    function seed() {
+      const n = Math.round(Math.min(150, Math.max(50, (w * h) / 11000)));
+      stars = Array.from({ length: n }, () => {
+        const depth = Math.random();            // 0 far, 1 near
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: 0.4 + depth * 1.5,
+          v: 0.02 + depth * 0.10,               // near points drift faster
+          a: 0.18 + depth * 0.5,
+          warm: Math.random() < 0.14,           // a few carry the accent
+        };
+      });
+    }
+
+    function newTrack() {
+      // A pass across the frame every so often, at the shallow angle a
+      // near-polar orbit actually crosses a scene.
+      track = { x: -0.15 * w, y: h * (0.2 + Math.random() * 0.6), v: 0.9 + Math.random() * 0.5 };
+    }
+
+    function frame() {
+      if (!running) return;
+      ctx.clearRect(0, 0, w, h);
+
+      for (const s of stars) {
+        s.x -= s.v;
+        if (s.x < -2) { s.x = w + 2; s.y = Math.random() * h; }
+        ctx.globalAlpha = s.a;
+        ctx.fillStyle = s.warm ? accent : sage;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (!track && Math.random() < 0.0022) newTrack();
+      if (track) {
+        track.x += track.v;
+        track.y -= track.v * 0.26;
+        const grad = ctx.createLinearGradient(track.x - 150, track.y + 39, track.x, track.y);
+        grad.addColorStop(0, "rgba(212,185,72,0)");
+        grad.addColorStop(1, "rgba(212,185,72,0.5)");
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(track.x - 150, track.y + 39);
+        ctx.lineTo(track.x, track.y);
+        ctx.stroke();
+        if (track.x > w + 160) track = null;
+      }
+
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(frame);
+    }
+
+    function play(on) {
+      if (on === running) return;
+      running = on;
+      if (on) raf = requestAnimationFrame(frame);
+      else cancelAnimationFrame(raf);
+    }
+
+    size();
+    addEventListener("resize", size, { passive: true });
+    document.addEventListener("visibilitychange", () => play(!document.hidden && onScreen));
+
+    // Stop as soon as the hero leaves: nothing below it can see this canvas.
+    let onScreen = true;
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(
+        (es) => { onScreen = es[0].isIntersecting; play(onScreen && !document.hidden); },
+        { threshold: 0 }
+      ).observe(hero);
+    }
+    play(true);
+  }
+
   /* --------------------------------------------------------- backstop */
 
   /* gsap.from() hides a word the instant it is set up and only shows it when
@@ -291,6 +412,7 @@
         blockParallax(gsap);
         magnetic(gsap);
         dragOrbit(gsap);
+        depthField();
         document.documentElement.classList.add("motion-on");
         // Sections render from JSON after this file runs, and tab panels change
         // height when opened, so the trigger positions have to be recomputed.

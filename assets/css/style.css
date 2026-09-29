@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=62") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=65") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=62"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=65"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2305,3 +2305,68 @@ html, body { overflow-x: clip; }
   pointer-events: none;
 }
 @media (hover: none) { .motion-on .hero-mark::after { content: "drag the orbit"; } }
+
+/* ==================== Ticker ====================
+   A full-bleed rule of instruments and methods, scrolling slowly. The track
+   holds two identical copies and translates exactly one copy width, so the
+   loop has no seam and no JavaScript. */
+.band-rule {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-block: clamp(1rem, 2.4vw, 1.6rem);
+  border-block: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+  overflow: hidden;
+}
+.tick { display: flex; width: max-content; }
+.tick-track {
+  display: flex;
+  width: max-content;
+  animation: tick-run 46s linear infinite;
+}
+.tick-run { display: flex; flex: none; }
+.tick-item {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: clamp(0.9rem, 2vw, 1.8rem);
+  font-size: var(--text-micro);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+/* A gold bullet between entries, drawn rather than typed so it cannot end up
+   read aloud as punctuation. */
+.tick-item::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  margin-left: clamp(0.9rem, 2vw, 1.8rem);
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.6;
+}
+@keyframes tick-run { to { transform: translateX(-50%); } }
+.band-rule:hover .tick-track { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Still a list of what the work uses, just not a moving one. */
+  .tick-track { animation: none; }
+  .band-rule { overflow-x: auto; }
+}
+
+@media print {
+  .band-rule { display: none !important; }
+}
+
+/* The depth field sits under the plate, the scrim and everything else in the
+   hero. It is decoration with no text over it directly, so it needs no
+   contrast treatment of its own. */
+.depth-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-bg { z-index: 0; }

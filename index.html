@@ -72,16 +72,16 @@
        until the stylesheet has parsed. Preloading the variant each screen will
        actually use starts that fetch immediately; it is the largest paint on
        the page. The media queries mirror the ones in style.css. -->
-  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=62"
+  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=65"
         media="(max-width: 1599px)" />
-  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=62"
+  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=65"
         media="(min-width: 1600px)" />
   <!-- The typeface is on the critical path: it carries every word on the page,
        so it is fetched in parallel with the stylesheet rather than after it. -->
   <link rel="preload" as="font" type="font/woff2"
-        href="assets/fonts/archivo-var.woff2?v=62" crossorigin />
-  <link rel="stylesheet" href="assets/css/variables.css?v=62" />
-  <link rel="stylesheet" href="assets/css/style.css?v=62" />
+        href="assets/fonts/archivo-var.woff2?v=65" crossorigin />
+  <link rel="stylesheet" href="assets/css/variables.css?v=65" />
+  <link rel="stylesheet" href="assets/css/style.css?v=65" />
   <script>
     // Apply saved theme before paint to avoid a flash of the wrong theme.
     (function () {
@@ -132,6 +132,9 @@
            Publications follow rather than lead: two papers under review is the
            weaker claim, and burying them entirely would look evasive. -->
       <section id="projects" class="section"></section>
+      <!-- Instruments and methods, scrolling. Built from the tags on the
+           studies, so it cannot drift from what the work actually uses. -->
+      <section id="ticker" class="band-rule" aria-label="Instruments and methods"></section>
       <section id="publications" class="section"></section>
       <section id="research" class="section"></section>
       <section id="audit" class="section band-invert"></section>
@@ -146,9 +149,9 @@
 
   <footer id="contact" class="site-footer"></footer>
 
-  <script src="assets/js/main.js?v=62"></script>
+  <script src="assets/js/main.js?v=65"></script>
   <!-- Choreography, loaded after the renderer and never waited on. If it fails
        the page keeps the CSS-only motion it shipped with. -->
-  <script src="assets/js/motion.js?v=62" defer></script>
+  <script src="assets/js/motion.js?v=65" defer></script>
 </body>
 </html>
