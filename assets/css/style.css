@@ -137,7 +137,7 @@ body::before {
   /* 1920px by default and the 3840px plate only where it can be resolved. The
      full plate is 532 KB against 158 KB, and it is the largest paint on the
      page, so most visitors were downloading 374 KB they could not see. */
-  background: url("../img/hero-lahore-1920.jpg?v=68") center right 38.2% / cover no-repeat;
+  background: url("../img/hero-lahore-1920.jpg?v=70") center right 38.2% / cover no-repeat;
   will-change: transform;
   z-index: 0;
 }
@@ -146,7 +146,7 @@ body::before {
    paint behind a scrim. Width has an exact complement, so the preload in
    index.html can mirror it and no screen ever fetches both. */
 @media (min-width: 1600px) {
-  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=68"); }
+  .hero-bg { background-image: url("../img/hero-lahore.jpg?v=70"); }
 }
 .hero-scrim {
   position: absolute;
@@ -2398,7 +2398,11 @@ html, body { overflow-x: clip; }
       to wrap inside a column a fifth of the page wide: "Numbers / That / Hold
       Up". The measure belongs on the heading itself, where one ch is the width
       of a 74px digit and 18ch is an actual display line. */
-.sec-head { max-width: none; }
+/* .is-start carries its own 34ch from the earlier pass and outranks a bare
+   .sec-head selector, so it has to be named here or the about column stays
+   capped at 312px while sitting in 618px of space. That cap was the actual
+   reason "Statement" was being cut: the column had room, the header did not. */
+.sec-head, .sec-head.is-start { max-width: none; }
 .sec-head h2 { max-width: 18ch; }
 .sec-sub, .sec-head .sec-tagline { max-width: 46ch; }
 
@@ -2410,3 +2414,29 @@ html, body { overflow-x: clip; }
   border: 1px solid var(--accent);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
 }
+
+/* ==================== Headings in narrow columns ====================
+   The display size is set for a full-width section. In the about split each
+   column is about 310px, and "Statement" alone needs 328px at 74px, so the
+   word overflowed its column and the page's overflow clip cut it in half.
+
+   A fixed smaller size for that one case would only move the problem to the
+   next narrow column someone adds, so the heading is sized from its own
+   container instead: every section column is a container, and the display size
+   is capped by the space actually available rather than by the viewport. */
+.section > .split > *,
+.section > .dual > *,
+.tabpanel,
+.section { container-type: inline-size; }
+
+@container (max-width: 560px) {
+  .sec-head h2 { font-size: clamp(1.5rem, 11cqi, 2.4rem); }
+  .sec-head { max-width: 100%; }
+  .sec-head h2 { max-width: 100%; }
+}
+
+/* Belt and braces: a single word longer than its column must break rather than
+   escape it. Only ever reached by a word with no break opportunity, which on
+   this site means a long dataset name, never ordinary prose. */
+.sec-head h2 { overflow-wrap: break-word; }
+.w-mask { max-width: 100%; }
