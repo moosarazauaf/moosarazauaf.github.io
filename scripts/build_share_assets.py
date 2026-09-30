@@ -25,7 +25,7 @@ from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-IMG = os.path.join(REPO, "public", "img")
+IMG = os.path.join(REPO, "assets", "img")
 
 PLATE = os.path.join(IMG, "hero-lahore.jpg")
 PHOTO = os.path.join(IMG, "profile.jpg")
