@@ -1,6 +1,7 @@
 .DS_Store
 Thumbs.db
 node_modules/
+dist/
 
 # local tool config, not part of the site
 .claude/
@@ -8,5 +9,5 @@ node_modules/
 # Boundary download cached by scripts/build_pakistan_districts.py
 scripts/.cache-*.geojson
 
-# Typeface cached by scripts/build_share_assets.py (the site ships the subset woff2)
+# Typeface cached by scripts/build_share_assets.py
 scripts/.cache-archivo.ttf

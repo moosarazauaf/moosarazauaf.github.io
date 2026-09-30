@@ -1,0 +1,195 @@
+.geo-pin {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: calc(var(--s4) + var(--s0)) var(--s2);
+}
+
+/* Controls 38.2%, map 61.8%. */
+.geo-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.618fr);
+  gap: var(--s3);
+  align-items: center;
+}
+
+.geo-side {
+  display: grid;
+  gap: var(--s2);
+  align-content: center;
+}
+.geo-head {
+  display: grid;
+  gap: var(--s0);
+}
+.geo-head .display {
+  font-size: clamp(2.618rem, 5.6vw, 6.854rem);
+}
+.geo-source {
+  margin: 0;
+  font-size: 0.618rem;
+  line-height: 1.618;
+}
+.geo-source a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.layers {
+  display: grid;
+  gap: var(--s2);
+}
+.layer-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+}
+.layer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: 0.382rem 0.786rem 0.382rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background-color var(--t-s) var(--ease), color var(--t-s) var(--ease), border-color var(--t-s) var(--ease);
+}
+.layer-btn:hover {
+  border-color: var(--fg);
+}
+.layer-btn.is-on {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+.layer-swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+
+.legend {
+  display: grid;
+  gap: var(--s-1);
+  max-width: 22rem;
+}
+.legend p {
+  margin: 0;
+}
+.legend-title {
+  font-size: var(--t-lead);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.legend-bar {
+  display: block;
+  height: 0.382rem;
+  margin-top: var(--s-1);
+  transition: background var(--t-l) var(--ease);
+}
+.legend-ends {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.618rem;
+}
+.legend-note {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+
+.geo-map {
+  position: relative;
+  color: var(--fg);
+  transform-origin: 50% 50%;
+}
+.geo-map svg {
+  width: 100%;
+  height: auto;
+  max-height: calc(100svh - var(--s5));
+  margin-inline: auto;
+  overflow: hidden;
+}
+.geo-grat {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.1;
+  stroke-width: 1;
+}
+.geo-tick,
+.geo-scale text,
+.geo-north text {
+  font-family: var(--mono);
+  font-size: 13px;
+  fill: currentColor;
+  fill-opacity: 0.618;
+}
+.geo-d {
+  stroke: var(--bg);
+  stroke-width: 0.8;
+  transition: fill 0.9s var(--ease), stroke var(--t-s) var(--ease);
+}
+.geo-d:hover {
+  stroke: var(--fg);
+  stroke-width: 1.6;
+}
+.geo-d.is-studied {
+  stroke: var(--radar);
+  stroke-width: 1.4;
+}
+.geo-scale line {
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.geo-north path {
+  fill: currentColor;
+}
+
+.geo-loading {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+}
+
+.geo-tip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  min-width: 11rem;
+  padding: var(--s0) var(--s1);
+  background: var(--fg);
+  color: var(--bg);
+  pointer-events: none;
+}
+.geo-tip p {
+  margin: 0;
+}
+.geo-tip .meta {
+  color: color-mix(in srgb, var(--bg) 61.8%, var(--fg));
+}
+.geo-tip-name {
+  font-weight: 500;
+}
+.geo-tip-v {
+  font-size: var(--t-lead);
+  letter-spacing: -0.02em;
+}
+.geo-tip-study {
+  color: var(--radar) !important;
+}
+
+@media (max-width: 900px) {
+  .geo-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .geo-pin {
+    padding-top: calc(var(--s4) + var(--s2));
+  }
+}

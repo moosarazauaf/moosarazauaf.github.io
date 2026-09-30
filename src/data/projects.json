@@ -1,0 +1,701 @@
+[
+  {
+    "slug": "layyah-flood-monitor",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "SAR Flood Detection and Machine Learning Susceptibility Mapping, Layyah District",
+    "description": "A flood susceptibility model covering all 6,354 km² of Layyah District, built from dual-polarisation Sentinel-1 inundation mapping, bi-temporal radar change detection and 19 documented flood events. It scores F1 = 0.962 on flood events it never saw in training. Maps, training data, GIS exports and a model card are all public.",
+    "highlights": [
+      "Random Forest reaches F1 = 0.962, IoU = 0.928 and ROC-AUC = 0.996 on held-out flood events",
+      "547.8 km², 8.6% of the district, falls in the high susceptibility class, following the Indus floodplain",
+      "Trained on events from 2003 to 2014 and tested on 2015 to 2018, so the score comes from years the model had not seen",
+      "19 real flood events compiled from the Global Flood Database, rather than simulated ones",
+      "Auditing the predictors recovered 0.025 IoU that a faulty Earth Engine distance operator had been quietly costing the model"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-flood-monitor",
+    "liveUrl": "",
+    "image": "img/projects/layyah-flood-susceptibility.jpg",
+    "gallery": [
+      {
+        "src": "img/projects/layyah-flood-susceptibility.jpg",
+        "caption": "Modelled flood susceptibility, Layyah District"
+      },
+      {
+        "src": "img/projects/layyah-study-area.jpg",
+        "caption": "Study area: Layyah District, Punjab"
+      },
+      {
+        "src": "img/projects/flood-susceptibility-roc.png",
+        "caption": "ROC and precision-recall on held-out events"
+      }
+    ],
+    "tags": [
+      "Sentinel-1 SAR",
+      "Google Earth Engine",
+      "Machine Learning",
+      "Random Forest",
+      "Python",
+      "QGIS"
+    ],
+    "metrics": [
+      {
+        "value": "0.962",
+        "label": "F1, held-out events"
+      },
+      {
+        "value": "0.996",
+        "label": "ROC-AUC"
+      },
+      {
+        "value": "547.8 km²",
+        "label": "high susceptibility"
+      }
+    ],
+    "theme": "Floods",
+    "short": "Flood susceptibility, Layyah"
+  },
+  {
+    "slug": "lahore-lulc-carbon",
+    "kind": "Thesis",
+    "year": "2024 to 2026",
+    "place": {
+      "name": "Lahore District",
+      "lat": 31.52,
+      "lon": 74.36
+    },
+    "title": "Land-Cover and Carbon Projection to 2043, Lahore District",
+    "description": "Lahore District classified at four Landsat epochs from 1993 to 2023, then projected to 2033 and 2043 with a CA-Markov model. Built-up land more than doubled over the observed period, from 20% of the district to 45%, and the projection carries it to 53% by 2043. Ecosystem carbon falls by 534,110 Mg C along the way. Nothing is projected until the model has been shown to beat a no-change null on years that could be checked first.",
+    "highlights": [
+      "Built-up land grew 118% between 1993 and 2023, from 35,485 ha to 77,371 ha, and reaches 91,784 ha in the 2043 projection",
+      "Ecosystem carbon falls 534,110 Mg C over the observed period, reported with a low to high band on every year rather than as a single number",
+      "The model earns the projection: calibrated on 1993 to 2003 it predicts 2013 at a Figure of Merit of 0.215, and calibrated on 2003 to 2013 it predicts 2023 at 0.266. A no-change null scores 0.000",
+      "CA-Markov rather than deep learning, because four time points cannot train a temporal network. Markov matrices set how much of each conversion happens, a Random Forest sets where, and a competitive cellular-automata allocation places it",
+      "Carbon densities follow IPCC Tier 1 cropland values, matched to what Lahore actually grows, which is irrigated rice and wheat rather than closed forest",
+      "A three-class sensitivity run merging bare land into built-up is published beside the four-class result, so the classification choice can be argued rather than assumed",
+      "An InVEST carbon model runs as an independent check on the class-based estimate",
+      "Taken to national scale as a live companion app, cross-checking these district findings against an independent land-cover product across all of Pakistan"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/lahore-lulc-carbon",
+    "liveUrl": "",
+    "image": "img/projects/lahore-lulc-panel.jpg",
+    "gallery": [
+      {
+        "src": "img/projects/lahore-lulc-panel.jpg",
+        "caption": "Observed 1993 to 2023 and projected 2033 to 2043. Built-up rises from 20% of the district to 45% over the observed period."
+      },
+      {
+        "src": "img/projects/lahore-builtup-expansion.jpg",
+        "caption": "Built-up change 1993 to 2023: 49,760 ha of new built-up, 28.7% of the district."
+      },
+      {
+        "src": "img/projects/lahore-area-trajectory.jpg",
+        "caption": "Class areas, observed solid and projected dashed. Growth decelerates because the Markov chain saturates, not because expansion is expected to slow."
+      },
+      {
+        "src": "img/projects/lahore-carbon-trajectory.jpg",
+        "caption": "Carbon stock with its uncertainty band, on IPCC Tier 1 cropland densities."
+      },
+      {
+        "src": "img/projects/lahore-carbon-density.jpg",
+        "caption": "Carbon density, 2023. The legend is discrete because density is assigned per class, so only four values occur."
+      },
+      {
+        "src": "img/projects/lahore-lulc-2043.jpg",
+        "caption": "Projected 2043, two Markov steps beyond the last observation, reported with its uncertainty."
+      }
+    ],
+    "tags": [
+      "CA-Markov",
+      "Random Forest",
+      "Cellular Automata",
+      "Google Earth Engine",
+      "Landsat",
+      "Carbon Modelling",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "+118%",
+        "label": "built-up, 1993 to 2023"
+      },
+      {
+        "value": "91,784 ha",
+        "label": "built-up projected, 2043"
+      },
+      {
+        "value": "0.27",
+        "label": "Figure of Merit vs 0.00 null"
+      }
+    ],
+    "theme": "Land change & carbon",
+    "short": "Lahore land cover to 2043"
+  },
+  {
+    "slug": "pakistan-lulc-carbon",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Pakistan",
+      "lat": 30.2,
+      "lon": 69.6
+    },
+    "title": "Pakistan Land Cover and Carbon, 1993 to 2023, National Interactive App",
+    "description": "Land-cover change and terrestrial carbon for all 864,256 km² of Pakistan at 30 m, accounted district by district from GLC-FCS30D. It runs as a live Streamlit app, and the district map further down this page is built from the same tables. It began as a national cross-check on the Lahore study and turned into its own accounting system.",
+    "highlights": [
+      "58,554 km² of Pakistan, 6.8% of the country, changed land-cover class between 2000 and 2022, resolved to 133 districts",
+      "Every district carries its own carbon flux, built-up share and vegetation change, each traceable back to the pixels behind it",
+      "Net national carbon flux comes out at +52.5 Tg C, inside an uncertainty band running from -470.8 to +580.3 Tg C. The band spans zero, so the app states that the sign is not established instead of quoting the centre as a finding",
+      "Found and quantified a seasonal snow artefact worth about 5% of gross carbon loss: the permanent-ice class swings 14% in nine years, which permanent ice cannot physically do. The flux is reported with and without it",
+      "Runs entirely from cached tables with no live Earth Engine session, so the app stays up regardless of API access, and every figure is footnoted with its accounting scale and source"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/pakistan-lulc-carbon",
+    "liveUrl": "https://gee-lulc-pakistan.streamlit.app/",
+    "image": "img/projects/pakistan-lulc-net-flux.jpg",
+    "gallery": [
+      {
+        "src": "img/projects/pakistan-lulc-net-flux.jpg",
+        "caption": "National net carbon flux, 2000 to 2022. The uncertainty band spans zero, so the point estimate of +52.5 Tg C is reported as a centre rather than a finding."
+      }
+    ],
+    "tags": [
+      "GLC-FCS30D",
+      "Google Earth Engine",
+      "Streamlit",
+      "Python",
+      "District-level accounting"
+    ],
+    "metrics": [
+      {
+        "value": "864,256 km²",
+        "label": "national extent, 30 m"
+      },
+      {
+        "value": "58,554 km²",
+        "label": "changed class, 2000 to 2022"
+      },
+      {
+        "value": "133",
+        "label": "districts accounted"
+      }
+    ],
+    "theme": "Land change & carbon",
+    "short": "Pakistan carbon account"
+  },
+  {
+    "slug": "twin-cities-urban-flood",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Islamabad and Rawalpindi",
+      "lat": 33.65,
+      "lon": 73.05
+    },
+    "title": "Urban Flood Analysis, Islamabad and Rawalpindi, 2026",
+    "description": "Sentinel-1 radar, GPM rainfall and terrain analysis for the twin cities after the 1 September 2026 floods, when Leh Nullah reached 29 ft at Kattarian. The study delivers a flood-proneness map for the built-up area, and a measurement of exactly what a 12-day satellite revisit can and cannot catch of urban flooding that drains within hours.",
+    "highlights": [
+      "137 km² of the 348 km² built-up area falls in the high proneness class, concentrated along Leh Nullah where evacuations were ordered",
+      "Proneness built from HAND, imperviousness, wetness index, slope and upstream area, which are terrain controls that do not depend on catching the flood on a satellite pass",
+      "Measured the observability limit directly: 0 of 86 heavy-rain half-hours in July and August 2026 coincided with a Sentinel-1 pass, and the nearest approach was 14.7 hours. That is a planning constraint for any SAR-based urban flood work",
+      "Backscatter rose +1.07 dB over open ground and +1.19 dB over built-up after 152 mm of antecedent rain, which is the wet-soil dielectric response rather than standing water",
+      "The proneness map is published as unvalidated, because the two available validation checks carry only 9 and 11 positives"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/twin-cities-urban-flood",
+    "liveUrl": "",
+    "image": "img/projects/twincities-flood-proneness.jpg",
+    "gallery": [
+      {
+        "src": "img/projects/twincities-flood-proneness.jpg",
+        "caption": "Flood proneness across the twin cities, with the Leh Nullah drainage network"
+      },
+      {
+        "src": "img/projects/twincities-flood-timing.jpg",
+        "caption": "Every storm against every Sentinel-1 overpass: none coincide"
+      },
+      {
+        "src": "img/projects/twincities-flood-rainfall.jpg",
+        "caption": "July and August 2026 rainfall; the 1 September event post-dates all satellite products"
+      },
+      {
+        "src": "img/projects/twincities-flood-sarlimits.jpg",
+        "caption": "What the SAR pair can and cannot show"
+      },
+      {
+        "src": "img/projects/twincities-flood-beforeafter.jpg",
+        "caption": "Sentinel-1 VV before and after, ascending track 173"
+      },
+      {
+        "src": "img/projects/twincities-flood-gauges.jpg",
+        "caption": "PMD gauge totals for 1 September 2026, up to 201 mm in a morning"
+      }
+    ],
+    "tags": [
+      "Sentinel-1 SAR",
+      "Urban Flooding",
+      "GPM IMERG",
+      "Google Earth Engine",
+      "Hydrology",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "137 km²",
+        "label": "built-up at high proneness"
+      },
+      {
+        "value": "348 km²",
+        "label": "built-up area assessed"
+      },
+      {
+        "value": "29 ft",
+        "label": "Leh Nullah peak stage"
+      }
+    ],
+    "theme": "Floods",
+    "short": "Twin cities urban flooding"
+  },
+  {
+    "slug": "pakistan-landsat-totram",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "Thermal and Optical Soil Moisture Compared, Layyah District",
+    "description": "A head-to-head test of thermal (TOTRAM) and optical (OPTRAM) soil moisture retrieval over the same district, the same bare-soil definition and the same rainfall reference, across 302 Landsat scenes from 2019 to 2024. The optical trapezoid tracks antecedent rainfall at r = 0.86 here. The thermal one does not, under any of five ways of fitting it, and the study pins down the reason.",
+    "highlights": [
+      "Five trapezoid specifications tested rather than one: per-scene, gated, pooled, per-month and per-month gated",
+      "Traced the problem to the hot edge. Its intercept drifts 67.7 K between scenes while the trapezoid itself is only 6.1 K deep, a drift-to-signal ratio of 11 to 1",
+      "Raw bare-soil temperature correlates with rainfall at +0.414, but that is the seasonal cycle. Deseasonalised it falls to +0.026, while NDVI over the same scenes responds at +0.453 as a positive control",
+      "Study area chosen by measuring terrain confounding inside scenes first: Swat and Chagai fail at measured lapse rates of -5.1 and -9.6 K/km",
+      "Practical result: over irrigated semi-arid cropland, use the optical trapezoid. The thermal one needs a scene-invariant hot edge that Landsat does not provide here"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/pakistan-landsat-totram",
+    "liveUrl": "",
+    "image": "img/projects/layyah-totram.jpg",
+    "gallery": [
+      {
+        "src": "img/projects/layyah-totram.jpg",
+        "caption": "TOTRAM before and after, 2022. It reads backwards, June wet and September dry, because W is normalised per month."
+      },
+      {
+        "src": "img/projects/layyah-totram-lstsignal.jpg",
+        "caption": "Where the signal goes: deseasonalised temperature carries none, while NDVI as a control responds"
+      },
+      {
+        "src": "img/projects/layyah-totram-specs.jpg",
+        "caption": "Five trapezoid specifications against the OPTRAM benchmark"
+      },
+      {
+        "src": "img/projects/layyah-totram-drift.jpg",
+        "caption": "The thermal trapezoid drifts 67.7 K across scenes but is only 6.1 K deep"
+      },
+      {
+        "src": "img/projects/layyah-totram-vs-optram.jpg",
+        "caption": "Thermal against optical retrieval over 73 matched dates"
+      },
+      {
+        "src": "img/projects/layyah-totram-districts.jpg",
+        "caption": "Study-area screening: terrain confounding measured within scenes"
+      }
+    ],
+    "tags": [
+      "Landsat 8/9",
+      "TOTRAM",
+      "Land Surface Temperature",
+      "Soil Moisture",
+      "Google Earth Engine",
+      "Validation",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "302",
+        "label": "Landsat scenes, 2019 to 2024"
+      },
+      {
+        "value": "5",
+        "label": "specifications tested"
+      },
+      {
+        "value": "r = 0.86",
+        "label": "optical retrieval, same district"
+      }
+    ],
+    "theme": "Drought & soil moisture",
+    "short": "Thermal vs optical soil moisture"
+  },
+  {
+    "slug": "tharparkar-spi-drought",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Tharparkar District",
+      "lat": 24.74,
+      "lon": 70.0
+    },
+    "title": "Drought Monitoring with SPI, Tharparkar District",
+    "description": "Forty-four years of drought history for Tharparkar, Pakistan's recurrent-famine district, from CHIRPS rainfall between 1981 and 2024. The record picks out 1987 and 2002 as the driest years and 2011 and 2022 as the wettest, matching the documented Sindh drought and both flood years. Getting there meant rebuilding SPI for a district where more than half of all pixel-months see no rain at all.",
+    "highlights": [
+      "Ranking all 44 years independently recovers the documented 1999 to 2002 Sindh drought and both major flood years, which is the check that the corrected index works",
+      "A zero-inflated gamma fit replaces the standard one, because 53.7% of pixel-months in Tharparkar are completely rainless and the plain gamma has zero density at zero",
+      "The correction is worth RMS 1.252 SPI units, wider than a whole McKee drought category. Applied the textbook way, SPI flags 118 months as extreme drought, of which 112 turn out near normal",
+      "Mapped where the index may legitimately be computed at all. SPI-1 is undefined in 8 of 12 months here, and the pipeline refuses the fit rather than returning a number",
+      "Showed the product choice decides the answer: CHIRPS DAILY reports 53.7% zero months over the same pixels where CHIRPS PENTAD reports 0.0%",
+      "District averaging hides the whole issue, reporting SPI-1 as fittable in all 12 months where the pixels say 8 of 12 are not"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/tharparkar-spi-drought",
+    "liveUrl": "",
+    "image": "img/projects/tharparkar-spi-drought.jpg",
+    "gallery": [
+      {
+        "src": "img/projects/tharparkar-spi-drought.jpg",
+        "caption": "SPI-12 for drought year 1987 against flood year 2011, Tharparkar District"
+      },
+      {
+        "src": "img/projects/tharparkar-spi-naive.jpg",
+        "caption": "What skipping zero-inflation costs: the naive fit pins ordinary dry months at extreme drought"
+      },
+      {
+        "src": "img/projects/tharparkar-spi-fittability.jpg",
+        "caption": "Where SPI may legitimately be computed. SPI-1 is undefined in 8 of 12 months."
+      },
+      {
+        "src": "img/projects/tharparkar-spi-timeseries.jpg",
+        "caption": "SPI-12 and SPI-3, 1981 to 2024, zero-inflated gamma"
+      },
+      {
+        "src": "img/projects/tharparkar-spi-districts.jpg",
+        "caption": "Study-area screening: monsoon and winter-westerly regimes have complementary usable months"
+      },
+      {
+        "src": "img/projects/tharparkar-spi-chirps.jpg",
+        "caption": "CHIRPS DAILY and PENTAD disagree completely on how often it rains"
+      }
+    ],
+    "tags": [
+      "CHIRPS",
+      "Drought",
+      "SPI",
+      "Google Earth Engine",
+      "Climate",
+      "Python",
+      "Statistics"
+    ],
+    "metrics": [
+      {
+        "value": "44 yrs",
+        "label": "CHIRPS rainfall record"
+      },
+      {
+        "value": "1987, 2002",
+        "label": "driest years recovered"
+      },
+      {
+        "value": "8 of 12",
+        "label": "months SPI-1 undefined"
+      }
+    ],
+    "theme": "Drought & soil moisture",
+    "short": "Tharparkar drought record"
+  },
+  {
+    "slug": "layyah-s2-ndvi-flood-impact",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "Post-Flood NDVI Change Detection, Layyah District, 2022",
+    "description": "Sentinel-2 NDVI change after the 2022 Pakistan floods, mapping 1,232 km² of material vegetation loss along the Indus belt in Layyah District. A control-year design separates flood damage from the ordinary double-cropping cycle, and an independently derived radar flood extent confirms the result from a sensor that shares no physics with the optical one.",
+    "highlights": [
+      "1,232 km², 19.4% of the district, lost vegetation along the Indus belt, against 2,084 km² of gain where the same rainfall greened the semi-arid Thal",
+      "Two independent sensors agree: the NDVI anomaly is -0.088 inside the radar flood extent and -0.021 outside, a separation of 0.067 between measurements with no shared physics",
+      "Control years do the heavy lifting. Raw June to October change was +0.071 and control years give +0.076, so the flood signal lives in the map rather than in the district average",
+      "Reported as a map with the district mean stated alongside, since the mean of -0.005 would wrongly suggest no impact at all"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s2-ndvi-flood-impact",
+    "liveUrl": "",
+    "image": "img/projects/layyah-s2-ndvi.jpg",
+    "tags": [
+      "Sentinel-2",
+      "NDVI",
+      "Google Earth Engine",
+      "Change Detection",
+      "Flood Impact",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "1,232 km²",
+        "label": "vegetation loss mapped"
+      },
+      {
+        "value": "2,084 km²",
+        "label": "vegetation gain, Thal"
+      },
+      {
+        "value": "0.067",
+        "label": "radar cross-check separation"
+      }
+    ],
+    "theme": "Floods",
+    "short": "Post-flood vegetation loss"
+  },
+  {
+    "slug": "layyah-s1-flood-detection",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "SAR Flood Detection, Layyah District, 2022 Pakistan Floods",
+    "description": "Scene-by-scene Sentinel-1 change detection through the 2022 monsoon, mapping the full inundation curve rather than a single composite. Peak flooding reaches 95.4 km² on 20 July 2022, and two distinct flood waves come out of the time series, with riverine overflow separated from pluvial ponding.",
+    "highlights": [
+      "Peak inundation of 95.4 km², 1.50% of the district, on 20 July 2022, with two flood waves resolved in the curve",
+      "Scene-by-scene mapping recovers a peak that a multi-week composite puts at 40 km², because compositing averages the flood away",
+      "A dual-polarisation water test (VV ≤ -18 dB and VH ≤ -25 dB) keeps radar-dark Thal desert sand out of the flood class",
+      "Pinned to relative orbit 5, which covers 99.9% of the district, after finding that mixing orbits doubles apparent flood area with no change on the ground"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-flood-detection",
+    "liveUrl": "",
+    "image": "img/projects/layyah-s1-flood.jpg",
+    "tags": [
+      "Sentinel-1 SAR",
+      "Google Earth Engine",
+      "Change Detection",
+      "Flood Mapping",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "95.4 km²",
+        "label": "peak inundation"
+      },
+      {
+        "value": "2",
+        "label": "flood waves resolved"
+      },
+      {
+        "value": "99.9%",
+        "label": "district covered, orbit 5"
+      }
+    ],
+    "theme": "Floods",
+    "short": "SAR flood mapping, 2022"
+  },
+  {
+    "slug": "layyah-s2-soil-moisture-optram",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "Optical Soil Moisture with OPTRAM, Layyah District",
+    "description": "Sentinel-2 surface soil moisture for Layyah District, with the trapezoid edges fitted by quantile regression over 23,991 observations instead of drawn by eye. Bare-soil saturation nearly doubles after the 2022 flood, and the retrieval tracks antecedent rainfall at r = 0.86 once masked to bare soil.",
+    "highlights": [
+      "Bare-soil relative saturation rises from 0.219 to 0.413 after the 2022 flood, an increase of 89%",
+      "Validated at r = +0.855 against antecedent rainfall, and cross-checked against ERA5-Land",
+      "Trapezoid fitted over 23,991 observations from 2019 to 2024: dry edge R² = 0.947, wet edge R² = 0.990",
+      "Established the bare-soil mask as a requirement rather than an option. The district-wide mean inverts the signal at r = -0.372, because OPTRAM reads canopy water wherever the canopy is closed",
+      "Study area picked by measurement: six candidate districts scored on trapezoid quality, including an urban negative control, and three fail outright",
+      "Quantified a sampling bias in cloud masking. Valid-pixel fraction correlates at r = -0.756 against reference soil moisture, so wet periods are sampled from their clearest fraction"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s2-soil-moisture-optram",
+    "liveUrl": "",
+    "image": "img/projects/layyah-s2-optram-soilmoisture.jpg",
+    "gallery": [
+      {
+        "src": "img/projects/layyah-s2-optram-soilmoisture.jpg",
+        "caption": "OPTRAM surface soil moisture before and after the 2022 flood, Layyah District"
+      },
+      {
+        "src": "img/projects/layyah-s2-optram-validation.jpg",
+        "caption": "Validation: bare soil tracks antecedent rainfall at r = +0.86, while the district mean inverts it"
+      },
+      {
+        "src": "img/projects/layyah-s2-optram-trapezoid.jpg",
+        "caption": "Fitted NDVI and STR trapezoid, 23,991 observations, 2019 to 2024"
+      },
+      {
+        "src": "img/projects/layyah-s2-optram-districts.jpg",
+        "caption": "Study-area selection: trapezoid quality across six candidate districts"
+      },
+      {
+        "src": "img/projects/layyah-s2-optram-histogram.jpg",
+        "caption": "Bare-soil moisture distribution, pre-monsoon against post-flood"
+      }
+    ],
+    "tags": [
+      "Sentinel-2",
+      "OPTRAM",
+      "Soil Moisture",
+      "Google Earth Engine",
+      "Python",
+      "Validation"
+    ],
+    "metrics": [
+      {
+        "value": "+89%",
+        "label": "bare-soil saturation after flood"
+      },
+      {
+        "value": "r = 0.855",
+        "label": "vs antecedent rainfall"
+      },
+      {
+        "value": "23,991",
+        "label": "observations fitted"
+      }
+    ],
+    "theme": "Drought & soil moisture",
+    "short": "Optical soil moisture"
+  },
+  {
+    "slug": "layyah-s1-soil-moisture",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "Surface Soil Moisture from SAR, Layyah District",
+    "description": "Relative surface soil moisture for Layyah District from an eight-year Sentinel-1 stack, using TU Wien change detection against per-pixel dry and wet references. District mean moisture rises from 39.7% to 76.0% between June and August 2022, and the series holds up against ERA5-Land and CHIRPS across 36 months.",
+    "highlights": [
+      "District mean rose from 39.7% to 76.0% between June and August 2022, with 91.3% of the district retained after masking",
+      "Validated over 36 months at r = 0.489 against ERA5-Land and r = 0.477 against CHIRPS rainfall",
+      "Dry-season divergence from the reanalysis lines up with canal irrigation, which ERA5-Land does not model. Left open as a question worth its own study",
+      "References taken as P5 and P95 of monthly medians, since single-observation minima and maxima in SAR are mostly speckle"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-soil-moisture",
+    "liveUrl": "",
+    "image": "img/projects/layyah-s1-soilmoisture.jpg",
+    "tags": [
+      "Sentinel-1 SAR",
+      "Google Earth Engine",
+      "Soil Moisture",
+      "ERA5-Land",
+      "Validation",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "39.7 to 76.0%",
+        "label": "district mean, Jun to Aug 2022"
+      },
+      {
+        "value": "r = 0.489",
+        "label": "vs ERA5-Land"
+      },
+      {
+        "value": "36 mo",
+        "label": "validation window"
+      }
+    ],
+    "theme": "Drought & soil moisture",
+    "short": "SAR soil moisture"
+  },
+  {
+    "slug": "layyah-s1-crop-type-sar",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "Multi-Temporal SAR Crop Mapping, Layyah District",
+    "description": "Crop mapping from 24 monthly Sentinel-1 composites across a full rabi and kharif crop year, resolving five cropping systems over 3,995 km² of cropland. The work is split into a validated stage and an inferred one, because no crop-type ground truth exists for Pakistan in the Earth Engine catalogue.",
+    "highlights": [
+      "3,995 km² of cropland mapped at 0.825 overall accuracy and κ = 0.651 on a disjoint held-out split",
+      "Five cropping systems separated: wheat and cotton double crop (1,359 km²), cotton (940 km²), sugarcane and orchard (810 km²), fallow (579 km²), wheat and gram (308 km²)",
+      "Crop labels derived from each class's seasonal phenology by rank rather than hardcoded to cluster IDs, so they survive a change of seed or period",
+      "Separability reported per class: wheat and gram is distinct at 3.5 to 6.9 dB, while cotton, double crop and perennial sit within about 1 dB of each other",
+      "Caught a district-wide March backscatter spike and traced it to a 55.5 mm rainfall event rather than crop phenology"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-crop-type-sar",
+    "liveUrl": "",
+    "image": "img/projects/layyah-s1-croptype.jpg",
+    "tags": [
+      "Sentinel-1 SAR",
+      "Google Earth Engine",
+      "Random Forest",
+      "Crop Mapping",
+      "Time Series",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "3,995 km²",
+        "label": "cropland mapped"
+      },
+      {
+        "value": "0.825",
+        "label": "overall accuracy"
+      },
+      {
+        "value": "5",
+        "label": "cropping systems"
+      }
+    ],
+    "theme": "SAR methods",
+    "short": "SAR crop mapping"
+  },
+  {
+    "slug": "layyah-s1-speckle-filtering",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Layyah District",
+      "lat": 30.96,
+      "lon": 70.94
+    },
+    "title": "Multi-Temporal Speckle Filtering, Layyah District",
+    "description": "Quegan and Yu multi-temporal speckle filtering over a 62-scene single-orbit Sentinel-1 stack, benchmarked against a spatial filter tuned to identical smoothness so the comparison isolates what the multi-temporal approach actually adds. It adds a lot: 3.47 times the Equivalent Number of Looks, with sharper edges than the boxcar it is matched against.",
+    "highlights": [
+      "Equivalent Number of Looks improves 3.47 times, from 3.31 to 11.50 across the district",
+      "At matched smoothness the multi-temporal filter wins on both counts: 11.50 against 9.50 ENL, and 1.46 times the edge retention",
+      "Implemented in linear power space, since averaging in dB biases the result low and understates the gain",
+      "ENL measured over a homogeneous desert patch as well as district-wide, because cropland variance is real signal rather than noise"
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/layyah-s1-speckle-filtering",
+    "liveUrl": "",
+    "image": "img/projects/layyah-s1-speckle.jpg",
+    "tags": [
+      "Sentinel-1 SAR",
+      "Google Earth Engine",
+      "Speckle Filtering",
+      "Signal Processing",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "×3.47",
+        "label": "ENL improvement"
+      },
+      {
+        "value": "1.46×",
+        "label": "edge retention vs boxcar"
+      },
+      {
+        "value": "62",
+        "label": "scenes in stack"
+      }
+    ],
+    "theme": "SAR methods",
+    "short": "Speckle filtering"
+  }
+]

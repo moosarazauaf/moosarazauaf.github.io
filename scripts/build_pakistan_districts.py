@@ -1,4 +1,4 @@
-"""Build data/pakistan-districts.geojson, the district map on the portfolio.
+"""Build public/geo/pakistan-districts.geojson, the district map on the portfolio.
 
 Two inputs, joined by district name:
 
@@ -30,7 +30,7 @@ import urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 APP_SRC = os.path.join(os.path.dirname(REPO), "pakistan-lulc-carbon", "src")
-OUT = os.path.join(REPO, "data", "pakistan-districts.geojson")
+OUT = os.path.join(REPO, "public", "geo", "pakistan-districts.geojson")
 
 GEOJSON_URL = (
     "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/"

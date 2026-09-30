@@ -1,0 +1,308 @@
+.research-pin {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.research-head {
+  position: relative;
+  z-index: 3;
+  padding-top: calc(var(--s4) + var(--s1));
+  display: grid;
+  gap: var(--s0);
+  max-width: 44rem;
+  pointer-events: none;
+  transition: opacity var(--t-m) var(--ease);
+}
+.research-pin.has-focus .research-head {
+  opacity: 0.146;
+}
+.research-intro {
+  max-width: 26rem;
+  font-size: var(--t-small);
+}
+
+.rorbit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.rorbit-paths {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.rorbit-paths ellipse {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+  stroke-dasharray: 2 6;
+  transition: opacity var(--t-m) var(--ease);
+}
+.rorbit.is-focus .rorbit-paths ellipse {
+  opacity: 0.2;
+}
+
+/* A research object. Its anchor is the dot; the text hangs to the right. */
+.robj {
+  position: absolute;
+  left: 0;
+  top: 0;
+  text-align: left;
+  will-change: transform, opacity;
+  transition: opacity var(--t-m) var(--ease);
+}
+.robj-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s0);
+  transform: translate(-0.35rem, -0.9rem);
+  transform-origin: 0.35rem 0.9rem;
+  transition: transform var(--t-m) var(--ease);
+}
+.robj-dot {
+  flex: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: 0.55rem;
+  border-radius: 50%;
+  background: var(--fg);
+  box-shadow: 0 0 0 0.382rem color-mix(in srgb, var(--fg) 9%, transparent);
+  transition: background-color var(--t-m) var(--ease), box-shadow var(--t-m) var(--ease);
+}
+.robj.is-direction .robj-dot {
+  background: transparent;
+  border: 1px dashed var(--fg);
+}
+.robj.is-platform .robj-dot {
+  background: transparent;
+  border: 2px solid var(--fg);
+}
+.robj-text {
+  display: grid;
+  gap: 0.1rem;
+}
+.robj-meta {
+  font-size: 0.618rem;
+}
+.robj-title {
+  font-size: clamp(1rem, 1.3vw, 1.618rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.robj-summary {
+  display: block;
+  max-width: 17rem;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  font-size: var(--t-small);
+  line-height: 1.5;
+  color: var(--muted);
+  transition: max-height var(--t-l) var(--ease), opacity var(--t-m) var(--ease), margin var(--t-m) var(--ease);
+}
+.robj.is-active .robj-inner,
+.robj:focus-visible .robj-inner {
+  transform: translate(-0.35rem, -0.9rem) scale(1.13);
+}
+.robj.is-active .robj-summary,
+.robj:focus-visible .robj-summary {
+  max-height: 10rem;
+  opacity: 1;
+  margin-top: var(--s-1);
+}
+.robj.is-active .robj-dot,
+.robj:focus-visible .robj-dot {
+  background: var(--radar);
+  border-color: var(--radar);
+  box-shadow: 0 0 0 0.618rem color-mix(in srgb, var(--radar) 23.6%, transparent);
+}
+
+.research-drag {
+  left: 47%;
+  right: 23%;
+  top: 34%;
+  bottom: 22%;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+.research-legend {
+  position: absolute;
+  z-index: 3;
+  right: var(--gutter);
+  bottom: var(--s2);
+  display: flex;
+  gap: var(--s2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.618rem;
+}
+.research-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+.research-legend i {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--fg);
+}
+.research-legend i.lg-dir {
+  background: transparent;
+  border: 1px dashed var(--fg);
+}
+
+/* The open area: the right 61.8% of the screen. */
+.rdetail {
+  position: absolute;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 61.8%;
+  padding: calc(var(--s4) + var(--s1)) var(--gutter) var(--s3) var(--s3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--s1);
+  overflow-y: auto;
+}
+.rdetail-close {
+  position: absolute;
+  top: calc(var(--s4) + var(--s0));
+  left: var(--s3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  color: var(--fg);
+}
+.rdetail-close:hover {
+  color: var(--radar-ink);
+}
+.rdetail-title {
+  font-size: clamp(2.618rem, 6.2vw, 6.854rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin: 0;
+}
+.rdetail-summary {
+  color: var(--muted);
+}
+.rdetail-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s2);
+  padding-top: var(--s1);
+  border-top: 1px solid var(--line);
+}
+.rdetail-cols ul {
+  list-style: none;
+  margin: var(--s-1) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--s-2);
+  font-size: var(--t-small);
+}
+.rdetail-studies {
+  display: grid;
+  gap: var(--s0);
+}
+.rdetail-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-1);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: 0.382rem 0.786rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: var(--t-small);
+  transition: background-color var(--t-s) var(--ease), color var(--t-s) var(--ease), border-color var(--t-s) var(--ease);
+}
+.chip:hover,
+.chip:focus-visible {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+
+.tag-direction {
+  display: inline-block;
+  margin-left: var(--s0);
+  padding: 0.1rem 0.5rem;
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  color: var(--fg);
+}
+
+/* Phone: no orbit, a list under a small globe. */
+@media (max-width: 760px) {
+  .research-pin {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+    padding-bottom: var(--s4);
+  }
+  .research-head {
+    padding-top: calc(var(--s4) + var(--s2));
+  }
+  .research-list {
+    display: grid;
+    gap: var(--s1);
+    margin-top: 46vh;
+  }
+  .research-list .robj {
+    position: relative;
+    transform: none !important;
+    opacity: 1 !important;
+    padding: var(--s0) 0;
+    border-top: 1px solid var(--line);
+  }
+  .research-list .robj-inner {
+    transform: none;
+  }
+  .research-list .robj-title {
+    white-space: normal;
+    font-size: var(--t-lead);
+  }
+  .research-list .robj-summary {
+    max-height: none;
+    opacity: 1;
+    margin-top: var(--s-2);
+  }
+  .rdetail {
+    position: fixed;
+    inset: 0;
+    width: auto;
+    z-index: 116;
+    justify-content: flex-start;
+    padding: calc(var(--s4) + var(--s2)) var(--gutter) var(--s3);
+    background: var(--bg);
+  }
+  .rdetail-close {
+    position: static;
+    margin-bottom: var(--s1);
+  }
+  .rdetail-cols {
+    grid-template-columns: 1fr;
+    gap: var(--s1);
+  }
+  .research-legend {
+    display: none;
+  }
+}

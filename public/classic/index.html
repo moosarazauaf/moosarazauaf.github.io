@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammad Moosa Raza · Earth Observation Research</title>
+  <meta name="description" content="Muhammad Moosa Raza: satellite measurement of floods, drought and land change across Pakistan. Twelve open studies, code and data released. Seeking a PhD position for 2026/27." />
+  <link rel="canonical" href="https://moosarazauaf.github.io/" />
+  <meta name="author" content="Muhammad Moosa Raza" />
+  <!-- The previous version of the site, kept for comparison. Not indexed. -->
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#243e36" />
+
+  <!-- A photograph is mud at 16px, so the tab icon is a monogram. The SVG scales
+       to any density; the PNG is for iOS home screens, which ignore SVG. -->
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/img/icon-180.png" />
+
+  <!-- Link previews. Email clients, LinkedIn, Slack and WhatsApp do not run
+       JavaScript, so everything they need has to be static markup: without it
+       a link emailed to a supervisor renders as a bare URL. The card itself is
+       built by scripts/build_share_assets.py from the Lahore land-change plate. -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Muhammad Moosa Raza" />
+  <meta property="og:title" content="Muhammad Moosa Raza · Earth Observation Researcher" />
+  <meta property="og:description" content="Remote sensing for floods, drought and land change, built so the numbers can be checked. Twelve open studies over Pakistan, all code and data released." />
+  <meta property="og:url" content="https://moosarazauaf.github.io/" />
+  <meta property="og:image" content="https://moosarazauaf.github.io/assets/img/share-card.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Muhammad Moosa Raza, Earth Observation Researcher, over a Lahore land-cover change map" />
+  <meta property="profile:first_name" content="Muhammad Moosa" />
+  <meta property="profile:last_name" content="Raza" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Muhammad Moosa Raza · Earth Observation Researcher" />
+  <meta name="twitter:description" content="Remote sensing for floods, drought and land change, built so the numbers can be checked." />
+  <meta name="twitter:image" content="https://moosarazauaf.github.io/assets/img/share-card.jpg" />
+
+  <!-- Structured data, so a search result shows a researcher rather than a page.
+       Kept deliberately small and stable: it duplicates data/profile.json, and
+       anything that changes often would drift. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Muhammad Moosa Raza",
+    "givenName": "Muhammad Moosa",
+    "familyName": "Raza",
+    "jobTitle": "Earth Observation Researcher",
+    "email": "mailto:moosarazauaf@gmail.com",
+    "url": "https://moosarazauaf.github.io/",
+    "image": "https://moosarazauaf.github.io/assets/img/profile.jpg",
+    "identifier": "https://orcid.org/0009-0009-1215-2021",
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "RUDN University" },
+      { "@type": "CollegeOrUniversity", "name": "University of Agriculture Faisalabad" }
+    ],
+    "homeLocation": { "@type": "Place", "name": "Layyah, Pakistan" },
+    "knowsAbout": [
+      "Remote sensing", "Synthetic aperture radar", "Flood mapping",
+      "Drought monitoring", "Land use and land cover change",
+      "Ecosystem carbon", "Google Earth Engine", "Geographic information systems"
+    ],
+    "sameAs": [
+      "https://github.com/moosarazauaf",
+      "https://www.linkedin.com/in/moosarazauaf/",
+      "https://orcid.org/0009-0009-1215-2021"
+    ]
+  }
+  </script>
+  <!-- ?v= is a cache buster: bump it whenever CSS or JS changes so returning
+       visitors get the new file instead of a stale cached one. -->
+  <!-- The hero plate is a CSS background, so the browser cannot discover it
+       until the stylesheet has parsed. Preloading the variant each screen will
+       actually use starts that fetch immediately; it is the largest paint on
+       the page. The media queries mirror the ones in style.css. -->
+  <link rel="preload" as="image" href="assets/img/hero-lahore-1920.jpg?v=85"
+        media="(max-width: 1599px)" />
+  <link rel="preload" as="image" href="assets/img/hero-lahore.jpg?v=85"
+        media="(min-width: 1600px)" />
+  <!-- The typeface is on the critical path: it carries every word on the page,
+       so it is fetched in parallel with the stylesheet rather than after it. -->
+  <link rel="preload" as="font" type="font/woff2"
+        href="assets/fonts/archivo-var.woff2?v=85" crossorigin />
+  <link rel="stylesheet" href="assets/css/variables.css?v=85" />
+  <link rel="stylesheet" href="assets/css/style.css?v=85" />
+  <script>
+    // Apply saved theme before paint to avoid a flash of the wrong theme.
+    (function () {
+      // Dark is the design, not a preference: the whole palette is built for a
+      // near-black ground. A reader who has explicitly chosen light in the
+      // toggle keeps it, and so does anyone whose system asks for light.
+      var saved = localStorage.getItem("theme");
+      if (!saved) {
+        saved = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", saved);
+    })();
+  </script>
+</head>
+<body>
+
+  <a class="skip-link" href="#top">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="nav-brand" href="#top">M. Moosa Raza</a>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#audit">Verification</a></li>
+        <li><a href="#explore">Explore</a></li>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode"></button>
+    </nav>
+  </header>
+
+  <main id="top" tabindex="-1">
+    <!-- Cinematic hero: full viewport, map backdrop, type over a scrim -->
+    <section id="hero" class="hero"></section>
+
+    <section id="stats" class="band-tint"></section>
+
+    <div class="container">
+      <!-- Section order follows the questions a supervisor asks, in the order
+           they ask them: what do you work on, have you published, show me the
+           work, would you fit my group, are you rigorous, impress me, CV. -->
+      <section id="about" class="section"></section>
+      <!-- The work is the argument, and the twelve studies are the strongest
+           thing here, so they come before anything that talks about the work.
+           Publications follow rather than lead: two papers under review is the
+           weaker claim, and burying them entirely would look evasive. -->
+      <section id="projects" class="section"></section>
+      <!-- Instruments and methods, scrolling. Built from the tags on the
+           studies, so it cannot drift from what the work actually uses. -->
+      <section id="ticker" class="band-rule" aria-label="Instruments and methods"></section>
+      <section id="publications" class="section"></section>
+      <section id="research" class="section"></section>
+      <section id="audit" class="section band-invert"></section>
+      <!-- Both interactives live in one tabbed section. main.js builds the
+           panels and drops a tab whose data or library failed to load.
+           Panel 1: data/lahore-lulc.json. Panel 2: data/pakistan-districts.geojson. -->
+      <section id="explore" class="section"></section>
+      <!-- Experience, skills, talks and certifications, tabbed. -->
+      <section id="background" class="section"></section>
+    </div>
+  </main>
+
+  <footer id="contact" class="site-footer"></footer>
+
+  <script src="assets/js/main.js?v=85"></script>
+  <!-- Choreography, loaded after the renderer and never waited on. If it fails
+       the page keeps the CSS-only motion it shipped with. -->
+  <script src="assets/js/motion.js?v=85" defer></script>
+  <!-- The hero graph's physics and the cursor follower. No library; the graph
+       is complete and clickable without it. -->
+  <script src="assets/js/interact.js?v=85" defer></script>
+</body>
+</html>
