@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { copy } from "../../data/profile";
 import { bySlug, projects, sensorUse } from "../../data/projects";
-import { useMobile } from "../../hooks/useMediaQuery";
+import { useNoPin } from "../../hooks/useMediaQuery";
 import { scene } from "../../three/sceneState";
 import { SectionTransition } from "../transitions/SectionTransition";
 import { RevealText } from "../ui/RevealText";
@@ -18,7 +18,7 @@ const SCENE = "layyah-s1-flood-detection";
  */
 export function SensingSection() {
   const pin = useRef<HTMLDivElement>(null);
-  const mobile = useMobile();
+  const mobile = useNoPin();
   const p = bySlug(SCENE);
   const sensors = sensorUse();
 

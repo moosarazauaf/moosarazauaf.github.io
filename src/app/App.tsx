@@ -93,6 +93,33 @@ export function App() {
     if (loaderGone) ScrollTrigger.refresh();
   }, [loaderGone]);
 
+  // Pinned sections are measured when ScrollTrigger refreshes. Fonts, images
+  // and the map's data all arrive later and change the page's height, so
+  // re-measure whenever it does, or a pin ends in the wrong place and the next
+  // section slides in underneath it.
+  useEffect(() => {
+    const main = document.getElementById("main");
+    if (!main) return;
+    let last = main.offsetHeight;
+    let timer = 0;
+    const ro = new ResizeObserver(() => {
+      const h = main.offsetHeight;
+      if (Math.abs(h - last) < 2) return;
+      last = h;
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        ScrollTrigger.refresh();
+        last = main.offsetHeight;
+      }, 236);
+    });
+    ro.observe(main);
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+    return () => {
+      ro.disconnect();
+      window.clearTimeout(timer);
+    };
+  }, []);
+
   // The loader's exit is animated; if animation frames never arrive, it still
   // goes, a little later.
   useEffect(() => {

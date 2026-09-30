@@ -6,7 +6,7 @@ import type { Feature, FeatureCollection, Geometry } from "geojson";
 import { copy } from "../../data/profile";
 import { bySlug } from "../../data/projects";
 import { INV2 } from "../../lib/golden";
-import { useMobile } from "../../hooks/useMediaQuery";
+import { useNoPin } from "../../hooks/useMediaQuery";
 import { scene } from "../../three/sceneState";
 import { SectionTransition } from "../transitions/SectionTransition";
 import { RevealText } from "../ui/RevealText";
@@ -54,7 +54,7 @@ export function GeoDataScene() {
   const [layerId, setLayerId] = useState(LAYERS[0].id);
   const [tip, setTip] = useState<{ x: number; y: number; d: DistrictProps } | null>(null);
   const picked = useRef(false);
-  const mobile = useMobile();
+  const mobile = useNoPin();
   const layer = LAYERS.find((l) => l.id === layerId) ?? LAYERS[0];
 
   // The outlines are 350 KB, so they load once the section is two screens away.
@@ -104,7 +104,7 @@ export function GeoDataScene() {
             },
           },
     });
-    tl.fromTo(q(".geo-map"), { opacity: 0, scale: 1.382 }, { opacity: 1, scale: 1, duration: INV2 }, mobile ? 0 : INV2 * 0.618)
+    tl.fromTo(q(".geo-map"), { opacity: 0, scale: 1.236 }, { opacity: 1, scale: 1, duration: INV2 }, mobile ? 0 : INV2 * 0.618)
       .fromTo(q(".geo-side"), { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: INV2 * 0.618 }, mobile ? 0 : INV2)
       .to({}, { duration: 1 - INV2 });
     return () => {

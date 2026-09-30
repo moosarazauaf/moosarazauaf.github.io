@@ -2,6 +2,7 @@
   position: relative;
   min-height: 100vh;
   min-height: 100svh;
+  overflow: hidden;
   display: flex;
   align-items: center;
   padding-block: calc(var(--s4) + var(--s0)) var(--s2);
@@ -104,16 +105,17 @@
   color: var(--muted);
 }
 
+/* A fixed box, the same before and after the outlines arrive. A pinned
+   section's height is measured once, so it must not change afterwards. */
 .geo-map {
   position: relative;
+  height: min(calc(100svh - var(--s5)), 61.8vw);
   color: var(--fg);
   transform-origin: 50% 50%;
 }
 .geo-map svg {
   width: 100%;
-  height: auto;
-  max-height: calc(100svh - var(--s5));
-  margin-inline: auto;
+  height: 100%;
   overflow: hidden;
 }
 .geo-grat {
@@ -154,7 +156,7 @@
 .geo-loading {
   display: grid;
   place-items: center;
-  aspect-ratio: 1;
+  height: 100%;
 }
 
 .geo-tip {
@@ -183,6 +185,26 @@
 }
 .geo-tip-study {
   color: var(--radar) !important;
+}
+
+/* Short laptop screens: the pinned section must fit in one viewport, so the
+   title scales with height and the spacing tightens a step. */
+@media (max-height: 860px) and (min-width: 901px) {
+  .geo-pin {
+    padding-top: var(--s4);
+  }
+  .geo-side {
+    gap: var(--s1);
+  }
+  .geo-head .display {
+    font-size: min(5.6vw, 8.5vh);
+  }
+  .geo-head .body {
+    font-size: var(--t-small);
+  }
+  .layers {
+    gap: var(--s1);
+  }
 }
 
 @media (max-width: 900px) {
