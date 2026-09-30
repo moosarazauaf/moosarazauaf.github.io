@@ -1,233 +1,111 @@
 # moosarazauaf.github.io
 
-Personal research site for **Muhammad Moosa Raza**. Earth observation: floods,
-drought, land-system change, and the reliability of the methods behind them.
+Research portfolio of **Muhammad Moosa Raza**, Earth observation researcher: floods,
+drought and land change measured from satellites, over Pakistan.
 
-Live at **https://moosarazauaf.github.io**
+Live at **https://moosarazauaf.github.io** · previous version at
+**https://moosarazauaf.github.io/classic/**
 
-## Why plain HTML/CSS/JS
+## What it is
 
-GitHub Pages serves **static files only**, so it cannot run Python, Flask or Django.
-A framework or build step would add dependencies for no real benefit on a
-content-driven personal site, so this is plain HTML, CSS and vanilla JS: nothing to
-install, no build, edit and push.
+A single scrolling page that moves through one story, Earth → Observation → Data →
+Analysis → Modelling → Decision support, with a WebGL globe as the camera's subject:
+
+| Section | What happens |
+|---|---|
+| Intro | The name over a dotted globe turned to Pakistan. Drag to spin it. |
+| Research | Seven research areas orbit the globe as real buttons. Select one and the camera moves aside for its detail. |
+| Remote sensing | A real Sentinel-1 scene is "acquired" line by line as you scroll; instrument use is counted from the studies. |
+| Projects | The thesis, four selected studies, an index of all twelve with a trailing preview, and two research directions clearly marked as not started. A study opens out of the image you clicked (`#project/<slug>`). |
+| Data | The globe dives into Pakistan and hands over to a district map of real output from the national land and carbon account. |
+| Publications, About, Contact | Editorial list, biography, and the one invitation the page makes. |
+
+## Stack
+
+React 19 · TypeScript (strict) · Vite · Three.js with React Three Fiber and drei ·
+GSAP with ScrollTrigger · Lenis · d3-geo and world-atlas for outlines · Lucide icons.
+No UI kit and no template. Fonts (Inter, JetBrains Mono) are self-hosted from npm.
 
 ## Structure
 
 ```
-index.html                  Page shell: nav + empty <section> containers, in page order
-assets/
-  css/
-    variables.css           Design tokens: brand palette, golden-ratio type & spacing,
-                            motion, and the light/dark theme maps
-    style.css               All layout and component styles
-  js/
-    main.js                 Reads data/*.json and renders every section. Also runs the
-                            carousel, scroll-spy, progress bar, parallax and reveals
-  img/
-    profile.jpg             Headshot
-    map-texture.jpg         Cropped QGIS export used as the hero plate and page wash
-    projects/               Project card images
-    README.md               Which image goes where, and how to swap one
-data/
-  profile.json              Everything about you (see fields below)
-  projects.json             The project carousel
-  publications.json         Publications list
-  lahore-lulc.json          Year-by-year areas and carbon for the land-change scrubber
-  pakistan-districts.geojson  District outlines joined to the national carbon account
-scripts/
-  build_pakistan_districts.py  Rebuilds that geojson from the live app's own tables
-.github/workflows/pages.yml Deploy workflow
+index.html                 Page shell, SEO and Open Graph tags
+src/
+  app/                     App composition and the #project/<slug> route
+  components/              One folder per section, each with its own CSS
+  data/                    ALL editable content (see below)
+  three/                   Scene state, camera keyframes, shaders, geo helpers
+  animations/              GSAP timelines: hero, scroll/camera, menu, projects
+  hooks/                   Lenis, media queries, reduced motion, pointer, progress
+  lib/                     Golden-ratio constants, scroll helpers
+  styles/                  Tokens, type scale, shared animation CSS
+public/
+  img/                     Portrait, project figures, share card
+  geo/                     District outlines joined to the national carbon account
+  classic/                 The previous static site, served unchanged, not indexed
+scripts/                   Rebuild the district geojson and the share card
 ```
 
-**All content lives in `data/*.json`.** `main.js` is the only file that reads it, so
-updating text never means touching HTML or CSS.
+## Editing content
 
-### Page order and the two tabbed sections
+Everything a visitor reads lives in `src/data/`:
 
-`index.html` is ten sections: hero, stats, about, projects, **explore**,
-publications, audit, research, **background**, contact. The two bold ones are tab
-groups built by `renderExplore()` and `renderBackground()`; the renderers for the
-panels inside them still find their own node by id, exactly as before.
+- `profile.json`: name, role, bio, approach, education, talks, links
+- `projects.json`: the twelve studies (title, metrics, highlights, images, place)
+- `publications.json`: manuscripts, with status exactly as recorded. A DOI is only
+  linked when one is present.
+- `research.ts`: the seven research areas. `status: "Direction"` marks work that is
+  planned, not done, and the page labels it that way.
+- `projects.ts`: which studies are featured, and the research directions
+- `profile.ts` (`copy`): short lines of page text that are not facts about the work
 
-A closed panel is `hidden`, so it takes up no height. That is what keeps the page
-at roughly eight screens instead of twelve. Two consequences worth remembering:
+Counts on the page (studies per sensor, studies per theme) are computed from the
+data, so they cannot drift from it.
 
-- Renderers that can end up inside a panel call `panelHeading()` rather than
-  `heading()`. It returns nothing when its target node sits in a panel, because
-  the tab label already names the content.
-- Anything that measures itself needs the `panelshown` event. Leaflet sizes a
-  hidden container to zero, so both maps listen for it and remeasure.
+## Proportions
 
-## How to update content
+Sizes, spacing, the column split, orbit radii, orbital speeds and timings all come
+from the golden ratio (`src/lib/golden.ts`, and the tokens in
+`src/styles/globals.css` and `typography.css`). Layouts split 61.8 / 38.2; the type
+scale runs 0.786rem to 11.09rem in powers of φ; the globe's dots sit on a
+golden-angle spiral.
 
-| I want to… | Edit |
-|---|---|
-| Bio, availability, research interests, education, experience, skills, talks, certifications, social links | `data/profile.json` |
-| Add / edit / remove a project | `data/projects.json` |
-| Add / edit a publication | `data/publications.json` |
-| Swap the headshot or a project image | see `assets/img/README.md` |
-| Colours, type scale, spacing, motion | `assets/css/variables.css` |
+## Accessibility and performance
 
-### `data/profile.json` fields
+- `prefers-reduced-motion`: no smooth scroll, no orbit or parallax, no custom cursor;
+  the camera cuts instead of gliding, and all content is present without animation.
+- Research areas, studies and map layers are real buttons and links, reachable by
+  keyboard with visible focus. The menu traps focus and closes on Escape.
+- One WebGL canvas for the whole page, rendered on demand and paused when nothing
+  3D is on screen or the tab is hidden. DPR is capped, and drops on a slow GPU.
+- Three.js loads as its own chunk after the page shell. Without WebGL the intro
+  shows a static line-drawn globe and everything else works unchanged.
 
-Beyond the obvious ones:
-
-| Field | Drives |
-|---|---|
-| `availability` | The "Seeking a PhD position" notice in the hero and the footer |
-| `about` | The Research Statement |
-| `methodsAudit` | The "Numbers That Hold Up" figure: four before/after pairs |
-| `researchInterests` | The Research Interests cards (`icon` picks a built-in SVG) |
-| `approach` | The "How I Work" cards |
-| `role`, `tagline` | The hero display text |
-
-### Adding a project
-
-Append to `data/projects.json`. Only `title`, `description`, `repoUrl` and `image`
-are required:
-
-```json
-{
-  "title": "New Study, District, Pakistan",
-  "description": "One or two sentences.",
-  "metrics": [
-    { "value": "0.94", "label": "F1 score" },
-    { "value": "120 km²", "label": "area mapped" }
-  ],
-  "highlights": ["Longer method notes, collapsed behind a disclosure"],
-  "repoUrl": "https://github.com/moosarazauaf/new-repo",
-  "liveUrl": "",
-  "image": "assets/img/projects/new-project.jpg",
-  "gallery": [
-    { "src": "assets/img/projects/new-project.jpg", "caption": "Main figure" },
-    { "src": "assets/img/projects/new-fig2.jpg", "caption": "Second figure" }
-  ],
-  "tags": ["Sentinel-1 SAR", "Python"]
-}
-```
-
-- `metrics` become the stat tiles at the top of the card. Two or three works best.
-- `highlights` collapse into a closed "How it was built" disclosure, so length is cheap.
-- `gallery` is optional. With more than one entry the card grows a thumbnail strip;
-  without it the card just shows `image`.
-
-## Two things that will bite you
-
-**1. Bump `?v=` when you edit CSS or JS.**
-`index.html` loads them as `style.css?v=44`, `main.js?v=44`. Browsers cache these
-aggressively, so if you change a stylesheet without bumping the number, returning
-visitors keep the old one. Increment all three references together. The JSON files
-are fetched with `cache: "no-cache"` and need no such step, which is why content
-edits appear immediately.
-
-**2. Two brand colours cannot be used for text.**
-Measured against the paper background, sage `#7CA982` is 2.45:1 and gold `#C2A83E`
-is 2.15:1, both under the 3:1 minimum, and against each other they separate by
-only ΔE 11, below the 15 needed to tell apart with full colour vision. They are for
-fills, borders and decoration. Use `--gold-readable` (#8A7420, 4.57:1) or
-`--sage-bright` (#9DC4A3) when a colour has to be read. Every text pair currently in
-`variables.css` was checked to WCAG AA in both themes.
-
-## Design system
-
-- **Golden ratio.** `--phi: 1.618` drives spacing (`1/φ, 1, φ, φ², φ³`) and the type
-  scale. Display sizes climb by φ; text sizes use √φ (1.272), because a full φ step
-  between body and lead is too coarse to read as a scale. The hero rows and the
-  about split are both 1 : 1.618.
-  Note: `fr` cannot be multiplied inside `calc()`, so those grids use literal
-  `1.618fr` values, because `calc(1fr * var(--phi))` parses as invalid and is dropped.
-- **Motion.** Short and small by default (`--dur` 0.25s, 2px hovers), with a longer
-  `--dur-cine` reserved for the hero entrance and section reveals. Everything is
-  disabled under `prefers-reduced-motion`, and any effect that starts an element at
-  `opacity: 0` has a fallback that turns it on regardless.
-
-## Local preview
-
-`main.js` fetches the JSON, so opening `index.html` from disk (`file://`) fails on
-CORS. Serve over HTTP from this folder:
+## Local development
 
 ```bash
-py -m http.server 8080
+npm install
+npm run dev
 ```
 
-Then open the printed `localhost` URL.
+`npm run build` type-checks and writes the site to `dist/`.
 
 ## Deployment
 
-Pushing to **`master`** triggers `.github/workflows/pages.yml`, which builds and
-deploys to GitHub Pages. Takes about a minute.
+Pushing to `master` runs `.github/workflows/pages.yml`, which builds the site and
+publishes `dist/` to GitHub Pages. In the repository settings, Pages must be set
+to deploy from **GitHub Actions**.
 
-(The legacy Jekyll-style Pages build never ran on this repo. It accepted the config
-and silently produced no builds, which is why deployment goes through an explicit
-Actions workflow.)
+## Going back to the previous version
 
-## Tech
-
-HTML5, CSS3 (custom properties, Grid, Flexbox, `color-mix`), vanilla JavaScript
-(ES2017+, `fetch`, `IntersectionObserver`). No frameworks and no build tools.
-
-The one third-party dependency is Leaflet, and it is loaded from a CDN with an SRI
-hash only when the district map scrolls within a screen of the viewport. If it fails
-to load, that section falls back to a link to the live Streamlit app and the rest of
-the page is unaffected.
-
-## Sharing, indexing and printing
-
-Three things that only matter off the page itself, and are easy to break without
-noticing, because nothing on screen changes when they do.
-
-**The link preview.** Email clients, LinkedIn, Slack and WhatsApp do not run
-JavaScript, so the Open Graph and Twitter tags in `index.html` have to be static
-markup. The 1200x630 card is generated, not drawn by hand:
-
-```bash
-python scripts/build_share_assets.py
-```
-
-It rebuilds `assets/img/share-card.jpg` and `assets/img/icon-180.png` from the
-hero plate and the headshot. Re-run it if the name, role, tagline or headshot
-changes, and remember that the text on the card is in that script, not in
-`data/profile.json`. Changing the tagline in the JSON alone leaves the card
-saying the old one.
-
-**Structured data.** The JSON-LD block in `index.html` duplicates a few fields
-from `profile.json` on purpose, since crawlers need them without running JS. It
-is deliberately limited to things that rarely change (name, role, ORCID, social
-links). Do not grow it into a copy of the profile, or it will drift.
-
-**Printing.** `@media print` at the end of `style.css` turns the page into a
-dossier: all tab panels open, all twelve studies unrolled out of the carousel,
-hero reduced to a title block, maps dropped, link targets written out. Anything
-new that is hidden behind interaction needs a line there, or it will be missing
-from the printout and nobody will notice.
-
-## Project themes and direct links
-
-Each entry in `projects.json` carries a `theme`, which drives the filter chips
-above the carousel and their counts. Add a new theme simply by using it; the
-chip row is built from whatever values appear.
-
-Every study is addressable at `#project/<repo-name>`, derived from the last
-segment of `repoUrl`. Opening one widens the filter to All first so the target
-is always reachable.
-
-One thing to know before touching hash handling: `location.hash` is not always a
-selector. `#project/<slug>` is a route, and passing it to `querySelector` throws
-a SyntaxError that takes the whole render down. `initTabs` checks the shape of a
-hash before using it as an id.
+The static site this replaced is tagged `classic-v1` and kept on the `classic`
+branch. It is also served, unchanged, at `/classic/`.
 
 ## Rebuilding the district map
-
-`data/pakistan-districts.geojson` is generated, not hand-edited:
 
 ```bash
 python scripts/build_pakistan_districts.py
 ```
 
-It imports `analysis.py` from the sibling `pakistan-lulc-carbon` checkout and runs
-the same `district_table()` the live app uses, so the map cannot drift away from the
-app. District outlines come from geoBoundaries and are cached beside the script.
-The two sources name districts differently, so the script carries an alias table;
-anything still unmatched is written without a value and drawn as no data rather than
-guessed at.
+Reads the national app's own district tables (`../pakistan-lulc-carbon`) and the
+geoBoundaries ADM2 outlines, and writes `public/geo/pakistan-districts.geojson`.

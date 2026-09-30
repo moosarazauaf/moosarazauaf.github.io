@@ -1,0 +1,223 @@
+{
+  "name": "Muhammad Moosa Raza",
+  "role": "Earth Observation Researcher",
+  "affiliation": "M.Sc. Ecology & Nature Management, RUDN University",
+  "tagline": "Remote sensing for floods, drought and land change, built so the numbers can be checked",
+  "location": "Layyah, Pakistan",
+  "email": "moosarazauaf@gmail.com",
+  "availability": {
+    "status": "Seeking a PhD position for 2026/27",
+    "detail": "Open to positions in remote sensing, hydrology, land-system science and climate risk. Happy to discuss how this work could extend what your group is already doing."
+  },
+  "social": {
+    "github": "https://github.com/moosarazauaf",
+    "linkedin": "https://www.linkedin.com/in/moosarazauaf/",
+    "orcid": "https://orcid.org/0009-0009-1215-2021"
+  },
+  "photo": "img/profile.jpg",
+  "about": [
+    "I measure floods, drought and land change from satellites, mostly over Pakistan. Twelve studies so far, each one designed, built and published end to end: study areas chosen by measurement, models scored on years they never saw, and the code, training data and GIS exports released so the work can be taken apart by anyone who wants to.",
+    "The results I care most about are the ones that hold up under a second look. A flood susceptibility model that scores 0.962 on events it was never trained on. A national carbon account traceable to the pixel. A 44-year drought record that independently recovers the droughts and floods Pakistan actually had.",
+    "A PhD is where I want to take this further: building Earth observation measurements that are trustworthy enough to act on, and turning them into tools that people working on water and climate risk can use."
+  ],
+  "methodsAudit": {
+    "items": [
+      {
+        "method": "SPI drought index",
+        "claimed": "118 months",
+        "claimedLabel": "before the fit was corrected",
+        "actual": "6 months",
+        "actualLabel": "genuine extreme drought in 44 years",
+        "note": "Tharparkar is rainless in 53.7% of pixel-months, which a standard gamma fit cannot represent. The zero-inflated fit gives a drought record that lines up with the documented 1999 to 2002 Sindh drought.",
+        "study": "tharparkar-spi-drought"
+      },
+      {
+        "method": "Flood peak extent",
+        "claimed": "40 km²",
+        "claimedLabel": "from a composited window",
+        "actual": "95 km²",
+        "actualLabel": "true peak, mapped scene by scene",
+        "note": "Mapping every scene instead of one composite recovers the full inundation curve, and resolves two separate flood waves inside the 2022 monsoon.",
+        "study": "layyah-s1-flood-detection"
+      },
+      {
+        "method": "Post-flood NDVI",
+        "claimed": "+0.071",
+        "claimedLabel": "raw district change",
+        "actual": "1,232 km²",
+        "actualLabel": "real vegetation loss, mapped",
+        "note": "Control years show the raw district signal is the ordinary double-cropping cycle. The flood impact survives as a map along the Indus belt, confirmed by an independent radar flood extent.",
+        "study": "layyah-s2-ndvi-flood-impact"
+      },
+      {
+        "method": "GEE distance operator",
+        "claimed": "no error",
+        "claimedLabel": "operator returned a constant",
+        "actual": "+0.025 IoU",
+        "actualLabel": "model skill recovered",
+        "note": "A predictor that was silently doing nothing, caught because a feature-importance plot looked wrong. Fixing it put the skill back into the flood susceptibility model.",
+        "study": "layyah-flood-monitor"
+      }
+    ]
+  },
+  "researchInterests": [
+    {
+      "icon": "wave",
+      "title": "Floods & hydrological extremes",
+      "description": "SAR inundation mapping and event-based susceptibility modelling.",
+      "theme": "Floods"
+    },
+    {
+      "icon": "sun",
+      "title": "Drought & agricultural water",
+      "description": "Indices and soil moisture retrieval in irrigated semi-arid systems.",
+      "theme": "Drought & soil moisture"
+    },
+    {
+      "icon": "leaf",
+      "title": "Land change & ecosystem carbon",
+      "description": "Multi-decadal land dynamics and the carbon cost of urban growth.",
+      "theme": "Land change & carbon"
+    },
+    {
+      "icon": "check",
+      "title": "Measurement validity",
+      "description": "What makes an Earth observation number trustworthy enough to act on.",
+      "section": "audit"
+    }
+  ],
+  "approach": [
+    {
+      "title": "Validate against time",
+      "description": "Chronological holdout, so a model is always scored on events it has never seen."
+    },
+    {
+      "title": "Cross-check the sensor",
+      "description": "Radar against optical, retrieval against reanalysis. Two independent measurements agreeing beats one high score."
+    },
+    {
+      "title": "Say what the result rests on",
+      "description": "Every number comes with the assumption behind it and the range it sits in."
+    },
+    {
+      "title": "Ship the code",
+      "description": "Every study public, with training data, GIS exports and a written account of how it was built."
+    }
+  ],
+  "coreCompetencies": [
+    "Multi-temporal SAR and optical remote sensing (Sentinel-1, Sentinel-2, Landsat)",
+    "Machine learning for EO (Random Forest, SVM, CART) with leakage-aware validation",
+    "Flood mapping, susceptibility modelling and change detection",
+    "Drought indices, soil moisture retrieval and hydro-climatic validation",
+    "Carbon stock and ecosystem service modelling (InVEST)",
+    "Reproducible geospatial pipelines at scale (Google Earth Engine, Python)"
+  ],
+  "education": [
+    {
+      "degree": "M.Sc. Ecology and Nature Management / Climate Project Management",
+      "institution": "Peoples’ Friendship University of Russia (RUDN University)",
+      "period": "Graduated: June 8, 2026",
+      "details": [
+        "Degree conferred with Honors-level performance. GPA 84.68 / 100 (ECTS Grade B)",
+        "Thesis: “Improving Long-Term Land Use/Land Cover Change Detection and Carbon Stock Estimation in Lahore, Pakistan” (Grade: Excellent)"
+      ]
+    },
+    {
+      "degree": "B.Sc. Environmental Engineering",
+      "institution": "University of Agriculture Faisalabad",
+      "period": "",
+      "details": [
+        "Focus: Hydrology · GIS · Environmental systems · Water quality"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Independent Research, Earth Observation Methods",
+      "org": "Self-directed, open-source",
+      "period": "2026 – present",
+      "bullets": [
+        "Designed and published twelve end-to-end Earth observation studies over Pakistan, covering flood mapping, flood susceptibility, drought, soil moisture, crop mapping and speckle filtering",
+        "Built a flood susceptibility model for Layyah District that scores F1 = 0.962 and ROC-AUC = 0.996 on flood events held out of training, and mapped 547.8 km² of high-susceptibility land",
+        "Took the thesis work to national scale as a live Streamlit app accounting land cover and carbon for all 133 districts of Pakistan at 30 m",
+        "Reconstructed a 44-year drought record for Tharparkar that independently recovers the documented 1999 to 2002 Sindh drought and both major flood years",
+        "Held one methodological standard across every study: chronological validation, independent cross-sensor checks, and a stated uncertainty on every headline number",
+        "Released all of it as open code with training data, GIS exports and written limitations, so the results can be reproduced and argued with"
+      ]
+    },
+    {
+      "role": "Master’s Thesis Researcher, Remote Sensing & Carbon Modelling",
+      "org": "RUDN University",
+      "period": "2024 – 2026",
+      "bullets": [
+        "Built a multi-decadal (1993 to 2023) land-cover pipeline for Lahore District from the Landsat archive in Google Earth Engine, classifying four epochs with Random Forest",
+        "Quantified urban expansion of +117% and vegetation loss of 27,639 ha across the district over thirty years",
+        "Estimated ecosystem carbon dynamics at a loss of 534,110 Mg C between 1993 and 2023, on IPCC Tier 1 densities matched to the district's irrigated cropland, with a low to high band on every year",
+        "Extended the study into a CA-Markov projection to 2033 and 2043, combining Markov transition quantities, a Random Forest transition potential and cellular-automata allocation",
+        "Back-validated the projection to a Figure of Merit of 0.27 against 0.00 for a no-change null, on years that could be checked before anything was projected",
+        "Ran the InVEST carbon model as an independent check on the class-based estimate",
+        "Main contribution: showed how urban land transitions drive large-scale carbon loss in rapidly developing regions, and delivered a projection method that reports its own validation"
+      ]
+    }
+  ],
+  "skills": {
+    "Earth Observation": [
+      "Sentinel-1 SAR (GRD, multi-temporal)",
+      "Sentinel-2 optical",
+      "Landsat archive (1993 to present)",
+      "SAR speckle filtering & change detection"
+    ],
+    "Modelling & Analysis": [
+      "Random Forest, SVM, CART",
+      "Accuracy assessment (confusion matrix, Kappa, IoU, ROC)",
+      "InVEST carbon modelling",
+      "Time-series & statistical validation"
+    ],
+    "Tools & Platforms": [
+      "Google Earth Engine",
+      "Python (raster processing, scikit-learn, geopandas)",
+      "QGIS",
+      "Git & reproducible workflows"
+    ],
+    "Reference Data": [
+      "ERA5-Land reanalysis",
+      "CHIRPS precipitation",
+      "JRC Global Surface Water",
+      "Global Flood Database"
+    ],
+    "Languages": [
+      "English (Fluent)",
+      "Urdu / Saraiki (Native)",
+      "Russian (Basic)"
+    ]
+  },
+  "projectLevelSkills": [
+    "Leakage-aware validation design",
+    "Cross-sensor verification of results",
+    "Handling large EO datasets on cloud infrastructure",
+    "Linking land-use change to carbon cycle impacts",
+    "Translating geospatial outputs into policy-relevant insight",
+    "Open, reproducible research practice"
+  ],
+  "talks": [
+    {
+      "role": "Speaker, International Student Scientific Seminar",
+      "period": "2025",
+      "detail": "Presented “Urban Anthropogenic Impacts on the Carbon Cycle”, drawn from the Lahore land-cover and carbon work."
+    },
+    {
+      "role": "Speaker, Greenhouse Gas Management Seminar, RUDN University",
+      "period": "March 2025",
+      "detail": "Presented “Global Anthropogenic Emissions in Urban Areas” at the Institute of Environmental Engineering."
+    },
+    {
+      "role": "Participant, WasteTech 2025, Moscow",
+      "period": "2025",
+      "detail": "Focus on sustainability and environmental technologies."
+    }
+  ],
+  "certifications": [
+    "Python Programming, University of Michigan",
+    "Environmental Management Systems (EMS)"
+  ]
+}
