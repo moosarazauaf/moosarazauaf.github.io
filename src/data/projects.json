@@ -68,72 +68,77 @@
       "lat": 31.52,
       "lon": 74.36
     },
-    "title": "Land-Cover and Carbon Projection to 2043, Lahore District",
-    "description": "Lahore District classified at four Landsat epochs from 1993 to 2023, then projected to 2033 and 2043 with a CA-Markov model. Built-up land more than doubled over the observed period, from 20% of the district to 45%, and the projection carries it to 53% by 2043. Ecosystem carbon falls by 534,110 Mg C along the way. Nothing is projected until the model has been shown to beat a no-change null on years that could be checked first.",
+    "title": "Land Use/Land Cover Change and Carbon Stock Estimation, Lahore District, 1993 to 2023",
+    "description": "Thirty years of land-cover change in Lahore District and what it cost in stored carbon. Landsat imagery for 1993, 2003, 2013 and 2023 was classified into built-up, vegetation, water and bare land with Random Forest in Google Earth Engine. Built-up land more than doubled, from 35,528 ha to 77,256 ha, while vegetation fell by 27,639 ha. Ecosystem carbon stock dropped by about 3.15 million tonnes, and an independent run of the InVEST carbon model put the loss at 3.14 million.",
     "highlights": [
-      "Built-up land grew 118% between 1993 and 2023, from 35,485 ha to 77,371 ha, and reaches 91,784 ha in the 2043 projection",
-      "Ecosystem carbon falls 534,110 Mg C over the observed period, reported with a low to high band on every year rather than as a single number",
-      "The model earns the projection: calibrated on 1993 to 2003 it predicts 2013 at a Figure of Merit of 0.215, and calibrated on 2003 to 2013 it predicts 2023 at 0.266. A no-change null scores 0.000",
-      "CA-Markov rather than deep learning, because four time points cannot train a temporal network. Markov matrices set how much of each conversion happens, a Random Forest sets where, and a competitive cellular-automata allocation places it",
-      "Carbon densities follow IPCC Tier 1 cropland values, matched to what Lahore actually grows, which is irrigated rice and wheat rather than closed forest",
-      "A three-class sensitivity run merging bare land into built-up is published beside the four-class result, so the classification choice can be argued rather than assumed",
-      "An InVEST carbon model runs as an independent check on the class-based estimate",
-      "Taken to national scale as a live companion app, cross-checking these district findings against an independent land-cover product across all of Pakistan"
+      "Built-up land grew 117.45% between 1993 and 2023, from 35,527.97 ha to 77,256.16 ha, a gain of 41,728 ha",
+      "Vegetation fell from 115,880.13 ha to 88,240.83 ha, a loss of 27,639.30 ha (23.85%). Water bodies shrank by 76.83% and bare land by 59.36%",
+      "The classification held at every epoch: overall accuracy between 97.84% and 99.22%, and Kappa between 0.971 and 0.989",
+      "Ecosystem carbon stock fell from 18.66 million to 15.51 million tonnes, a net loss of 3,151,683 tonnes of carbon",
+      "The InVEST Carbon Storage and Sequestration model, run as an independent check, estimated a loss of 3,142,961 tonnes over the same period, within 0.3% of the class-based figure",
+      "Vegetation to built-up was the dominant transition. Each hectare converted costs 122 Mg C, and the losses concentrate on the peri-urban fringe rather than in the urban core",
+      "Carbon stock peaked in 2003 and fell sharply afterwards. InVEST puts the loss from 2003 to 2023 at 3.74 million tonnes, the heaviest of any period",
+      "Taken to national scale afterwards as a live companion app, cross-checking the district findings against an independent land-cover product across all of Pakistan"
     ],
     "repoUrl": "https://github.com/moosarazauaf/lahore-lulc-carbon",
     "liveUrl": "",
-    "image": "img/projects/lahore-lulc-panel.jpg",
+    "image": "img/projects/lulc-2023.png",
     "gallery": [
       {
-        "src": "img/projects/lahore-lulc-panel.jpg",
-        "caption": "Observed 1993 to 2023 and projected 2033 to 2043. Built-up rises from 20% of the district to 45% over the observed period."
+        "src": "img/projects/lulc-1993.png",
+        "caption": "Land use/land cover, 1993. Built-up land covers 35,528 ha and vegetation 115,880 ha."
       },
       {
-        "src": "img/projects/lahore-builtup-expansion.jpg",
-        "caption": "Built-up change 1993 to 2023: 49,760 ha of new built-up, 28.7% of the district."
+        "src": "img/projects/lulc-2003.png",
+        "caption": "Land use/land cover, 2003. Built-up 48,351 ha, vegetation 118,843 ha."
       },
       {
-        "src": "img/projects/lahore-area-trajectory.jpg",
-        "caption": "Class areas, observed solid and projected dashed. Growth decelerates because the Markov chain saturates, not because expansion is expected to slow."
+        "src": "img/projects/lulc-2013.png",
+        "caption": "Land use/land cover, 2013. Built-up 61,330 ha, vegetation 100,626 ha."
       },
       {
-        "src": "img/projects/lahore-carbon-trajectory.jpg",
-        "caption": "Carbon stock with its uncertainty band, on IPCC Tier 1 cropland densities."
+        "src": "img/projects/lulc-2023.png",
+        "caption": "Land use/land cover, 2023. Built-up land covers 77,256 ha of the district."
       },
       {
-        "src": "img/projects/lahore-carbon-density.jpg",
-        "caption": "Carbon density, 2023. The legend is discrete because density is assigned per class, so only four values occur."
+        "src": "img/projects/builtup-expansion.png",
+        "caption": "Built-up expansion, 1993 to 2023: a net gain of 41,728 ha."
       },
       {
-        "src": "img/projects/lahore-lulc-2043.jpg",
-        "caption": "Projected 2043, two Markov steps beyond the last observation, reported with its uncertainty."
+        "src": "img/projects/vegetation-loss.png",
+        "caption": "Vegetation lost between 1993 and 2023: a net decline of 27,639 ha."
+      },
+      {
+        "src": "img/projects/carbon-emission.png",
+        "caption": "Carbon stock change from land-use change, 1993 to 2023. Losses follow the peri-urban fringe."
       }
     ],
     "tags": [
-      "CA-Markov",
-      "Random Forest",
-      "Cellular Automata",
-      "Google Earth Engine",
       "Landsat",
+      "Random Forest",
+      "InVEST",
       "Carbon Modelling",
-      "Python"
+      "Change Detection",
+      "Google Earth Engine",
+      "Python",
+      "QGIS"
     ],
     "metrics": [
       {
-        "value": "+118%",
-        "label": "built-up, 1993 to 2023"
+        "value": "+117.45%",
+        "label": "built-up land, 1993 to 2023"
       },
       {
-        "value": "91,784 ha",
-        "label": "built-up projected, 2043"
+        "value": "3.15 Mt",
+        "label": "carbon stock lost, confirmed by InVEST"
       },
       {
-        "value": "0.27",
-        "label": "Figure of Merit vs 0.00 null"
+        "value": "97.8 to 99.2%",
+        "label": "overall accuracy, four epochs"
       }
     ],
     "theme": "Land change & carbon",
-    "short": "Lahore land cover to 2043"
+    "short": "Lahore land cover and carbon"
   },
   {
     "slug": "pakistan-lulc-carbon",

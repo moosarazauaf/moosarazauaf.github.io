@@ -151,12 +151,11 @@
       "period": "2024 – 2026",
       "bullets": [
         "Built a multi-decadal (1993 to 2023) land-cover pipeline for Lahore District from the Landsat archive in Google Earth Engine, classifying four epochs with Random Forest",
-        "Quantified urban expansion of +117% and vegetation loss of 27,639 ha across the district over thirty years",
-        "Estimated ecosystem carbon dynamics at a loss of 534,110 Mg C between 1993 and 2023, on IPCC Tier 1 densities matched to the district's irrigated cropland, with a low to high band on every year",
-        "Extended the study into a CA-Markov projection to 2033 and 2043, combining Markov transition quantities, a Random Forest transition potential and cellular-automata allocation",
-        "Back-validated the projection to a Figure of Merit of 0.27 against 0.00 for a no-change null, on years that could be checked before anything was projected",
-        "Ran the InVEST carbon model as an independent check on the class-based estimate",
-        "Main contribution: showed how urban land transitions drive large-scale carbon loss in rapidly developing regions, and delivered a projection method that reports its own validation"
+        "Reached overall accuracy between 97.84% and 99.22% and Kappa between 0.971 and 0.989 across the four epochs",
+        "Quantified urban expansion of +117.45%, from 35,528 ha to 77,256 ha, and vegetation loss of 27,639 ha across the district over thirty years",
+        "Estimated a loss of about 3.15 million tonnes of ecosystem carbon between 1993 and 2023, driven by vegetation converting to built-up land",
+        "Ran the InVEST carbon model as an independent check, which estimated a loss of 3.14 million tonnes over the same period",
+        "Main contribution: showed how urban land transitions drive large-scale carbon loss in rapidly developing regions"
       ]
     }
   ],

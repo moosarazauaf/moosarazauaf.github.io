@@ -90,7 +90,7 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
       </button>
 
       <div className={`ov-media ${cover ? "" : "is-plate"}`}>
-        <img src={`/${hero}`} alt={cover ? "Lahore District's land cover at each epoch, 1993 to 2043" : p.gallery?.[0]?.caption ?? p.title} />
+        <img src={`/${hero}`} alt={cover ? "Lahore District's land cover, epoch by epoch" : p.gallery?.[0]?.caption ?? p.title} />
       </div>
 
       <header className="ov-head shell">

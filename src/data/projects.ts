@@ -10,7 +10,7 @@ export const bySlug = (slug: string): Project | undefined => projects.find((p) =
 export const FEATURED = "lahore-lulc-carbon";
 /** The featured study is shown under the thesis's own framing. */
 export const FEATURED_TITLE = "Long-term land-cover change and carbon stock estimation in Lahore";
-/** Its cover: the district at each epoch, 1993 to 2043, in one strip. */
+/** Its cover: the district's land cover, epoch by epoch, in one strip. */
 export const FEATURED_COVER = "img/hero-lahore-1920.jpg";
 export const SELECTED = [
   "layyah-flood-monitor",
