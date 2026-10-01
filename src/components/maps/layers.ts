@@ -24,6 +24,8 @@ export interface Layer {
   value: (d: DistrictProps) => number | null;
   /** Legend ends, in the layer's unit. Values beyond them are clamped. */
   domain: [number, number];
+  /** Whether values run past each end of the legend and are clamped to it. */
+  open: [boolean, boolean];
   diverging: boolean;
   ramp: RGB[];
   format: (v: number) => string;
@@ -34,7 +36,9 @@ const LOW = hex("#26261f");
 const MID = hex("#3a3a33");
 const PAPER = hex("#f4f3ef");
 const RADAR = hex("#e0521f");
-const VEG = hex("#7fa65a");
+// Orange against teal stays distinguishable under red-green colour blindness,
+// which orange against green does not.
+const GAIN = hex("#3fb5a3");
 const OCHRE = hex("#d69a3a");
 const WATER = hex("#5a93c2");
 
@@ -67,11 +71,12 @@ export const LAYERS: Layer[] = [
     label: "Carbon",
     title: "Net carbon change",
     unit: "Mg C per ha, 2000 to 2022",
-    note: "Gain in green, loss in orange, from 30 m land-cover transitions. Lahore, the thesis district, shows the steepest loss per hectare in the country.",
+    note: "Gain in teal, loss in orange, from 30 m land-cover transitions. Lahore, the thesis district, shows the steepest loss per hectare in the country.",
     value: (d) => num(d, "netMgCPerHa"),
     domain: [-3, 6],
+    open: [false, true],
     diverging: true,
-    ramp: [RADAR, MID, VEG],
+    ramp: [RADAR, MID, GAIN],
     format: (v) => `${signed(v, 2)} Mg C/ha`,
   },
   {
@@ -82,6 +87,7 @@ export const LAYERS: Layer[] = [
     note: "How much of each district is built over. Lahore leads at about 35%.",
     value: (d) => num(d, "builtupPct"),
     domain: [0, 20],
+    open: [false, true],
     diverging: false,
     ramp: [LOW, OCHRE, PAPER],
     format: (v) => `${v.toFixed(1)}%`,
@@ -94,6 +100,7 @@ export const LAYERS: Layer[] = [
     note: "Land that became built-up over the period, as a share of the district.",
     value: (d) => per(d, "builtupGainHa"),
     domain: [0, 4],
+    open: [true, true],
     diverging: false,
     ramp: [LOW, RADAR, PAPER],
     format: (v) => `${signed(v, 2)}%`,
@@ -106,8 +113,9 @@ export const LAYERS: Layer[] = [
     note: "Net gain or loss of vegetated land classes as a share of the district.",
     value: (d) => per(d, "vegChangeHa"),
     domain: [-6, 6],
+    open: [true, true],
     diverging: true,
-    ramp: [RADAR, MID, VEG],
+    ramp: [RADAR, MID, GAIN],
     format: (v) => `${signed(v, 2)}%`,
   },
   {
@@ -118,6 +126,7 @@ export const LAYERS: Layer[] = [
     note: "Districts with a dedicated study. The national account covers all of them.",
     value: (d) => (studiesIn(d.name).length ? studiesIn(d.name).length : 0),
     domain: [0, 4],
+    open: [false, false],
     diverging: false,
     ramp: [MID, WATER, PAPER],
     format: (v) => (v ? `${v} ${v === 1 ? "study" : "studies"}` : "Covered by the national account"),

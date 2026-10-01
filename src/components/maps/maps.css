@@ -31,8 +31,48 @@
 }
 .geo-source {
   margin: 0;
-  font-size: 0.618rem;
+  font-size: 0.7rem;
   line-height: 1.618;
+}
+.geo-source p {
+  margin: 0;
+}
+.geo-notes {
+  position: relative;
+  margin-top: var(--s-2);
+}
+.geo-notes summary {
+  display: inline-block;
+  color: var(--fg);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  list-style: none;
+}
+.geo-notes summary::-webkit-details-marker {
+  display: none;
+}
+.geo-notes summary::after {
+  content: " +";
+}
+.geo-notes[open] summary::after {
+  content: " −";
+}
+/* Opens upward over the legend, so the pinned section never grows. */
+.geo-notes p {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + var(--s-1));
+  z-index: 3;
+  width: min(26rem, 100%);
+  padding: var(--s0) var(--s1);
+  background: var(--fg);
+  color: var(--bg);
+  text-transform: none;
+  letter-spacing: 0.01em;
+  font-family: var(--font);
+  font-size: var(--t-small);
+  line-height: 1.5;
 }
 .geo-source a {
   color: var(--fg);
@@ -98,7 +138,18 @@
 .legend-ends {
   display: flex;
   justify-content: space-between;
-  font-size: 0.618rem;
+  font-size: 0.7rem;
+}
+.legend-nodata {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+.legend-nodata i {
+  width: 1rem;
+  height: 0.618rem;
+  border: 1px solid var(--line);
+  background: repeating-linear-gradient(45deg, transparent 0 3px, var(--soft) 3px 4px);
 }
 .legend-note {
   font-size: var(--t-small);
@@ -204,6 +255,13 @@
   }
   .layers {
     gap: var(--s1);
+  }
+}
+/* Only the very shortest screens lose the interpretive note; the legend
+   itself, its units and its source stay. */
+@media (max-height: 759px) and (min-width: 901px) {
+  .legend-note {
+    display: none;
   }
 }
 

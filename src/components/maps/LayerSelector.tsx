@@ -31,9 +31,18 @@ export function LayerSelector({ active, onPick }: Props) {
         <p className="meta">{active.unit}</p>
         <span className="legend-bar" style={{ background: gradientCss(active) }} aria-hidden="true" />
         <p className="legend-ends meta num">
-          <span>{active.format(active.domain[0])}</span>
+          <span>
+            {active.open[0] ? "≤ " : ""}
+            {active.format(active.domain[0])}
+          </span>
           {active.diverging && <span>0</span>}
-          <span>{active.format(active.domain[1])}</span>
+          <span>
+            {active.open[1] ? "≥ " : ""}
+            {active.format(active.domain[1])}
+          </span>
+        </p>
+        <p className="legend-nodata meta">
+          <i aria-hidden="true" /> Hatched: no district-level value
         </p>
         <p className="legend-note">{active.note}</p>
       </div>

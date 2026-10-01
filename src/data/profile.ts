@@ -25,5 +25,8 @@ export const copy = {
     "I measure floods, drought and land change from satellites, and I build each measurement so that someone else can check it.",
   contactLead:
     "If your group measures water, land or ground from orbit, I would like to hear what you are working on, and to tell you how I would test it.",
+  /** Credit for the data the studies are built on. */
+  dataCredits:
+    "Data: Copernicus Sentinel-1 and Sentinel-2 (ESA), Landsat (USGS and NASA), CHIRPS (UCSB Climate Hazards Center), ERA5-Land (ECMWF, Copernicus C3S), GPM IMERG (NASA), GLC-FCS30D, Global Flood Database, geoBoundaries and Natural Earth. Processed in Google Earth Engine.",
   story: ["Earth", "Observation", "Data", "Analysis", "Modelling", "Decision support"],
 };

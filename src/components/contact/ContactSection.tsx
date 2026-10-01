@@ -72,8 +72,9 @@ export function ContactSection() {
         </ul>
 
         <footer className="contact-foot meta">
+          <p className="contact-credits">{copy.dataCredits}</p>
           <span>© {new Date().getFullYear()} {profile.name}</span>
-          <span>Every study linked here is open source</span>
+          <span>Every study linked here is open source · Last updated {__BUILD_DATE__}</span>
           <a href="/classic/">Classic version of this site</a>
         </footer>
       </div>

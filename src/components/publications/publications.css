@@ -55,6 +55,10 @@ a.pub:focus-visible::before {
   display: grid;
   gap: var(--s0);
 }
+.pub-authors {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
 .pub-title {
   font-size: var(--t-lead);
   line-height: 1.3;
@@ -70,8 +74,6 @@ a.pub:hover .pub-title {
   display: flex;
   flex-wrap: wrap;
   gap: 0 var(--s1);
-  opacity: 0.618;
-  transition: opacity var(--t-m) var(--ease);
 }
 a.pub:hover .pub-meta,
 a.pub:focus-visible .pub-meta {

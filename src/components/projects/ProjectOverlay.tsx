@@ -6,6 +6,7 @@ import { FEATURED, FEATURED_COVER, bySlug, linkedStudies, projects, splitTags } 
 import { publications } from "../../data/publications";
 import { lockScroll } from "../../lib/scroll";
 import { scene } from "../../three/sceneState";
+import { Abbr } from "../ui/Abbr";
 import "./overlay.css";
 
 interface Props {
@@ -105,13 +106,31 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
 
       <div className="ov-body shell golden">
         <div className="ov-main" data-ov>
-          <p className="lead">{p.description}</p>
+          <p className="lead">
+            <Abbr>{p.description}</Abbr>
+          </p>
           <h3 className="meta ov-sub">What came out of it</h3>
           <ul className="ov-highlights">
             {p.highlights.map((h) => (
-              <li key={h}>{h}</li>
+              <li key={h}>
+                <span>
+                  <Abbr>{h}</Abbr>
+                </span>
+              </li>
             ))}
           </ul>
+          {p.basis && p.basis.length > 0 && (
+            <>
+              <h3 className="meta ov-sub">What the result rests on</h3>
+              <ul className="ov-basis">
+                {p.basis.map((b) => (
+                  <li key={b}>
+                    <Abbr>{b}</Abbr>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
 
         <aside className="ov-side" data-ov>
@@ -151,10 +170,12 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
 
       {gallery.length > 0 && (
         <div className="ov-gallery shell" data-ov>
-          {gallery.map((g) => (
+          {gallery.map((g, i) => (
             <figure key={g.src}>
               <img src={`/${g.src}`} alt={g.caption} loading="lazy" />
-              <figcaption className="meta">{g.caption}</figcaption>
+              <figcaption>
+                <b className="meta">Fig. {i + 1}</b> {g.caption}
+              </figcaption>
             </figure>
           ))}
         </div>

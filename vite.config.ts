@@ -6,6 +6,10 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   base: "/",
+  // Stamped into the footer, so a reader can tell how current the page is.
+  define: {
+    __BUILD_DATE__: JSON.stringify(new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" })),
+  },
   build: {
     target: "es2022",
     sourcemap: false,

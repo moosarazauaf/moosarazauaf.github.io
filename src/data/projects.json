@@ -69,13 +69,13 @@
       "lon": 74.36
     },
     "title": "Land Use/Land Cover Change and Carbon Stock Estimation, Lahore District, 1993 to 2023",
-    "description": "Thirty years of land-cover change in Lahore District and what it cost in stored carbon. Landsat imagery for 1993, 2003, 2013 and 2023 was classified into built-up, vegetation, water and bare land with Random Forest in Google Earth Engine. Built-up land more than doubled, from 35,528 ha to 77,256 ha, while vegetation fell by 27,639 ha. Ecosystem carbon stock dropped by about 3.15 million tonnes, and an independent run of the InVEST carbon model put the loss at 3.14 million.",
+    "description": "Thirty years of land-cover change in Lahore District and what it cost in stored carbon. Landsat imagery for 1993, 2003, 2013 and 2023 was classified into built-up, vegetation, water and bare land with Random Forest in Google Earth Engine. Built-up land more than doubled, from 35,528 ha to 77,256 ha, while vegetation fell by 27,639 ha. Ecosystem carbon stock dropped by about 3.15 million tonnes, and the InVEST carbon model, run on the same carbon densities, put the loss at 3.14 million.",
     "highlights": [
       "Built-up land grew 117.45% between 1993 and 2023, from 35,527.97 ha to 77,256.16 ha, a gain of 41,728 ha",
       "Vegetation fell from 115,880.13 ha to 88,240.83 ha, a loss of 27,639.30 ha (23.85%). Water bodies shrank by 76.83% and bare land by 59.36%",
       "The classification held at every epoch: overall accuracy between 97.84% and 99.22%, and Kappa between 0.971 and 0.989",
       "Ecosystem carbon stock fell from 18.66 million to 15.51 million tonnes, a net loss of 3,151,683 tonnes of carbon",
-      "The InVEST Carbon Storage and Sequestration model, run as an independent check, estimated a loss of 3,142,961 tonnes over the same period, within 0.3% of the class-based figure",
+      "The InVEST Carbon Storage and Sequestration model, run on the same density table, estimated a loss of 3,142,961 tonnes over the same period, within 0.3% of the class-based figure",
       "Vegetation to built-up was the dominant transition. Each hectare converted costs 122 Mg C, and the losses concentrate on the peri-urban fringe rather than in the urban core",
       "Carbon stock peaked in 2003 and fell sharply afterwards. InVEST puts the loss from 2003 to 2023 at 3.74 million tonnes, the heaviest of any period",
       "Taken to national scale afterwards as a live companion app, cross-checking the district findings against an independent land-cover product across all of Pakistan"
@@ -129,8 +129,8 @@
         "label": "built-up land, 1993 to 2023"
       },
       {
-        "value": "3.15 Mt",
-        "label": "carbon stock lost, confirmed by InVEST"
+        "value": "3.15 Mt C",
+        "label": "carbon stock lost, at the thesis densities"
       },
       {
         "value": "97.8 to 99.2%",
@@ -138,7 +138,14 @@
       }
     ],
     "theme": "Land change & carbon",
-    "short": "Lahore land cover and carbon"
+    "short": "Lahore land cover and carbon",
+    "basis": [
+      "Carbon densities are literature-based class totals over four pools: 150 Mg C/ha for vegetation, 28 for built-up, 18 for bare land and 5 for water.",
+      "The InVEST run takes the same density table as its input, so the agreement between the two estimates confirms the accounting, not the densities.",
+      "Sensitivity: Lahore's vegetation class is mostly irrigated cropland. With IPCC Tier 1 cropland densities the same maps give a loss of 0.53 Mt C (0.51 to 0.55). The direction and the spatial pattern of the loss hold; its size depends on this one assumption.",
+      "Accuracy was assessed on a random 70/30 split of the reference samples. A spatially independent validation would be the stricter test and is the next step.",
+      "The 2003 map draws on Landsat 7 imagery and has the lowest accuracy of the four epochs, at 97.84%."
+    ]
   },
   {
     "slug": "pakistan-lulc-carbon",

@@ -44,6 +44,9 @@ export function PublicationsSection({ onOpenStudy }: { onOpenStudy: (slug: strin
                   >
                     <span className="pub-year meta num">{p.year}</span>
                     <span className="pub-main">
+                      <span className="pub-authors">
+                        {p.authors} ({p.year})
+                      </span>
                       <span className="pub-title">{p.title}</span>
                       <span className="pub-meta meta">
                         <span>{p.journal}</span>

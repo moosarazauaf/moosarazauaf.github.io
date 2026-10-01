@@ -27,7 +27,7 @@ export const research: ResearchArea[] = [
     category: "Modelling",
     status: "Core",
     summary:
-      "Machine learning that is scored on years it never saw. The flood model reaches F1 = 0.962 on held-out events because the split is by time, not at random.",
+      "Machine learning that is scored on years it never saw. The flood model reaches F1 = 0.962 on held-out events, with the split made by time, not at random.",
     methods: ["Random Forest", "SVM and CART", "CA-Markov", "Chronological holdout"],
     data: ["Global Flood Database events", "Labelled land-cover samples"],
     applications: ["Flood susceptibility", "Land-cover classification", "Land-cover projection"],

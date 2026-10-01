@@ -4,6 +4,7 @@ import { ArrowUpRight, X } from "lucide-react";
 import { bySlug } from "../../data/projects";
 import type { ResearchArea } from "../../data/types";
 import { scene } from "../../three/sceneState";
+import { Abbr } from "../ui/Abbr";
 
 interface Props {
   area: ResearchArea | null;
@@ -57,7 +58,7 @@ export function ResearchDetail({ area, onClose, onOpenStudy }: Props) {
         {area.title}
       </h3>
       <p className="lead rdetail-summary" data-d>
-        {area.summary}
+        <Abbr>{area.summary}</Abbr>
       </p>
       <div className="rdetail-cols" data-d>
         {cols.map(([label, items]) => (

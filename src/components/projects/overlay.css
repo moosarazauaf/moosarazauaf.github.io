@@ -102,6 +102,27 @@
   padding-top: 0.2em;
 }
 
+.ov-basis {
+  margin: 0;
+  padding: 0 0 0 var(--s1);
+  display: grid;
+  gap: var(--s0);
+  max-width: var(--measure);
+  color: var(--muted);
+  font-size: var(--t-small);
+  border-left: 2px solid var(--radar);
+  list-style: none;
+}
+.ov-gallery figcaption {
+  font-size: var(--t-small);
+  color: var(--muted);
+  line-height: 1.5;
+}
+.ov-gallery figcaption b {
+  color: var(--fg);
+  margin-right: var(--s-1);
+}
+
 .ov-side {
   display: grid;
   gap: var(--s2);

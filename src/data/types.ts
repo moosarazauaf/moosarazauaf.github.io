@@ -29,6 +29,8 @@ export interface Project {
   theme: string;
   description: string;
   highlights: string[];
+  /** Assumptions, validation design, sensitivity and limits behind the result. */
+  basis?: string[];
   repoUrl: string;
   liveUrl: string;
   image: string;

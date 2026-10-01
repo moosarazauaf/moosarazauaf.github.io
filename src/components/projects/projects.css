@@ -130,8 +130,6 @@
   flex-wrap: wrap;
   gap: 0 var(--s1);
   font-size: 0.7rem;
-  opacity: 0.618;
-  transition: opacity var(--t-m) var(--ease);
 }
 .pscene:hover .pscene-meta,
 .pscene:focus-within .pscene-meta {
@@ -233,7 +231,7 @@
   letter-spacing: -0.03em;
 }
 .pindex-metric .meta {
-  font-size: 0.618rem;
+  font-size: 0.7rem;
 }
 .pindex-arrow {
   justify-self: end;

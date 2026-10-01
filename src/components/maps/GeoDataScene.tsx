@@ -17,6 +17,7 @@ import "./maps.css";
 
 type District = Feature<Geometry, DistrictProps>;
 interface Meta {
+  noDataNote?: string;
   yearFrom: number;
   yearTo: number;
   source: string;
@@ -179,20 +180,28 @@ export function GeoDataScene() {
               }}
             />
             {data && (
-              <p className="geo-source meta">
-                Real data · {data.meta.source} · {data.meta.yearFrom} to {data.meta.yearTo} ·{" "}
-                {data.meta.districtsWithData} of {data.meta.districtsTotal} districts with values · Boundaries:{" "}
-                {data.meta.boundaries}
-                {thesis?.liveUrl && (
-                  <>
-                    {" "}
-                    ·{" "}
-                    <a href={thesis.liveUrl} target="_blank" rel="noopener" data-cursor="OPEN">
-                      Open the live app
-                    </a>
-                  </>
-                )}
-              </p>
+              <div className="geo-source meta">
+                <p>
+                  Source: {data.meta.source}, {data.meta.yearFrom} to {data.meta.yearTo}. n = {data.meta.districtsWithData} of{" "}
+                  {data.meta.districtsTotal} districts.
+                  {thesis?.liveUrl && (
+                    <>
+                      {" "}
+                      <a href={thesis.liveUrl} target="_blank" rel="noopener" data-cursor="OPEN">
+                        Open the live app
+                      </a>
+                    </>
+                  )}
+                </p>
+                <details className="geo-notes">
+                  <summary data-cursor="READ">Method notes</summary>
+                  <p>
+                    {data.meta.noDataNote} Boundaries: {data.meta.boundaries}. Values are district totals from 30 m
+                    land-cover transitions. Legend ends marked ≤ or ≥ are clamped. Mercator projection; the scale bar is
+                    true at 27° N.
+                  </p>
+                </details>
+              </div>
             )}
           </div>
 

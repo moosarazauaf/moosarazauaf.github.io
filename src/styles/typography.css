@@ -67,6 +67,14 @@
   font-feature-settings: "tnum" 1, "ss01" 1;
 }
 
+/* A defined abbreviation: a dotted underline, the definition on hover or focus. */
+abbr[title] {
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  cursor: help;
+}
+
 /* Line-mask reveal: SplitText wraps each word in .w > .wi. */
 .w {
   display: inline-block;
