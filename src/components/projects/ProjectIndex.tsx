@@ -56,7 +56,10 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
                 }}
               >
                 <span className="pindex-n meta num">{String(n).padStart(2, "0")}</span>
-                <span className="pindex-title">{p.title}</span>
+                <span className="pindex-title">
+                  {p.title}
+                  <span className="pindex-finding">{p.finding}</span>
+                </span>
                 <span className="pindex-theme meta">{p.theme}</span>
                 <span className="pindex-metric">
                   <b className="num">{p.metrics[0].value}</b>

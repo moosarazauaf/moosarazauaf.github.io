@@ -57,7 +57,8 @@
       }
     ],
     "theme": "Floods",
-    "short": "Flood susceptibility, Layyah"
+    "short": "Flood susceptibility, Layyah",
+    "finding": "A flood susceptibility model for Layyah scores F1 = 0.962 on flood events it never saw in training."
   },
   {
     "slug": "lahore-lulc-carbon",
@@ -145,7 +146,8 @@
       "Sensitivity: Lahore's vegetation class is mostly irrigated cropland. With IPCC Tier 1 cropland densities the same maps give a loss of 0.53 Mt C (0.51 to 0.55). The direction and the spatial pattern of the loss hold; its size depends on this one assumption.",
       "Accuracy was assessed on a random 70/30 split of the reference samples. A spatially independent validation would be the stricter test and is the next step.",
       "The 2003 map draws on Landsat 7 imagery and has the lowest accuracy of the four epochs, at 97.84%."
-    ]
+    ],
+    "finding": "Built-up land in Lahore more than doubled in thirty years, and the district's carbon stock fell by about 3.15 million tonnes."
   },
   {
     "slug": "pakistan-lulc-carbon",
@@ -196,7 +198,8 @@
       }
     ],
     "theme": "Land change & carbon",
-    "short": "Pakistan carbon account"
+    "short": "Pakistan carbon account",
+    "finding": "6.8% of Pakistan changed land-cover class between 2000 and 2022, accounted district by district at 30 m."
   },
   {
     "slug": "twin-cities-urban-flood",
@@ -268,7 +271,8 @@
       }
     ],
     "theme": "Floods",
-    "short": "Twin cities urban flooding"
+    "short": "Twin cities urban flooding",
+    "finding": "Urban floods that drain within hours fall between satellite passes, so the study maps flood-proneness instead: 137 km² of built-up land at high proneness."
   },
   {
     "slug": "pakistan-landsat-totram",
@@ -341,7 +345,8 @@
       }
     ],
     "theme": "Drought & soil moisture",
-    "short": "Thermal vs optical soil moisture"
+    "short": "Thermal vs optical soil moisture",
+    "finding": "Over the same district, optical soil-moisture retrieval tracks rainfall at r = 0.86. The thermal retrieval does not, under any of five ways of fitting it."
   },
   {
     "slug": "tharparkar-spi-drought",
@@ -415,7 +420,8 @@
       }
     ],
     "theme": "Drought & soil moisture",
-    "short": "Tharparkar drought record"
+    "short": "Tharparkar drought record",
+    "finding": "A 44-year rainfall record picks out 1987 and 2002 as Tharparkar's driest years, matching the documented droughts."
   },
   {
     "slug": "layyah-s2-ndvi-flood-impact",
@@ -460,7 +466,8 @@
       }
     ],
     "theme": "Floods",
-    "short": "Post-flood vegetation loss"
+    "short": "Post-flood vegetation loss",
+    "finding": "The 2022 floods cost 1,232 km² of vegetation along the Indus in Layyah, confirmed by an independent radar flood extent."
   },
   {
     "slug": "layyah-s1-flood-detection",
@@ -504,7 +511,8 @@
       }
     ],
     "theme": "Floods",
-    "short": "SAR flood mapping, 2022"
+    "short": "SAR flood mapping, 2022",
+    "finding": "The 2022 monsoon flooded Layyah in two distinct waves, peaking at 95.4 km² on 20 July."
   },
   {
     "slug": "layyah-s2-soil-moisture-optram",
@@ -573,7 +581,8 @@
       }
     ],
     "theme": "Drought & soil moisture",
-    "short": "Optical soil moisture"
+    "short": "Optical soil moisture",
+    "finding": "Bare-soil moisture nearly doubled after the 2022 flood, in a retrieval that tracks antecedent rainfall at r = 0.86."
   },
   {
     "slug": "layyah-s1-soil-moisture",
@@ -618,7 +627,8 @@
       }
     ],
     "theme": "Drought & soil moisture",
-    "short": "SAR soil moisture"
+    "short": "SAR soil moisture",
+    "finding": "Radar soil moisture over Layyah rose from 39.7% to 76.0% between June and August 2022."
   },
   {
     "slug": "layyah-s1-crop-type-sar",
@@ -664,7 +674,8 @@
       }
     ],
     "theme": "SAR methods",
-    "short": "SAR crop mapping"
+    "short": "SAR crop mapping",
+    "finding": "A year of monthly radar composites resolves five cropping systems across 3,995 km² of Layyah's cropland."
   },
   {
     "slug": "layyah-s1-speckle-filtering",
@@ -708,6 +719,7 @@
       }
     ],
     "theme": "SAR methods",
-    "short": "Speckle filtering"
+    "short": "Speckle filtering",
+    "finding": "Multi-temporal speckle filtering gives 3.47 times the equivalent number of looks of a matched spatial filter, with sharper edges."
   }
 ]

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowUpRight, Check, Copy } from "lucide-react";
 import { copy, profile } from "../../data/profile";
+import { analyticsOn, track } from "../../lib/analytics";
 import { SectionTransition } from "../transitions/SectionTransition";
 import { MagneticButton } from "../ui/MagneticButton";
 import { RevealText } from "../ui/RevealText";
@@ -20,6 +21,7 @@ export function ContactSection() {
   const copyEmail = async () => {
     try {
       await navigator.clipboard.writeText(profile.email);
+      track("contact/copy-email");
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2618);
     } catch {
@@ -47,10 +49,13 @@ export function ContactSection() {
         <RevealText className="contact-body">
           <div className="contact-person" data-reveal>
             <img src={`/${profile.photo}`} alt="" loading="lazy" />
-            <p className="lead">{copy.contactLead}</p>
+            <div>
+              <p className="lead">{copy.contactLead}</p>
+              <p className="contact-detail">{profile.availability.detail}</p>
+            </div>
           </div>
           <div className="contact-actions" data-reveal>
-            <MagneticButton className="contact-cta" href={`mailto:${profile.email}?subject=${SUBJECT}`} cursor="WRITE" strength={15}>
+            <MagneticButton className="contact-cta" href={`mailto:${profile.email}?subject=${SUBJECT}`} cursor="WRITE" strength={15} onClick={() => track("contact/start-conversation")}>
               Start a conversation <ArrowUpRight size={22} strokeWidth={1.5} aria-hidden="true" />
             </MagneticButton>
             <button type="button" className="contact-copy meta" onClick={copyEmail} data-cursor="COPY">
@@ -75,6 +80,7 @@ export function ContactSection() {
           <p className="contact-credits">{copy.dataCredits}</p>
           <span>© {new Date().getFullYear()} {profile.name}</span>
           <span>Every study linked here is open source · Last updated {__BUILD_DATE__}</span>
+          {analyticsOn() && <span>Visits are counted without cookies or personal data</span>}
           <a href="/classic/">Classic version of this site</a>
         </footer>
       </div>

@@ -14,13 +14,13 @@ export const copy = {
     { value: "44 yrs", label: "drought record rebuilt" },
   ],
   researchIntro:
-    "Seven parts of one system. Five are backed by finished studies; two are where the work is heading. Select one to see what sits inside it.",
+    "One question runs through all seven areas: can the number be trusted? Five are backed by finished studies and two are where the work is heading. Select one to see inside it.",
   sensingIntro:
     "Every study starts as a stack of satellite scenes. These are the instruments behind the twelve, counted from the studies themselves.",
   projectsIntro:
-    "Twelve studies, designed and built end to end. The thesis first, then the results I would put in front of a committee.",
+    "Twelve studies, each built end to end and each ending in a number someone else can check. The thesis first, then four results I would put in front of a committee.",
   dataIntro:
-    "Real output from my national land and carbon account, aggregated to districts. Choose a layer.",
+    "Between 2000 and 2022, Lahore lost more carbon per hectare than any other district in Pakistan. This is real output from my national land and carbon account. Choose a layer.",
   aboutLead:
     "I measure floods, drought and land change from satellites, and I build each measurement so that someone else can check it.",
   contactLead:

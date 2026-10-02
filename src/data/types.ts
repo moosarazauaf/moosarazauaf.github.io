@@ -27,6 +27,8 @@ export interface Project {
   title: string;
   short: string;
   theme: string;
+  /** The result in one sentence: the headline a reader should leave with. */
+  finding: string;
   description: string;
   highlights: string[];
   /** Assumptions, validation design, sensitivity and limits behind the result. */

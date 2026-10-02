@@ -4,6 +4,7 @@ import { copy } from "../../data/profile";
 import { research } from "../../data/research";
 import { useMobile } from "../../hooks/useMediaQuery";
 import { scene } from "../../three/sceneState";
+import { track } from "../../lib/analytics";
 import { DragSurface } from "../hero/DragSurface";
 import { SectionTransition } from "../transitions/SectionTransition";
 import { RevealText } from "../ui/RevealText";
@@ -64,6 +65,7 @@ export function ResearchSection({ webgl, onOpenStudy }: Props) {
 
   const select = useCallback((id: string) => {
     setFocus(id);
+    track(`research/${id}`);
   }, []);
   const close = useCallback(() => {
     const id = focus;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { bySlug } from "../data/projects";
+import { track } from "../lib/analytics";
 
 const read = () => {
   const m = window.location.hash.match(/^#project\/([\w-]+)/);
@@ -21,7 +22,9 @@ export function useProjectRoute() {
   }, []);
 
   const openProject = useCallback((slug: string) => {
-    if (!bySlug(slug)) return;
+    const p = bySlug(slug);
+    if (!p) return;
+    track(`study/${slug}`, p.short);
     if (read() !== slug) window.history.pushState(null, "", `#project/${slug}`);
     setOpen(slug);
   }, []);

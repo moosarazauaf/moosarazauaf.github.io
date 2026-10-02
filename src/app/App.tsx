@@ -5,6 +5,7 @@ import { useLenis } from "../hooks/useLenis";
 import { useFinePointer, useMobile } from "../hooks/useMediaQuery";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { scene } from "../three/sceneState";
+import { startAnalytics } from "../lib/analytics";
 import { CustomCursor } from "../components/cursor/CustomCursor";
 import { Navigation } from "../components/navigation/Navigation";
 import { MenuOverlay } from "../components/navigation/MenuOverlay";
@@ -52,6 +53,7 @@ export function App() {
   useLenis(!reduced);
 
   useEffect(() => startSceneTracker((s) => setStage(s)), []);
+  useEffect(startAnalytics, []);
 
   // Pointer position for the globe's lean, kept out of React state.
   useEffect(() => {

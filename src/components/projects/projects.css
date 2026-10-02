@@ -78,7 +78,12 @@
 }
 .pscene.is-featured .pscene-kind { grid-area: kind; }
 .pscene.is-featured .pscene-title { grid-area: title; }
-.pscene.is-featured .pscene-metric { grid-area: metric; align-self: end; }
+.pscene.is-featured .pscene-finding {
+  margin: 0;
+  max-width: 30rem;
+  color: var(--muted);
+}
+.pscene-metric { grid-area: metric; align-self: end; }
 .pscene.is-featured .pscene-meta { grid-area: meta; }
 .pscene.is-featured .pscene-desc { grid-area: desc; }
 .pscene.is-featured .pscene-open { grid-area: open; }
@@ -213,6 +218,16 @@
   letter-spacing: -0.02em;
   font-weight: 500;
   transition: transform var(--t-m) var(--ease);
+}
+.pindex-finding {
+  display: block;
+  margin-top: var(--s-2);
+  max-width: 44rem;
+  font-size: var(--t-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+  color: var(--muted);
 }
 .pindex-row:hover .pindex-title {
   transform: translateX(var(--s0));

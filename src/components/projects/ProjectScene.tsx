@@ -76,6 +76,7 @@ export function ProjectScene({ project: p, index, featured = false, reverse = fa
             {featured ? FEATURED_TITLE : p.title}
           </a>
         </h3>
+        {!featured && <p className="pscene-finding">{p.finding}</p>}
         <p className="pscene-metric">
           <span className="num">{p.metrics[0].value}</span>
           <span className="meta">{p.metrics[0].label}</span>

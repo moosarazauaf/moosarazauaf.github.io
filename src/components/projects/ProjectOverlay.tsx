@@ -102,6 +102,9 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
         <h2 id="ov-title" className="ov-title" data-ov>
           {p.title}
         </h2>
+        <p className="ov-finding" data-ov>
+          <Abbr>{p.finding}</Abbr>
+        </p>
       </header>
 
       <div className="ov-body shell golden">
