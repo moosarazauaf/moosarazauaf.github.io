@@ -10,5 +10,5 @@
  * While this is empty, nothing is loaded and nothing is counted.
  */
 export const site = {
-  goatcounter: "",
+  goatcounter: "moosaraza",
 };
