@@ -84,7 +84,20 @@
 .hero-descriptor { grid-area: desc; }
 .hero-tagline { grid-area: tag; }
 .hero-proof { grid-area: proof; }
-.hero-actions { grid-area: seek; position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s0) var(--s1); flex-direction: row-reverse; justify-content: flex-end; }
+/* The link, the invitation and the drag hint share one wrapping row, so
+   they reflow together and can never sit on top of each other. */
+.hero-actions {
+  grid-area: seek;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s0) var(--s1);
+}
+.hero-actions .hero-evidence {
+  flex-basis: 100%;
+}
 
 .hero-descriptor {
   list-style: none;
@@ -161,14 +174,11 @@
 }
 
 .hero-drag-hint {
-  position: absolute;
-  z-index: 2;
-  right: var(--gutter);
-  bottom: calc(var(--s4) + var(--s1));
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
-  margin: 0;
+  margin-left: auto;
+  white-space: nowrap;
   pointer-events: none;
 }
 

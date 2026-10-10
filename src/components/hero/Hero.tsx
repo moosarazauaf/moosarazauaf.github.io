@@ -108,15 +108,15 @@ export function Hero({ ready, webgl }: Props) {
             {copy.seeking}
             <ArrowDownRight size={16} strokeWidth={1.5} aria-hidden="true" />
           </a>
+          {webgl && (
+            <span className="hero-drag-hint meta" aria-hidden="true">
+              <Move size={14} strokeWidth={1.5} /> Drag to explore
+            </span>
+          )}
           </div>
         </div>
       </div>
 
-      {webgl && (
-        <p className="hero-drag-hint meta" data-intro="late" aria-hidden="true">
-          <Move size={14} strokeWidth={1.5} /> Drag to explore
-        </p>
-      )}
       <button
         type="button"
         className="hero-cue meta"
