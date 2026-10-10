@@ -182,109 +182,154 @@
   font-size: 0.7em;
   opacity: 0.618;
 }
-.pindex-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-bottom: 1px solid var(--line);
-}
-.pindex-row {
-  position: relative;
-  display: grid;
-  grid-template-columns: 2.618rem minmax(0, 1.618fr) minmax(0, 0.618fr) minmax(0, 0.8fr) 1.618rem;
-  align-items: center;
-  gap: var(--s1);
-  padding-block: var(--s1);
-  border-top: 1px solid var(--line);
-  transition: color var(--t-s) var(--ease);
-}
-.pindex-row::before {
-  content: "";
-  position: absolute;
-  inset: -1px 0 auto 0;
-  height: 1px;
-  background: var(--fg);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--t-l) var(--ease);
-}
-.pindex-row:hover::before,
-.pindex-row:focus-visible::before {
-  transform: scaleX(1);
-}
-.pindex-title {
-  font-size: var(--t-lead);
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  font-weight: 500;
-  transition: transform var(--t-m) var(--ease);
-}
-.pindex-finding {
-  display: block;
-  margin-top: var(--s-2);
-  max-width: 44rem;
+.ptable {
+  width: 100%;
+  border-collapse: collapse;
   font-size: var(--t-small);
-  font-weight: 400;
-  letter-spacing: 0;
   line-height: 1.5;
+  text-align: left;
+}
+.ptable th,
+.ptable td {
+  padding: var(--s1) var(--s1) var(--s1) 0;
+  vertical-align: top;
+  font-weight: 400;
+}
+.ptable thead th {
+  padding-block: var(--s0);
+  border-top: 2px solid var(--fg);
+  border-bottom: 1px solid var(--fg);
+  white-space: nowrap;
+}
+.ptable tbody tr {
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background-color var(--t-s) var(--ease);
+}
+.ptable tbody tr:last-child {
+  border-bottom: 2px solid var(--fg);
+}
+.ptable tbody tr:hover,
+.ptable tbody tr:focus-within {
+  background: var(--faint);
+}
+.ptable tbody td,
+.ptable tbody th {
   color: var(--muted);
 }
-.pindex-row:hover .pindex-title {
-  transform: translateX(var(--s0));
+/* Column widths: the study and its check get the room. */
+.ptable th:nth-child(1),
+.ptable td:nth-child(1) {
+  width: 3rem;
+  padding-left: var(--s-1);
 }
-.pindex-list:hover .pindex-row:not(:hover) {
-  color: var(--soft);
+.ptable th:nth-child(2) {
+  width: 30%;
 }
-.pindex-metric {
-  display: grid;
-  justify-items: end;
-  text-align: right;
+.ptable th:nth-child(3),
+.ptable td:nth-child(3) {
+  width: 17%;
 }
-.pindex-metric b {
+.ptable th:nth-child(5),
+.ptable td:nth-child(5) {
+  width: 13%;
+}
+.ptable th:nth-child(6),
+.ptable td:nth-child(6) {
+  width: 5.5rem;
+  padding-right: var(--s-1);
+}
+.ptable-title {
+  display: block;
+  color: var(--fg);
+  font-size: var(--t-body);
   font-weight: 500;
-  font-size: var(--t-lead);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
 }
-.pindex-metric .meta {
+.ptable-title:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.ptable-finding {
+  display: block;
+  margin-top: var(--s-2);
+}
+.ptable-result b {
+  display: block;
+  color: var(--fg);
+  font-size: var(--t-lead);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.ptable-result .meta {
   font-size: 0.7rem;
 }
-.pindex-arrow {
-  justify-self: end;
-  transition: transform var(--t-m) var(--ease);
+.ptable-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 0.2em;
+  white-space: nowrap;
 }
-.pindex-row:hover .pindex-arrow {
-  transform: rotate(45deg);
+.ptable-code:hover {
+  text-decoration-color: var(--radar);
   color: var(--radar-ink);
 }
+.ptable-note {
+  margin: 0;
+  max-width: 56rem;
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+.pindex-head .meta {
+  margin: 0 0 var(--s-1);
+}
 
-.ppreview {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 60;
-  pointer-events: none;
-}
-.ppreview-card {
-  width: 19.4rem;
-  aspect-ratio: 1.618;
-  margin: -6rem 0 0 2.618rem;
-  overflow: hidden;
-  background: var(--ink);
-  clip-path: inset(50% 50% 50% 50%);
-  transition: clip-path var(--t-m) var(--ease);
-}
-.ppreview.is-on .ppreview-card {
-  clip-path: inset(0% 0% 0% 0%);
-}
-.ppreview-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: preview-in var(--t-m) var(--ease);
-}
-@keyframes preview-in {
-  from { scale: 1.236; }
-  to { scale: 1; }
+/* Narrow screens: each row becomes a labelled record. */
+@media (max-width: 900px) {
+  .ptable thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .ptable,
+  .ptable tbody,
+  .ptable tr,
+  .ptable td,
+  .ptable th {
+    display: block;
+    width: auto !important;
+  }
+  .ptable tbody tr {
+    padding-block: var(--s1);
+  }
+  .ptable tbody tr:first-child {
+    border-top: 2px solid var(--fg);
+  }
+  .ptable td,
+  .ptable th {
+    padding: 0 0 var(--s0) !important;
+  }
+  .ptable td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+  .ptable td:nth-child(1)::before {
+    display: none;
+  }
 }
 
 /* Directions: open questions, drawn in dashes so they read as unbuilt. */
@@ -356,16 +401,6 @@
   }
   .pscene.is-featured .pscene-media {
     aspect-ratio: 1.618;
-  }
-  .pindex-row {
-    grid-template-columns: 1.618rem minmax(0, 1fr) auto;
-  }
-  .pindex-theme,
-  .pindex-arrow {
-    display: none;
-  }
-  .pindex-title {
-    font-size: var(--t-body);
   }
   .directions {
     grid-template-columns: minmax(0, 1fr);

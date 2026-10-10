@@ -29,6 +29,10 @@ export interface Project {
   theme: string;
   /** The result in one sentence: the headline a reader should leave with. */
   finding: string;
+  /** What the study is built on: sensors, archives and the period covered. */
+  evidence: string;
+  /** How the result was checked: the validation design, in a sentence or two. */
+  check: string;
   description: string;
   highlights: string[];
   /** Assumptions, validation design, sensitivity and limits behind the result. */

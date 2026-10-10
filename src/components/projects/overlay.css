@@ -111,6 +111,38 @@
   padding-top: 0.2em;
 }
 
+.ov-label {
+  margin: 0;
+}
+.ov-check {
+  margin: 0;
+  max-width: var(--measure);
+  color: var(--muted);
+}
+.ov-cite {
+  display: grid;
+  gap: var(--s-1);
+  padding: var(--s1);
+  border: 1px solid var(--line);
+}
+.ov-cite p {
+  margin: 0;
+}
+.ov-cite-text {
+  font-size: var(--t-small);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.ov-cite-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  justify-self: start;
+  color: var(--fg);
+}
+.ov-cite-copy:hover {
+  color: var(--radar-ink);
+}
 .ov-basis {
   margin: 0;
   padding: 0 0 0 var(--s1);

@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ArrowRight, ArrowUpRight, FolderGit2, X } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Copy, FolderGit2, X } from "lucide-react";
 import { expandFrom } from "../../animations/projectAnimations";
 import { FEATURED, FEATURED_COVER, bySlug, linkedStudies, projects, splitTags } from "../../data/projects";
 import { publications } from "../../data/publications";
@@ -25,6 +25,7 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
   const p = slug ? bySlug(slug) : undefined;
   const root = useRef<HTMLDivElement>(null);
   const returnTo = useRef<HTMLElement | null>(null);
+  const [cited, setCited] = useState(false);
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -61,7 +62,7 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
 
   if (!p) return null;
 
-  const { data, methods, tools } = splitTags(p);
+  const { methods, tools } = splitTags(p);
   const linked = linkedStudies(p).slice(0, 6);
   const pub = publications.find((x) => x.studies.includes(p.slug));
   const next = projects[(projects.indexOf(p) + 1) % projects.length];
@@ -70,6 +71,17 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
   const cover = p.slug === FEATURED;
   const hero = cover ? FEATURED_COVER : p.image;
   const gallery = (p.gallery ?? []).filter((g) => g.src !== hero);
+  // The year the work was released: the last year of its period.
+  const citation = `Raza, M. M. (${p.year.slice(-4)}). ${p.title} [Code and data]. GitHub. ${p.repoUrl}`;
+  const copyCitation = async () => {
+    try {
+      await navigator.clipboard.writeText(citation);
+      setCited(true);
+      window.setTimeout(() => setCited(false), 2618);
+    } catch {
+      /* Clipboard blocked: the citation is on the page to select by hand. */
+    }
+  };
   const close = () => {
     if (!root.current || scene.reducedMotion) return onClose();
     gsap.to(root.current, { opacity: 0, y: -24, duration: 0.382, ease: "power2.in", onComplete: onClose });
@@ -109,10 +121,11 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
 
       <div className="ov-body shell golden">
         <div className="ov-main" data-ov>
+          <h3 className="meta ov-label">Abstract</h3>
           <p className="lead">
             <Abbr>{p.description}</Abbr>
           </p>
-          <h3 className="meta ov-sub">What came out of it</h3>
+          <h3 className="meta ov-sub">Key results</h3>
           <ul className="ov-highlights">
             {p.highlights.map((h) => (
               <li key={h}>
@@ -122,9 +135,13 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
               </li>
             ))}
           </ul>
+          <h3 className="meta ov-sub">How the result was checked</h3>
+          <p className="ov-check">
+            <Abbr>{p.check}</Abbr>
+          </p>
           {p.basis && p.basis.length > 0 && (
             <>
-              <h3 className="meta ov-sub">What the result rests on</h3>
+              <h3 className="meta ov-sub">Assumptions and limitations</h3>
               <ul className="ov-basis">
                 {p.basis.map((b) => (
                   <li key={b}>
@@ -145,8 +162,11 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
               </div>
             ))}
           </dl>
+          <div className="ov-list">
+            <p className="meta">Data and period</p>
+            <p>{p.evidence}</p>
+          </div>
           {[
-            ["Data", data],
             ["Methods", methods],
             ["Tools", tools],
           ].map(([label, items]) =>
@@ -157,9 +177,13 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
               </div>
             ) : null
           )}
+          <div className="ov-list">
+            <p className="meta">Reproducibility</p>
+            <p>The code, the data exports and a written account of the method are public.</p>
+          </div>
           <div className="ov-links">
             <a className="ov-link" href={p.repoUrl} target="_blank" rel="noopener" data-cursor="OPEN">
-              <FolderGit2 size={16} strokeWidth={1.5} aria-hidden="true" /> Code, data and write-up
+              <FolderGit2 size={16} strokeWidth={1.5} aria-hidden="true" /> Repository on GitHub
               <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
             </a>
             {p.liveUrl && (
@@ -167,6 +191,14 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
                 Live app <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
               </a>
             )}
+          </div>
+          <div className="ov-cite">
+            <p className="meta">Cite as</p>
+            <p className="ov-cite-text">{citation}</p>
+            <button type="button" className="ov-cite-copy meta" onClick={copyCitation} data-cursor="COPY">
+              {cited ? <Check size={13} aria-hidden="true" /> : <Copy size={13} aria-hidden="true" />}
+              <span aria-live="polite">{cited ? "Copied" : "Copy citation"}</span>
+            </button>
           </div>
         </aside>
       </div>

@@ -82,6 +82,18 @@ export function Hero({ ready, webgl }: Props) {
               </div>
             ))}
           </dl>
+          <div className="hero-actions" data-intro="late">
+          <a
+            className="hero-evidence meta"
+            href="#evidence"
+            data-cursor="READ"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToTarget("#evidence");
+            }}
+          >
+            See the evidence table
+          </a>
           <a
             className="hero-seeking"
             href="#contact"
@@ -96,6 +108,7 @@ export function Hero({ ready, webgl }: Props) {
             {copy.seeking}
             <ArrowDownRight size={16} strokeWidth={1.5} aria-hidden="true" />
           </a>
+          </div>
         </div>
       </div>
 

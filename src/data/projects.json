@@ -58,7 +58,9 @@
     ],
     "theme": "Floods",
     "short": "Flood susceptibility, Layyah",
-    "finding": "A flood susceptibility model for Layyah scores F1 = 0.962 on flood events it never saw in training."
+    "finding": "A flood susceptibility model for Layyah scores F1 = 0.962 on flood events it never saw in training.",
+    "evidence": "Sentinel-1 SAR; 19 flood events from the Global Flood Database, 2003 to 2018",
+    "check": "Temporal holdout: trained on events from 2003 to 2014, tested on 2015 to 2018, years the model had not seen."
   },
   {
     "slug": "lahore-lulc-carbon",
@@ -147,7 +149,9 @@
       "Accuracy was assessed on a random 70/30 split of the reference samples. A spatially independent validation would be the stricter test and is the next step.",
       "The 2003 map draws on Landsat 7 imagery and has the lowest accuracy of the four epochs, at 97.84%."
     ],
-    "finding": "Built-up land in Lahore more than doubled in thirty years, and the district's carbon stock fell by about 3.15 million tonnes."
+    "finding": "Built-up land in Lahore more than doubled in thirty years, and the district's carbon stock fell by about 3.15 million tonnes.",
+    "evidence": "Landsat, four epochs: 1993, 2003, 2013, 2023",
+    "check": "Confusion matrix on a random 70/30 split of reference samples at each epoch. Carbon re-run in InVEST on the same density table."
   },
   {
     "slug": "pakistan-lulc-carbon",
@@ -199,7 +203,9 @@
     ],
     "theme": "Land change & carbon",
     "short": "Pakistan carbon account",
-    "finding": "6.8% of Pakistan changed land-cover class between 2000 and 2022, accounted district by district at 30 m."
+    "finding": "6.8% of Pakistan changed land-cover class between 2000 and 2022, accounted district by district at 30 m.",
+    "evidence": "GLC-FCS30D land cover at 30 m, 2000 to 2022",
+    "check": "National flux reported with its uncertainty band (-470.8 to +580.3 Tg C); the band spans zero, so the sign is stated as not established. A snow artefact is quantified and the flux given with and without it."
   },
   {
     "slug": "twin-cities-urban-flood",
@@ -272,7 +278,9 @@
     ],
     "theme": "Floods",
     "short": "Twin cities urban flooding",
-    "finding": "Urban floods that drain within hours fall between satellite passes, so the study maps flood-proneness instead: 137 km² of built-up land at high proneness."
+    "finding": "Urban floods that drain within hours fall between satellite passes, so the study maps flood-proneness instead: 137 km² of built-up land at high proneness.",
+    "evidence": "Sentinel-1 SAR, GPM IMERG rainfall and terrain, July to September 2026",
+    "check": "Published as unvalidated: the two available checks carry only 9 and 11 positives. Observability measured directly: 0 of 86 heavy-rain half-hours coincided with a satellite pass."
   },
   {
     "slug": "pakistan-landsat-totram",
@@ -346,7 +354,9 @@
     ],
     "theme": "Drought & soil moisture",
     "short": "Thermal vs optical soil moisture",
-    "finding": "Over the same district, optical soil-moisture retrieval tracks rainfall at r = 0.86. The thermal retrieval does not, under any of five ways of fitting it."
+    "finding": "Over the same district, optical soil-moisture retrieval tracks rainfall at r = 0.86. The thermal retrieval does not, under any of five ways of fitting it.",
+    "evidence": "302 Landsat 8/9 scenes, 2019 to 2024",
+    "check": "Five trapezoid specifications tested. Correlation with rainfall checked after removing the seasonal cycle, with NDVI over the same scenes as a positive control."
   },
   {
     "slug": "tharparkar-spi-drought",
@@ -421,7 +431,9 @@
     ],
     "theme": "Drought & soil moisture",
     "short": "Tharparkar drought record",
-    "finding": "A 44-year rainfall record picks out 1987 and 2002 as Tharparkar's driest years, matching the documented droughts."
+    "finding": "A 44-year rainfall record picks out 1987 and 2002 as Tharparkar's driest years, matching the documented droughts.",
+    "evidence": "CHIRPS rainfall, 1981 to 2024",
+    "check": "Ranking all 44 years independently recovers the documented 1999 to 2002 Sindh drought and both major flood years."
   },
   {
     "slug": "layyah-s2-ndvi-flood-impact",
@@ -467,7 +479,9 @@
     ],
     "theme": "Floods",
     "short": "Post-flood vegetation loss",
-    "finding": "The 2022 floods cost 1,232 km² of vegetation along the Indus in Layyah, confirmed by an independent radar flood extent."
+    "finding": "The 2022 floods cost 1,232 km² of vegetation along the Indus in Layyah, confirmed by an independent radar flood extent.",
+    "evidence": "Sentinel-2, 2022 flood season against control years",
+    "check": "Control years remove the ordinary cropping cycle. Cross-checked against an independently derived radar flood extent: NDVI anomaly -0.088 inside it, -0.021 outside."
   },
   {
     "slug": "layyah-s1-flood-detection",
@@ -512,7 +526,9 @@
     ],
     "theme": "Floods",
     "short": "SAR flood mapping, 2022",
-    "finding": "The 2022 monsoon flooded Layyah in two distinct waves, peaking at 95.4 km² on 20 July."
+    "finding": "The 2022 monsoon flooded Layyah in two distinct waves, peaking at 95.4 km² on 20 July.",
+    "evidence": "Sentinel-1 SAR, scene by scene through the 2022 monsoon",
+    "check": "Dual-polarisation water test, a single relative orbit to remove geometry artefacts, and comparison with a multi-week composite, which puts the same peak at 40 km²."
   },
   {
     "slug": "layyah-s2-soil-moisture-optram",
@@ -582,7 +598,9 @@
     ],
     "theme": "Drought & soil moisture",
     "short": "Optical soil moisture",
-    "finding": "Bare-soil moisture nearly doubled after the 2022 flood, in a retrieval that tracks antecedent rainfall at r = 0.86."
+    "finding": "Bare-soil moisture nearly doubled after the 2022 flood, in a retrieval that tracks antecedent rainfall at r = 0.86.",
+    "evidence": "Sentinel-2, 23,991 observations, 2019 to 2024",
+    "check": "r = +0.855 against antecedent rainfall, cross-checked against ERA5-Land. Trapezoid edge fits: R² = 0.947 dry, 0.990 wet."
   },
   {
     "slug": "layyah-s1-soil-moisture",
@@ -628,7 +646,9 @@
     ],
     "theme": "Drought & soil moisture",
     "short": "SAR soil moisture",
-    "finding": "Radar soil moisture over Layyah rose from 39.7% to 76.0% between June and August 2022."
+    "finding": "Radar soil moisture over Layyah rose from 39.7% to 76.0% between June and August 2022.",
+    "evidence": "Sentinel-1 SAR, eight-year stack",
+    "check": "36 months against two independent references: r = 0.489 with ERA5-Land, r = 0.477 with CHIRPS rainfall."
   },
   {
     "slug": "layyah-s1-crop-type-sar",
@@ -675,7 +695,9 @@
     ],
     "theme": "SAR methods",
     "short": "SAR crop mapping",
-    "finding": "A year of monthly radar composites resolves five cropping systems across 3,995 km² of Layyah's cropland."
+    "finding": "A year of monthly radar composites resolves five cropping systems across 3,995 km² of Layyah's cropland.",
+    "evidence": "24 monthly Sentinel-1 composites over one crop year",
+    "check": "Disjoint held-out split: overall accuracy 0.825, κ = 0.651. No crop-type ground truth exists for the area, so labels are inferred from phenology and reported as inferred."
   },
   {
     "slug": "layyah-s1-speckle-filtering",
@@ -720,6 +742,8 @@
     ],
     "theme": "SAR methods",
     "short": "Speckle filtering",
-    "finding": "Multi-temporal speckle filtering gives 3.47 times the equivalent number of looks of a matched spatial filter, with sharper edges."
+    "finding": "Multi-temporal speckle filtering gives 3.47 times the equivalent number of looks of a matched spatial filter, with sharper edges.",
+    "evidence": "62-scene Sentinel-1 stack, single orbit",
+    "check": "Benchmarked against a spatial filter tuned to identical smoothness. ENL measured over a homogeneous desert patch as well as district-wide."
   }
 ]

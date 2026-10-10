@@ -84,7 +84,7 @@
 .hero-descriptor { grid-area: desc; }
 .hero-tagline { grid-area: tag; }
 .hero-proof { grid-area: proof; }
-.hero-seeking { grid-area: seek; justify-self: start; }
+.hero-actions { grid-area: seek; position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s0) var(--s1); flex-direction: row-reverse; justify-content: flex-end; }
 
 .hero-descriptor {
   list-style: none;
@@ -132,6 +132,16 @@
   line-height: 1.382;
 }
 
+.hero-evidence {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 0.3em;
+}
+.hero-evidence:hover,
+.hero-evidence:focus-visible {
+  text-decoration-color: var(--radar);
+}
 .hero-seeking {
   display: inline-flex;
   align-items: center;

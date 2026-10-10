@@ -18,7 +18,7 @@ export const copy = {
   sensingIntro:
     "Every study starts as a stack of satellite scenes. These are the instruments behind the twelve, counted from the studies themselves.",
   projectsIntro:
-    "Twelve studies, each built end to end and each ending in a number someone else can check. The thesis first, then four results I would put in front of a committee.",
+    "Twelve studies, each built end to end and each ending in a number someone else can check. Table 1 sets out the evidence for all twelve. The thesis and four selected results follow in full.",
   dataIntro:
     "Between 2000 and 2022, Lahore lost more carbon per hectare than any other district in Pakistan. This is real output from my national land and carbon account. Choose a layer.",
   aboutLead:

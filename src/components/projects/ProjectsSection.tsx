@@ -39,6 +39,8 @@ export function ProjectsSection({ onOpen }: { onOpen: (slug: string) => void }) 
           </p>
         </RevealText>
 
+        <ProjectIndex onOpen={onOpen} />
+
         {featured && <ProjectScene project={featured} index={0} featured onOpen={onOpen} />}
 
         <div className="pscenes">
@@ -46,8 +48,6 @@ export function ProjectsSection({ onOpen }: { onOpen: (slug: string) => void }) 
             <ProjectScene key={p.slug} project={p} index={i + 1} reverse={i % 2 === 1} onOpen={onOpen} />
           ))}
         </div>
-
-        <ProjectIndex onOpen={onOpen} />
 
         <section className="directions" aria-labelledby="directions-title">
           <div className="directions-head">
