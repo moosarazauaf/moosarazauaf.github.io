@@ -55,7 +55,22 @@
   </head>
   <body>
     <a class="skip-link" href="#research">Skip to the research</a>
-    <div id="root"></div>
+    <!-- The first view, in plain HTML, so the name and the main sentence paint
+         before any script arrives. React replaces it on mount. Keep the text in
+         step with src/data/profile.json and src/data/profile.ts. -->
+    <div id="root">
+      <section class="hero scene">
+        <div class="hero-top shell">
+          <p class="meta">Earth observation researcher · M.Sc. 2026, RUDN University, thesis graded Excellent</p>
+        </div>
+        <div class="hero-body shell">
+          <h1 class="display is-hero hero-name">Muhammad<br />Moosa<br />Raza</h1>
+          <div class="hero-side">
+            <p class="lead hero-tagline">Remote sensing for floods, drought and land change, built so the numbers can be checked.</p>
+          </div>
+        </div>
+      </section>
+    </div>
     <noscript>
       <div style="max-width: 38rem; margin: 4rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; line-height: 1.6">
         <h1>Muhammad Moosa Raza</h1>
