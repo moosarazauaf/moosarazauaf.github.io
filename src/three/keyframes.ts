@@ -27,7 +27,7 @@ export const keyframes: Record<SceneKey, KF> = {
       y: m ? -1.28 : lerp(-0.2, 0.1, p),
       r: m ? 0.8 : 0.95,
       earth: 1,
-      rings: 0.6,
+      rings: 0, // no orbit lines or nodes drifting across the figure and its text
       sat: 1,
       stars: 0.1,
     }),

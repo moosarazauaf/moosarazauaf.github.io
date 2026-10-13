@@ -64,17 +64,17 @@ export function SensingSection() {
 
           {p && (
             <figure className="scan">
+              <p className="scan-readout meta">
+                <span>Sentinel-1 · C-band SAR</span>
+                <span>
+                  {p.place.lat.toFixed(2)}° N {p.place.lon.toFixed(2)}° E
+                </span>
+                <span>Monsoon 2022</span>
+              </p>
               <div className="scan-frame">
                 <img className="scan-ghost" src={`/${p.image}`} alt="" aria-hidden="true" loading="lazy" />
                 <img className="scan-img" src={`/${p.image}`} alt={`${p.title}: radar flood mapping over Layyah District`} loading="lazy" />
                 <span className="scan-line" aria-hidden="true" />
-                <span className="scan-corner tl" aria-hidden="true" />
-                <span className="scan-corner br" aria-hidden="true" />
-                <p className="scan-readout meta" aria-hidden="true">
-                  <span>Sentinel-1 · C-band SAR</span>
-                  <span>{p.place.lat.toFixed(2)}° N {p.place.lon.toFixed(2)}° E</span>
-                  <span>Monsoon 2022</span>
-                </p>
               </div>
               <figcaption className="scan-caption">
                 <span className="meta">From the study</span>

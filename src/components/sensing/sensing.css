@@ -62,34 +62,15 @@
   background: var(--earth);
   box-shadow: 0 0 18px 4px color-mix(in srgb, var(--earth) 50%, transparent);
 }
-.scan-corner {
-  position: absolute;
-  width: 1.618rem;
-  height: 1.618rem;
-  border: 1px solid var(--fg);
-}
-.scan-corner.tl {
-  left: var(--s0);
-  top: var(--s0);
-  border-right: 0;
-  border-bottom: 0;
-}
-.scan-corner.br {
-  right: var(--s0);
-  bottom: var(--s0);
-  border-left: 0;
-  border-top: 0;
-}
+/* Sensor, place and season, set above the frame so they never cover the
+   figure's own title and labels. */
 .scan-readout {
-  position: absolute;
-  right: var(--s1);
-  top: var(--s0);
   margin: 0;
-  display: grid;
-  justify-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 var(--s1);
   font-size: 0.75rem;
-  color: #f4f1ea;
-  mix-blend-mode: difference;
 }
 .scan-caption {
   display: flex;
