@@ -126,7 +126,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: var(--s0) var(--s2);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 .contact-credits {
   flex-basis: 100%;

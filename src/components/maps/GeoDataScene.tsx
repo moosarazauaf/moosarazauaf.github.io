@@ -94,7 +94,7 @@ export function GeoDataScene() {
         : {
             trigger: el,
             start: "top top",
-            end: "+=150%",
+            end: "+=100%",
             pin: true,
             scrub: 0.618,
             onUpdate: (s) => {
@@ -165,7 +165,7 @@ export function GeoDataScene() {
           <div className="geo-side">
             <RevealText className="geo-head">
               <p className="meta" data-reveal>
-                05 · Modelling
+                04 · National data
               </p>
               <SplitText as="h2" id="geo-title" className="display" text="Pakistan in data" />
               <p className="body" data-reveal>

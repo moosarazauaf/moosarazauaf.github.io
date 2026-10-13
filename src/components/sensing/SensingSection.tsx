@@ -35,7 +35,7 @@ export function SensingSection() {
       defaults: { ease: "none" },
       scrollTrigger: mobile
         ? { trigger: el, start: "top 70%", end: "bottom 60%", scrub: 0.618 }
-        : { trigger: el, start: "top top", end: "+=110%", pin: true, scrub: 0.618 },
+        : { trigger: el, start: "top top", end: "+=80%", pin: true, scrub: 0.618 },
     });
     tl.fromTo(q(".scan-img"), { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1 }, 0)
       .fromTo(q(".scan-line"), { top: "0%" }, { top: "100%", duration: 1 }, 0)
@@ -54,7 +54,7 @@ export function SensingSection() {
         <div className="sensing-grid shell">
           <RevealText className="sensing-head">
             <p className="meta" data-reveal>
-              03 · Data
+              02 · Instruments
             </p>
             <SplitText as="h2" id="sensing-title" className="display" text="Remote sensing" />
             <p className="body" data-reveal>

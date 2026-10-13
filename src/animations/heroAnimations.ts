@@ -4,24 +4,25 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * The opening, about 2.6 seconds end to end:
- *   0.0 background · 0.2 metadata · 0.5 MUHAMMAD · 0.65 MOOSA · 0.8 RAZA
- *   1.1 Earth turns · 1.3 satellite · 1.6 "drag to explore"
+ * The opening. Everything a reader needs is on screen within half a second;
+ * the motion is a settle, not a wait:
+ *   0.0 metadata and name · 0.15 the idea, the numbers and the invitation
+ *   0.2 Earth · 0.4 satellite
  * The globe and satellite fade in through the scene frame; `onEarth` lets
  * the caller release them at the right beat.
  */
 export function heroIntro(root: HTMLElement, onEarth: () => void, onSatellite: () => void) {
   const q = gsap.utils.selector(root);
   const lines = q(".hero-name .split-line .wi");
-  const tl = gsap.timeline({ defaults: { ease: "expo.out", duration: 1.382 } });
+  const tl = gsap.timeline({ defaults: { ease: "expo.out", duration: 0.9 } });
   tl.set(root, { autoAlpha: 1 })
-    .fromTo(q("[data-intro='meta']"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, stagger: 0.0618 }, 0.2)
-    .fromTo(lines[0] ?? [], { yPercent: 110 }, { yPercent: 0 }, 0.5)
-    .fromTo(lines[1] ?? [], { yPercent: 110 }, { yPercent: 0 }, 0.65)
-    .fromTo(lines[2] ?? [], { yPercent: 110 }, { yPercent: 0 }, 0.8)
-    .call(onEarth, [], 1.1)
-    .call(onSatellite, [], 1.3)
-    .fromTo(q("[data-intro='late']"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, stagger: 0.0618 }, 1.6);
+    .fromTo(q("[data-intro='meta']"), { opacity: 0.4, y: 12 }, { opacity: 1, y: 0 }, 0)
+    .fromTo(lines[0] ?? [], { yPercent: 38.2, y: 0 }, { yPercent: 0, y: 0 }, 0)
+    .fromTo(lines[1] ?? [], { yPercent: 38.2, y: 0 }, { yPercent: 0, y: 0 }, 0.05)
+    .fromTo(lines[2] ?? [], { yPercent: 38.2, y: 0 }, { yPercent: 0, y: 0 }, 0.1)
+    .fromTo(q("[data-intro='late']"), { opacity: 0.4, y: 12 }, { opacity: 1, y: 0 }, 0.15)
+    .call(onEarth, [], 0.2)
+    .call(onSatellite, [], 0.4);
   return tl;
 }
 

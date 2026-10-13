@@ -5,7 +5,6 @@
   min-height: 100svh;
   padding-top: calc(var(--s4) + var(--s0));
   padding-bottom: var(--s2);
-  visibility: hidden; /* the intro reveals it */
   overflow: hidden;
 }
 
@@ -68,6 +67,11 @@
 }
 .hero .hero-name.display {
   font-size: min(var(--t-hero), 19vh);
+}
+@media (max-height: 760px) and (min-width: 761px) {
+  .hero .hero-name.display {
+    font-size: min(var(--t-hero), 15.5vh);
+  }
 }
 
 /* Along the bottom, below the globe: who, the proof, and the invitation,
@@ -141,7 +145,7 @@
 }
 .hero-proof dd {
   margin: 0;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   line-height: 1.382;
 }
 
@@ -261,5 +265,23 @@
     right: 50%;
     translate: 50% -50%;
     width: 82vw;
+  }
+}
+
+/* First paint already sits at the opening's starting pose, so when the
+   settle begins nothing jumps. Without motion, or without script, the hero
+   is simply in place. */
+.js .hero-name .wi {
+  transform: translateY(38.2%);
+}
+.js .hero [data-intro] {
+  opacity: 0.4;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-name .wi {
+    transform: none;
+  }
+  .js .hero [data-intro] {
+    opacity: 1;
   }
 }

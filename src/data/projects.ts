@@ -11,7 +11,7 @@ export const FEATURED = "lahore-lulc-carbon";
 /** The featured study is shown under the thesis's own framing. */
 export const FEATURED_TITLE = "Long-term land-cover change and carbon stock estimation in Lahore";
 /** Its cover: the district's land cover, epoch by epoch, in one strip. */
-export const FEATURED_COVER = "img/hero-lahore-1920.jpg";
+export const FEATURED_COVER = "img/hero-lahore-1920.webp";
 export const SELECTED = [
   "layyah-flood-monitor",
   "pakistan-lulc-carbon",

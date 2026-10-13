@@ -31,7 +31,7 @@ export function ProjectsSection({ onOpen }: { onOpen: (slug: string) => void }) 
       <div ref={root} className="shell projects-inner">
         <RevealText className="projects-head">
           <p className="meta" data-reveal>
-            04 · Analysis
+            03 · Studies
           </p>
           <SplitText as="h2" id="projects-title" className="display" text="Projects" />
           <p className="lead" data-reveal>

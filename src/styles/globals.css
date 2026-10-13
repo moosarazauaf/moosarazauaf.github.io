@@ -195,9 +195,21 @@ main {
   margin: 0;
 }
 
-html.has-cursor,
-html.has-cursor a,
-html.has-cursor button,
-html.has-cursor [role="button"] {
-  cursor: none;
+
+/* Small text links keep a tap area at least 24px tall (WCAG 2.2 target size)
+   without changing how the line is set. */
+.hero-evidence,
+.hero-cue,
+.ptable-code,
+.ptable-title,
+.contact-copy,
+.contact-foot a,
+.geo-source a,
+.geo-notes summary,
+.direction-builds a,
+.menu-foot a,
+.nav-name,
+.ov-cite-copy,
+.rdetail-close {
+  padding-block: 0.35rem;
 }

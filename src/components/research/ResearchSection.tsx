@@ -40,7 +40,7 @@ export function ResearchSection({ webgl, onOpenStudy }: Props) {
     const st = ScrollTrigger.create({
       trigger: pin.current,
       start: "top top",
-      end: "+=100%",
+      end: "+=60%",
       pin: true,
       onUpdate: (s) => {
         progress.current = s.progress;
@@ -80,7 +80,7 @@ export function ResearchSection({ webgl, onOpenStudy }: Props) {
       <div ref={pin} className={`research-pin ${focus ? "has-focus" : ""}`}>
         <RevealText className="research-head shell">
           <p className="meta" data-reveal>
-            02 · Observation
+            01 · Research areas
           </p>
           <SplitText as="h2" id="research-title" className="display" text="Research" />
           <p className="body research-intro" data-reveal>

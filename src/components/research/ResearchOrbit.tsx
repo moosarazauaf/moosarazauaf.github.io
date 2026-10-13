@@ -57,7 +57,9 @@ export function ResearchOrbit({ focus, onSelect, progress }: Props) {
       const rx = Math.min(w * 0.236, Math.max(globe * PHI * 1.1, 200));
       const ry = rx * INV2 * 1.3;
       const still = scene.reducedMotion;
-      speed.v = damp(speed.v, hovered.current || focus ? 0.236 : 1, 4, dt);
+      // Under the pointer or keyboard focus the system stops, so nobody has
+      // to chase a moving target to open an area.
+      speed.v = damp(speed.v, hovered.current || focus ? 0 : 1, 6, dt);
       const turn = still ? 0 : progress.current * Math.PI * INV2;
 
       if (svg.current) {

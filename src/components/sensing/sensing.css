@@ -87,7 +87,7 @@
   margin: 0;
   display: grid;
   justify-items: end;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #f4f3ef;
   mix-blend-mode: difference;
 }

@@ -8,6 +8,8 @@ export const profile = raw as unknown as Profile;
 export const copy = {
   descriptor: ["Earth observation researcher", "Remote sensing", "Geospatial AI", "Climate risk"],
   seeking: "Seeking a PhD position, 2026/27",
+  /** The degree behind the work, stated in the first view. */
+  credentials: "M.Sc. 2026, RUDN University, thesis graded Excellent",
   heroProof: [
     { value: "12", label: "studies, each public" },
     { value: "0.962", label: "F1 on unseen floods" },
@@ -28,5 +30,4 @@ export const copy = {
   /** Credit for the data the studies are built on. */
   dataCredits:
     "Data: Copernicus Sentinel-1 and Sentinel-2 (ESA), Landsat (USGS and NASA), CHIRPS (UCSB Climate Hazards Center), ERA5-Land (ECMWF, Copernicus C3S), GPM IMERG (NASA), GLC-FCS30D, Global Flood Database, geoBoundaries and Natural Earth. Processed in Google Earth Engine.",
-  story: ["Earth", "Observation", "Data", "Analysis", "Modelling", "Decision support"],
 };

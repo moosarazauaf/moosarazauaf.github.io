@@ -1,5 +1,4 @@
-/** The page's sections in order, with the stage of the research story each
- *  one stands for. Shared by the menu and the story rail. */
+/** The page's sections in order, as the full-screen menu lists them. */
 export const SECTIONS = [
   { id: "research", label: "Research", note: "Seven areas, one system" },
   { id: "sensing", label: "Observation", note: "The instruments behind the work" },

@@ -134,7 +134,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0 var(--s1);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 .pscene:hover .pscene-meta,
 .pscene:focus-within .pscene-meta {
@@ -265,7 +265,7 @@
   white-space: nowrap;
 }
 .ptable-result .meta {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 .ptable-code {
   display: inline-flex;
@@ -322,12 +322,17 @@
     content: attr(data-label);
     display: block;
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--soft);
   }
   .ptable td:nth-child(1)::before {
+    display: none;
+  }
+  /* On a phone the record keeps the finding, the check and the result; the
+     data line is one tap away on the study page. */
+  .ptable td:nth-child(3) {
     display: none;
   }
 }

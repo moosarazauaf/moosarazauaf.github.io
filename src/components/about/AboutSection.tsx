@@ -16,11 +16,11 @@ export function AboutSection() {
       <div className="shell about-inner">
         <RevealText className="about-name">
           <p className="meta" data-reveal>
-            About
+            06 · The researcher
           </p>
-          <SplitText as="h2" id="about-title" className="display is-hero" text={"Muhammad\nMoosa\nRaza"} lines />
+          <SplitText as="h2" id="about-title" className="display" text="About" />
           <p className="about-role" data-reveal>
-            {profile.role}. <span>{copy.seeking}.</span>
+            {profile.name}. {profile.role}. <span>{copy.seeking}.</span>
           </p>
         </RevealText>
 

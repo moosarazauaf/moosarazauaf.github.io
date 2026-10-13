@@ -19,18 +19,18 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-flood-monitor",
     "liveUrl": "",
-    "image": "img/projects/layyah-flood-susceptibility.jpg",
+    "image": "img/projects/layyah-flood-susceptibility.webp",
     "gallery": [
       {
-        "src": "img/projects/layyah-flood-susceptibility.jpg",
+        "src": "img/projects/layyah-flood-susceptibility.webp",
         "caption": "Modelled flood susceptibility, Layyah District"
       },
       {
-        "src": "img/projects/layyah-study-area.jpg",
+        "src": "img/projects/layyah-study-area.webp",
         "caption": "Study area: Layyah District, Punjab"
       },
       {
-        "src": "img/projects/flood-susceptibility-roc.png",
+        "src": "img/projects/flood-susceptibility-roc.webp",
         "caption": "ROC and precision-recall on held-out events"
       }
     ],
@@ -109,11 +109,11 @@
         "caption": "Spatial typology of expansion, 2003 to 2023. Cells of about 0.5 km with at least 1 ha converted are classed as low or high on land-conversion CO₂ and on embodied GHG of buildings, relative to the district medians. Unshaded cells have less than 1 ha converted. From the follow-up analysis, manuscript in preparation."
       },
       {
-        "src": "img/projects/vegetation-loss.png",
+        "src": "img/projects/vegetation-loss.webp",
         "caption": "Vegetation lost between 1993 and 2023: a net decline of 27,639 ha."
       },
       {
-        "src": "img/projects/carbon-emission.png",
+        "src": "img/projects/carbon-emission.webp",
         "caption": "Carbon stock change from land-use change, 1993 to 2023. Losses follow the peri-urban fringe."
       }
     ],
@@ -174,10 +174,10 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/pakistan-lulc-carbon",
     "liveUrl": "https://gee-lulc-pakistan.streamlit.app/",
-    "image": "img/projects/pakistan-lulc-net-flux.jpg",
+    "image": "img/projects/pakistan-lulc-net-flux.webp",
     "gallery": [
       {
-        "src": "img/projects/pakistan-lulc-net-flux.jpg",
+        "src": "img/projects/pakistan-lulc-net-flux.webp",
         "caption": "National net carbon flux, 2000 to 2022. The uncertainty band spans zero, so the point estimate of +52.5 Tg C is reported as a centre rather than a finding."
       }
     ],
@@ -228,30 +228,30 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/twin-cities-urban-flood",
     "liveUrl": "",
-    "image": "img/projects/twincities-flood-proneness.jpg",
+    "image": "img/projects/twincities-flood-proneness.webp",
     "gallery": [
       {
-        "src": "img/projects/twincities-flood-proneness.jpg",
+        "src": "img/projects/twincities-flood-proneness.webp",
         "caption": "Flood proneness across the twin cities, with the Leh Nullah drainage network"
       },
       {
-        "src": "img/projects/twincities-flood-timing.jpg",
+        "src": "img/projects/twincities-flood-timing.webp",
         "caption": "Every storm against every Sentinel-1 overpass: none coincide"
       },
       {
-        "src": "img/projects/twincities-flood-rainfall.jpg",
+        "src": "img/projects/twincities-flood-rainfall.webp",
         "caption": "July and August 2026 rainfall; the 1 September event post-dates all satellite products"
       },
       {
-        "src": "img/projects/twincities-flood-sarlimits.jpg",
+        "src": "img/projects/twincities-flood-sarlimits.webp",
         "caption": "What the SAR pair can and cannot show"
       },
       {
-        "src": "img/projects/twincities-flood-beforeafter.jpg",
+        "src": "img/projects/twincities-flood-beforeafter.webp",
         "caption": "Sentinel-1 VV before and after, ascending track 173"
       },
       {
-        "src": "img/projects/twincities-flood-gauges.jpg",
+        "src": "img/projects/twincities-flood-gauges.webp",
         "caption": "PMD gauge totals for 1 September 2026, up to 201 mm in a morning"
       }
     ],
@@ -303,30 +303,30 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/pakistan-landsat-totram",
     "liveUrl": "",
-    "image": "img/projects/layyah-totram.jpg",
+    "image": "img/projects/layyah-totram.webp",
     "gallery": [
       {
-        "src": "img/projects/layyah-totram.jpg",
+        "src": "img/projects/layyah-totram.webp",
         "caption": "TOTRAM before and after, 2022. It reads backwards, June wet and September dry, because W is normalised per month."
       },
       {
-        "src": "img/projects/layyah-totram-lstsignal.jpg",
+        "src": "img/projects/layyah-totram-lstsignal.webp",
         "caption": "Where the signal goes: deseasonalised temperature carries none, while NDVI as a control responds"
       },
       {
-        "src": "img/projects/layyah-totram-specs.jpg",
+        "src": "img/projects/layyah-totram-specs.webp",
         "caption": "Five trapezoid specifications against the OPTRAM benchmark"
       },
       {
-        "src": "img/projects/layyah-totram-drift.jpg",
+        "src": "img/projects/layyah-totram-drift.webp",
         "caption": "The thermal trapezoid drifts 67.7 K across scenes but is only 6.1 K deep"
       },
       {
-        "src": "img/projects/layyah-totram-vs-optram.jpg",
+        "src": "img/projects/layyah-totram-vs-optram.webp",
         "caption": "Thermal against optical retrieval over 73 matched dates"
       },
       {
-        "src": "img/projects/layyah-totram-districts.jpg",
+        "src": "img/projects/layyah-totram-districts.webp",
         "caption": "Study-area screening: terrain confounding measured within scenes"
       }
     ],
@@ -380,30 +380,30 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/tharparkar-spi-drought",
     "liveUrl": "",
-    "image": "img/projects/tharparkar-spi-drought.jpg",
+    "image": "img/projects/tharparkar-spi-drought.webp",
     "gallery": [
       {
-        "src": "img/projects/tharparkar-spi-drought.jpg",
+        "src": "img/projects/tharparkar-spi-drought.webp",
         "caption": "SPI-12 for drought year 1987 against flood year 2011, Tharparkar District"
       },
       {
-        "src": "img/projects/tharparkar-spi-naive.jpg",
+        "src": "img/projects/tharparkar-spi-naive.webp",
         "caption": "What skipping zero-inflation costs: the naive fit pins ordinary dry months at extreme drought"
       },
       {
-        "src": "img/projects/tharparkar-spi-fittability.jpg",
+        "src": "img/projects/tharparkar-spi-fittability.webp",
         "caption": "Where SPI may legitimately be computed. SPI-1 is undefined in 8 of 12 months."
       },
       {
-        "src": "img/projects/tharparkar-spi-timeseries.jpg",
+        "src": "img/projects/tharparkar-spi-timeseries.webp",
         "caption": "SPI-12 and SPI-3, 1981 to 2024, zero-inflated gamma"
       },
       {
-        "src": "img/projects/tharparkar-spi-districts.jpg",
+        "src": "img/projects/tharparkar-spi-districts.webp",
         "caption": "Study-area screening: monsoon and winter-westerly regimes have complementary usable months"
       },
       {
-        "src": "img/projects/tharparkar-spi-chirps.jpg",
+        "src": "img/projects/tharparkar-spi-chirps.webp",
         "caption": "CHIRPS DAILY and PENTAD disagree completely on how often it rains"
       }
     ],
@@ -455,7 +455,7 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-s2-ndvi-flood-impact",
     "liveUrl": "",
-    "image": "img/projects/layyah-s2-ndvi.jpg",
+    "image": "img/projects/layyah-s2-ndvi.webp",
     "tags": [
       "Sentinel-2",
       "NDVI",
@@ -503,7 +503,7 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-s1-flood-detection",
     "liveUrl": "",
-    "image": "img/projects/layyah-s1-flood.jpg",
+    "image": "img/projects/layyah-s1-flood.webp",
     "tags": [
       "Sentinel-1 SAR",
       "Google Earth Engine",
@@ -552,26 +552,26 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-s2-soil-moisture-optram",
     "liveUrl": "",
-    "image": "img/projects/layyah-s2-optram-soilmoisture.jpg",
+    "image": "img/projects/layyah-s2-optram-soilmoisture.webp",
     "gallery": [
       {
-        "src": "img/projects/layyah-s2-optram-soilmoisture.jpg",
+        "src": "img/projects/layyah-s2-optram-soilmoisture.webp",
         "caption": "OPTRAM surface soil moisture before and after the 2022 flood, Layyah District"
       },
       {
-        "src": "img/projects/layyah-s2-optram-validation.jpg",
+        "src": "img/projects/layyah-s2-optram-validation.webp",
         "caption": "Validation: bare soil tracks antecedent rainfall at r = +0.86, while the district mean inverts it"
       },
       {
-        "src": "img/projects/layyah-s2-optram-trapezoid.jpg",
+        "src": "img/projects/layyah-s2-optram-trapezoid.webp",
         "caption": "Fitted NDVI and STR trapezoid, 23,991 observations, 2019 to 2024"
       },
       {
-        "src": "img/projects/layyah-s2-optram-districts.jpg",
+        "src": "img/projects/layyah-s2-optram-districts.webp",
         "caption": "Study-area selection: trapezoid quality across six candidate districts"
       },
       {
-        "src": "img/projects/layyah-s2-optram-histogram.jpg",
+        "src": "img/projects/layyah-s2-optram-histogram.webp",
         "caption": "Bare-soil moisture distribution, pre-monsoon against post-flood"
       }
     ],
@@ -622,7 +622,7 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-s1-soil-moisture",
     "liveUrl": "",
-    "image": "img/projects/layyah-s1-soilmoisture.jpg",
+    "image": "img/projects/layyah-s1-soilmoisture.webp",
     "tags": [
       "Sentinel-1 SAR",
       "Google Earth Engine",
@@ -663,7 +663,7 @@
     "title": "Multi-Temporal SAR Crop Mapping, Layyah District",
     "description": "Crop mapping from 24 monthly Sentinel-1 composites across a full rabi and kharif crop year, resolving five cropping systems over 3,995 km² of cropland. The work is split into a validated stage and an inferred one, because no crop-type ground truth exists for Pakistan in the Earth Engine catalogue.",
     "highlights": [
-      "3,995 km² of cropland mapped at 0.825 overall accuracy and κ = 0.651 on a disjoint held-out split",
+      "3,995 km² of cropland mapped at 0.825 overall accuracy and Kappa = 0.651 on a disjoint held-out split",
       "Five cropping systems separated: wheat and cotton double crop (1,359 km²), cotton (940 km²), sugarcane and orchard (810 km²), fallow (579 km²), wheat and gram (308 km²)",
       "Crop labels derived from each class's seasonal phenology by rank rather than hardcoded to cluster IDs, so they survive a change of seed or period",
       "Separability reported per class: wheat and gram is distinct at 3.5 to 6.9 dB, while cotton, double crop and perennial sit within about 1 dB of each other",
@@ -671,7 +671,7 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-s1-crop-type-sar",
     "liveUrl": "",
-    "image": "img/projects/layyah-s1-croptype.jpg",
+    "image": "img/projects/layyah-s1-croptype.webp",
     "tags": [
       "Sentinel-1 SAR",
       "Google Earth Engine",
@@ -698,7 +698,7 @@
     "short": "SAR crop mapping",
     "finding": "A year of monthly radar composites resolves five cropping systems across 3,995 km² of Layyah's cropland.",
     "evidence": "24 monthly Sentinel-1 composites over one crop year",
-    "check": "Disjoint held-out split: overall accuracy 0.825, κ = 0.651. No crop-type ground truth exists for the area, so labels are inferred from phenology and reported as inferred."
+    "check": "Disjoint held-out split: overall accuracy 0.825, Kappa = 0.651. No crop-type ground truth exists for the area, so labels are inferred from phenology and reported as inferred."
   },
   {
     "slug": "layyah-s1-speckle-filtering",
@@ -719,7 +719,7 @@
     ],
     "repoUrl": "https://github.com/moosarazauaf/layyah-s1-speckle-filtering",
     "liveUrl": "",
-    "image": "img/projects/layyah-s1-speckle.jpg",
+    "image": "img/projects/layyah-s1-speckle.webp",
     "tags": [
       "Sentinel-1 SAR",
       "Google Earth Engine",

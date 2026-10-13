@@ -40,7 +40,7 @@ export function Hero({ ready, webgl }: Props) {
     // the opening outright rather than leave the name hidden.
     const safety = window.setTimeout(() => {
       if (intro.progress() < 1) intro.progress(1);
-    }, 4236);
+    }, 1500);
     return () => {
       window.clearTimeout(safety);
       intro.kill();
@@ -55,7 +55,7 @@ export function Hero({ ready, webgl }: Props) {
 
       <div className="hero-top shell">
         <p className="meta" data-intro="meta">
-          {copy.descriptor[0]}
+          {copy.descriptor[0]} · {copy.credentials}
         </p>
         <p className="meta hero-coords" data-intro="meta">
           30.96° N · 70.94° E · {profile.location}
@@ -125,7 +125,7 @@ export function Hero({ ready, webgl }: Props) {
         data-cursor="SCROLL"
       >
         <span className="hero-cue-line" aria-hidden="true" />
-        Scroll to enter the system
+        Scroll to continue
       </button>
     </section>
   );

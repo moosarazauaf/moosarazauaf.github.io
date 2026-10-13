@@ -14,7 +14,7 @@
     "linkedin": "https://www.linkedin.com/in/moosarazauaf/",
     "orcid": "https://orcid.org/0009-0009-1215-2021"
   },
-  "photo": "img/profile.jpg",
+  "photo": "img/profile.webp",
   "about": [
     "I measure floods, drought and land change from satellites, mostly over Pakistan. Twelve studies so far, each one designed, built and published end to end: study areas chosen by measurement, models scored on years they never saw, and the code, training data and GIS exports released so the work can be taken apart by anyone who wants to.",
     "The results I care most about are the ones that hold up under a second look. A flood susceptibility model that scores 0.962 on events it was never trained on. A national carbon account traceable to the pixel. A 44-year drought record that independently recovers the droughts and floods Pakistan actually had.",

@@ -4,7 +4,7 @@ import { startSceneTracker } from "../animations/scrollAnimations";
 import { useLenis } from "../hooks/useLenis";
 import { useFinePointer, useMobile } from "../hooks/useMediaQuery";
 import { useReducedMotion } from "../hooks/useReducedMotion";
-import { scene } from "../three/sceneState";
+import { scene, type SceneKey } from "../three/sceneState";
 import { startAnalytics } from "../lib/analytics";
 import { CustomCursor } from "../components/cursor/CustomCursor";
 import { Navigation } from "../components/navigation/Navigation";
@@ -18,7 +18,6 @@ import { GeoDataScene } from "../components/maps/GeoDataScene";
 import { PublicationsSection } from "../components/publications/PublicationsSection";
 import { AboutSection } from "../components/about/AboutSection";
 import { ContactSection } from "../components/contact/ContactSection";
-import { PageTransition } from "../components/transitions/PageTransition";
 import { NoiseOverlay } from "../components/ui/NoiseOverlay";
 import { useProjectRoute } from "./useProjectRoute";
 
@@ -41,10 +40,8 @@ export function App() {
   const fine = useFinePointer();
   const webgl = useMemo(hasWebGL, []);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [stage, setStage] = useState(0);
-  const [progress, setProgress] = useState(0.15);
-  const [loaded, setLoaded] = useState(false);
-  const [loaderGone, setLoaderGone] = useState(false);
+  const [active, setActive] = useState<SceneKey>("hero");
+  const [ready, setReady] = useState(false);
   const { open: openSlug, openProject, closeProject } = useProjectRoute();
 
   scene.reducedMotion = reduced;
@@ -52,7 +49,7 @@ export function App() {
 
   useLenis(!reduced);
 
-  useEffect(() => startSceneTracker((s) => setStage(s)), []);
+  useEffect(() => startSceneTracker((_stage, key) => setActive(key)), []);
   useEffect(startAnalytics, []);
 
   // Pointer position for the globe's lean, kept out of React state.
@@ -65,35 +62,20 @@ export function App() {
     return () => window.removeEventListener("pointermove", on);
   }, []);
 
-  // The loader waits for the fonts and the globe's outlines, and never for
-  // longer than 2.6 s: a slow network gets the page, not a spinner.
+  // No loading screen. The opening starts as soon as the typeface is in, or
+  // after 300 ms without it, so nobody waits on a font or on the globe to
+  // read the first line. The globe fades in whenever its chunk arrives.
   useEffect(() => {
-    let fonts = false;
-    let earth = !webgl;
-    const check = () => {
-      setProgress(0.15 + (fonts ? 0.42 : 0) + (earth ? 0.43 : 0));
-      if (fonts && earth) setLoaded(true);
+    let done = false;
+    const go = () => {
+      if (done) return;
+      done = true;
+      setReady(true);
     };
-    document.fonts.ready.then(() => {
-      fonts = true;
-      check();
-    });
-    const onEarth = () => {
-      earth = true;
-      check();
-    };
-    window.addEventListener("earth:ready", onEarth);
-    const cap = window.setTimeout(() => setLoaded(true), 2618);
-    check();
-    return () => {
-      window.removeEventListener("earth:ready", onEarth);
-      window.clearTimeout(cap);
-    };
-  }, [webgl]);
-
-  useEffect(() => {
-    if (loaderGone) ScrollTrigger.refresh();
-  }, [loaderGone]);
+    document.fonts.ready.then(go);
+    const cap = window.setTimeout(go, 300);
+    return () => window.clearTimeout(cap);
+  }, []);
 
   // Pinned sections are measured when ScrollTrigger refreshes. Fonts, images
   // and the map's data all arrive later and change the page's height, so
@@ -122,17 +104,8 @@ export function App() {
     };
   }, []);
 
-  // The loader's exit is animated; if animation frames never arrive, it still
-  // goes, a little later.
-  useEffect(() => {
-    if (!loaded) return;
-    const t = window.setTimeout(() => setLoaderGone(true), 3000);
-    return () => window.clearTimeout(t);
-  }, [loaded]);
-
   const toggleMenu = useCallback(() => setMenuOpen((o) => !o), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
-  const gone = useCallback(() => setLoaderGone(true), []);
 
   return (
     <>
@@ -141,10 +114,10 @@ export function App() {
           <EarthScene mobile={mobile} />
         </Suspense>
       )}
-      <Navigation menuOpen={menuOpen} onMenu={toggleMenu} stage={stage} />
+      <Navigation menuOpen={menuOpen} onMenu={toggleMenu} active={active} />
       <MenuOverlay open={menuOpen} onClose={closeMenu} />
       <main id="main">
-        <Hero ready={loaded} webgl={webgl} />
+        <Hero ready={ready} webgl={webgl} />
         <ResearchSection webgl={webgl} onOpenStudy={openProject} />
         <SensingSection />
         <ProjectsSection onOpen={openProject} />
@@ -156,7 +129,6 @@ export function App() {
       <ProjectOverlay slug={openSlug} onClose={closeProject} onOpen={openProject} />
       {fine && !reduced && <CustomCursor />}
       <NoiseOverlay />
-      {!loaderGone && <PageTransition progress={progress} done={loaded} onGone={gone} />}
     </>
   );
 }
