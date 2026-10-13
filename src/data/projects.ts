@@ -19,6 +19,15 @@ export const SELECTED = [
   "tharparkar-spi-drought",
 ];
 
+/** One colour per study theme, drawn from what the theme is about. Always
+ *  shown beside the theme's name, never as the only cue. */
+export const THEME_COLOR: Record<string, string> = {
+  Floods: "var(--water)",
+  "Drought & soil moisture": "var(--ochre)",
+  "Land change & carbon": "var(--veg)",
+  "SAR methods": "var(--slate)",
+};
+
 /** Sensors and archives, as opposed to methods and tools. Used to split a
  *  study's tags into "data" and "methods" on its page. */
 const DATASETS = new Set([

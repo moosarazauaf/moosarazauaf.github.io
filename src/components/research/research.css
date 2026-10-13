@@ -119,9 +119,9 @@
 }
 .robj.is-active .robj-dot,
 .robj:focus-visible .robj-dot {
-  background: var(--radar);
-  border-color: var(--radar);
-  box-shadow: 0 0 0 0.618rem color-mix(in srgb, var(--radar) 23.6%, transparent);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.618rem color-mix(in srgb, var(--accent) 23.6%, transparent);
 }
 
 .research-drag {
@@ -186,7 +186,7 @@
   color: var(--fg);
 }
 .rdetail-close:hover {
-  color: var(--radar-ink);
+  color: var(--accent-ink);
 }
 .rdetail-title {
   font-size: clamp(2.618rem, 6.2vw, 6.854rem);

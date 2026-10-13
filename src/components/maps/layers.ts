@@ -32,10 +32,10 @@ export interface Layer {
 }
 
 const hex = (h: string): RGB => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
-const LOW = hex("#26261f");
-const MID = hex("#3a3a33");
-const PAPER = hex("#f4f3ef");
-const RADAR = hex("#e0521f");
+const LOW = hex("#1d2b23");
+const MID = hex("#34453b");
+const PAPER = hex("#f4f1ea");
+const RADAR = hex("#d0703c"); // copper
 // Orange against teal stays distinguishable under red-green colour blindness,
 // which orange against green does not.
 const GAIN = hex("#3fb5a3");

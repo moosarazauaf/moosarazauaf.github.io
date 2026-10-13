@@ -193,7 +193,7 @@
   stroke-width: 1.6;
 }
 .geo-d.is-studied {
-  stroke: var(--radar);
+  stroke: var(--earth);
   stroke-width: 1.4;
 }
 .geo-scale line {
@@ -235,7 +235,7 @@
   letter-spacing: -0.02em;
 }
 .geo-tip-study {
-  color: var(--radar) !important;
+  color: var(--earth) !important;
 }
 
 /* Short laptop screens: the pinned section must fit in one viewport, so the

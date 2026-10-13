@@ -80,7 +80,7 @@ a.pub:focus-visible .pub-meta {
   opacity: 1;
 }
 .pub-status.is-submitted {
-  color: var(--radar-ink);
+  color: var(--earth-ink);
 }
 .pub-arrow {
   justify-self: end;

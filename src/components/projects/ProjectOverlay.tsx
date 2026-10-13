@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ArrowRight, ArrowUpRight, Check, Copy, FolderGit2, X } from "lucide-react";
 import { expandFrom } from "../../animations/projectAnimations";
-import { FEATURED, FEATURED_COVER, bySlug, linkedStudies, projects, splitTags } from "../../data/projects";
+import { FEATURED, FEATURED_COVER, THEME_COLOR, bySlug, linkedStudies, projects, splitTags } from "../../data/projects";
 import { publications } from "../../data/publications";
 import { lockScroll } from "../../lib/scroll";
 import { scene } from "../../three/sceneState";
@@ -108,6 +108,7 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
 
       <header className="ov-head shell">
         <p className="meta" data-ov>
+          <i className="theme-dot" style={{ background: THEME_COLOR[p.theme], marginRight: "0.4rem" }} aria-hidden="true" />
           {p.kind} · {p.theme} · {p.year} · {p.place.name}
           {pub && <span className="ov-pub"> · Manuscript {pub.status.toLowerCase()}, {pub.journal}</span>}
         </p>

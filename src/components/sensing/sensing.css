@@ -59,8 +59,8 @@
   right: -2%;
   top: 0;
   height: 2px;
-  background: var(--radar);
-  box-shadow: 0 0 18px 4px color-mix(in srgb, var(--radar) 50%, transparent);
+  background: var(--earth);
+  box-shadow: 0 0 18px 4px color-mix(in srgb, var(--earth) 50%, transparent);
 }
 .scan-corner {
   position: absolute;
@@ -88,7 +88,7 @@
   display: grid;
   justify-items: end;
   font-size: 0.75rem;
-  color: #f4f3ef;
+  color: #f4f1ea;
   mix-blend-mode: difference;
 }
 .scan-caption {
@@ -130,7 +130,7 @@
   transform-origin: left;
 }
 .sensors li:first-child .sensor-bar i {
-  background: var(--radar);
+  background: var(--accent);
 }
 .sensor-n {
   text-align: right;

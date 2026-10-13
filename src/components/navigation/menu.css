@@ -76,7 +76,7 @@
   gap: var(--s2);
 }
 .menu-foot a:hover {
-  color: var(--radar);
+  color: var(--accent);
 }
 
 @media (max-width: 760px) {

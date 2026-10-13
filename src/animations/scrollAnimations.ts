@@ -23,8 +23,8 @@ const STAGE: Record<SceneKey, number> = {
   contact: 6,
 };
 
-const PAPER = [0xf4, 0xf3, 0xef];
-const INK = [0x0a, 0x0a, 0x0a];
+const PAPER = [0xf4, 0xf1, 0xea]; // linen
+const INK = [0x0f, 0x1d, 0x16]; // deep forest
 
 const blend = (a: Frame, b: Frame, t: number): Frame => {
   const out = { ...a };

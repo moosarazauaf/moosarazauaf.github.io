@@ -59,7 +59,7 @@
 /* The name inverts where the globe passes behind it. */
 .hero-name {
   align-self: center;
-  color: #f4f3ef;
+  color: #f4f1ea;
   mix-blend-mode: difference;
   margin-block: var(--s2) 0;
   /* Capped by height too, so on a short laptop screen the whole opening,
@@ -157,7 +157,7 @@
 }
 .hero-evidence:hover,
 .hero-evidence:focus-visible {
-  text-decoration-color: var(--radar);
+  text-decoration-color: var(--accent);
 }
 .hero-seeking {
   display: inline-flex;

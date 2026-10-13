@@ -4,18 +4,24 @@
  * nothing on the page looks tuned in isolation.
  */
 :root {
-  --paper: #f4f3ef;
-  --ink: #0a0a0a;
+  /* Palette built from two 21st.dev themes, Forest Copper and Nature: linen
+     paper, deep-forest ink, forest green for anything interactive and
+     copper for data highlights. */
+  --paper: #f4f1ea;
+  --ink: #0f1d16;
   --bg: var(--paper); /* driven by the scroll tracker */
   --fg: var(--ink);
   --tone: 0;
 
   /* Earth-observation accents. Used for data, state and hover only. */
-  --veg: #5b7f3b;
-  --water: #2f6690;
-  --ochre: #c2892f;
-  --radar: #e0521f;
-  --radar-ink: #b93c10; /* the radar orange at text contrast on paper */
+  --veg: #2f7d4f;
+  --water: #2f6f9c;
+  --ochre: #b8842a;
+  --slate: #5d6b73;
+  --accent: #2f7d4f; /* forest green: links, focus, hover, availability */
+  --accent-ink: #256b42; /* the same green at text contrast on linen */
+  --earth: #c9683a; /* copper: data highlights, Pakistan on the globe */
+  --earth-ink: #a2541f;
 
   --muted: color-mix(in srgb, var(--fg) 61.8%, var(--bg));
   --soft: color-mix(in srgb, var(--fg) 38.2%, var(--bg));
@@ -50,7 +56,9 @@
 
 :root[data-tone="dark"] {
   color-scheme: dark;
-  --radar-ink: #ff7a45;
+  --accent: #58b47e;
+  --accent-ink: #7ecf9a;
+  --earth-ink: #e39b6c;
 }
 
 *,
@@ -111,13 +119,13 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--radar);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 ::selection {
-  background: var(--radar);
+  background: var(--accent);
   color: var(--paper);
 }
 

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { setFlipOrigin } from "../../animations/projectAnimations";
-import { projects } from "../../data/projects";
+import { THEME_COLOR, projects } from "../../data/projects";
 import { Abbr } from "../ui/Abbr";
 
 const THEMES = ["All", ...new Set(projects.map((p) => p.theme))];
@@ -32,6 +32,7 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
               aria-pressed={t === theme}
               onClick={() => setTheme(t)}
             >
+              {t !== "All" && <i className="theme-dot" style={{ background: THEME_COLOR[t] }} aria-hidden="true" />}
               {t}
               <span className="chip-n num">{t === "All" ? projects.length : projects.filter((p) => p.theme === t).length}</span>
             </button>
@@ -59,6 +60,7 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
             return (
               <tr
                 key={p.slug}
+                style={{ boxShadow: `inset 3px 0 0 ${THEME_COLOR[p.theme]}` }}
                 data-cursor="VIEW"
                 onClick={(e) => {
                   if ((e.target as Element).closest("a[target]")) return;
@@ -82,6 +84,10 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
                   >
                     {p.title}
                   </a>
+                  <span className="ptable-theme meta">
+                    <i className="theme-dot" style={{ background: THEME_COLOR[p.theme] }} aria-hidden="true" />
+                    {p.theme}
+                  </span>
                   <span className="ptable-finding">
                     <Abbr>{p.finding}</Abbr>
                   </span>

@@ -71,7 +71,7 @@
 }
 .contact-cta:hover,
 .contact-cta:focus-visible {
-  background: var(--radar);
+  background: var(--accent);
   color: #fff;
 }
 .contact-copy {
@@ -81,7 +81,7 @@
   color: var(--fg);
 }
 .contact-copy:hover {
-  color: var(--radar-ink);
+  color: var(--accent-ink);
 }
 
 .contact-links {
@@ -107,7 +107,7 @@
   border-left: 1px solid var(--line);
 }
 .contact-links a:hover {
-  color: var(--radar-ink);
+  color: var(--accent-ink);
 }
 .contact-links a:hover svg {
   transform: rotate(45deg);

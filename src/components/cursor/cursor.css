@@ -23,7 +23,7 @@ html.cursor-on .cursor {
   height: 7px;
   margin: -3.5px 0 0 -3.5px;
   border-radius: 50%;
-  background: #f4f3ef;
+  background: #f4f1ea;
   mix-blend-mode: difference;
   transition: opacity var(--t-s) var(--ease);
 }
@@ -48,7 +48,7 @@ html.cursor-on .cursor {
   width: var(--size);
   height: var(--size);
   border-radius: 50%;
-  border: 1px solid #f4f3ef;
+  border: 1px solid #f4f1ea;
   mix-blend-mode: difference;
   transition: width var(--t-m) var(--ease), height var(--t-m) var(--ease), left var(--t-m) var(--ease),
     top var(--t-m) var(--ease), background-color var(--t-m) var(--ease), border-color var(--t-m) var(--ease);
@@ -60,8 +60,8 @@ html.cursor-on .cursor {
   --size: 68px;
 }
 .cursor-ring.is-label::before {
-  background: var(--radar);
-  border-color: var(--radar);
+  background: var(--accent);
+  border-color: var(--accent);
   mix-blend-mode: normal;
 }
 .cursor-ring.is-down {

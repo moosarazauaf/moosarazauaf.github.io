@@ -183,11 +183,11 @@ function Site({ lat, lon }: { lat: number; lon: number }) {
     <group ref={group} position={pos}>
       <mesh renderOrder={3}>
         <circleGeometry args={[0.009, 16]} />
-        <meshBasicMaterial ref={dotMat} color="#e0521f" transparent depthWrite={false} />
+        <meshBasicMaterial ref={dotMat} color="#d0703c" transparent depthWrite={false} />
       </mesh>
       <mesh ref={ring} renderOrder={3}>
         <ringGeometry args={[0.022, 0.026, 32]} />
-        <meshBasicMaterial ref={ringMat} color="#e0521f" transparent depthWrite={false} />
+        <meshBasicMaterial ref={ringMat} color="#d0703c" transparent depthWrite={false} />
       </mesh>
     </group>
   );

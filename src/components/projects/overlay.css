@@ -69,10 +69,10 @@
   font-size: var(--t-h3);
   line-height: 1.2;
   letter-spacing: -0.025em;
-  color: var(--radar-ink);
+  color: var(--accent-ink);
 }
 .ov-pub {
-  color: var(--radar-ink);
+  color: var(--accent-ink);
 }
 
 .ov-body {
@@ -141,7 +141,7 @@
   color: var(--fg);
 }
 .ov-cite-copy:hover {
-  color: var(--radar-ink);
+  color: var(--accent-ink);
 }
 .ov-basis {
   margin: 0;
@@ -151,7 +151,7 @@
   max-width: var(--measure);
   color: var(--muted);
   font-size: var(--t-small);
-  border-left: 2px solid var(--radar);
+  border-left: 2px solid var(--earth);
   list-style: none;
 }
 .ov-gallery a {

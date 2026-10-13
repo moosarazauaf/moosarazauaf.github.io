@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--s1) var(--gutter);
-  color: #f4f3ef;
+  color: #f4f1ea;
   mix-blend-mode: difference;
   pointer-events: none;
 }

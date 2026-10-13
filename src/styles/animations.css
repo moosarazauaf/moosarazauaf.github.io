@@ -31,7 +31,7 @@
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
-  background: var(--radar);
+  background: var(--accent);
   flex: none;
 }
 .pulse-dot::after {
@@ -39,7 +39,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 1px solid var(--radar);
+  border: 1px solid var(--accent);
   animation: pulse 1.618s var(--ease) infinite;
 }
 

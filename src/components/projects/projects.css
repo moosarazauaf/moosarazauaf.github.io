@@ -95,7 +95,7 @@
   margin: 0;
 }
 .pscene-status {
-  color: var(--radar-ink);
+  color: var(--accent-ink);
 }
 
 .pscene-title {
@@ -251,6 +251,21 @@
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
+.theme-dot {
+  display: inline-block;
+  flex: none;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+}
+.ptable-theme {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin-top: var(--s-1);
+  font-size: 0.75rem;
+}
+/* A row carries its theme colour down its left edge. */
 .ptable-finding {
   display: block;
   margin-top: var(--s-2);
@@ -278,8 +293,8 @@
   white-space: nowrap;
 }
 .ptable-code:hover {
-  text-decoration-color: var(--radar);
-  color: var(--radar-ink);
+  text-decoration-color: var(--accent);
+  color: var(--accent-ink);
 }
 .ptable-note {
   margin: 0;
@@ -390,7 +405,7 @@
   text-underline-offset: 0.2em;
 }
 .direction-builds a:hover {
-  text-decoration-color: var(--radar);
+  text-decoration-color: var(--accent);
 }
 
 @media (max-width: 900px) {
