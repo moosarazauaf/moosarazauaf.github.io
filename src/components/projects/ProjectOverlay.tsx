@@ -207,7 +207,9 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
         <div className="ov-gallery shell" data-ov>
           {gallery.map((g, i) => (
             <figure key={g.src}>
-              <img src={`/${g.src}`} alt={g.caption} loading="lazy" />
+              <a href={`/${g.src}`} target="_blank" rel="noopener" data-cursor="ENLARGE" aria-label={`Open figure ${i + 1} at full size`}>
+                <img src={`/${g.src}`} alt={g.caption} loading="lazy" />
+              </a>
               <figcaption>
                 <b className="meta">Fig. {i + 1}</b> {g.caption}
               </figcaption>

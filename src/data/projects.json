@@ -81,31 +81,32 @@
       "The InVEST Carbon Storage and Sequestration model, run on the same density table, estimated a loss of 3,142,961 tonnes over the same period, within 0.3% of the class-based figure",
       "Vegetation to built-up was the dominant transition. Each hectare converted costs 122 Mg C, and the losses concentrate on the peri-urban fringe rather than in the urban core",
       "Carbon stock peaked in 2003 and fell sharply afterwards. InVEST puts the loss from 2003 to 2023 at 3.74 million tonnes, the heaviest of any period",
-      "Taken to national scale afterwards as a live companion app, cross-checking the district findings against an independent land-cover product across all of Pakistan"
+      "Taken to national scale afterwards as a live companion app, cross-checking the district findings against an independent land-cover product across all of Pakistan",
+      "Extended in a follow-up analysis, with a manuscript in preparation, that sets the emissions from converting the land beside the embodied emissions of the buildings put on it. Its maps are Figs. 3 to 5 below"
     ],
     "repoUrl": "https://github.com/moosarazauaf/lahore-lulc-carbon",
     "liveUrl": "",
-    "image": "img/projects/lulc-2023.png",
+    "image": "img/projects/lahore-lulc-1993-2023.webp",
     "gallery": [
       {
-        "src": "img/projects/lulc-1993.png",
-        "caption": "Land use/land cover, 1993. Built-up land covers 35,528 ha and vegetation 115,880 ha."
+        "src": "img/projects/lahore-study-area.webp",
+        "caption": "Study area. (a) Lahore District; (b) its location within Punjab Province; (c) within Pakistan. Boundaries: FAO GAUL 2015. Basemap © OpenStreetMap contributors. Coordinates in WGS 84."
       },
       {
-        "src": "img/projects/lulc-2003.png",
-        "caption": "Land use/land cover, 2003. Built-up 48,351 ha, vegetation 118,843 ha."
+        "src": "img/projects/lahore-lulc-1993-2023.webp",
+        "caption": "Land cover of Lahore District classified from Landsat for (a) 1993, (b) 2003, (c) 2013 and (d) 2023. Differences in water and bare land between panels largely reflect river stage and crop season at the time of the composites."
       },
       {
-        "src": "img/projects/lulc-2013.png",
-        "caption": "Land use/land cover, 2013. Built-up 61,330 ha, vegetation 100,626 ha."
+        "src": "img/projects/lahore-converted-land.webp",
+        "caption": "Land mapped as converted to built-up use between 2003 and 2023, by building footprint cover in 2023 (Open Buildings 2.5D). Grey: built-up in 2003. From the follow-up analysis, manuscript in preparation."
       },
       {
-        "src": "img/projects/lulc-2023.png",
-        "caption": "Land use/land cover, 2023. Built-up land covers 77,256 ha of the district."
+        "src": "img/projects/lahore-embodied-ghg-2023.webp",
+        "caption": "Embodied GHG of the building stock standing in 2023 (concrete, fired brick and steel, cradle to gate), in t CO₂e per hectare. From the follow-up analysis, manuscript in preparation."
       },
       {
-        "src": "img/projects/builtup-expansion.png",
-        "caption": "Built-up expansion, 1993 to 2023: a net gain of 41,728 ha."
+        "src": "img/projects/lahore-expansion-typology.webp",
+        "caption": "Spatial typology of expansion, 2003 to 2023. Cells of about 0.5 km with at least 1 ha converted are classed as low or high on land-conversion CO₂ and on embodied GHG of buildings, relative to the district medians. Unshaded cells have less than 1 ha converted. From the follow-up analysis, manuscript in preparation."
       },
       {
         "src": "img/projects/vegetation-loss.png",

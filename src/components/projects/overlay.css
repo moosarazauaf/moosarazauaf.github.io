@@ -154,6 +154,9 @@
   border-left: 2px solid var(--radar);
   list-style: none;
 }
+.ov-gallery a {
+  display: block;
+}
 .ov-gallery figcaption {
   font-size: var(--t-small);
   color: var(--muted);
@@ -225,6 +228,7 @@
   margin: 0;
   display: grid;
   gap: var(--s0);
+  align-content: start;
 }
 .ov-gallery img {
   width: 100%;
