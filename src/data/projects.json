@@ -23,11 +23,11 @@
     "gallery": [
       {
         "src": "img/projects/layyah-flood-susceptibility.webp",
-        "caption": "Modelled flood susceptibility, Layyah District"
+        "caption": "Modelled flood susceptibility across Layyah District in four classes. The high and very high classes follow the Indus floodplain. Boundaries: OCHA COD-AB. Rivers: HydroRIVERS."
       },
       {
         "src": "img/projects/layyah-study-area.webp",
-        "caption": "Study area: Layyah District, Punjab"
+        "caption": "Study area: Layyah District and its three tehsils, with permanent water (JRC Global Surface Water), the 6 km floodplain buffer and the area flooded in at least one Global Flood Database event, 2003 to 2018."
       },
       {
         "src": "img/projects/flood-susceptibility-roc.webp",
@@ -109,12 +109,12 @@
         "caption": "Spatial typology of expansion, 2003 to 2023. Cells of about 0.5 km with at least 1 ha converted are classed as low or high on land-conversion CO₂ and on embodied GHG of buildings, relative to the district medians. Unshaded cells have less than 1 ha converted. From the follow-up analysis, manuscript in preparation."
       },
       {
-        "src": "img/projects/vegetation-loss.webp",
-        "caption": "Vegetation lost between 1993 and 2023: a net decline of 27,639 ha."
+        "src": "img/projects/lahore-vegetation-change.webp",
+        "caption": "Vegetation change in Lahore District, 1993 to 2023, from the classified Landsat maps. Loss concentrates on the peri-urban fringe; gains follow the river corridor. Coordinates in WGS 84."
       },
       {
-        "src": "img/projects/carbon-emission.webp",
-        "caption": "Carbon stock change from land-use change, 1993 to 2023. Losses follow the peri-urban fringe."
+        "src": "img/projects/lahore-carbon-change.webp",
+        "caption": "Change in carbon stock from land-cover change, 1993 to 2023, in Mg C per hectare at the thesis densities. Brown is loss, teal is gain."
       }
     ],
     "tags": [
