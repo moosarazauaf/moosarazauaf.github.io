@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
  */
 export function heroIntro(root: HTMLElement, onEarth: () => void, onSatellite: () => void) {
   const q = gsap.utils.selector(root);
-  const lines = q(".hero-name .split-line .wi");
+  const lines = q(".hero-name .split-line").map((l) => l.querySelectorAll(".wi"));
   const tl = gsap.timeline({ defaults: { ease: "expo.out", duration: 0.9 } });
   tl.set(root, { autoAlpha: 1 })
     .fromTo(q("[data-intro='meta']"), { opacity: 0.4, y: 12 }, { opacity: 1, y: 0 }, 0)

@@ -50,7 +50,7 @@ export function Hero({ ready, webgl }: Props) {
   }, [ready]);
 
   return (
-    <section ref={root} id="top" className="hero scene" data-scene="hero" aria-labelledby="hero-name">
+    <section ref={root} id="top" className="hero scene" data-scene="hero" aria-labelledby="hero-statement">
       {webgl ? <DragSurface className="hero-drag" /> : <StaticEarth className="hero-static" />}
 
       <div className="hero-top shell">
@@ -63,7 +63,7 @@ export function Hero({ ready, webgl }: Props) {
       </div>
 
       <div className="hero-body shell">
-        <SplitText as="h1" id="hero-name" className="display is-hero hero-name" text={"Muhammad\nMoosa\nRaza"} lines />
+        <SplitText as="h1" id="hero-statement" className="display hero-name hero-statement" text={copy.heroStatement} lines />
 
         <div className="hero-side">
           <ul className="hero-descriptor meta" data-intro="meta">
@@ -72,7 +72,7 @@ export function Hero({ ready, webgl }: Props) {
             ))}
           </ul>
           <p className="lead hero-tagline" data-intro="late">
-            {profile.tagline}.
+            {copy.heroSupport}
           </p>
           <dl className="hero-proof" data-intro="late">
             {copy.heroProof.map((p) => (

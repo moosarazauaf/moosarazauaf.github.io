@@ -56,25 +56,34 @@
   pointer-events: auto;
 }
 
-/* The name inverts where the globe passes behind it. */
-.hero-name {
+/* The statement. Set like a film title: light weight, tight tracking, and
+   the last line, the method, a step heavier and in the accent. Sized on the
+   φ scale and capped by width and height, so it never crowds the globe or
+   the evidence below it. */
+.hero-statement {
   align-self: center;
-  color: #f4f1ea;
-  mix-blend-mode: difference;
   margin-block: var(--s2) 0;
-  /* Capped by height too, so on a short laptop screen the whole opening,
-     down to the invitation, still fits in the first view. */
+  color: var(--fg);
+  text-transform: none;
 }
-/* Large enough to anchor the page, small enough that the work below it is
-   read in the same glance: about a third of the first screen, not half. */
-.hero .hero-name.display {
-  font-size: min(6.854rem, 7.2vw, 11.5vh);
-  line-height: 0.88;
+.hero .hero-statement.display {
+  font-size: min(6.854rem, 5.2vw, 9.5vh);
+  font-weight: 300;
+  line-height: 0.95;
   letter-spacing: -0.045em;
 }
+.hero-statement .w {
+  /* room for descenders inside the reveal mask */
+  padding-bottom: 0.2em;
+  margin-bottom: -0.2em;
+}
+.hero-statement .split-line:last-child {
+  font-weight: 560;
+  color: var(--accent-ink);
+}
 @media (max-width: 760px) {
-  .hero .hero-name.display {
-    font-size: 12.5vw;
+  .hero .hero-statement.display {
+    font-size: 10.5vw;
   }
 }
 

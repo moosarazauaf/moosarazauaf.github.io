@@ -7,6 +7,10 @@ export const profile = raw as unknown as Profile;
  *  voice can be edited without touching a component. */
 export const copy = {
   descriptor: ["Earth observation researcher", "Remote sensing", "Geospatial AI", "Climate risk"],
+  /** The first thing on the page: what the work is, not who did it. The name
+   *  stays in the header and the page title. One line per row. */
+  heroStatement: "Floods, drought\nand land change,\nmeasured from orbit.",
+  heroSupport: "Twelve open studies over Pakistan, each built so the numbers can be checked.",
   seeking: "Seeking a PhD position, 2026/27",
   /** The degree behind the work, stated in the first view. */
   credentials: "M.Sc. 2026, RUDN University, thesis graded Excellent",
