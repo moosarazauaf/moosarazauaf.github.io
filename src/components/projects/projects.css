@@ -122,7 +122,7 @@
 }
 .pscene-metric .num {
   font-size: clamp(2.618rem, 5vw, 4.236rem);
-  font-weight: 500;
+  font-weight: var(--w-display);
   letter-spacing: -0.05em;
   line-height: 1;
 }
@@ -274,7 +274,7 @@
   display: block;
   color: var(--fg);
   font-size: var(--t-lead);
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1.2;
   white-space: nowrap;

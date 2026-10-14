@@ -79,7 +79,8 @@
 }
 
 .num {
-  font-variant-numeric: tabular-nums;
+  /* Figures line up in columns and read as data, not as decoration. */
+  font-variant-numeric: tabular-nums lining-nums;
   font-feature-settings: "tnum" 1, "ss01" 1;
 }
 

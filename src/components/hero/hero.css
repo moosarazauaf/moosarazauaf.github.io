@@ -141,8 +141,8 @@
 .hero-proof dt {
   font-size: var(--t-h3);
   line-height: 1;
-  letter-spacing: -0.04em;
-  font-weight: 500;
+  letter-spacing: var(--track-display);
+  font-weight: var(--w-display);
 }
 .hero-proof dd {
   margin: 0;

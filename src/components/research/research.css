@@ -19,8 +19,10 @@
   opacity: 0.146;
 }
 .research-intro {
-  max-width: 26rem;
-  font-size: var(--t-small);
+  max-width: 28rem;
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--fg) 78%, var(--bg));
 }
 
 .rorbit {
