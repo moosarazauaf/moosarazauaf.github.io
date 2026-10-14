@@ -63,7 +63,7 @@ export function Hero({ ready, webgl }: Props) {
       </div>
 
       <div className="hero-body shell">
-        <SplitText as="h1" id="hero-statement" className="display hero-name hero-statement" text={copy.heroStatement} lines />
+        <SplitText as="h1" id="hero-statement" className="display statement hero-name hero-statement" text={copy.heroStatement} lines />
 
         <div className="hero-side">
           <ul className="hero-descriptor meta" data-intro="meta">

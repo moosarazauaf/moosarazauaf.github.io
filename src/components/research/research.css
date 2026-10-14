@@ -190,10 +190,9 @@
 }
 .rdetail-title {
   font-size: clamp(2.618rem, 6.2vw, 6.854rem);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-  font-weight: 500;
-  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: var(--track-display);
+  font-weight: var(--w-display);
   margin: 0;
 }
 .rdetail-summary {

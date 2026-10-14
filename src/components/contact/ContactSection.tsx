@@ -43,7 +43,7 @@ export function ContactSection() {
           <p className="meta contact-status" data-reveal>
             <span className="pulse-dot" aria-hidden="true" /> {profile.availability.status}
           </p>
-          <SplitText as="h2" id="contact-title" className="display contact-title" text={"Let's explore\nEarth differently."} lines />
+          <SplitText as="h2" id="contact-title" className="display statement contact-title" text={"Let's explore\nEarth differently."} lines />
         </RevealText>
 
         <RevealText className="contact-body">

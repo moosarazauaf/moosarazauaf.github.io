@@ -68,18 +68,6 @@
 }
 .hero .hero-statement.display {
   font-size: min(6.854rem, 5.2vw, 9.5vh);
-  font-weight: 300;
-  line-height: 0.95;
-  letter-spacing: -0.045em;
-}
-.hero-statement .w {
-  /* room for descenders inside the reveal mask */
-  padding-bottom: 0.2em;
-  margin-bottom: -0.2em;
-}
-.hero-statement .split-line:last-child {
-  font-weight: 560;
-  color: var(--accent-ink);
 }
 @media (max-width: 760px) {
   .hero .hero-statement.display {

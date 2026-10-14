@@ -34,9 +34,14 @@
 .menu-label {
   font-size: clamp(2.618rem, 7.2vw, 6.854rem);
   line-height: 0.95;
-  letter-spacing: -0.05em;
-  font-weight: 500;
-  text-transform: uppercase;
+  letter-spacing: var(--track-display);
+  font-weight: var(--w-display);
+  transition: font-weight var(--t-m) var(--ease);
+}
+/* The variable face lets the chosen item gain weight as it is pointed at. */
+.menu-item:hover .menu-label,
+.menu-item:focus-visible .menu-label {
+  font-weight: var(--w-emphasis);
 }
 
 .menu .meta {

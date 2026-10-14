@@ -59,8 +59,8 @@
   max-width: 22ch;
   font-size: clamp(2.2rem, 5vw, 5.3rem);
   line-height: 0.95;
-  letter-spacing: -0.045em;
-  font-weight: 500;
+  letter-spacing: var(--track-display);
+  font-weight: var(--w-display);
 }
 /* The claim first, in a sentence; everything below it is the evidence. */
 .ov-finding {

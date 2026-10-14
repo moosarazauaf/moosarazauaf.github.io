@@ -18,8 +18,7 @@
   color: var(--fg);
 }
 .contact-title {
-  font-size: clamp(3rem, 10.5vw, 11.09rem);
-  line-height: 0.86;
+  font-size: clamp(2.618rem, 7.2vw, 6.854rem);
 }
 
 .contact-body {
