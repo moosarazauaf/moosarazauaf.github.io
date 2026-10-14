@@ -65,12 +65,16 @@
   /* Capped by height too, so on a short laptop screen the whole opening,
      down to the invitation, still fits in the first view. */
 }
+/* Large enough to anchor the page, small enough that the work below it is
+   read in the same glance: about a third of the first screen, not half. */
 .hero .hero-name.display {
-  font-size: min(var(--t-hero), 19vh);
+  font-size: min(6.854rem, 7.2vw, 11.5vh);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
 }
-@media (max-height: 760px) and (min-width: 761px) {
+@media (max-width: 760px) {
   .hero .hero-name.display {
-    font-size: min(var(--t-hero), 15.5vh);
+    font-size: 12.5vw;
   }
 }
 
