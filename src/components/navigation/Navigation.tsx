@@ -13,6 +13,7 @@ interface Props {
 const LINKS: { href: string; label: string; on: SceneKey[] }[] = [
   { href: "#research", label: "Research", on: ["research", "sensing"] },
   { href: "#evidence", label: "Evidence", on: ["projects"] },
+  { href: "#earthpulse", label: "Software", on: ["software"] },
   { href: "#data", label: "Data", on: ["data"] },
   { href: "#publications", label: "Publications", on: ["publications"] },
   { href: "#about", label: "About", on: ["about"] },

@@ -14,6 +14,7 @@ import { ResearchSection } from "../components/research/ResearchSection";
 import { SensingSection } from "../components/sensing/SensingSection";
 import { ProjectsSection } from "../components/projects/ProjectsSection";
 import { ProjectOverlay } from "../components/projects/ProjectOverlay";
+import { SoftwareSection } from "../components/software/SoftwareSection";
 import { GeoDataScene } from "../components/maps/GeoDataScene";
 import { PublicationsSection } from "../components/publications/PublicationsSection";
 import { AboutSection } from "../components/about/AboutSection";
@@ -121,6 +122,7 @@ export function App() {
         <ResearchSection webgl={webgl} onOpenStudy={openProject} />
         <SensingSection />
         <ProjectsSection onOpen={openProject} />
+        <SoftwareSection />
         <GeoDataScene />
         <PublicationsSection onOpenStudy={openProject} />
         <AboutSection />

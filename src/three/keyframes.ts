@@ -33,6 +33,7 @@ export const keyframes: Record<SceneKey, KF> = {
     }),
 
   projects: () => f({ x: 0, y: -1.8, r: 1, earth: 0, rings: 0, sat: 0 }),
+  software: () => f({ x: 0, y: -1.8, r: 1, earth: 0, rings: 0, sat: 0 }),
 
   // Fly in to Pakistan over the first 38% of the pinned section, then hand
   // over to the district map drawn in HTML on top.

@@ -1,0 +1,219 @@
+.software-inner {
+  display: grid;
+  gap: var(--s3);
+  padding-block: var(--s5) var(--s4);
+}
+.software-head {
+  display: grid;
+  gap: var(--s0);
+}
+.software-head p {
+  margin: 0;
+}
+.software-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s0);
+  color: var(--fg);
+}
+
+/* Words 38.2%, the app 61.8%. */
+.software-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.618fr);
+  gap: var(--s3);
+  align-items: start;
+}
+.software-text {
+  display: grid;
+  gap: var(--s1);
+}
+.software-text p {
+  margin: 0;
+}
+.software-points {
+  list-style: none;
+  margin: 0;
+  padding: var(--s1) 0 0;
+  display: grid;
+  gap: var(--s1);
+  border-top: 1px solid var(--line);
+  counter-reset: pt;
+}
+.software-points li {
+  counter-increment: pt;
+  display: grid;
+  grid-template-columns: 2.618rem 1fr;
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--muted);
+}
+.software-points li::before {
+  content: counter(pt, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: var(--t-meta);
+  color: var(--accent-ink);
+  padding-top: 0.15em;
+}
+.software-points b {
+  color: var(--fg);
+  font-weight: 500;
+}
+.software-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s0) var(--s2);
+  padding-top: var(--s0);
+}
+.software-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s0);
+  padding: var(--s0) var(--s2);
+  border-radius: 999px;
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 500;
+  transition: background-color var(--t-m) var(--ease);
+}
+.software-cta:hover,
+.software-cta:focus-visible {
+  background: var(--accent);
+  color: #fff;
+}
+.software-code {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding-block: 0.35rem;
+  color: var(--fg);
+}
+.software-code:hover {
+  color: var(--accent-ink);
+}
+
+/* The app sits in a quiet browser frame, in its own dark colours. */
+.software-frame {
+  margin: 0;
+  display: grid;
+  gap: var(--s0);
+}
+.software-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.8rem;
+  background: #10161a;
+  border-radius: 10px 10px 0 0;
+}
+.software-bar i {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #33403f;
+}
+.software-bar span {
+  margin-left: var(--s0);
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: #8fa29c;
+}
+.software-screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-top: calc(var(--s0) * -1);
+  overflow: hidden;
+  border-radius: 0 0 10px 10px;
+  background: #0b1012;
+  box-shadow: 0 1.618rem 4.236rem -1.618rem color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.software-screen iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.software-poster {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+.software-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--t-xl) var(--ease), filter var(--t-m) var(--ease);
+}
+.software-poster:hover img,
+.software-poster:focus-visible img {
+  transform: scale(1.02);
+  filter: brightness(0.85);
+}
+.software-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s0);
+  padding: var(--s0) var(--s2);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 500;
+  box-shadow: 0 0.618rem 1.618rem rgb(0 0 0 / 0.35);
+  transition: background-color var(--t-m) var(--ease), color var(--t-m) var(--ease);
+}
+.software-poster:hover .software-play,
+.software-poster:focus-visible .software-play {
+  background: var(--accent);
+  color: #fff;
+}
+.software-caption {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+.software-caption a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.software-shots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s2);
+}
+.software-shots li {
+  display: grid;
+  gap: var(--s-1);
+}
+.software-shots img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.software-shots span {
+  font-size: var(--t-small);
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .software-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .software-shots {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

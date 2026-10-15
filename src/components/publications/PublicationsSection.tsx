@@ -18,7 +18,7 @@ export function PublicationsSection({ onOpenStudy }: { onOpenStudy: (slug: strin
       <div className="shell pubs-inner">
         <RevealText className="pubs-head">
           <p className="meta" data-reveal>
-            05 · Manuscripts and talks
+            06 · Manuscripts and talks
           </p>
           <SplitText as="h2" id="pubs-title" className="display" text="Publications" />
         </RevealText>

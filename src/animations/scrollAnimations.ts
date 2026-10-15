@@ -17,6 +17,7 @@ const STAGE: Record<SceneKey, number> = {
   research: 1,
   sensing: 2,
   projects: 3,
+  software: 3,
   data: 4,
   publications: 5,
   about: 6,

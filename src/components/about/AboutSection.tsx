@@ -16,7 +16,7 @@ export function AboutSection() {
       <div className="shell about-inner">
         <RevealText className="about-name">
           <p className="meta" data-reveal>
-            06 · The researcher
+            07 · The researcher
           </p>
           <SplitText as="h2" id="about-title" className="display" text="About" />
           <p className="about-role" data-reveal>

@@ -165,7 +165,7 @@ export function GeoDataScene() {
           <div className="geo-side">
             <RevealText className="geo-head">
               <p className="meta" data-reveal>
-                04 · National data
+                05 · National data
               </p>
               <SplitText as="h2" id="geo-title" className="display" text="Pakistan in data" />
               <p className="body" data-reveal>

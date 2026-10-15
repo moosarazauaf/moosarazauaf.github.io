@@ -9,6 +9,7 @@ export type SceneKey =
   | "research"
   | "sensing"
   | "projects"
+  | "software"
   | "data"
   | "publications"
   | "about"
