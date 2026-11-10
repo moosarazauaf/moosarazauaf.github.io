@@ -1,13 +1,13 @@
 /** Software in active development. Every line here restates the project's own
  *  README; nothing is claimed that the app does not do. */
 export const earthpulse = {
-  name: "EarthPulse",
+  name: "Earthsift (formerly EarthPulse)",
   status: "In development · public alpha",
   statement: "See what is changing on Earth, with the evidence behind every number.",
   summary:
     "A 3D globe in the browser that puts forty years of open satellite imagery, live hazard feeds and a reproducible analysis engine in one place. Ask what changed at any place on Earth and get an answer that names the scenes, the method and the limits behind it.",
-  url: "https://moosarazauaf.github.io/earthpulse/",
-  repo: "https://github.com/moosarazauaf/earthpulse",
+  url: "https://moosarazauaf.github.io/earthsift/",
+  repo: "https://github.com/moosarazauaf/earthsift",
   points: [
     {
       title: "Runs on the visitor's own computer",
@@ -28,7 +28,7 @@ export const earthpulse = {
   ],
   poster: {
     src: "img/earthpulse-flood.webp",
-    alt: "EarthPulse FloodLens result for the Indus at Layyah, 2022: newly flooded land in red beside the river in blue, with the flooded area and threshold sensitivity in the side panel",
+    alt: "Earthsift FloodLens result for the Indus at Layyah, 2022: newly flooded land in red beside the river in blue, with the flooded area and threshold sensitivity in the side panel",
   },
   shots: [
     { src: "img/earthpulse-swipe.webp", caption: "Lahore, Landsat 1993 against 2025 under a swipe divider" },

@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://moosarazauaf.github.io/sitemap.xml
-Sitemap: https://moosarazauaf.github.io/earthpulse/sitemap.xml
+Sitemap: https://moosarazauaf.github.io/earthsift/sitemap.xml
