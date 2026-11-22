@@ -28,16 +28,17 @@ export function PublicationsSection({ onOpenStudy }: { onOpenStudy: (slug: strin
           <ol className="pubs-list">
             {publications.map((p) => {
               const study = p.studies[0] ? bySlug(p.studies[0]) : undefined;
-              const href = p.doi ? `https://doi.org/${p.doi}` : study ? `#project/${study.slug}` : undefined;
+              const doi = p.doi ?? p.archive;
+              const href = doi ? `https://doi.org/${doi}` : study ? `#project/${study.slug}` : undefined;
               return (
                 <li key={p.title}>
                   <a
                     className="pub"
                     href={href}
                     data-cursor="OPEN"
-                    {...(p.doi ? { target: "_blank", rel: "noopener" } : {})}
+                    {...(doi ? { target: "_blank", rel: "noopener" } : {})}
                     onClick={(e) => {
-                      if (p.doi || !study) return;
+                      if (doi || !study) return;
                       e.preventDefault();
                       onOpenStudy(study.slug);
                     }}
@@ -53,6 +54,7 @@ export function PublicationsSection({ onOpenStudy }: { onOpenStudy: (slug: strin
                         <span className={`pub-status is-${p.status.toLowerCase().replace(/\s+/g, "-")}`}>{p.status}</span>
                         <span>{researchAreaOf(p)}</span>
                         {p.manuscript && <span>{p.manuscript}</span>}
+                        {p.archive && <span>doi:{p.archive}</span>}
                         {study && <span>Built on: {study.short}</span>}
                       </span>
                     </span>

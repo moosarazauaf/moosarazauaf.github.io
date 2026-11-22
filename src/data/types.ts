@@ -80,6 +80,7 @@ export interface Publication {
   year: string;
   manuscript?: string;
   doi?: string;
+  archive?: string;
   studies: string[];
 }
 

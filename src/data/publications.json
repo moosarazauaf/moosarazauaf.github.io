@@ -1,23 +1,21 @@
 [
   {
-    "title": "Three Decades of Urban Expansion and Ecosystem Carbon Loss in Lahore District, Pakistan: A Random Forest and InVEST-Based Assessment (1993-2023)",
-    "authors": "Raza, M. M. et al.",
-    "journal": "Journal of Remote Sensing",
+    "title": "Urban expansion and land carbon loss in Lahore District, Pakistan, 1993–2023: an IPCC Tier 1 estimate with design-based map accuracy",
+    "authors": "Raza, M. M.",
+    "journal": "Environmental Management",
     "status": "Submitted",
     "year": "2026",
-    "manuscript": "JournalofRS-26-658",
     "studies": [
       "lahore-lulc-carbon"
     ]
   },
   {
-    "title": "An open, reproducible framework coupling Sentinel-1 SAR change detection with event-based machine learning for flood susceptibility mapping and near-real-time monitoring: application to Layyah District, Pakistan",
-    "authors": "Raza, M. M.",
-    "journal": "Pakistan Journal of Science",
-    "status": "In preparation",
+    "title": "Flood Susceptibility of the Indus Floodplain in Layyah District, Pakistan: A Machine Learning Model Tested on an Unseen District and on Later Floods",
+    "authors": "Raza, M. M., Kapralova, D. O.",
+    "journal": "Code and data on Zenodo",
+    "status": "Manuscript complete",
     "year": "2026",
-    "studies": [
-      "layyah-flood-monitor"
-    ]
+    "archive": "10.5281/zenodo.23720739",
+    "studies": []
   }
 ]
