@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArrowUpRight, FolderGit2, Maximize2, Play } from "lucide-react";
-import { earthpulse as e } from "../../data/software";
+import { earthsift as e } from "../../data/software";
 import { track } from "../../lib/analytics";
 import { SectionTransition } from "../transitions/SectionTransition";
 import { RevealText } from "../ui/RevealText";
@@ -8,7 +8,7 @@ import { SplitText } from "../ui/SplitText";
 import "./software.css";
 
 /**
- * EarthPulse, the web app in development. The live app is a full 3D globe,
+ * Earthsift, the web app in development. The live app is a full 3D globe,
  * so it is not loaded with the page: a still of a real result stands in its
  * frame, and the app starts inside that frame only when a visitor asks for
  * it. The portfolio stays fast for everyone who does not.
@@ -17,7 +17,7 @@ export function SoftwareSection() {
   const [live, setLive] = useState(false);
 
   return (
-    <SectionTransition id="earthpulse" sceneKey="software" className="software" labelledBy="software-title">
+    <SectionTransition id="earthsift" sceneKey="software" className="software" labelledBy="software-title">
       <span className="section-rule" aria-hidden="true" />
       <div className="shell software-inner">
         <RevealText className="software-head">
@@ -44,7 +44,7 @@ export function SoftwareSection() {
               ))}
             </ol>
             <div className="software-links">
-              <a className="software-cta" href={e.url} target="_blank" rel="noopener" data-cursor="OPEN" onClick={() => track("software/open-earthpulse")}>
+              <a className="software-cta" href={e.url} target="_blank" rel="noopener" data-cursor="OPEN" onClick={() => track("software/open-earthsift")}>
                 Open the live app <ArrowUpRight size={16} strokeWidth={1.5} aria-hidden="true" />
               </a>
               <a className="software-code meta" href={e.repo} target="_blank" rel="noopener" data-cursor="OPEN">
@@ -58,11 +58,11 @@ export function SoftwareSection() {
               <i />
               <i />
               <i />
-              <span>moosarazauaf.github.io/earthpulse</span>
+              <span>moosarazauaf.github.io/earthsift</span>
             </div>
             <div className="software-screen" data-lenis-prevent>
               {live ? (
-                <iframe src={e.url} title="EarthPulse, running live" allow="fullscreen; clipboard-write" loading="lazy" />
+                <iframe src={e.url} title="Earthsift, running live" allow="fullscreen; clipboard-write" loading="lazy" />
               ) : (
                 <button
                   type="button"
@@ -89,7 +89,7 @@ export function SoftwareSection() {
                   </a>
                 </>
               ) : (
-                "FloodLens, the radar flood module, on the 2022 monsoon flood of the Indus at Layyah."
+                "The Live view: hazard stories from the past day of news, placed on the globe."
               )}
             </figcaption>
           </figure>
