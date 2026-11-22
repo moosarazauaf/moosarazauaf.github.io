@@ -11,7 +11,7 @@ export const copy = {
    *  stays in the header and the page title. One line per row. */
   heroStatement: "Floods, drought\nand land change,\nmeasured from orbit.",
   heroSupport: "Twelve open studies over Pakistan, each built so the numbers can be checked.",
-  seeking: "Seeking a PhD position, 2026/27",
+  seeking: "Seeking a PhD position, 2027",
   /** The degree behind the work, stated in the first view. */
   credentials: "M.Sc. 2026, RUDN University, thesis graded Excellent",
   heroProof: [
