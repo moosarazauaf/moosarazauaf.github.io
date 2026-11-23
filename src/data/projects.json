@@ -8,6 +8,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "SAR Flood Detection and Machine Learning Susceptibility Mapping, Layyah District",
     "description": "A flood susceptibility model covering all 6,354 km² of Layyah District, built from dual-polarisation Sentinel-1 inundation mapping, bi-temporal radar change detection and 19 documented flood events. It scores F1 = 0.962 on flood events it never saw in training. Maps, training data, GIS exports and a model card are all public.",
     "highlights": [
@@ -71,6 +79,14 @@
       "lat": 31.52,
       "lon": 74.36
     },
+    "sites": [
+      {
+        "name": "Lahore",
+        "province": "Punjab",
+        "lat": 31.52,
+        "lon": 74.36
+      }
+    ],
     "title": "Land Use/Land Cover Change and Carbon Stock Estimation, Lahore District, 1993 to 2023",
     "description": "Thirty years of land-cover change in Lahore District and what it cost in stored carbon. Landsat imagery for 1993, 2003, 2013 and 2023 was classified into built-up, vegetation, water and bare land with Random Forest in Google Earth Engine. Built-up land more than doubled, from 35,528 ha to 77,256 ha, while vegetation fell by 27,639 ha. Ecosystem carbon stock dropped by about 3.15 million tonnes, and the InVEST carbon model, run on the same carbon densities, put the loss at 3.14 million.",
     "highlights": [
@@ -163,6 +179,7 @@
       "lat": 30.2,
       "lon": 69.6
     },
+    "sites": [],
     "title": "Pakistan Land Cover and Carbon, 1993 to 2023, National Interactive App",
     "description": "Land-cover change and terrestrial carbon for all 864,256 km² of Pakistan at 30 m, accounted district by district from GLC-FCS30D. It runs as a live Streamlit app, and the district map further down this page is built from the same tables. It began as a national cross-check on the Lahore study and turned into its own accounting system.",
     "highlights": [
@@ -217,6 +234,20 @@
       "lat": 33.65,
       "lon": 73.05
     },
+    "sites": [
+      {
+        "name": "Rawalpindi",
+        "province": "Punjab",
+        "lat": 33.56,
+        "lon": 73.02
+      },
+      {
+        "name": "Islamabad",
+        "province": "Islamabad Capital Territory",
+        "lat": 33.7,
+        "lon": 73.08
+      }
+    ],
     "title": "Urban Flood Analysis, Islamabad and Rawalpindi, 2026",
     "description": "Sentinel-1 radar, GPM rainfall and terrain analysis for the twin cities after the 1 September 2026 floods, when Leh Nullah reached 29 ft at Kattarian. The study delivers a flood-proneness map for the built-up area, and a measurement of exactly what a 12-day satellite revisit can and cannot catch of urban flooding that drains within hours.",
     "highlights": [
@@ -292,6 +323,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "Thermal and Optical Soil Moisture Compared, Layyah District",
     "description": "A head-to-head test of thermal (TOTRAM) and optical (OPTRAM) soil moisture retrieval over the same district, the same bare-soil definition and the same rainfall reference, across 302 Landsat scenes from 2019 to 2024. The optical trapezoid tracks antecedent rainfall at r = 0.86 here. The thermal one does not, under any of five ways of fitting it, and the study pins down the reason.",
     "highlights": [
@@ -368,6 +407,14 @@
       "lat": 24.74,
       "lon": 70.0
     },
+    "sites": [
+      {
+        "name": "Tharparkar",
+        "province": "Sindh",
+        "lat": 24.74,
+        "lon": 70.0
+      }
+    ],
     "title": "Drought Monitoring with SPI, Tharparkar District",
     "description": "Forty-four years of drought history for Tharparkar, Pakistan's recurrent-famine district, from CHIRPS rainfall between 1981 and 2024. The record picks out 1987 and 2002 as the driest years and 2011 and 2022 as the wettest, matching the documented Sindh drought and both flood years. Getting there meant rebuilding SPI for a district where more than half of all pixel-months see no rain at all.",
     "highlights": [
@@ -445,6 +492,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "Post-Flood NDVI Change Detection, Layyah District, 2022",
     "description": "Sentinel-2 NDVI change after the 2022 Pakistan floods, mapping 1,232 km² of material vegetation loss along the Indus belt in Layyah District. A control-year design separates flood damage from the ordinary double-cropping cycle, and an independently derived radar flood extent confirms the result from a sensor that shares no physics with the optical one.",
     "highlights": [
@@ -493,6 +548,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "SAR Flood Detection, Layyah District, 2022 Pakistan Floods",
     "description": "Scene-by-scene Sentinel-1 change detection through the 2022 monsoon, mapping the full inundation curve rather than a single composite. Peak flooding reaches 95.4 km² on 20 July 2022, and two distinct flood waves come out of the time series, with riverine overflow separated from pluvial ponding.",
     "highlights": [
@@ -540,6 +603,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "Optical Soil Moisture with OPTRAM, Layyah District",
     "description": "Sentinel-2 surface soil moisture for Layyah District, with the trapezoid edges fitted by quantile regression over 23,991 observations instead of drawn by eye. Bare-soil saturation nearly doubles after the 2022 flood, and the retrieval tracks antecedent rainfall at r = 0.86 once masked to bare soil.",
     "highlights": [
@@ -612,6 +683,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "Surface Soil Moisture from SAR, Layyah District",
     "description": "Relative surface soil moisture for Layyah District from an eight-year Sentinel-1 stack, using TU Wien change detection against per-pixel dry and wet references. District mean moisture rises from 39.7% to 76.0% between June and August 2022, and the series holds up against ERA5-Land and CHIRPS across 36 months.",
     "highlights": [
@@ -660,6 +739,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "Multi-Temporal SAR Crop Mapping, Layyah District",
     "description": "Crop mapping from 24 monthly Sentinel-1 composites across a full rabi and kharif crop year, resolving five cropping systems over 3,995 km² of cropland. The work is split into a validated stage and an inferred one, because no crop-type ground truth exists for Pakistan in the Earth Engine catalogue.",
     "highlights": [
@@ -709,6 +796,14 @@
       "lat": 30.96,
       "lon": 70.94
     },
+    "sites": [
+      {
+        "name": "Layyah",
+        "province": "Punjab",
+        "lat": 30.96,
+        "lon": 70.94
+      }
+    ],
     "title": "Multi-Temporal Speckle Filtering, Layyah District",
     "description": "Quegan and Yu multi-temporal speckle filtering over a 62-scene single-orbit Sentinel-1 stack, benchmarked against a spatial filter tuned to identical smoothness so the comparison isolates what the multi-temporal approach actually adds. It adds a lot: 3.47 times the Equivalent Number of Looks, with sharper edges than the boxcar it is matched against.",
     "highlights": [
@@ -746,5 +841,109 @@
     "finding": "Multi-temporal speckle filtering gives 3.47 times the equivalent number of looks of a matched spatial filter, with sharper edges.",
     "evidence": "62-scene Sentinel-1 stack, single orbit",
     "check": "Benchmarked against a spatial filter tuned to identical smoothness. ENL measured over a homogeneous desert patch as well as district-wide."
+  },
+  {
+    "slug": "pakistan-mangrove-change",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Pakistan's coast",
+      "lat": 24.6,
+      "lon": 67.3
+    },
+    "sites": [
+      {
+        "name": "Indus Delta",
+        "province": "Sindh",
+        "lat": 24.25,
+        "lon": 67.55
+      },
+      {
+        "name": "Karachi coast",
+        "province": "Sindh",
+        "lat": 24.85,
+        "lon": 66.98
+      },
+      {
+        "name": "Miani Hor",
+        "province": "Balochistan",
+        "lat": 25.45,
+        "lon": 66.45
+      },
+      {
+        "name": "Kalmat Khor",
+        "province": "Balochistan",
+        "lat": 25.4,
+        "lon": 64.1
+      },
+      {
+        "name": "Jiwani",
+        "province": "Balochistan",
+        "lat": 25.12,
+        "lon": 61.75
+      }
+    ],
+    "title": "Did Pakistan's Mangroves Grow or Shrink? Testing Two Global Maps That Disagree",
+    "description": "Two leading global mangrove maps give opposite answers for Pakistan between 1996 and 2020: CGMD reports a 48% gain and Global Mangrove Watch a 22% loss. This study tests the pixels they dispute against the Landsat archive across all five mangrove systems on the coast, from Jiwani to the Indus Delta. It finds a net gain of about 30%, or 16,459 ha.",
+    "highlights": [
+      "Net mangrove gain of 16,459 ha from 1996 to 2020 (95% sampling interval 14,021 to 19,066), from 9,032 stratified pixels tested against dry-season Landsat NDVI",
+      "The gain holds under three alternative readings of the test, at +16% to +31%, including one that counts a 2020 pixel only if ESA WorldCover, built from Sentinel-1 and 2, also calls it mangrove",
+      "Of the 21,153 ha Global Mangrove Watch reports as lost, only 12% looked vegetated in the 1990s. Of the 16,361 ha CGMD adds where Global Mangrove Watch shows no change, 15% was vegetated in the 1990s and 97% by 2018 to 2022",
+      "Covers the whole coast. A single-tile run on CGMD's MiddleEast tile stops at 67°E and would miss 92% of Pakistan's mangroves, which lie in and around the Indus Delta",
+      "Measures area rather than average canopy: mean canopy barely moved (72.1% to 75.3%, no significant trend from 1984 once autocorrelation is handled), while canopy-equivalent area rose from 31,126 to 52,997 ha",
+      "Carries the result into the IPCC Tier 1 carbon frame used in the Lahore thesis: the choice between the two global maps alone moves Pakistan's 1996 to 2020 biomass carbon change by 2.4 Mt C"
+    ],
+    "basis": [
+      "No field data or high-resolution interpretation was used. The intervals cover sampling error only.",
+      "NDVI separates vegetation from non-vegetation, not mangrove from other plants, and it shares Landsat with CGMD. ESA WorldCover is the check that does not depend on Landsat, and it exists only for 2020.",
+      "Absolute area stays uncertain: 2020 estimates run from 67,960 ha (CGMD) to 91,990 ha (WorldCover). WorldCover calls 72% of the class mapped only by Global Mangrove Watch mangrove, while NDVI finds 16% to 22% of it vegetated, so sparse dwarf stands may be undercounted.",
+      "Biomass carbon uses IPCC Wetlands Supplement Tier 1 defaults for tropical dry mangrove (53.5 t C/ha). The net gain equals 0.88 Mt C (0.80 to 0.98 across the default ranges) only if new stands reach that stock. Young plantations hold less, and soil carbon is excluded.",
+      "Tide height is handled only through a 90th percentile NDVI composite, which favours low-tide views.",
+      "No flood pulse was detectable in the delta's canopy after the 2010 and 2022 Indus floods (permutation p = 0.59, two events).",
+      "The starting point was Amirhossein Ahrari's public Earth Engine tutorial on mangrove change detection. The analysis here is written afresh and extends it."
+    ],
+    "repoUrl": "",
+    "liveUrl": "",
+    "image": "img/projects/pakistan-mangrove-map.webp",
+    "gallery": [
+      {
+        "src": "img/projects/pakistan-mangrove-map.webp",
+        "caption": "Where CGMD and Global Mangrove Watch agree and disagree across the Indus Delta, 1996 to 2020"
+      },
+      {
+        "src": "img/projects/pakistan-mangrove-series.webp",
+        "caption": "Pakistan's mangrove area in each product, with the Landsat check and two single-year maps"
+      }
+    ],
+    "tags": [
+      "Landsat",
+      "Landsat 8/9",
+      "Mangroves",
+      "Blue carbon",
+      "Change detection",
+      "Mann-Kendall",
+      "IPCC Tier 1",
+      "Google Earth Engine",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "+30%",
+        "label": "net mangrove gain, 1996 to 2020"
+      },
+      {
+        "value": "-22% vs +48%",
+        "label": "what the two global maps report"
+      },
+      {
+        "value": "9,032",
+        "label": "stratified pixels tested"
+      }
+    ],
+    "theme": "Land change & carbon",
+    "short": "Pakistan mangrove change",
+    "finding": "Two global maps disagree on whether Pakistan's mangroves grew or shrank. A Landsat test of the disputed pixels finds a net gain of about 30% from 1996 to 2020.",
+    "evidence": "CGMD 1984 to 2023, Global Mangrove Watch v3 1996 to 2020, Landsat 5, 8 and 9, ESA WorldCover 2020",
+    "check": "9,032 stratified pixels, with NDVI thresholds set per epoch on pixels both maps agree on (AUC 0.997). Three alternative readings keep the gain, at +16% to +31%."
   }
 ]

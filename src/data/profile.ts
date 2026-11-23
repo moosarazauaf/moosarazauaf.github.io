@@ -10,7 +10,7 @@ export const copy = {
   /** The first thing on the page: what the work is, not who did it. The name
    *  stays in the header and the page title. One line per row. */
   heroStatement: "Floods, drought\nand land change,\nmeasured from orbit.",
-  heroSupport: "Twelve open studies over Pakistan, each built so the numbers can be checked.",
+  heroSupport: "Thirteen studies across Pakistan, each built so the numbers can be checked.",
   seeking: "Seeking a PhD position, 2027",
   /** The degree behind the work, stated in the first view. */
   credentials: "M.Sc. 2026, RUDN University, thesis graded Excellent",
@@ -22,9 +22,9 @@ export const copy = {
   researchIntro:
     "One question runs through all seven areas: can the number be trusted? Five are backed by finished studies and two are where the work is heading. Select one to see inside it.",
   sensingIntro:
-    "Every study starts as a stack of satellite scenes. These are the instruments behind the twelve, counted from the studies themselves.",
+    "Every study starts as a stack of satellite scenes. These are the instruments behind the thirteen, counted from the studies themselves.",
   projectsIntro:
-    "Twelve studies, each built end to end and each ending in a number someone else can check. Table 1 sets out the evidence for all twelve. The thesis and four selected results follow in full.",
+    "Thirteen studies, each built end to end and each ending in a number someone else can check. The map shows where the work is: the deeper the green, the more studies. Pick a province to see them, or open Table 1 for the evidence behind all thirteen.",
   dataIntro:
     "Between 2000 and 2022, Lahore lost more carbon per hectare than any other district in Pakistan. This is real output from my national land and carbon account. Choose a layer.",
   aboutLead:

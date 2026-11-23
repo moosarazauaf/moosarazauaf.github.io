@@ -9,6 +9,11 @@ export interface Place {
   lon: number;
 }
 
+/** Where a study was done, for the atlas. A national study has no sites. */
+export interface Site extends Place {
+  province: string;
+}
+
 export interface Metric {
   value: string;
   label: string;
@@ -24,6 +29,7 @@ export interface Project {
   kind: ProjectKind;
   year: string;
   place: Place;
+  sites: Site[];
   title: string;
   short: string;
   theme: string;

@@ -72,7 +72,7 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
   const hero = cover ? FEATURED_COVER : p.image;
   const gallery = (p.gallery ?? []).filter((g) => g.src !== hero);
   // The year the work was released: the last year of its period.
-  const citation = `Raza, M. M. (${p.year.slice(-4)}). ${p.title} [Code and data]. GitHub. ${p.repoUrl}`;
+  const citation = `Raza, M. M. (${p.year.slice(-4)}). ${p.title} ${p.repoUrl ? `[Code and data]. GitHub. ${p.repoUrl}` : `[Study]. https://moosarazauaf.github.io/#project/${p.slug}`}`;
   const copyCitation = async () => {
     try {
       await navigator.clipboard.writeText(citation);
@@ -180,13 +180,15 @@ export function ProjectOverlay({ slug, onClose, onOpen }: Props) {
           )}
           <div className="ov-list">
             <p className="meta">Reproducibility</p>
-            <p>The code, the data exports and a written account of the method are public.</p>
+            <p>{p.repoUrl ? "The code, the data exports and a written account of the method are public." : "The code and result tables are being prepared for public release."}</p>
           </div>
           <div className="ov-links">
-            <a className="ov-link" href={p.repoUrl} target="_blank" rel="noopener" data-cursor="OPEN">
-              <FolderGit2 size={16} strokeWidth={1.5} aria-hidden="true" /> Repository on GitHub
-              <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
-            </a>
+            {p.repoUrl && (
+              <a className="ov-link" href={p.repoUrl} target="_blank" rel="noopener" data-cursor="OPEN">
+                <FolderGit2 size={16} strokeWidth={1.5} aria-hidden="true" /> Repository on GitHub
+                <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
+              </a>
+            )}
             {p.liveUrl && (
               <a className="ov-link" href={p.liveUrl} target="_blank" rel="noopener" data-cursor="OPEN">
                 Live app <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />

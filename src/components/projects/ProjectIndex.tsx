@@ -17,11 +17,11 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
   const list = useMemo(() => projects.filter((p) => theme === "All" || p.theme === theme), [theme]);
 
   return (
-    <div className="pindex" id="evidence">
+    <div className="pindex">
       <div className="pindex-head">
         <div>
           <p className="meta">Table 1</p>
-          <h3 className="h3">The twelve studies: data, validation and result</h3>
+          <h3 className="h3">The thirteen studies: data, validation and result</h3>
         </div>
         <div className="pindex-filters" role="group" aria-label="Filter the studies by theme">
           {THEMES.map((t) => (
@@ -42,7 +42,7 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
 
       <table className="ptable">
         <caption className="visually-hidden">
-          The twelve studies, with the data each is built on, how each result was checked, and its headline result.
+          The thirteen studies, with the data each is built on, how each result was checked, and its headline result.
         </caption>
         <thead>
           <tr className="meta">
@@ -103,9 +103,13 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
                   <span className="meta">{p.metrics[0].label}</span>
                 </td>
                 <td data-label="Code">
-                  <a className="ptable-code" href={p.repoUrl} target="_blank" rel="noopener" data-cursor="OPEN" aria-label={`Repository for ${p.short}`}>
-                    GitHub <ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" />
-                  </a>
+                  {p.repoUrl ? (
+                    <a className="ptable-code" href={p.repoUrl} target="_blank" rel="noopener" data-cursor="OPEN" aria-label={`Repository for ${p.short}`}>
+                      GitHub <ArrowUpRight size={13} strokeWidth={1.5} aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <span className="meta">Being prepared</span>
+                  )}
                 </td>
               </tr>
             );
@@ -113,8 +117,8 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
         </tbody>
       </table>
       <p className="ptable-note meta">
-        Every figure in this table comes from the study it names, where the method, the data exports and the code are public. Select
-        a row for the full study.
+        Every figure in this table comes from the study it names. The method, data exports and code are public for every study with a
+        GitHub link. Select a row for the full study.
       </p>
     </div>
   );

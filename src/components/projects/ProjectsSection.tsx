@@ -8,11 +8,13 @@ import { RevealText } from "../ui/RevealText";
 import { SplitText } from "../ui/SplitText";
 import { ProjectIndex } from "./ProjectIndex";
 import { ProjectScene } from "./ProjectScene";
+import { StudyAtlas } from "./StudyAtlas";
 import "./projects.css";
 
 /**
- * The work. The thesis leads as one large scene, four results follow as
- * scenes of their own, then the full index, and last the open questions
+ * The work. The atlas of studies comes first with the full evidence table one
+ * click under it, then the thesis as one large scene, four results as scenes
+ * of their own, and last the open questions
  * the work points at, labelled as directions so they are never read as
  * finished studies.
  */
@@ -39,7 +41,14 @@ export function ProjectsSection({ onOpen }: { onOpen: (slug: string) => void }) 
           </p>
         </RevealText>
 
-        <ProjectIndex onOpen={onOpen} />
+        <StudyAtlas onOpen={onOpen} />
+
+        <details className="pindex-fold">
+          <summary className="meta" data-cursor="READ">
+            Table 1: data, validation and result for every study
+          </summary>
+          <ProjectIndex onOpen={onOpen} />
+        </details>
 
         {featured && <ProjectScene project={featured} index={0} featured onOpen={onOpen} />}
 

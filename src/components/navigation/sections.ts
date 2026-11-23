@@ -2,7 +2,7 @@
 export const SECTIONS = [
   { id: "research", label: "Research", note: "Seven areas, one system" },
   { id: "sensing", label: "Observation", note: "The instruments behind the work" },
-  { id: "projects", label: "Projects", note: "Twelve studies, built end to end" },
+  { id: "projects", label: "Projects", note: "Thirteen studies, mapped across Pakistan" },
   { id: "earthsift", label: "Software", note: "Earthsift, in development" },
   { id: "data", label: "Data", note: "A national map you can query" },
   { id: "publications", label: "Publications", note: "Manuscripts and talks" },

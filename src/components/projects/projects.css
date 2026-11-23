@@ -430,3 +430,13 @@
     gap: var(--s4);
   }
 }
+
+.pindex-fold > summary {
+  padding: var(--s0) 0;
+  border-block: 1px solid var(--line);
+  color: var(--fg);
+  cursor: pointer;
+}
+.pindex-fold[open] > summary {
+  margin-bottom: var(--s2);
+}
