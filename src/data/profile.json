@@ -16,7 +16,7 @@
   },
   "photo": "img/profile.webp",
   "about": [
-    "I measure floods, drought and land change from satellites, mostly over Pakistan. Twelve published studies so far and a thirteenth on the mangroves of the coast, each one designed and built end to end: study areas chosen by measurement, models scored on years they never saw, and the code, training data and GIS exports released so the work can be taken apart by anyone who wants to.",
+    "I measure floods, drought and land change from satellites, mostly over Pakistan. Thirteen studies so far, each one designed, built and published end to end: study areas chosen by measurement, models scored on years they never saw, and the code, training data and GIS exports released so the work can be taken apart by anyone who wants to.",
     "The results I care most about are the ones that hold up under a second look. A flood susceptibility model that scores 0.962 on events it was never trained on. A national carbon account traceable to the pixel. A 44-year drought record that independently recovers the droughts and floods Pakistan actually had.",
     "A PhD is where I want to take this further: building Earth observation measurements that are trustworthy enough to act on, and turning them into tools that people working on water and climate risk can use."
   ],
@@ -137,7 +137,7 @@
       "org": "Self-directed, open-source",
       "period": "2026 – present",
       "bullets": [
-        "Designed and published twelve end-to-end Earth observation studies over Pakistan, covering flood mapping, flood susceptibility, drought, soil moisture, crop mapping and speckle filtering",
+        "Designed and published thirteen end-to-end Earth observation studies over Pakistan, covering flood mapping, flood susceptibility, drought, soil moisture, crop mapping, speckle filtering and mangrove change",
         "Built a flood susceptibility model for Layyah District that scores F1 = 0.962 and ROC-AUC = 0.996 on flood events held out of training, and mapped 547.8 km² of high-susceptibility land",
         "Took the thesis work to national scale as a live Streamlit app accounting land cover and carbon for all 133 districts of Pakistan at 30 m",
         "Reconstructed a 44-year drought record for Tharparkar that independently recovers the documented 1999 to 2002 Sindh drought and both major flood years",

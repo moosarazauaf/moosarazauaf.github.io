@@ -919,7 +919,7 @@
       "No flood pulse was detectable in the delta's canopy after the 2010 and 2022 Indus floods (permutation p = 0.59, two events).",
       "The starting point was Amirhossein Ahrari's public Earth Engine tutorial on mangrove change detection. The analysis here is written afresh and extends it."
     ],
-    "repoUrl": "",
+    "repoUrl": "https://github.com/moosarazauaf/pakistan-mangrove-change",
     "liveUrl": "",
     "image": "img/projects/pakistan-mangrove-map.webp",
     "gallery": [

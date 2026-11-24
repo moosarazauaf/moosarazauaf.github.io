@@ -10,12 +10,12 @@ export const copy = {
   /** The first thing on the page: what the work is, not who did it. The name
    *  stays in the header and the page title. One line per row. */
   heroStatement: "Floods, drought\nand land change,\nmeasured from orbit.",
-  heroSupport: "Thirteen studies across Pakistan, each built so the numbers can be checked.",
+  heroSupport: "Thirteen open studies across Pakistan, each built so the numbers can be checked.",
   seeking: "Seeking a PhD position, 2027",
   /** The degree behind the work, stated in the first view. */
   credentials: "M.Sc. 2026, RUDN University, thesis graded Excellent",
   heroProof: [
-    { value: "12", label: "studies, each public" },
+    { value: "13", label: "studies, each public" },
     { value: "0.962", label: "F1 on unseen floods" },
     { value: "44 yrs", label: "drought record rebuilt" },
   ],

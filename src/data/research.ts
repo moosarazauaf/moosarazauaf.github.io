@@ -87,7 +87,7 @@ export const research: ResearchArea[] = [
     category: "Platform",
     status: "Platform",
     summary:
-      "The published studies run as public, re-runnable Earth Engine pipelines, from a single district up to 864,256 km² of Pakistan at 30 m.",
+      "Every study runs as a public, re-runnable Earth Engine pipeline, from a single district up to 864,256 km² of Pakistan at 30 m.",
     methods: ["Server-side pipelines", "Reproducible exports", "Operator audits"],
     data: ["The full Earth Engine catalogue"],
     applications: ["National-scale analysis", "Open, checkable results"],
