@@ -5,11 +5,15 @@
   position: relative;
   background: var(--bg); /* the globe stays behind the map, not inside it */
   box-shadow: 0 0 0 var(--s1) var(--bg);
-  --l0: color-mix(in srgb, var(--fg) 8%, var(--bg));
-  --l1: color-mix(in srgb, var(--accent) 26%, var(--bg));
-  --l2: color-mix(in srgb, var(--accent) 48%, var(--bg));
-  --l3: color-mix(in srgb, var(--accent) 76%, var(--bg));
-  --l4: color-mix(in srgb, var(--accent) 82%, #06140c);
+  /* GitHub's dark contribution graph: more work, brighter green. */
+  --gh-bg: #0d1117;
+  --gh-ink: #e6edf3;
+  --gh-muted: #8b949e;
+  --l0: #161b22;
+  --l1: #0e4429;
+  --l2: #006d32;
+  --l3: #26a641;
+  --l4: #39d353;
 }
 .atlas-filters {
   display: flex;
@@ -30,6 +34,10 @@
   display: grid;
   gap: var(--s0);
   align-content: start;
+  padding: var(--s1) var(--s1) var(--s0);
+  border-radius: 10px;
+  background: var(--gh-bg);
+  color: var(--gh-ink);
 }
 .atlas-map svg {
   display: block;
@@ -42,11 +50,11 @@
   display: grid;
   place-items: center;
   aspect-ratio: 760 / 820;
-  color: var(--muted);
+  color: var(--gh-muted);
 }
 .atlas-unit {
-  stroke: var(--bg);
-  stroke-width: 1.5;
+  stroke: var(--gh-bg);
+  stroke-width: 0.8;
   cursor: pointer;
   outline: none;
   transition: fill var(--t-m) var(--ease), opacity var(--t-m) var(--ease);
@@ -57,38 +65,20 @@
 .atlas-unit.l3, .atlas-swatch.l3 { fill: var(--l3); background: var(--l3); }
 .atlas-unit.l4, .atlas-swatch.l4 { fill: var(--l4); background: var(--l4); }
 .atlas-unit:hover {
-  opacity: 0.82;
+  stroke: var(--gh-muted);
+  stroke-width: 1.2;
 }
 .atlas-unit:focus-visible,
 .atlas-unit.is-picked {
-  stroke: var(--fg);
-  stroke-width: 2.5;
-  paint-order: stroke;
+  stroke: var(--gh-ink);
+  stroke-width: 2;
 }
-.atlas-label {
-  font-size: 19px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  fill: var(--fg);
+.atlas-provinces path {
+  fill: none;
+  stroke: #6e7681;
+  stroke-width: 1;
+  stroke-opacity: 0.7;
   pointer-events: none;
-}
-.atlas-label.l3,
-.atlas-label.l4 {
-  fill: #fff;
-}
-.atlas-dot {
-  pointer-events: none;
-}
-.atlas-dot circle {
-  fill: var(--earth);
-  stroke: var(--bg);
-  stroke-width: 1.5;
-}
-.atlas-dot text {
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 600;
-  fill: #fff;
 }
 .atlas-tip {
   position: absolute;
@@ -99,8 +89,8 @@
   gap: 0.1rem;
   padding: 0.4rem 0.65rem;
   border-radius: 6px;
-  background: var(--fg);
-  color: var(--bg);
+  background: var(--gh-ink);
+  color: var(--gh-bg);
   font-size: var(--t-small);
   white-space: nowrap;
   pointer-events: none;
@@ -114,7 +104,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.25rem;
-  color: var(--muted);
+  color: var(--gh-muted);
 }
 .atlas-legend > span:first-child {
   margin-right: 0.25rem;
@@ -134,7 +124,7 @@
   height: 0.8rem;
   flex: none;
   border-radius: 2px;
-  outline: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
+  outline: 1px solid rgb(240 246 252 / 0.1);
   outline-offset: -1px;
 }
 

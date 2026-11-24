@@ -1,33 +1,33 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { geoMercator, geoPath } from "d3-geo";
-import type { Feature, FeatureCollection, MultiPolygon } from "geojson";
+import type { Feature, FeatureCollection, Geometry } from "geojson";
 import { ArrowUpRight } from "lucide-react";
 import { setFlipOrigin } from "../../animations/projectAnimations";
 import { THEME_COLOR, projects } from "../../data/projects";
 import type { Project } from "../../data/types";
+import { rewind } from "../maps/GeoDataScene";
+import type { DistrictProps } from "../maps/layers";
 import { Abbr } from "../ui/Abbr";
 import "./atlas.css";
 
-type Unit = Feature<MultiPolygon, { name: string }>;
+type District = Feature<Geometry, DistrictProps>;
 
 const W = 760;
 const H = 820;
-const UNITS = ["Punjab", "Sindh", "Balochistan", "Khyber Pakhtunkhwa", "Islamabad Capital Territory", "Gilgit-Baltistan", "Azad Jammu and Kashmir"];
-const MAP_LABEL: Record<string, string> = { "Khyber Pakhtunkhwa": "KP", "Azad Jammu and Kashmir": "AJK", "Islamabad Capital Territory": "" };
 const THEMES = ["All", ...new Set(projects.map((p) => p.theme))];
-const LEVELS = ["None", "1", "2", "3 to 5", "6 or more"];
+const LEVELS = ["No studies", "1 study", "2 studies", "3 to 5 studies", "6 or more studies"];
 const level = (n: number) => (n <= 2 ? n : n <= 5 ? 3 : 4);
 const plural = (n: number) => `${n} ${n === 1 ? "study" : "studies"}`;
 
 /**
- * The studies as a map, read like a contribution graph: the more work done in
- * a province, the deeper its green, and a province with none stays empty. A
- * national study has no single place, so it is listed everywhere and darkens
- * nowhere.
+ * Every district of Pakistan as a tile in a contribution graph: a district
+ * with no study stays dark, and each study done there lights it a step
+ * brighter, the way a day lights up on GitHub with each commit. A national
+ * study has no single district, so it is listed everywhere and lights none.
  */
 export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
   const root = useRef<HTMLDivElement>(null);
-  const [units, setUnits] = useState<Unit[] | null>(null);
+  const [geo, setGeo] = useState<{ districts: District[]; provinces: Feature[] } | null>(null);
   const [theme, setTheme] = useState("All");
   const [picked, setPicked] = useState<string | null>(null);
   const [tip, setTip] = useState<{ x: number; y: number; name: string } | null>(null);
@@ -39,10 +39,10 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
       ([e]) => {
         if (!e.isIntersecting) return;
         io.disconnect();
-        fetch("/geo/pakistan-provinces.geojson")
-          .then((r) => r.json())
-          .then((g: FeatureCollection<MultiPolygon, { name: string }>) => setUnits(g.features))
-          .catch(() => setUnits(null));
+        const get = <T,>(url: string) => fetch(url).then((r) => r.json() as Promise<T>);
+        Promise.all([get<FeatureCollection<Geometry, DistrictProps>>("/geo/pakistan-districts.geojson"), get<FeatureCollection>("/geo/pakistan-provinces.geojson")])
+          .then(([d, p]) => setGeo({ districts: (d.features as District[]).map(rewind), provinces: p.features }))
+          .catch(() => setGeo(null));
       },
       { rootMargin: "800px" }
     );
@@ -50,32 +50,29 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
     return () => io.disconnect();
   }, []);
 
-  const { byUnit, national, dots, shown } = useMemo(() => {
+  const { byDistrict, national, shown } = useMemo(() => {
     const shown = projects.filter((p) => theme === "All" || p.theme === theme);
-    const byUnit = new Map<string, Project[]>(UNITS.map((u) => [u, shown.filter((p) => p.sites.some((s) => s.province === u))]));
-    const dots = new Map<string, { name: string; lat: number; lon: number; n: number }>();
+    const byDistrict = new Map<string, Project[]>();
     for (const p of shown)
-      for (const s of p.sites) {
-        const d = dots.get(s.name) ?? { name: s.name, lat: s.lat, lon: s.lon, n: 0 };
-        d.n += 1;
-        dots.set(s.name, d);
-      }
-    return { byUnit, national: shown.filter((p) => p.sites.length === 0), dots: [...dots.values()], shown };
+      for (const d of new Set(p.sites.map((s) => s.district))) byDistrict.set(d, [...(byDistrict.get(d) ?? []), p]);
+    return { byDistrict, national: shown.filter((p) => p.sites.length === 0), shown };
   }, [theme]);
 
   const drawn = useMemo(() => {
-    if (!units) return null;
-    const projection = geoMercator().fitExtent([[14, 14], [W - 14, H - 14]], { type: "FeatureCollection", features: units });
-    const path = geoPath(projection);
-    return { projection, shapes: units.map((f) => ({ name: f.properties.name, d: path(f) ?? "", at: path.centroid(f) })) };
-  }, [units]);
+    if (!geo) return null;
+    const path = geoPath(geoMercator().fitExtent([[10, 10], [W - 10, H - 10]], { type: "FeatureCollection", features: geo.districts }));
+    return {
+      districts: geo.districts.map((f) => ({ name: f.properties.name, province: f.properties.province ?? "Gilgit-Baltistan", d: path(f) ?? "" })),
+      provinces: geo.provinces.map((f) => path(f) ?? ""),
+    };
+  }, [geo]);
 
-  const count = (u: string) => byUnit.get(u)?.length ?? 0;
-  const reached = UNITS.filter((u) => count(u) > 0);
-  const empty = UNITS.filter((u) => count(u) === 0);
-  const top = [...reached].sort((a, b) => count(b) - count(a))[0];
-  const list = picked ? byUnit.get(picked) ?? [] : shown;
-  const toggle = (u: string) => setPicked((c) => (c === u ? null : u));
+  const count = (d: string) => byDistrict.get(d)?.length ?? 0;
+  const total = drawn?.districts.length ?? 126;
+  const reached = [...byDistrict.keys()].sort((a, b) => count(b) - count(a) || a.localeCompare(b));
+  const pickedDistrict = drawn?.districts.find((x) => x.name === picked);
+  const list = picked ? byDistrict.get(picked) ?? [] : shown;
+  const toggle = (d: string) => setPicked((c) => (c === d ? null : d));
 
   const row = (p: Project) => (
     <li key={p.slug}>
@@ -95,7 +92,7 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
             {!p.sites.length
               ? "All of Pakistan"
               : picked
-                ? p.sites.filter((s) => s.province === picked).map((s) => s.name).join(", ")
+                ? p.sites.filter((s) => s.district === picked).map((s) => s.name).join(", ")
                 : p.sites.length > 2
                   ? p.place.name
                   : p.sites.map((s) => s.name).join(", ")}
@@ -126,54 +123,40 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
       <div className="atlas-grid">
         <figure className="atlas-map" onPointerLeave={() => setTip(null)}>
           {drawn ? (
-            <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Map of Pakistan, shaded by the number of studies in each province. Select a province to list its studies.">
-              {drawn.shapes.map((s) => (
-                <path
-                  key={s.name}
-                  d={s.d}
-                  className={`atlas-unit l${level(count(s.name))} ${picked === s.name ? "is-picked" : ""}`}
-                  role="button"
-                  tabIndex={0}
-                  aria-pressed={picked === s.name}
-                  aria-label={`${s.name}: ${plural(count(s.name))}`}
-                  data-cursor="VIEW"
-                  onClick={() => toggle(s.name)}
-                  onKeyDown={(e) => {
-                    if (e.key !== "Enter" && e.key !== " ") return;
-                    e.preventDefault();
-                    toggle(s.name);
-                  }}
-                  onPointerMove={(e) => {
-                    const r = e.currentTarget.ownerSVGElement?.getBoundingClientRect();
-                    if (r) setTip({ x: e.clientX - r.left, y: e.clientY - r.top, name: s.name });
-                  }}
-                />
-              ))}
-              {drawn.shapes.map((s) => {
-                const label = MAP_LABEL[s.name] ?? s.name;
-                return label ? (
-                  <text key={s.name} className={`atlas-label l${level(count(s.name))}`} x={s.at[0]} y={s.at[1]} textAnchor="middle">
-                    {label}
-                  </text>
-                ) : null;
-              })}
-              {dots.map((d) => {
-                const [x, y] = drawn.projection([d.lon, d.lat]) ?? [0, 0];
-                const r = 4 + Math.sqrt(d.n) * 3.2;
+            <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Map of Pakistan's districts, lit by the number of studies in each. Select a district to list its studies.">
+              {drawn.districts.map((x) => {
+                const n = count(x.name);
                 return (
-                  <g key={d.name} className="atlas-dot" transform={`translate(${x}, ${y})`} aria-hidden="true">
-                    <circle r={r} />
-                    {d.n > 1 && (
-                      <text y="3.5" textAnchor="middle">
-                        {d.n}
-                      </text>
-                    )}
-                  </g>
+                  <path
+                    key={x.name}
+                    d={x.d}
+                    className={`atlas-unit l${level(n)} ${picked === x.name ? "is-picked" : ""}`}
+                    role="button"
+                    tabIndex={n ? 0 : -1}
+                    aria-pressed={picked === x.name}
+                    aria-label={`${x.name}, ${x.province}: ${plural(n)}`}
+                    data-cursor="VIEW"
+                    onClick={() => toggle(x.name)}
+                    onKeyDown={(e) => {
+                      if (e.key !== "Enter" && e.key !== " ") return;
+                      e.preventDefault();
+                      toggle(x.name);
+                    }}
+                    onPointerMove={(e) => {
+                      const r = e.currentTarget.ownerSVGElement?.getBoundingClientRect();
+                      if (r) setTip({ x: e.clientX - r.left, y: e.clientY - r.top, name: x.name });
+                    }}
+                  />
                 );
               })}
+              <g className="atlas-provinces" aria-hidden="true">
+                {drawn.provinces.map((d, i) => (
+                  <path key={i} d={d} />
+                ))}
+              </g>
             </svg>
           ) : (
-            <div className="atlas-loading meta">Loading the map of Pakistan</div>
+            <div className="atlas-loading meta">Loading the districts of Pakistan</div>
           )}
           {tip && (
             <div className="atlas-tip" style={{ transform: `translate(${tip.x + 14}px, ${tip.y + 14}px)` }}>
@@ -182,27 +165,30 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
             </div>
           )}
           <figcaption className="atlas-legend meta">
-            <span>Fewer</span>
+            <span>Less</span>
             {LEVELS.map((l, i) => (
-              <i key={l} className={`atlas-swatch l${i}`} title={`${l} ${i === 1 ? "study" : "studies"}`} />
+              <i key={l} className={`atlas-swatch l${i}`} title={l} />
             ))}
             <span>More</span>
-            <span className="atlas-legend-note">Circles mark study sites. Boundaries from geoBoundaries; no position on disputed territory is implied.</span>
+            <span className="atlas-legend-note">
+              {reached.length} of {total} districts reached. Thin lines are province borders. Boundaries from geoBoundaries; no position on disputed
+              territory is implied.
+            </span>
           </figcaption>
         </figure>
 
         <div className="atlas-panel" aria-live="polite">
           <div className="atlas-panel-head">
-            <p className="meta">{picked ? "Province" : "Pakistan"}</p>
-            <h3 className="h3">{picked ?? `${plural(shown.length)}, ${reached.length} of ${UNITS.length} regions`}</h3>
+            <p className="meta">{pickedDistrict ? pickedDistrict.province : "Pakistan"}</p>
+            <h3 className="h3">{picked ?? `${plural(shown.length)}, ${reached.length} of ${total} districts`}</h3>
             <p className="atlas-summary">
               {picked
                 ? count(picked)
-                  ? `${plural(count(picked))} with a site here.`
-                  : "No site study here yet. This is open ground for the next one."
-                : top
-                  ? `Most of the work is in ${top} (${count(top)}).${empty.length ? ` Not yet reached: ${empty.join(", ")}.` : ""}`
-                  : "No site study under this theme."}
+                  ? `${plural(count(picked))} with a site in this district.`
+                  : "No study in this district yet. It is on the list."
+                : reached.length
+                  ? `Brightest: ${reached[0]} (${count(reached[0])}). Every new study lights another district.`
+                  : "No district study under this theme."}
             </p>
             {picked && (
               <button type="button" className="atlas-clear meta" onClick={() => setPicked(null)}>
@@ -217,13 +203,13 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
         </div>
       </div>
 
-      <ul className="atlas-units" aria-label="Provinces and territories">
-        {UNITS.map((u) => (
-          <li key={u}>
-            <button type="button" className={picked === u ? "is-on" : ""} aria-pressed={picked === u} onClick={() => toggle(u)}>
-              <i className={`atlas-swatch l${level(count(u))}`} aria-hidden="true" />
-              {u}
-              <span className="num">{count(u)}</span>
+      <ul className="atlas-units" aria-label="Districts with studies">
+        {reached.map((d) => (
+          <li key={d}>
+            <button type="button" className={picked === d ? "is-on" : ""} aria-pressed={picked === d} onClick={() => toggle(d)}>
+              <i className={`atlas-swatch l${level(count(d))}`} aria-hidden="true" />
+              {d}
+              <span className="num">{count(d)}</span>
             </button>
           </li>
         ))}

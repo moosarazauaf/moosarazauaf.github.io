@@ -11,6 +11,8 @@ export interface Place {
 
 /** Where a study was done, for the atlas. A national study has no sites. */
 export interface Site extends Place {
+  /** As named in public/geo/pakistan-districts.geojson. */
+  district: string;
   province: string;
 }
 

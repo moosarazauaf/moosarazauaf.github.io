@@ -11,6 +11,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -82,6 +83,7 @@
     "sites": [
       {
         "name": "Lahore",
+        "district": "Lahore",
         "province": "Punjab",
         "lat": 31.52,
         "lon": 74.36
@@ -237,12 +239,14 @@
     "sites": [
       {
         "name": "Rawalpindi",
+        "district": "Rawalpindi",
         "province": "Punjab",
         "lat": 33.56,
         "lon": 73.02
       },
       {
         "name": "Islamabad",
+        "district": "Islamabad Capital Territory",
         "province": "Islamabad Capital Territory",
         "lat": 33.7,
         "lon": 73.08
@@ -326,6 +330,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -410,6 +415,7 @@
     "sites": [
       {
         "name": "Tharparkar",
+        "district": "Tharparkar",
         "province": "Sindh",
         "lat": 24.74,
         "lon": 70.0
@@ -495,6 +501,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -551,6 +558,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -606,6 +614,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -686,6 +695,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -742,6 +752,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -799,6 +810,7 @@
     "sites": [
       {
         "name": "Layyah",
+        "district": "Layyah",
         "province": "Punjab",
         "lat": 30.96,
         "lon": 70.94
@@ -854,30 +866,35 @@
     "sites": [
       {
         "name": "Indus Delta",
+        "district": "Thatta",
         "province": "Sindh",
         "lat": 24.25,
         "lon": 67.55
       },
       {
         "name": "Karachi coast",
+        "district": "Karachi",
         "province": "Sindh",
         "lat": 24.85,
         "lon": 66.98
       },
       {
         "name": "Miani Hor",
+        "district": "Lasbela",
         "province": "Balochistan",
         "lat": 25.45,
         "lon": 66.45
       },
       {
         "name": "Kalmat Khor",
+        "district": "Gwadar",
         "province": "Balochistan",
         "lat": 25.4,
         "lon": 64.1
       },
       {
         "name": "Jiwani",
+        "district": "Gwadar",
         "province": "Balochistan",
         "lat": 25.12,
         "lon": 61.75

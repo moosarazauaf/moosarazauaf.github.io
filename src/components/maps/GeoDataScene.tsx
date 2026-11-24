@@ -29,7 +29,7 @@ interface Meta {
 /** d3 reads polygon winding the spherical way: a ring drawn clockwise
  *  (as geoBoundaries does) encloses everything except the district. Any
  *  feature whose area comes out larger than a hemisphere is flipped. */
-function rewind(f: District): District {
+export function rewind(f: District): District {
   if (geoArea(f) <= 2 * Math.PI) return f;
   const g = f.geometry;
   const flip = (rings: number[][][]) => rings.map((r) => [...r].reverse());
