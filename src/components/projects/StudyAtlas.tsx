@@ -30,7 +30,7 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
   const [geo, setGeo] = useState<{ districts: District[]; provinces: Feature[] } | null>(null);
   const [theme, setTheme] = useState("All");
   const [picked, setPicked] = useState<string | null>(null);
-  const [tip, setTip] = useState<{ x: number; y: number; name: string } | null>(null);
+  const [hover, setHover] = useState<string | null>(null);
 
   useEffect(() => {
     const el = root.current;
@@ -62,7 +62,7 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
     if (!geo) return null;
     const path = geoPath(geoMercator().fitExtent([[10, 10], [W - 10, H - 10]], { type: "FeatureCollection", features: geo.districts }));
     return {
-      districts: geo.districts.map((f) => ({ name: f.properties.name, province: f.properties.province ?? "Gilgit-Baltistan", d: path(f) ?? "" })),
+      districts: geo.districts.map((f) => ({ name: f.properties.name, province: f.properties.province ?? "Gilgit-Baltistan", d: path(f) ?? "", box: path.bounds(f) })),
       provinces: geo.provinces.map((f) => path(f) ?? ""),
     };
   }, [geo]);
@@ -73,6 +73,22 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
   const pickedDistrict = drawn?.districts.find((x) => x.name === picked);
   const list = picked ? byDistrict.get(picked) ?? [] : shown;
   const toggle = (d: string) => setPicked((c) => (c === d ? null : d));
+
+  // Like a phone keyboard: the district under the pointer lifts out, enlarged
+  // and above the map, with its label above that, so the pointer never covers
+  // what it is pointing at. Small districts are magnified the most.
+  const lifted = drawn?.districts.find((x) => x.name === (hover ?? picked));
+  const pop = lifted
+    ? (() => {
+        const [[x0, y0], [x1, y1]] = lifted.box;
+        const cx = (x0 + x1) / 2;
+        const cy = (y0 + y1) / 2;
+        const k = Math.min(4, Math.max(1.35, 48 / Math.max(x1 - x0, y1 - y0, 1)));
+        const lift = ((y1 - y0) * k) / 2 + 6;
+        const top = cy - lift - ((y1 - y0) * k) / 2;
+        return { cx, cy, k, lift, top, below: top < 70 };
+      })()
+    : null;
 
   const row = (p: Project) => (
     <li key={p.slug}>
@@ -121,8 +137,9 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
       </div>
 
       <div className="atlas-grid">
-        <figure className="atlas-map" onPointerLeave={() => setTip(null)}>
+        <figure className="atlas-map" onPointerLeave={() => setHover(null)}>
           {drawn ? (
+            <div className="atlas-stage">
             <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="Map of Pakistan's districts, lit by the number of studies in each. Select a district to list its studies.">
               {drawn.districts.map((x) => {
                 const n = count(x.name);
@@ -135,17 +152,15 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
                     tabIndex={n ? 0 : -1}
                     aria-pressed={picked === x.name}
                     aria-label={`${x.name}, ${x.province}: ${plural(n)}`}
-                    data-cursor="VIEW"
                     onClick={() => toggle(x.name)}
+                    onFocus={() => setHover(x.name)}
+                    onBlur={() => setHover(null)}
                     onKeyDown={(e) => {
                       if (e.key !== "Enter" && e.key !== " ") return;
                       e.preventDefault();
                       toggle(x.name);
                     }}
-                    onPointerMove={(e) => {
-                      const r = e.currentTarget.ownerSVGElement?.getBoundingClientRect();
-                      if (r) setTip({ x: e.clientX - r.left, y: e.clientY - r.top, name: x.name });
-                    }}
+                    onPointerEnter={() => setHover(x.name)}
                   />
                 );
               })}
@@ -154,15 +169,30 @@ export function StudyAtlas({ onOpen }: { onOpen: (slug: string) => void }) {
                   <path key={i} d={d} />
                 ))}
               </g>
+              {lifted && pop && (
+                <path
+                  className={`atlas-pop l${level(count(lifted.name))}`}
+                  d={lifted.d}
+                  transform={`translate(${pop.cx} ${pop.below ? pop.cy + pop.lift : pop.cy - pop.lift}) scale(${pop.k}) translate(${-pop.cx} ${-pop.cy})`}
+                  aria-hidden="true"
+                />
+              )}
             </svg>
+            {lifted && pop && (
+              <div
+                className={`atlas-tip ${pop.below ? "is-below" : ""}`}
+                style={{
+                  left: `${(pop.cx / W) * 100}%`,
+                  top: `${((pop.below ? pop.cy + 2 * pop.lift : pop.top) / H) * 100}%`,
+                }}
+              >
+                <b>{lifted.name}</b>
+                <span className="meta">{plural(count(lifted.name))}</span>
+              </div>
+            )}
+            </div>
           ) : (
             <div className="atlas-loading meta">Loading the districts of Pakistan</div>
-          )}
-          {tip && (
-            <div className="atlas-tip" style={{ transform: `translate(${tip.x + 14}px, ${tip.y + 14}px)` }}>
-              <b>{tip.name}</b>
-              <span className="meta">{plural(count(tip.name))}</span>
-            </div>
           )}
           <figcaption className="atlas-legend meta">
             <span>Less</span>
