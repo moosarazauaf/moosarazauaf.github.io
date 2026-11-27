@@ -26,6 +26,7 @@ export const THEME_COLOR: Record<string, string> = {
   "Drought & soil moisture": "var(--ochre)",
   "Land change & carbon": "var(--veg)",
   "SAR methods": "var(--slate)",
+  "Forests & fire": "var(--earth)",
 };
 
 /** Sensors and archives, as opposed to methods and tools. Used to split a

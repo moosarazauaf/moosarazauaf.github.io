@@ -962,5 +962,86 @@
     "finding": "Two global maps disagree on whether Pakistan's mangroves grew or shrank. A Landsat test of the disputed pixels finds a net gain of about 30% from 1996 to 2020.",
     "evidence": "CGMD 1984 to 2023, Global Mangrove Watch v3 1996 to 2020, Landsat 5, 8 and 9, ESA WorldCover 2020",
     "check": "9,032 stratified pixels, with NDVI thresholds set per epoch on pixels both maps agree on (AUC 0.997). Three alternative readings keep the gain, at +16% to +31%."
+  },
+  {
+    "slug": "sherani-chilgoza-fire",
+    "kind": "Research project",
+    "year": "2026",
+    "place": {
+      "name": "Sherani District",
+      "lat": 31.4,
+      "lon": 70.03
+    },
+    "sites": [
+      {
+        "name": "Shinghar, Sherani",
+        "district": "Zhob",
+        "province": "Balochistan",
+        "lat": 31.4,
+        "lon": 70.03
+      }
+    ],
+    "title": "The 2022 Sherani Chilgoza Forest Fire: Burned Area, a Radar Check and Three Years Without Recovery",
+    "description": "In May 2022 a fire burned for two weeks through the Shinghar chilgoza pine forest in Sherani, Balochistan, one of the largest stands of the species anywhere. Sentinel-2 maps 3,987 ha burned, Sentinel-1 radar confirms the scar independently, and the burned stands have not recovered by 2025. The main global forest-loss map records 0.3 ha of loss in the same place.",
+    "highlights": [
+      "Mapped 3,987 ha burned with Sentinel-2 dNBR, after removing the ordinary early-summer decline using the same weeks of 2021: 2,670 ha low, 1,149 ha moderate and 168 ha high severity",
+      "The moderate-or-worse core holds at 1,130 to 1,270 ha across every search distance tested, close to the 1,542 ha reported by IUCN",
+      "Hansen Global Forest Change records 0.3 ha of loss inside the scar: the woodland's mean tree cover is 2.5%, so the global map does not count it as forest, and ESA WorldCover calls 57% of it shrubland",
+      "Sentinel-1 radar confirms the scar on its own: VV backscatter rose 0.33, 0.54 and 0.89 dB above unburned land from low to high severity, with no such gradient in fire-free 2021",
+      "No recovery after three years: the most severely burned stands were 0.23 NDVI greener than unburned land before the fire and only 0.09 in 2025, a margin that has shrunk every year since 2023"
+    ],
+    "basis": [
+      "No field data. Severity is a spectral index, not measured tree mortality.",
+      "Burned pixels must lie within 4 km of a MODIS active-fire detection; the low-severity margin moves from 2,085 to 4,646 ha as that distance goes from 2 to 6 km, while the moderate-or-worse core stays at 1,130 to 1,270 ha.",
+      "NDVI cannot separate surviving pines from grass and shrub regrowth; the partial rebound in 2023 is probably the latter.",
+      "The radar, recovery and product comparisons use the slightly wider Earth Engine scar (4,456 ha); the map and headline area use the offline scar of record.",
+      "A biomass-change estimate was not possible: the ESA CCI biomass series in Earth Engine ends before 2022."
+    ],
+    "repoUrl": "https://github.com/moosarazauaf/sherani-chilgoza-fire",
+    "liveUrl": "",
+    "image": "img/projects/sherani-fire-severity.webp",
+    "gallery": [
+      {
+        "src": "img/projects/sherani-fire-severity.webp",
+        "caption": "Burn severity of the May 2022 fire in the Shinghar chilgoza forest, with MODIS active-fire detections"
+      },
+      {
+        "src": "img/projects/sherani-fire-recovery.webp",
+        "caption": "June NDVI of burned land above unburned land nearby, 2019 to 2025: no recovery"
+      },
+      {
+        "src": "img/projects/sherani-fire-radar.webp",
+        "caption": "Sentinel-1 VV change above unburned land, by severity, in the fire year and a fire-free year"
+      }
+    ],
+    "tags": [
+      "Sentinel-2",
+      "Sentinel-1 SAR",
+      "Wildfire",
+      "Forest disturbance",
+      "Burn severity",
+      "Google Earth Engine",
+      "QGIS",
+      "Python"
+    ],
+    "metrics": [
+      {
+        "value": "3,987 ha",
+        "label": "burned, Sentinel-2"
+      },
+      {
+        "value": "0.3 ha",
+        "label": "recorded by Hansen forest loss"
+      },
+      {
+        "value": "0.23 to 0.09",
+        "label": "NDVI margin, before fire to 2025"
+      }
+    ],
+    "theme": "Forests & fire",
+    "short": "Sherani chilgoza fire",
+    "finding": "A 2022 fire burned about 4,000 ha of Pakistan's largest chilgoza pine forest; the main global forest-loss map records 0.3 ha of it, and the stands have not recovered.",
+    "evidence": "Sentinel-2 and Sentinel-1, 2019 to 2025; MODIS active fire and burned area; Hansen Global Forest Change; ESA WorldCover",
+    "check": "Sentinel-1 radar confirms the scar independently with a severity gradient absent in fire-free 2021; area reported across thresholds and search distances."
   }
 ]

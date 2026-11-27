@@ -21,7 +21,7 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
       <div className="pindex-head">
         <div>
           <p className="meta">Table 1</p>
-          <h3 className="h3">The thirteen studies: data, validation and result</h3>
+          <h3 className="h3">The fourteen studies: data, validation and result</h3>
         </div>
         <div className="pindex-filters" role="group" aria-label="Filter the studies by theme">
           {THEMES.map((t) => (
@@ -42,7 +42,7 @@ export function ProjectIndex({ onOpen }: { onOpen: (slug: string) => void }) {
 
       <table className="ptable">
         <caption className="visually-hidden">
-          The thirteen studies, with the data each is built on, how each result was checked, and its headline result.
+          The fourteen studies, with the data each is built on, how each result was checked, and its headline result.
         </caption>
         <thead>
           <tr className="meta">

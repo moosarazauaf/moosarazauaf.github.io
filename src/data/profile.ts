@@ -10,21 +10,21 @@ export const copy = {
   /** The first thing on the page: what the work is, not who did it. The name
    *  stays in the header and the page title. One line per row. */
   heroStatement: "Floods, drought\nand land change,\nmeasured from orbit.",
-  heroSupport: "Thirteen open studies across Pakistan, each built so the numbers can be checked.",
+  heroSupport: "Fourteen open studies across Pakistan, each built so the numbers can be checked.",
   seeking: "Seeking a PhD position, 2027",
   /** The degree behind the work, stated in the first view. */
   credentials: "M.Sc. 2026, RUDN University, thesis graded Excellent",
   heroProof: [
-    { value: "13", label: "studies, each public" },
+    { value: "14", label: "studies, each public" },
     { value: "0.962", label: "F1 on unseen floods" },
     { value: "44 yrs", label: "drought record rebuilt" },
   ],
   researchIntro:
     "One question runs through all seven areas: can the number be trusted? Five are backed by finished studies and two are where the work is heading. Select one to see inside it.",
   sensingIntro:
-    "Every study starts as a stack of satellite scenes. These are the instruments behind the thirteen, counted from the studies themselves.",
+    "Every study starts as a stack of satellite scenes. These are the instruments behind the fourteen, counted from the studies themselves.",
   projectsIntro:
-    "Thirteen studies, each built end to end and each ending in a number someone else can check. The map shows where the work is: the deeper the green, the more studies. Pick a province to see them, or open Table 1 for the evidence behind all thirteen.",
+    "Fourteen studies, each built end to end and each ending in a number someone else can check. The map shows where the work is: the deeper the green, the more studies. Pick a province to see them, or open Table 1 for the evidence behind all fourteen.",
   dataIntro:
     "Between 2000 and 2022, Lahore lost more carbon per hectare than any other district in Pakistan. This is real output from my national land and carbon account. Choose a layer.",
   aboutLead:
